@@ -1,0 +1,113 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Backend",
+            "type": "shell",
+            "command": "./artisan serve",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "focus": false,
+                "panel": "dedicated"
+            },
+            "group": "none"
+        },
+        {
+            "label": "Frontend",
+            "type": "shell",
+            "command": "bun run dev",
+            "options": {
+                "cwd": "frontend"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "focus": false,
+                "panel": "dedicated"
+            },
+            "group": "none"
+        },
+        {
+            "label": "Scheduler",
+            "type": "shell",
+            "command": "./artisan schedule:work",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "focus": false,
+                "panel": "dedicated"
+            },
+            "group": "none"
+        },
+        {
+            "label": "Queue",
+            "type": "shell",
+            "command": "./artisan queue:work",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "focus": false,
+                "panel": "dedicated"
+            },
+            "group": "none"
+        },
+        {
+            "label": "Dev",
+            "problemMatcher": [],
+            "dependsOn": [
+                "Backend",
+                "Frontend",
+                "Scheduler",
+                "Queue",
+                "Open Browser"
+            ]
+        },
+
+        {
+            "label": "Open Browser",
+            "hide": true,
+            "type": "shell",
+            "command": "xdg-open http://localhost:8000",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared",
+            },
+            "group": "none",
+        },
+        {
+            "label": "Install dependencies",
+            "type": "shell",
+            "command": "./composer install",
+            "problemMatcher": [],
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+            }
+        },
+        {
+            "label": "Reset database",
+            "type": "shell",
+            "command": "./artisan migrate:fresh --seed",
+            "problemMatcher": [],
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+            }
+        },
+        {
+            "label": "Clear Cache",
+            "type": "shell",
+            "command": "./artisan optimize:clear",
+            "problemMatcher": [],
+            "group": "none",
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared",
+            }
+        },
+    ]
+}

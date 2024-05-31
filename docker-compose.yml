@@ -1,0 +1,98 @@
+name: intranet
+
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=intranet
+      - POSTGRES_USER=intranet
+      - POSTGRES_PASSWORD=intranet
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    configs:
+      - source: db_init_script
+        target: /docker-entrypoint-initdb.d/99-custom.sh
+
+  db_admin:
+    image: dpage/pgadmin4:8
+    depends_on:
+      - db
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.org
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - 5433:80
+    configs:
+      - source: db_password
+        target: /run/secrets/password.txt
+      - source: servers.json
+        target: /pgadmin4/servers.json
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - 6379:6379
+
+  meili:
+    image: getmeili/meilisearch:v1.6
+    ports:
+      - 7700:7700
+    environment:
+      MEILI_ENV: development
+      MEILI_MASTER_KEY: masterkey
+    volumes:
+      - meili_data:/meili_data
+
+  auth:
+    image: bitnami/keycloak:23.0.7
+    ports:
+      - 8888:8080
+    environment:
+      KEYCLOAK_ADMIN: intranet
+      KEYCLOAK_ADMIN_PASSWORD: intranet
+      KEYCLOAK_DATABASE_VENDOR: postgresql
+      KEYCLOAK_DATABASE_HOST: db
+      KEYCLOAK_DATABASE_PORT: 5432
+      KEYCLOAK_DATABASE_USER: intranet
+      KEYCLOAK_DATABASE_PASSWORD: intranet
+      KEYCLOAK_DATABASE_NAME: intranet
+      KEYCLOAK_DATABASE_SCHEMA: keycloak
+      KEYCLOAK_HTTP_RELATIVE_PATH: /
+
+volumes:
+  db_data:
+  meili_data:
+
+configs:
+  servers.json:
+    content: |
+      {
+        "Servers": {
+          "1": {
+            "Group": "intranet",
+            "Name": "intranet",
+            "Port": 5432,
+            "Username": "intranet",
+            "PassFile": "/run/secrets/password.txt",
+            "Host": "db",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
+          }
+        }
+      }
+  db_password:
+    content: intranet
+  db_init_script:
+    content: |
+      #!/bin/bash
+      set -e
+
+      echo "$$POSTGRES_USER"
+      echo "$$POSTGRES_DB"
+
+      psql -v ON_ERROR_STOP=1 --username "$$POSTGRES_USER" --dbname "$$POSTGRES_DB" <<-EOSQL
+        CREATE SCHEMA intranet;
+        CREATE SCHEMA keycloak;
+      EOSQL
