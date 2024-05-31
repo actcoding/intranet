@@ -13,6 +13,7 @@ env:
 
 jobs:
   test-backend:
+    name: Run Laravel Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,7 +26,7 @@ jobs:
 
       - name: Install Composer
         run: |
-          wget https://github.com/composer/composer/releases/download/latest/composer.phar -O ./composer
+          wget https://github.com/composer/composer/releases/latest/download/composer.phar -O ./composer
           chmod +x ./composer
 
       - name: Install dependencies
@@ -33,3 +34,25 @@ jobs:
 
       - name: Run tests
         run: ./composer run-script test
+
+  build-frontend:
+    name: Build Next.js app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+        working-directory: frontend
+
+      - name: Lint
+        run: bun run lint
+        working-directory: frontend
+
+      - name: Build
+        run: bun run build
+        working-directory: frontend
