@@ -13,6 +13,7 @@ import { Input } from "@/lib/components/common/Input";
 import { Label } from "@/lib/components/common/Label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -27,14 +28,19 @@ const LoginForm = (props: LoginFormProps) => {
         resolver: zodResolver(formSchema),
     });
     const router = useRouter();
-    async function handleSubmit(data: z.infer<typeof formSchema>) {
-        const res = await handleLogin(data);
-        if (res === undefined) {
-            router.push("/");
-        }
 
-        // Fehler
-    }
+    const handleSubmit = useCallback(
+        async (data: z.infer<typeof formSchema>) => {
+            const res = await handleLogin(data);
+            if (res === undefined) {
+                router.push("/");
+            }
+
+            // Fehler
+        },
+        [router]
+    );
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit((data) => handleSubmit(data))}>

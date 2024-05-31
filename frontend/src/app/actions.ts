@@ -17,7 +17,7 @@ interface AppSessionData {
 
 interface AppSession {
     access_token: string;
-    data: AppSessionData;
+    sessionData: AppSessionData;
 }
 
 export async function getAppSession(): Promise<IronSession<AppSession>> {
@@ -28,11 +28,13 @@ export async function getAppSession(): Promise<IronSession<AppSession>> {
     });
 }
 
+const apiUrl = process.env.API_URL as string;
+
 export async function handleLogin(credentials: {
     email: string;
     password: string;
 }): Promise<object | undefined> {
-    const res = await fetch("http://localhost:8000/api/auth/login", {
+    const res = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
         body: JSON.stringify(credentials),
         headers: {
@@ -51,9 +53,19 @@ export async function handleLogin(credentials: {
     const session = await getAppSession();
 
     session.access_token = access_token;
-    session.data = decoded;
+    session.sessionData = decoded;
 
     await session.save();
+
+    return undefined;
+}
+
+export async function handleLogout(): Promise<void> {
+    // TODO: Call /auth/logout route in the future?
+
+    const session = await getAppSession();
+
+    session.destroy();
 
     return undefined;
 }

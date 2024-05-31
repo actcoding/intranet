@@ -1,14 +1,22 @@
 import { getAppSession } from "@/app/actions";
-import NewsPostForm from "@/lib/components/news-post-form/NewsPostForm";
+import LogoutButton from "@/lib/components/auth/LogoutButton";
+import { Button } from "@/lib/components/common/Button";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
-    const session = await getAppSession();
+    const { sessionData } = await getAppSession();
+
+    if (!sessionData) {
+        return redirect("/de/auth/login");
+    }
 
     return (
         <div>
             <p>MEGA GEIL</p>
 
-            <p>{session.data.user.name}</p>
+            <p>{sessionData.user.name}</p>
+
+            <LogoutButton />
         </div>
     );
 }
