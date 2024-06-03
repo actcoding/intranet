@@ -68,24 +68,18 @@
             "label": "Open Browser",
             "hide": true,
             "type": "shell",
-            "command": "xdg-open http://localhost:8000",
+            "linux": {
+                "command": "xdg-open http://localhost:3000",
+            },
+            "osx": {
+                "command": "open http://localhost:3000"
+            },
             "problemMatcher": [],
             "presentation": {
                 "reveal": "silent",
                 "panel": "shared",
             },
             "group": "none",
-        },
-        {
-            "label": "Install dependencies",
-            "type": "shell",
-            "command": "./composer install",
-            "problemMatcher": [],
-            "group": "none",
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared",
-            }
         },
         {
             "label": "Reset database",
