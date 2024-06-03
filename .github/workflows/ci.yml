@@ -29,8 +29,21 @@ jobs:
           wget https://github.com/composer/composer/releases/latest/download/composer.phar -O ./composer
           chmod +x ./composer
 
+      - uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: vendor
+          key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
+
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: ./composer install
+
+      - uses: actions/cache/save@v4
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: vendor
+          key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
 
       - name: Run tests
         run: ./composer run-script test
@@ -45,9 +58,22 @@ jobs:
         with:
           bun-version: latest
 
+      - uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('frontend/bun.lockb') }}
+
       - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: bun install --frozen-lockfile
         working-directory: frontend
+
+      - uses: actions/cache/save@v4
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('frontend/bun.lockb') }}
 
       - name: Lint
         run: bun run lint
