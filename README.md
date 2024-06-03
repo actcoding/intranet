@@ -73,7 +73,7 @@ $ ./composer install
 
 ```
 $ cp .env.example .env
-$ ./artisan key:generate
+$ ./artisan app:key-generate
 ```
 
 Fill out the missing details in the `.env` file.
