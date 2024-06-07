@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import { Sidebar } from "@/lib/components/sidebar/Sidebar";
 import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import { Inter } from "next/font/google";
@@ -19,6 +20,7 @@ export default async function RootLayout({
     return (
         <html lang={locale}>
             <body className={inter.className}>
+                <Sidebar />
                 <main className="mx-5 mt-16 sm:ml-[300px] sm:mt-3">
                     {children}
                 </main>
