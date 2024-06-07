@@ -1,5 +1,9 @@
 {
     "Index": {
         "title": "hallo welt!"
+    },
+    "Sidebar": {
+        "home": "Startseite",
+        "creator-login": "Ersteller-Login"
     }
 }
