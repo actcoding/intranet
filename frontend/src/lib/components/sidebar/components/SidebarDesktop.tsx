@@ -1,10 +1,12 @@
 "use client";
 
-import { SidebarButton } from "@/lib/components/sidebar/components/SidebarButton";
-import SidebarFooter from "@/lib/components/sidebar/components/SidebarFooter";
-import SidebarHeader from "@/lib/components/sidebar/components/SidebarHeader";
+import {
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuList,
+} from "@/lib/components/sidebar/components/NavigationMenu";
+import { SidebarItem } from "@/lib/components/sidebar/components/SidebarItem";
 import { SidebarLink } from "@/lib/types/sidebar-config";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface SidebarDesktopProps {
@@ -25,19 +27,23 @@ interface SidebarDesktopLinksProps {
 const SidebarDesktopLinks = (props: SidebarDesktopLinksProps) => {
     const pathname = usePathname();
     return (
-        <div className="flex flex-col gap-1 w-full mt-5">
-            {props.links.map((link, index) => (
-                <Link key={index} href={link.href}>
-                    <SidebarButton
-                        variant={pathname === link.href ? "secondary" : "ghost"}
+        <NavigationMenu
+            orientation="vertical"
+            className="max-w-none flex-col items-stretch"
+        >
+            <NavigationMenuList className="flex-col items-stretch space-x-0 gap-2 mt-4">
+                {props.links.map((link, index) => (
+                    <SidebarItem
+                        href={link.href}
+                        active={pathname === link.href}
                         icon={link.icon}
-                        className="w-full"
+                        key={index}
                     >
                         {link.label}
-                    </SidebarButton>
-                </Link>
-            ))}
-        </div>
+                    </SidebarItem>
+                ))}
+            </NavigationMenuList>
+        </NavigationMenu>
     );
 };
 
@@ -63,7 +69,7 @@ const SidebarDesktopFooter = (props: SidebarDesktopFooterProps) => {
 
 export {
     SidebarDesktop,
-    SidebarDesktopLinks,
-    SidebarDesktopHeader,
     SidebarDesktopFooter,
+    SidebarDesktopHeader,
+    SidebarDesktopLinks,
 };

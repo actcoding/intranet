@@ -8,12 +8,13 @@ import {
     SheetHeader,
     SheetTrigger,
 } from "@/lib/components/common/Sheet";
-import { SidebarButton } from "@/lib/components/sidebar/components/SidebarButton";
-import SidebarFooter from "@/lib/components/sidebar/components/SidebarFooter";
-import SidebarHeader from "@/lib/components/sidebar/components/SidebarHeader";
+import {
+    NavigationMenu,
+    NavigationMenuList,
+} from "@/lib/components/sidebar/components/NavigationMenu";
+import { SidebarItem } from "@/lib/components/sidebar/components/SidebarItem";
 import { SidebarLink } from "@/lib/types/sidebar-config";
-import { Menu, X, MoreHorizontal, Settings, LogOut } from "lucide-react";
-import Link from "next/link";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 interface SidebarMobileProps {
@@ -63,23 +64,23 @@ interface SidebarMobileLinksProps {
 const SidebarMobileLinks = (props: SidebarMobileLinksProps) => {
     const pathname = usePathname();
     return (
-        <div className="h-full">
-            <div className="mt-5 flex flex-col w-full gap-1">
-                {props.links.map((link, idx) => (
-                    <Link key={idx} href={link.href}>
-                        <SidebarButton
-                            variant={
-                                pathname === link.href ? "secondary" : "ghost"
-                            }
-                            icon={link.icon}
-                            className="w-full"
-                        >
-                            {link.label}
-                        </SidebarButton>
-                    </Link>
+        <NavigationMenu
+            orientation="vertical"
+            className="max-w-none flex-col items-stretch"
+        >
+            <NavigationMenuList className="flex-col items-stretch space-x-0 gap-2 mt-4">
+                {props.links.map((link, index) => (
+                    <SidebarItem
+                        href={link.href}
+                        active={pathname === link.href}
+                        icon={link.icon}
+                        key={index}
+                    >
+                        {link.label}
+                    </SidebarItem>
                 ))}
-            </div>
-        </div>
+            </NavigationMenuList>
+        </NavigationMenu>
     );
 };
 
@@ -89,7 +90,7 @@ interface SidebarMobileFooterProps {
 
 const SidebarMobileFooter = (props: SidebarMobileFooterProps) => {
     return (
-        <div className="absolute w-full bottom-4 px-1 left-0">
+        <div className="absolute w-full bottom-4 px-3 left-0">
             {props.children}
         </div>
     );
@@ -97,7 +98,7 @@ const SidebarMobileFooter = (props: SidebarMobileFooterProps) => {
 
 export {
     SidebarMobile,
+    SidebarMobileFooter,
     SidebarMobileHeader,
     SidebarMobileLinks,
-    SidebarMobileFooter,
 };
