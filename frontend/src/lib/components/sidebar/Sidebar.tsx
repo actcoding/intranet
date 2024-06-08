@@ -1,30 +1,33 @@
 "use client";
 
-import { Button } from "@/lib/components/common/Button";
-import SidebarDesktop from "@/lib/components/sidebar/components/SidebarDesktop";
-import SidebarMobile from "@/lib/components/sidebar/components/SidebarMobile";
-import { SidebarConfig } from "@/lib/types/sidebar-config";
-import { Home, LogInIcon } from "lucide-react";
-import Link from "next/link";
+import {
+    SidebarDesktop,
+    SidebarDesktopLinks,
+    SidebarDesktopFooter,
+    SidebarDesktopHeader,
+} from "@/lib/components/sidebar/components/SidebarDesktop";
+import SidebarFooter from "@/lib/components/sidebar/components/SidebarFooter";
+import SidebarHeader from "@/lib/components/sidebar/components/SidebarHeader";
+import {
+    SidebarMobile,
+    SidebarMobileFooter,
+    SidebarMobileHeader,
+    SidebarMobileLinks,
+} from "@/lib/components/sidebar/components/SidebarMobile";
+
+import { Home } from "lucide-react";
 import { useMediaQuery } from "usehooks-ts";
 
-const sidebarConfig: SidebarConfig = {
+const sidebarConfig = {
     breakpoint: "640px",
-    header: (
-        <h3 className="mx-3 text-lg font-semibold text-foreground">Sidebar</h3>
-    ),
     links: [{ label: "Home", href: "/", icon: Home }],
-    footer: (
-        <Button className="w-full" variant={"outline"} asChild>
-            <Link href={"/auth/login"}>
-                <LogInIcon className="mr-2" size={20} />
-                Creator-Login
-            </Link>
-        </Button>
-    ),
 };
 
-export function Sidebar() {
+interface SidebarProps {
+    loggedInUser?: User;
+}
+
+const Sidebar = (props: SidebarProps) => {
     const isDesktop = useMediaQuery(
         `(min-width: ${sidebarConfig.breakpoint})`,
         {
@@ -33,8 +36,29 @@ export function Sidebar() {
     );
 
     if (isDesktop) {
-        return <SidebarDesktop {...sidebarConfig} />;
+        return (
+            <SidebarDesktop>
+                <SidebarDesktopHeader>
+                    <SidebarHeader />
+                </SidebarDesktopHeader>
+                <SidebarDesktopLinks links={sidebarConfig.links} />
+                <SidebarDesktopFooter>
+                    <SidebarFooter loggedInUser={props.loggedInUser} />
+                </SidebarDesktopFooter>
+            </SidebarDesktop>
+        );
     }
 
-    return <SidebarMobile {...sidebarConfig} />;
-}
+    return (
+        <SidebarMobile>
+            <SidebarMobileHeader>
+                <SidebarHeader />
+            </SidebarMobileHeader>
+            <SidebarMobileLinks links={sidebarConfig.links} />
+            <SidebarMobileFooter>
+                <SidebarFooter loggedInUser={props.loggedInUser} />
+            </SidebarMobileFooter>
+        </SidebarMobile>
+    );
+};
+export default Sidebar;

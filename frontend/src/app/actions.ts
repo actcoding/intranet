@@ -4,17 +4,6 @@ import { IronSession, getIronSession } from "iron-session";
 import { decodeJwt } from "jose";
 import { cookies } from "next/headers";
 
-interface AppSessionData {
-    user: {
-        id: number;
-        name: string;
-        email: string;
-        avatar_url: string | null;
-    };
-    roles: string[];
-    permissions: string[];
-}
-
 interface AppSession {
     access_token: string;
     sessionData: AppSessionData;

@@ -1,5 +1,6 @@
+import { getAppSession } from "@/app/actions";
 import "@/app/globals.css";
-import { Sidebar } from "@/lib/components/sidebar/Sidebar";
+import Sidebar from "@/lib/components/sidebar/Sidebar";
 import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import { Inter } from "next/font/google";
@@ -17,10 +18,11 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const locale = await getLocale();
+    const { sessionData } = await getAppSession();
     return (
         <html lang={locale}>
             <body className={inter.className}>
-                <Sidebar />
+                <Sidebar loggedInUser={sessionData?.user} />
                 <main className="mx-5 mt-16 sm:ml-[300px] sm:mt-3">
                     {children}
                 </main>
