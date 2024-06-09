@@ -37,7 +37,7 @@ class KeyGenerate extends Command
         $key = bin2hex(Encrypter::generateKey($this->laravel['config']['app.cipher']));
 
         if ($this->option('show')) {
-            return $this->line('<comment>'. ($key) .'</comment>');
+            return $this->line('<comment>' . ($key) . '</comment>');
         }
 
         if (! $this->setKeyInEnvironmentFile($key)) {
@@ -68,7 +68,7 @@ class KeyGenerate extends Command
     {
         $replaced = preg_replace(
             $this->keyReplacementPattern(),
-            'JWT_SECRET='.$key,
+            'JWT_SECRET=' . $key,
             $input = file_get_contents($this->laravel->environmentFilePath())
         );
 
@@ -85,7 +85,7 @@ class KeyGenerate extends Command
 
     protected function keyReplacementPattern()
     {
-        $escaped = preg_quote('='.$this->laravel['config']['jwt.secret'], '/');
+        $escaped = preg_quote('=' . $this->laravel['config']['jwt.secret'], '/');
 
         return "/^JWT_SECRET{$escaped}/m";
     }
