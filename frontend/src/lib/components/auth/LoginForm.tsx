@@ -8,6 +8,7 @@ import {
     FormField,
     FormItem,
     FormMessage,
+    FormDescription
 } from "@/lib/components/common/Form";
 import { Input } from "@/lib/components/common/Input";
 import { Label } from "@/lib/components/common/Label";
@@ -47,15 +48,18 @@ const LoginForm = (props: LoginFormProps) => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit((data) => handleSubmit(data))}>
+            <form
+                onSubmit={form.handleSubmit((data) => handleSubmit(data))}
+                className='space-y-4'
+            >
                 <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <Label>Email</Label>
+                            <Label>E-Mail Adresse</Label>
                             <FormControl>
-                                <Input {...field} />
+                                <Input {...field} placeholder="example@mail.com"/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
