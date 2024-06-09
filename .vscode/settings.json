@@ -29,5 +29,8 @@
 
     "i18n-ally.localesPaths": [
         "frontend/messages"
-    ]
+    ],
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    }
 }
