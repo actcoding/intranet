@@ -1,14 +1,14 @@
 FROM dunglas/frankenphp:php8.3-alpine
 
-COPY . /app
-
 RUN install-php-extensions \
         pgsql \
         redis \
         opcache \
-        pcntl \
-        && \
-    rm -rf frontend && \
+        pcntl
+
+COPY . /app
+
+RUN rm -rf frontend && \
     wget https://github.com/composer/composer/releases/download/2.7.6/composer.phar -O composer && \
     php composer install --no-dev && \
     php artisan storage:link && \
