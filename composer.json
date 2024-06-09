@@ -16,11 +16,12 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/pint": "^1.13",
+        "laravel/pint": "^1.16",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
         "phpunit/phpunit": "^11.0.1",
+        "projektgopher/whisky": "^0.7.0",
         "rakutentech/laravel-request-docs": "^2.36"
     },
     "autoload": {
@@ -40,8 +41,12 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
+        "post-install-cmd": [
+          "whisky update"
+        ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "whisky update"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -54,7 +59,8 @@
         "test": [
             "@putenv XDEBUG_MODE=coverage",
             "@php ./vendor/bin/phpunit -c phpunit.xml"
-        ]
+        ],
+        "lint": "pint"
     },
     "extra": {
         "laravel": {

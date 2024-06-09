@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b3f9745f8e049b47b332dcd86c6dc9c",
+    "content-hash": "2d09f73b3ac236929f843818335feb4d",
     "packages": [
         {
             "name": "brick/math",
@@ -7403,6 +7403,70 @@
                 }
             ],
             "time": "2024-04-24T06:34:25+00:00"
+        },
+        {
+            "name": "projektgopher/whisky",
+            "version": "v0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ProjektGopher/whisky.git",
+                "reference": "e7ba47e436ccb0ae197daaf8a4b3cc646ff3feee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ProjektGopher/whisky/zipball/e7ba47e436ccb0ae197daaf8a4b3cc646ff3feee",
+                "reference": "e7ba47e436ccb0ae197daaf8a4b3cc646ff3feee",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9",
+                "laravel-zero/framework": "^10.1.2",
+                "laravel/pint": "^1.10",
+                "mockery/mockery": "^1.6.7",
+                "nunomaduro/termwind": "^1.15.1",
+                "pestphp/pest": "^2.9",
+                "pestphp/pest-plugin-type-coverage": "^2.0",
+                "swaggest/json-schema": "^0.12.41"
+            },
+            "bin": [
+                "builds/whisky"
+            ],
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "ProjektGopher\\Whisky\\": "app/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Len Woodward",
+                    "email": "Len@ProjektGopher.com"
+                }
+            ],
+            "description": "A simple CLI tool for managing a project's git hooks across multiple members.",
+            "homepage": "https://github.com/ProjektGopher/whisky",
+            "keywords": [
+                "ProjektGopher",
+                "cli",
+                "dev",
+                "git",
+                "hooks",
+                "laravel",
+                "php",
+                "whisky"
+            ],
+            "support": {
+                "issues": "https://github.com/ProjektGopher/whisky/issues",
+                "source": "https://github.com/ProjektGopher/whisky"
+            },
+            "time": "2024-05-24T18:44:03+00:00"
         },
         {
             "name": "rakutentech/laravel-request-docs",
