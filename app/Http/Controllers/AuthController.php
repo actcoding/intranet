@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Http\Request;
 
 /**
  * Handles authentication stuff.
@@ -52,7 +50,6 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param  string $token
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -61,7 +58,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
         ]);
     }
 }
