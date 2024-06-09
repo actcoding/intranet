@@ -54,6 +54,12 @@ jobs:
       - name: Run tests
         run: ./composer run-script test
 
+      - name: Save coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-backend
+          path: coverage-backend.xml
+
   build-frontend:
     name: Build Next.js app
     runs-on: ubuntu-latest
@@ -88,6 +94,25 @@ jobs:
       - name: Build
         run: bun run build
         working-directory: frontend
+
+  upload-coverage:
+    name: Upload coverage reports to Codacy
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    needs:
+      - test-backend
+      - build-frontend
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage-backend
+          run-id:
+
+      - name: Upload reports
+        uses: codacy/codacy-coverage-reporter-action@v1.3.0
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage-backend.xml
 
   build-docker-images:
     name: Build Docker images
