@@ -1,0 +1,11 @@
+{
+    "Index": {
+        "title": "hello world!"
+    },
+    "Sidebar": {
+        "home": "Home",
+        "creator-login": "Creator Login",
+        "logout": "Logout",
+        "my-account": "My account"
+    }
+}

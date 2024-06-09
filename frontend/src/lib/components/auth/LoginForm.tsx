@@ -26,6 +26,10 @@ interface LoginFormProps {}
 const LoginForm = (props: LoginFormProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
     });
     const router = useRouter();
 

@@ -3,22 +3,7 @@
 import { IronSession, getIronSession } from "iron-session";
 import { decodeJwt } from "jose";
 import { cookies } from "next/headers";
-
-interface AppSessionData {
-    user: {
-        id: number;
-        name: string;
-        email: string;
-        avatar_url: string | null;
-    };
-    roles: string[];
-    permissions: string[];
-}
-
-interface AppSession {
-    access_token: string;
-    sessionData: AppSessionData;
-}
+import { redirect } from "next/navigation";
 
 export async function getAppSession(): Promise<IronSession<AppSession>> {
     return getIronSession<AppSession>(cookies(), {
@@ -61,11 +46,8 @@ export async function handleLogin(credentials: {
 }
 
 export async function handleLogout(): Promise<void> {
-    // TODO: Call /auth/logout route in the future?
-
     const session = await getAppSession();
 
     session.destroy();
-
-    return undefined;
+    redirect("/auth/login");
 }

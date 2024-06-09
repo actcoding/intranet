@@ -1,5 +1,11 @@
 {
     "Index": {
         "title": "hallo welt!"
+    },
+    "Sidebar": {
+        "home": "Startseite",
+        "creator-login": "Creator-Login",
+        "logout": "Abmelden",
+        "my-account": "Mein Konto"
     }
 }

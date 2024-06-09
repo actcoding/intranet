@@ -5,6 +5,9 @@
             "label": "Backend",
             "type": "shell",
             "command": "./artisan serve",
+            "osx": {
+                "command": "php artisan serve"
+            },
             "problemMatcher": [],
             "presentation": {
                 "reveal": "silent",
@@ -32,6 +35,9 @@
             "label": "Scheduler",
             "type": "shell",
             "command": "./artisan schedule:work",
+            "osx": {
+                "command": "php artisan schedule:work"
+            },
             "problemMatcher": [],
             "presentation": {
                 "reveal": "silent",
@@ -44,6 +50,9 @@
             "label": "Queue",
             "type": "shell",
             "command": "./artisan queue:work",
+            "osx": {
+                "command": "php artisan queue:work"
+            },
             "problemMatcher": [],
             "presentation": {
                 "reveal": "silent",
@@ -63,7 +72,15 @@
                 "Open Browser"
             ]
         },
-
+        {
+            "label": "Start backend",
+            "problemMatcher": [],
+            "dependsOn": [
+                "Backend",
+                "Scheduler",
+                "Queue"
+            ]
+        },
         {
             "label": "Open Browser",
             "hide": true,
@@ -85,6 +102,9 @@
             "label": "Reset database",
             "type": "shell",
             "command": "./artisan migrate:fresh --seed",
+            "osx": {
+                "command": "php artisan migrate:fresh --seed"
+            },
             "problemMatcher": [],
             "group": "none",
             "presentation": {
@@ -96,6 +116,9 @@
             "label": "Clear Cache",
             "type": "shell",
             "command": "./artisan optimize:clear",
+            "osx": {
+                "command": "php artisan optimize:clear"
+            },
             "problemMatcher": [],
             "group": "none",
             "presentation": {
