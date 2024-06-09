@@ -51,6 +51,9 @@ jobs:
           path: vendor
           key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
 
+      - name: Check code style
+        run: php ./vendor/bin/pint --bail
+
       - name: Run tests
         run: ./composer run-script test
 
