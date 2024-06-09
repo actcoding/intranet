@@ -215,3 +215,9 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,phpunit,composer,node
 
 public/storage
+
+/caddy
+frankenphp
+frankenphp-worker.php
+
+coverage-backend.xml

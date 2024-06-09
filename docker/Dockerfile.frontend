@@ -1,0 +1,25 @@
+FROM oven/bun:alpine as builder
+
+COPY frontend/ /app/
+
+WORKDIR /app
+
+RUN bun install --frozen-lockfile && \
+    bun run build
+
+# TODO: Create user for rootless
+
+
+FROM oven/bun:alpine
+
+COPY --from=builder /app/.next/standalone /app
+
+WORKDIR /app
+
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
+
+EXPOSE 3000
+
+CMD [ "bun", "run", "server.js" ]

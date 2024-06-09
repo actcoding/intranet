@@ -6,18 +6,22 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-pgsql": "*",
+        "ext-redis": "*",
         "laravel/framework": "^11.9",
+        "laravel/octane": "^2.4",
         "laravel/tinker": "^2.9",
         "spatie/laravel-permission": "^6.7",
         "tymon/jwt-auth": "^2.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/pint": "^1.13",
+        "laravel/pint": "^1.16",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
         "phpunit/phpunit": "^11.0.1",
+        "projektgopher/whisky": "^0.7.0",
         "rakutentech/laravel-request-docs": "^2.36"
     },
     "autoload": {
@@ -38,7 +42,8 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "whisky update"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -51,7 +56,8 @@
         "test": [
             "@putenv XDEBUG_MODE=coverage",
             "@php ./vendor/bin/phpunit -c phpunit.xml"
-        ]
+        ],
+        "lint": "pint"
     },
     "extra": {
         "laravel": {
