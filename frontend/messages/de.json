@@ -4,7 +4,7 @@
     },
     "Sidebar": {
         "home": "Startseite",
-        "creator-login": "Ersteller-Login",
+        "creator-login": "Creator-Login",
         "logout": "Abmelden",
         "my-account": "Mein Konto"
     }
