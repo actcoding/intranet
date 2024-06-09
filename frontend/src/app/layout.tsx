@@ -1,11 +1,17 @@
 import { getAppSession } from "@/app/actions";
 import "@/app/globals.css";
 import Sidebar from "@/lib/components/sidebar/Sidebar";
+import { SidebarLink } from "@/lib/types/sidebar-config";
+import { HomeIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const sidebarLinks: SidebarLink[] = [
+    { label: "Home", href: "/", icon: <HomeIcon /> },
+];
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -22,7 +28,11 @@ export default async function RootLayout({
     return (
         <html lang={locale}>
             <body className={inter.className}>
-                <Sidebar loggedInUser={sessionData?.user} />
+                <Sidebar
+                    loggedInUser={sessionData?.user}
+                    breakpoint="640px"
+                    links={sidebarLinks}
+                />
                 <main className="mx-5 mt-16 sm:ml-[300px] sm:mt-3">
                     {children}
                 </main>

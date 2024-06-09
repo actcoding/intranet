@@ -1,17 +1,17 @@
-import { Button, ButtonProps } from "@/lib/components/common/Button";
-import { LucideIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+"use client";
 import { SheetClose } from "@/lib/components/common/Sheet";
 import {
     NavigationMenuItem,
     NavigationMenuLink,
     navigationMenuTriggerStyle,
 } from "@/lib/components/sidebar/components/NavigationMenu";
-import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { NavigationMenuItemProps } from "@radix-ui/react-navigation-menu";
+import { LucideProps } from "lucide-react";
+import Link from "next/link";
 
 interface SidebarItemProps extends NavigationMenuItemProps {
-    icon?: LucideIcon;
+    icon: React.ReactElement<LucideProps>;
     active?: boolean;
     href: string;
 }
@@ -33,7 +33,7 @@ export function SidebarItem({
                         className
                     )}
                 >
-                    {Icon && <Icon size={20} />}
+                    <Icon.type {...Icon.props} size={20} />
                     <span>{children}</span>
                 </NavigationMenuLink>
             </Link>

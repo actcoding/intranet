@@ -2,9 +2,9 @@
 
 import {
     SidebarDesktop,
-    SidebarDesktopLinks,
     SidebarDesktopFooter,
     SidebarDesktopHeader,
+    SidebarDesktopLinks,
 } from "@/lib/components/sidebar/components/SidebarDesktop";
 import SidebarFooter from "@/lib/components/sidebar/components/SidebarFooter";
 import SidebarHeader from "@/lib/components/sidebar/components/SidebarHeader";
@@ -14,26 +14,20 @@ import {
     SidebarMobileHeader,
     SidebarMobileLinks,
 } from "@/lib/components/sidebar/components/SidebarMobile";
+import { SidebarLink } from "@/lib/types/sidebar-config";
 
-import { Home } from "lucide-react";
 import { useMediaQuery } from "usehooks-ts";
-
-const sidebarConfig = {
-    breakpoint: "640px",
-    links: [{ label: "Home", href: "/", icon: Home }],
-};
 
 interface SidebarProps {
     loggedInUser?: User;
+    breakpoint?: string;
+    links: SidebarLink[];
 }
 
 const Sidebar = (props: SidebarProps) => {
-    const isDesktop = useMediaQuery(
-        `(min-width: ${sidebarConfig.breakpoint})`,
-        {
-            initializeWithValue: false,
-        }
-    );
+    const isDesktop = useMediaQuery(`(min-width: ${props.breakpoint})`, {
+        initializeWithValue: false,
+    });
 
     if (isDesktop) {
         return (
@@ -41,7 +35,7 @@ const Sidebar = (props: SidebarProps) => {
                 <SidebarDesktopHeader>
                     <SidebarHeader />
                 </SidebarDesktopHeader>
-                <SidebarDesktopLinks links={sidebarConfig.links} />
+                <SidebarDesktopLinks links={props.links} />
                 <SidebarDesktopFooter>
                     <SidebarFooter loggedInUser={props.loggedInUser} />
                 </SidebarDesktopFooter>
@@ -54,7 +48,7 @@ const Sidebar = (props: SidebarProps) => {
             <SidebarMobileHeader>
                 <SidebarHeader />
             </SidebarMobileHeader>
-            <SidebarMobileLinks links={sidebarConfig.links} />
+            <SidebarMobileLinks links={props.links} />
             <SidebarMobileFooter>
                 <SidebarFooter loggedInUser={props.loggedInUser} />
             </SidebarMobileFooter>

@@ -1,5 +1,7 @@
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, LucideProps } from "lucide-react";
 import { ReactNode } from "react";
+import dynamicIconImports from "lucide-react/dynamicIconImports";
+import React from "react";
 
 export type SidebarConfig = {
     breakpoint?: string;
@@ -7,8 +9,8 @@ export type SidebarConfig = {
     extras?: ReactNode;
 };
 
-export type SidebarLink = {
+export interface SidebarLink {
     label: string;
     href: string;
-    icon?: LucideIcon;
-};
+    icon: React.ReactElement<LucideProps>;
+}

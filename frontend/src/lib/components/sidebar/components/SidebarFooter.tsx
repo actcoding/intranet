@@ -1,6 +1,9 @@
 import { handleLogout } from "@/app/actions";
-import LogoutButton from "@/lib/components/auth/LogoutButton";
-import Image from "next/image";
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from "@/lib/components/common/Avatar";
 import { Button } from "@/lib/components/common/Button";
 import {
     DropdownMenu,
@@ -14,11 +17,6 @@ import { LogInIcon, LogOutIcon, MoreHorizontalIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from "@/lib/components/common/Avatar";
 
 interface SidebarFooterProps {
     loggedInUser?: User;

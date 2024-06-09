@@ -1,8 +1,5 @@
-"use client";
-
 import {
     NavigationMenu,
-    NavigationMenuItem,
     NavigationMenuList,
 } from "@/lib/components/sidebar/components/NavigationMenu";
 import { SidebarItem } from "@/lib/components/sidebar/components/SidebarItem";
