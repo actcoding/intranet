@@ -1,4 +1,3 @@
-"use client";
 import { SheetClose } from "@/lib/components/common/Sheet";
 import {
     NavigationMenuItem,

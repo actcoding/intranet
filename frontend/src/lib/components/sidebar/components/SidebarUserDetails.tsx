@@ -1,4 +1,3 @@
-import { handleLogout } from "@/app/actions";
 import {
     Avatar,
     AvatarFallback,
@@ -15,22 +14,15 @@ import {
 } from "@/lib/components/common/Dropdown";
 import { LogInIcon, LogOutIcon, MoreHorizontalIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useTranslations } from "next-intl";
+import { handleLogout } from "@/app/actions";
 
-interface SidebarFooterProps {
+interface SidebarUserDetailsProps {
     loggedInUser?: User;
 }
 
-const SidebarFooter = (props: SidebarFooterProps) => {
-    const router = useRouter();
-    const logout = useCallback(async () => {
-        const res = await handleLogout();
-        if (res === undefined) {
-            router.push("/auth/login");
-        }
-    }, [router]);
-
+const SidebarUserDetails = (props: SidebarUserDetailsProps) => {
+    const t = useTranslations("Sidebar");
     if (props.loggedInUser) {
         return (
             <DropdownMenu>
@@ -63,11 +55,22 @@ const SidebarFooter = (props: SidebarFooterProps) => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-52">
-                    <DropdownMenuLabel>My account</DropdownMenuLabel>
+                    <DropdownMenuLabel>{t("my-account")}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={logout}>
-                        <LogOutIcon className="mr-1" size={16} /> Logout
-                    </DropdownMenuItem>
+
+                    <form action={handleLogout}>
+                        <Button
+                            type="submit"
+                            variant="ghost"
+                            size={null}
+                            className="w-full justify-start"
+                        >
+                            <DropdownMenuItem className="w-full">
+                                <LogOutIcon size={15} className="mr-1" />
+                                {t("logout")}
+                            </DropdownMenuItem>
+                        </Button>
+                    </form>
                 </DropdownMenuContent>
             </DropdownMenu>
         );
@@ -76,10 +79,10 @@ const SidebarFooter = (props: SidebarFooterProps) => {
             <Button className="w-full rounded-full" variant={"outline"} asChild>
                 <Link href={"/auth/login"}>
                     <LogInIcon className="mr-2" size={20} />
-                    Creator-Login
+                    {t("creator-login")}
                 </Link>
             </Button>
         );
     }
 };
-export default SidebarFooter;
+export default SidebarUserDetails;

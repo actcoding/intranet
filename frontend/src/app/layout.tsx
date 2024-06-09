@@ -1,17 +1,20 @@
 import { getAppSession } from "@/app/actions";
 import "@/app/globals.css";
-import Sidebar from "@/lib/components/sidebar/Sidebar";
+import {
+    Sidebar,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarItems,
+} from "@/lib/components/sidebar/Sidebar";
+import SidebarUserDetails from "@/lib/components/sidebar/components/SidebarUserDetails";
 import { SidebarLink } from "@/lib/types/sidebar-config";
 import { HomeIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Inter } from "next/font/google";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
-
-const sidebarLinks: SidebarLink[] = [
-    { label: "Home", href: "/", icon: <HomeIcon /> },
-];
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -25,14 +28,32 @@ export default async function RootLayout({
 }>) {
     const locale = await getLocale();
     const { sessionData } = await getAppSession();
+    const t = await getTranslations("Sidebar");
+
+    const sidebarLinks: SidebarLink[] = [
+        { label: t("home"), href: "/", icon: <HomeIcon /> },
+    ];
+
     return (
         <html lang={locale}>
             <body className={inter.className}>
-                <Sidebar
-                    loggedInUser={sessionData?.user}
-                    breakpoint="640px"
-                    links={sidebarLinks}
-                />
+                <Sidebar breakpoint="640px">
+                    <SidebarHeader>
+                        <Image
+                            src="/logo.png"
+                            alt="logo"
+                            width={25}
+                            height={25}
+                        />
+                        <h3 className="mx-3 text-lg font-semibold text-foreground">
+                            Intranet
+                        </h3>
+                    </SidebarHeader>
+                    <SidebarItems links={sidebarLinks} />
+                    <SidebarFooter>
+                        <SidebarUserDetails loggedInUser={sessionData?.user} />
+                    </SidebarFooter>
+                </Sidebar>
                 <main className="mx-5 mt-16 sm:ml-[300px] sm:mt-3">
                     {children}
                 </main>

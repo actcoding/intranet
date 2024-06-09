@@ -10,3 +10,8 @@ type User = {
     email: string;
     avatar_url: string | null;
 };
+
+type AppSession = {
+    access_token?: string;
+    sessionData?: AppSessionData;
+};
