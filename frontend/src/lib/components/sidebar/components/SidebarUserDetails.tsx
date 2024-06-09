@@ -1,3 +1,4 @@
+import { handleLogout } from "@/app/actions";
 import {
     Avatar,
     AvatarFallback,
@@ -12,10 +13,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/lib/components/common/Dropdown";
-import { LogInIcon, LogOutIcon, MoreHorizontalIcon } from "lucide-react";
-import Link from "next/link";
+import { LogInIcon, LogOutIcon, MoreVerticalIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { handleLogout } from "@/app/actions";
+import Link from "next/link";
 
 interface SidebarUserDetailsProps {
     loggedInUser?: User;
@@ -26,34 +26,36 @@ const SidebarUserDetails = (props: SidebarUserDetailsProps) => {
     if (props.loggedInUser) {
         return (
             <DropdownMenu>
-                <DropdownMenuTrigger
-                    className="flex items-center gap-2 w-full"
+                <Button
                     asChild
+                    variant={"ghost"}
+                    size={"icon"}
+                    className="gap-2 w-full rounded-full whitespace-normal"
                 >
-                    <Button
-                        variant={"ghost"}
-                        className="justify-start rounded-full p-0"
-                    >
+                    <DropdownMenuTrigger>
                         <Avatar>
                             <AvatarImage
                                 src={props.loggedInUser.avatar_url ?? ""}
                                 alt={props.loggedInUser.email}
                             />
                             <AvatarFallback>
-                                {props.loggedInUser &&
-                                    props.loggedInUser.name
-                                        .split(" ")
-                                        .map((n) => n[0])
-                                        .join("")}
+                                {props.loggedInUser?.name
+                                    .split(" ")
+                                    .map((n) => n[0])
+                                    .join("")}
                             </AvatarFallback>
                         </Avatar>
-                        {props.loggedInUser.name}
-                        <MoreHorizontalIcon
-                            className="ml-auto mr-2"
-                            size={20}
-                        />
-                    </Button>
-                </DropdownMenuTrigger>
+                        <div className="text-sm text-left flex-1">
+                            <span className="inline-block font-semibold">
+                                {props.loggedInUser.name}
+                            </span>
+                            <span className="inline-block text-muted-foreground">
+                                {props.loggedInUser.email}
+                            </span>
+                        </div>
+                        <MoreVerticalIcon className="ml-auto mr-2" size={20} />
+                    </DropdownMenuTrigger>
+                </Button>
                 <DropdownMenuContent className="w-52">
                     <DropdownMenuLabel>{t("my-account")}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
