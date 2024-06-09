@@ -13,7 +13,7 @@ import {
     NavigationMenuList,
 } from "@/lib/components/sidebar/components/NavigationMenu";
 import { SidebarItem } from "@/lib/components/sidebar/components/SidebarItem";
-import { SidebarLink } from "@/lib/types/sidebar-config";
+import { SidebarLink } from "@/lib/types/sidebar-link";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React from "react";

@@ -7,7 +7,7 @@ import {
     SidebarItems,
 } from "@/lib/components/sidebar/Sidebar";
 import SidebarUserDetails from "@/lib/components/sidebar/components/SidebarUserDetails";
-import { SidebarLink } from "@/lib/types/sidebar-config";
+import { SidebarLink } from "@/lib/types/sidebar-link";
 import { HomeIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
