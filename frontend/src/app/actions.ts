@@ -18,7 +18,7 @@ const apiUrl = process.env.API_URL as string;
 export async function handleLogin(credentials: {
     email: string;
     password: string;
-}): Promise<object | undefined> {
+}): Promise<ApiError | undefined> {
     const res = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
         body: JSON.stringify(credentials),
@@ -29,7 +29,11 @@ export async function handleLogin(credentials: {
     });
 
     if (!res.ok) {
-        return await res.json();
+        const data = await res.json();
+        return {
+            code: res.status,
+            error: data.error,
+        };
     }
 
     const { access_token } = await res.json();

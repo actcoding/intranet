@@ -8,23 +8,38 @@ import {
     FormField,
     FormItem,
     FormMessage,
-    FormDescription
 } from "@/lib/components/common/Form";
 import { Input } from "@/lib/components/common/Input";
 import { Label } from "@/lib/components/common/Label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 const formSchema = z.object({
     email: z.string().email(),
-    password: z.string(),
+    password: z.string().min(1),
 });
+
+function Error({ error }: { error?: ApiError }) {
+    if (!error) {
+        return null;
+    }
+
+    switch (error.code) {
+        case 401:
+            return <p>Die E-Mail oder das Passwort ist falsch!</p>;
+
+        default:
+            return <p>{error.error}</p>;
+    }
+}
 
 interface LoginFormProps {}
 const LoginForm = (props: LoginFormProps) => {
+    const [error, setError] = useState<ApiError>();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -41,7 +56,7 @@ const LoginForm = (props: LoginFormProps) => {
                 router.push("/");
             }
 
-            // Fehler
+            setError(res);
         },
         [router]
     );
@@ -50,7 +65,7 @@ const LoginForm = (props: LoginFormProps) => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit((data) => handleSubmit(data))}
-                className='space-y-4'
+                className="space-y-4"
             >
                 <FormField
                     control={form.control}
@@ -59,7 +74,10 @@ const LoginForm = (props: LoginFormProps) => {
                         <FormItem>
                             <Label>E-Mail Adresse</Label>
                             <FormControl>
-                                <Input {...field} placeholder="example@mail.com"/>
+                                <Input
+                                    {...field}
+                                    placeholder="example@mail.com"
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -78,6 +96,11 @@ const LoginForm = (props: LoginFormProps) => {
                         </FormItem>
                     )}
                 />
+
+                <div className="text-destructive text-sm">
+                    <Error error={error} />
+                </div>
+
                 <Button type="submit">Login</Button>
             </form>
         </Form>
