@@ -22,24 +22,8 @@ const formSchema = z.object({
     password: z.string().min(1),
 });
 
-function Error({ error }: { error?: ApiError }) {
-    if (!error) {
-        return null;
-    }
-
-    switch (error.code) {
-        case 401:
-            return <p>Die E-Mail oder das Passwort ist falsch!</p>;
-
-        default:
-            return <p>{error.error}</p>;
-    }
-}
-
 interface LoginFormProps {}
 const LoginForm = (props: LoginFormProps) => {
-    const [error, setError] = useState<ApiError>();
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -55,10 +39,11 @@ const LoginForm = (props: LoginFormProps) => {
             if (res === undefined) {
                 router.push("/");
             }
-
-            setError(res);
+            if (res?.code === 401) {
+                form.setError("root", { message: "Invalid credentials" });
+            }
         },
-        [router]
+        [router, form]
     );
 
     return (
@@ -97,11 +82,18 @@ const LoginForm = (props: LoginFormProps) => {
                     )}
                 />
 
-                <div className="text-destructive text-sm">
-                    <Error error={error} />
-                </div>
+                {form.formState.errors.root && (
+                    <p>{form.formState.errors.root.message}</p>
+                )}
 
-                <Button type="submit">Login</Button>
+                <Button
+                    type="submit"
+                    className="w-full shadow-lg shadow-primary/40"
+                    size="lg"
+                    loading={form.formState.isSubmitting}
+                >
+                    Login
+                </Button>
             </form>
         </Form>
     );
