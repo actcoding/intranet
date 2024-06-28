@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\PasswordResetRequest;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 /**
  * Handles authentication stuff.
@@ -32,6 +38,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
+        auth()->invalidate();
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
@@ -45,6 +52,26 @@ class AuthController extends Controller
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
+    }
+
+    public function resetPassword(PasswordResetRequest $request, Repository $repository)
+    {
+        $data = $request->validated();
+
+        $user = auth()->user();
+
+        $user->forceFill([
+            'password' => Hash::make($data['password']),
+        ])->setRememberToken(Str::random(60));
+
+        $user->save();
+
+        event(new PasswordReset($user));
+
+        auth()->invalidate();
+        auth()->logout();
+
+        return response()->json(['message' => 'Password has been reset. You\'ve been logged out.']);
     }
 
     /**
