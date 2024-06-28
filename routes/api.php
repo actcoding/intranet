@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +24,11 @@ Route::prefix('/user')
     ->group(function () {
         Route::put('/profile', [UserController::class, 'updateProfile'])
             ->name('user.profile');
+    });
+
+Route::prefix('/news')
+    ->middleware('auth:api')
+    ->group(function () {
+        Route::get('/', [NewsController::class, 'list'])
+            ->name('news.list');
     });
