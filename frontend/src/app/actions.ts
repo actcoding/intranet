@@ -63,17 +63,17 @@ export async function resetPassword(newPassword: {
 
     const session = await getAppSession()
 
-    const res = await fetch(`${apiUrl}/auth/password/reset`, {
-        method: "POST",
-        body: JSON.stringify(newPassword),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
+    // const res = await fetch(`${apiUrl}/auth/password/reset`, {
+    //     method: "POST",
+    //     body: JSON.stringify(newPassword),
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    // })
 
-    if (!res.ok) {
-        return await res.json()
-    }
+    // if (!res.ok) {
+    //     return await res.json()
+    // }
 
-    return undefined
+    redirect("/");
 }
