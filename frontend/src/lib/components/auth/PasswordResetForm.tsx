@@ -1,4 +1,7 @@
+"use client";
+
 import { Button } from "@/lib/components/common/Button";
+import { resetPassword } from '@/app/actions';
 import {
     Form,
     FormControl,
@@ -12,17 +15,18 @@ import { useForm } from 'react-hook-form'
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from 'next/router';
+import { useCallback } from 'react'
 
 const formSchema = z.object({
     password: z.string().min(8, {
         message: "Password must be at least 8 characters long"
     }),
-    confirmPassword: z.string().min(8, {
+    password_confirm: z.string().min(8, {
         message: "Confirm Password must be at least 8 characters long"
     })
-}).refine(data => data.password === data.confirmPassword, {
-    message: "Password don't match",
-    path: ["confirmPassword"]
+}).refine(data => data.password === data.password_confirm, {
+    message: "Passwords don't match",
+    path: ["password_confirm"]
 })
 
 const PasswordResetForm = () => {
@@ -30,15 +34,21 @@ const PasswordResetForm = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             password: "",
-            confirmPassword: "",
+            password_confirm: "",
         }
     })
 
     const router = useRouter()
 
-    const handleSubmit = (data: z.infer<typeof formSchema>) => {
-        router.push('/')
-    }
+    const handleSubmit = useCallback(
+        async (data: z.infer<typeof formSchema>) => {
+            const res = await resetPassword(data)
+            if (res === undefined) {
+                router.push("/");
+            }
+        },
+        [router]
+    )
 
     return (
         <Form {...form}>
@@ -58,7 +68,7 @@ const PasswordResetForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="confirmPassword"
+                    name="password_confirm"
                     render={({ field }) => (
                         <FormItem>
                         <FormLabel>Confirm Password</FormLabel>

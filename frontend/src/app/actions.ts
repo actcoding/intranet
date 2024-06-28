@@ -51,3 +51,25 @@ export async function handleLogout(): Promise<void> {
     session.destroy();
     redirect("/auth/login");
 }
+
+export async function resetPassword(newPassword: {
+    password: string
+    password_confirm: string
+}){
+
+    const session = await getAppSession()
+
+    const res = await fetch(`${apiUrl}/auth/password/reset`, {
+        method: "POST",
+        body: JSON.stringify(newPassword),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+
+    if (!res.ok) {
+        return await res.json()
+    }
+
+    return undefined
+}
