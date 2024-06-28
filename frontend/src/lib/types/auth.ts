@@ -9,6 +9,7 @@ type User = {
     name: string;
     email: string;
     avatar_url: string | null;
+    status: "active" | "disabled" | "must_reset_password";
 };
 
 type AppSession = {
