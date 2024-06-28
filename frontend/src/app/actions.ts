@@ -46,7 +46,7 @@ export async function handleLogin(credentials: {
 
     await session.save();
 
-    return undefined;
+    redirect("/");
 }
 
 export async function handleLogout(): Promise<void> {
