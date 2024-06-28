@@ -1,18 +1,7 @@
-import { getAppSession } from "@/app/actions";
 import "@/app/globals.css";
-import {
-    Sidebar,
-    SidebarFooter,
-    SidebarHeader,
-    SidebarItems,
-} from "@/lib/components/sidebar/Sidebar";
-import SidebarUserDetails from "@/lib/components/sidebar/components/SidebarUserDetails";
-import { SidebarLink } from "@/lib/types/sidebar-link";
-import { HomeIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getLocale } from "next-intl/server";
 import { Inter } from "next/font/google";
-import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,37 +23,10 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const locale = await getLocale();
-    const { sessionData } = await getAppSession();
-    const t = await getTranslations("Sidebar");
-
-    const sidebarLinks: SidebarLink[] = [
-        { label: t("home"), href: "/", icon: <HomeIcon /> },
-    ];
 
     return (
         <html lang={locale}>
-            <body className={inter.className}>
-                <Sidebar breakpoint="640px">
-                    <SidebarHeader>
-                        <Image
-                            src="/logo.png"
-                            alt="logo"
-                            width={25}
-                            height={25}
-                        />
-                        <h3 className="mx-3 text-lg font-semibold text-foreground">
-                            Intranet
-                        </h3>
-                    </SidebarHeader>
-                    <SidebarItems links={sidebarLinks} />
-                    <SidebarFooter>
-                        <SidebarUserDetails loggedInUser={sessionData?.user} />
-                    </SidebarFooter>
-                </Sidebar>
-                <main className="mx-5 mt-16 sm:ml-[300px] sm:mt-3">
-                    {children}
-                </main>
-            </body>
+            <body className={inter.className}>{children}</body>
         </html>
     );
 }
