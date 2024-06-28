@@ -7,5 +7,16 @@
         "creator-login": "Creator Login",
         "logout": "Logout",
         "my-account": "My account"
+    },
+    "Auth": {
+        "welcome": "Welcome back!",
+        "login": "Login",
+        "email": "Email",
+        "password": "Password",
+        "back": "Back",
+        "error-email": "Please enter a valid email address",
+        "error-password-missing": "Please enter a password",
+        "error-password-too-short": "Password must be at least {minCharCount, plural, =1 {one character} other {# characters}} long",
+        "error-login": "Invalid credentials"
     }
 }
