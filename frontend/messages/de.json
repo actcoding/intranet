@@ -18,5 +18,12 @@
         "error-password-missing": "Bitte geben Sie ein Passwort ein",
         "error-password-too-short": "Das Passwort muss mindestens {minCharCount} Zeichen lang sein",
         "error-login": "Ungültige Zugangsdaten"
+    },
+    "PwdReset": {
+        "set_new_password": "Passwort zurücksetzen",
+        "password": "Neues Passwort",
+        "password_cofirm": "Bestätigen Sie das neue Passwort",
+        "error-password-too-short": "Das Passwort muss mindestens {minCharCount} Zeichen lang sein",
+        "error-mismatch": "Passwörter stimmen nicht überein"
     }
 }
