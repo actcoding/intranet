@@ -16,19 +16,19 @@ const ResetFormConfirmInput = () => {
     const t = useTranslations("PwdReset");
     return (
         <FormField
-                    control={form.control}
-                    name="password_confirm"
-                    render={({ field }) => (
-                        <FormItem>
-                        <Label>{t('password_cofirm')}</Label>
-                        <FormControl>
-                            <Input type='password' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                />
-     );
-}
+            control={form.control}
+            name="password_confirmation"
+            render={({ field }) => (
+                <FormItem>
+                    <Label>{t("password_cofirm")}</Label>
+                    <FormControl>
+                        <Input type="password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+            )}
+        />
+    );
+};
 
 export default ResetFormConfirmInput;

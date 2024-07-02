@@ -2,6 +2,7 @@
 
 import { IronSession, getIronSession } from "iron-session";
 import { decodeJwt } from "jose";
+import { SquareScissorsIcon } from "lucide-react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -43,10 +44,13 @@ export async function handleLogin(credentials: {
 
     session.access_token = access_token;
     session.sessionData = decoded;
-
     await session.save();
 
-    redirect("/");
+    if (session.sessionData.user.status === "must_reset_password") {
+        redirect("/auth/password-reset");
+    } else {
+        redirect("/");
+    }
 }
 
 export async function handleLogout(): Promise<void> {
@@ -57,23 +61,26 @@ export async function handleLogout(): Promise<void> {
 }
 
 export async function resetPassword(newPassword: {
-    password: string
-    password_confirm: string
-}){
+    password: string;
+    password_confirmation: string;
+}) {
+    const session = await getAppSession();
 
-    const session = await getAppSession()
+    const res = await fetch(`${apiUrl}/auth/reset-password`, {
+        method: "POST",
+        body: JSON.stringify(newPassword),
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + session.access_token,
+        },
+    });
 
-    // const res = await fetch(`${apiUrl}/auth/password/reset`, {
-    //     method: "POST",
-    //     body: JSON.stringify(newPassword),
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    // })
+    if (!res.ok) {
+        return await res.json();
+    } else {
+        session.destroy();
+    }
 
-    // if (!res.ok) {
-    //     return await res.json()
-    // }
-
-    redirect("/");
+    redirect("/auth/login");
 }
