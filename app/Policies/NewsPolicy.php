@@ -36,7 +36,7 @@ class NewsPolicy
      */
     public function update(User $user, News $news): bool
     {
-        return $user->can('news.update');
+        return $user->can('news.update', $news);
     }
 
     /**
@@ -44,7 +44,7 @@ class NewsPolicy
      */
     public function delete(User $user, News $news): bool
     {
-        return $user->can('news.delete');
+        return $user->can('news.delete', $news);
     }
 
     /**
@@ -52,7 +52,7 @@ class NewsPolicy
      */
     public function restore(User $user, News $news): bool
     {
-        return $user->can('news.restore');
+        return $user->can('news.restore', $news);
     }
 
     /**
@@ -60,6 +60,6 @@ class NewsPolicy
      */
     public function forceDelete(User $user, News $news): bool
     {
-        return $user->can('news.delete.force');
+        return $user->can('news.delete.force', $news);
     }
 }
