@@ -24,6 +24,11 @@
         "password": "Neues Passwort",
         "password_cofirm": "Bestätigen Sie das neue Passwort",
         "error-password-too-short": "Das Passwort muss mindestens {minCharCount} Zeichen lang sein",
-        "error-mismatch": "Passwörter stimmen nicht überein"
+        "error-mismatch": "Passwörter stimmen nicht überein",
+        "welcome": "Herzlich Willkommen, {name}!",
+        "msg1": "Sie melden sich scheinbar zum ersten Mal im Intranet an. An dieser Stelle müssen Sie zunächst ein neues Passwort vergeben.",
+        "msg2": "Bitte geben Sie ein neues Passwort und klicken dann auf den grünen Knopf.",
+        "successTitle": "Passwort geändert",
+        "successMessage": "Das Passwort wurde erfolgreich geändert. Bitte melden Sie sich erneut an, damit die Änderungen wirksam werden."
     }
 }

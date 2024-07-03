@@ -1,8 +1,8 @@
 "use server";
 
+import { ApiError, ApiErrors } from "@/types";
 import { IronSession, getIronSession } from "iron-session";
 import { decodeJwt } from "jose";
-import { SquareScissorsIcon } from "lucide-react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -47,7 +47,7 @@ export async function handleLogin(credentials: {
     await session.save();
 
     if (session.sessionData.user.status === "must_reset_password") {
-        redirect("/auth/password-reset");
+        redirect("/auth/welcome");
     } else {
         redirect("/");
     }
@@ -60,15 +60,20 @@ export async function handleLogout(): Promise<void> {
     redirect("/auth/login");
 }
 
-export async function resetPassword(newPassword: {
+export type ResetPasswordPayload = {
     password: string;
     password_confirmation: string;
-}) {
+};
+
+export async function resetPassword(
+    newPassword: ResetPasswordPayload,
+    token?: string
+) {
     const session = await getAppSession();
 
     const res = await fetch(`${apiUrl}/auth/reset-password`, {
         method: "POST",
-        body: JSON.stringify(newPassword),
+        body: JSON.stringify({ ...newPassword, token }),
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
@@ -77,10 +82,13 @@ export async function resetPassword(newPassword: {
     });
 
     if (!res.ok) {
-        return await res.json();
-    } else {
-        session.destroy();
+        const data = await res.json();
+        return {
+            code: res.status,
+            errors: data.errors as ApiErrors,
+        };
     }
 
+    session.destroy();
     redirect("/auth/login");
 }

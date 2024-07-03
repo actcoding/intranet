@@ -1,39 +1,41 @@
 "use client";
 
-import { Button } from "@/lib/components/common/Button";
-import { resetPassword } from "@/app/actions";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/lib/components/common/Form";
-import { Input } from "@/lib/components/common/Input";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback } from "react";
+import { ResetPasswordPayload, resetPassword } from "@/app/actions";
 import ResetFormConfirmInput from "@/lib/components/auth/reset-form/components/ResetFormConfirmInput";
 import ResetFormPasswordInput from "@/lib/components/auth/reset-form/components/ResetFormPasswordInput";
 import ResetFormSubmitButton from "@/lib/components/auth/reset-form/components/ResetFormSubmitButton";
-
-const formSchema = z
-    .object({
-        password: z.string().min(8, {
-            message: "Password must be at least 8 characters long",
-        }),
-        password_confirmation: z.string().min(8, {
-            message: "Confirm Password must be at least 8 characters long",
-        }),
-    })
-    .refine((data) => data.password === data.password_confirmation, {
-        message: "Passwords don't match",
-        path: ["password_confirmation"],
-    });
+import { Alert, AlertDescription } from "@/lib/components/common/Alert";
+import { Form } from "@/lib/components/common/Form";
+import { useToast } from "@/lib/components/hooks/use-toast";
+import { setLaravelErrors } from "@/lib/utils";
+import { ToZod } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const PasswordResetForm = () => {
+    const tAuth = useTranslations("Auth");
+    const tPage = useTranslations("PwdReset");
+
+    const formSchema = useMemo(
+        () =>
+            z.object<ToZod<ResetPasswordPayload>>({
+                password: z.string().min(8, {
+                    message: tAuth("error-password-too-short", {
+                        minCharCount: 8,
+                    }),
+                }),
+                password_confirmation: z.string().min(8, {
+                    message: tAuth("error-password-too-short", {
+                        minCharCount: 8,
+                    }),
+                }),
+            }),
+        [tAuth]
+    );
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -42,9 +44,26 @@ const PasswordResetForm = () => {
         },
     });
 
-    const handleSubmit = async (data: z.infer<typeof formSchema>) => {
+    const { toast } = useToast();
+
+    const handleSubmit = async (data: ResetPasswordPayload) => {
         const res = await resetPassword(data);
-        console.log(res);
+
+        if (res === undefined) {
+            toast({
+                title: tPage("successTitle"),
+                description: tPage("successMessage"),
+            });
+        } else {
+            setLaravelErrors(form, res.errors, (key, value) => {
+                switch (value) {
+                    case "validation.confirmed":
+                        return tPage("error-mismatch");
+                    default:
+                        return value;
+                }
+            });
+        }
     };
 
     return (
@@ -53,6 +72,14 @@ const PasswordResetForm = () => {
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="space-y-4"
             >
+                {form.formState.errors.root && (
+                    <Alert variant={"destructive"}>
+                        <AlertDescription>
+                            {form.formState.errors.root.message}
+                        </AlertDescription>
+                    </Alert>
+                )}
+
                 <ResetFormPasswordInput />
                 <ResetFormConfirmInput />
                 <ResetFormSubmitButton />
