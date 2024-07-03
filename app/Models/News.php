@@ -43,6 +43,7 @@ class News extends Model
     {
         return [
             'status' => NewsStatus::class,
+            'content' => 'array',
         ];
     }
 
