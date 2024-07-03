@@ -13,11 +13,29 @@ class News extends Model
         SoftDeletes;
 
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleted(function (News $news) {
+            $news->status = NewsStatus::DELETED;
+            $news->save();
+        });
+
+        static::restored(function (News $news) {
+            $news->status = NewsStatus::DRAFT;
+            $news->save();
+        });
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'published_at',
+        'author_id',
         'status',
         'title',
         'content',
