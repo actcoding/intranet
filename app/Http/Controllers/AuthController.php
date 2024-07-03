@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserStatus;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\PasswordResetRequest;
 use Illuminate\Auth\Events\PasswordReset;
@@ -62,6 +63,7 @@ class AuthController extends Controller
 
         $user->forceFill([
             'password' => Hash::make($data['password']),
+            'status' => UserStatus::ACTIVE,
         ])->setRememberToken(Str::random(60));
 
         $user->save();
