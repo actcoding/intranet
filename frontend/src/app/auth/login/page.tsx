@@ -1,4 +1,3 @@
-import { getAppSession } from "@/app/actions";
 import LoginForm from "@/lib/components/auth/login-form/LoginForm";
 import { Button } from "@/lib/components/common/Button";
 import pick from "lodash/pick";
@@ -8,6 +7,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import { getAppSession } from "@/lib/actions/auth";
 
 export default async function Login() {
     const { sessionData } = await getAppSession();

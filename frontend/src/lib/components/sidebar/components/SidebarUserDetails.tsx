@@ -1,4 +1,4 @@
-import { handleLogout } from "@/app/actions";
+import { handleLogout } from "@/lib/actions/auth";
 import {
     Avatar,
     AvatarFallback,

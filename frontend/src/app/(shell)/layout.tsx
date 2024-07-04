@@ -1,5 +1,5 @@
-import { getAppSession } from "@/app/actions";
 import "@/app/globals.css";
+import { getAppSession } from "@/lib/actions/auth";
 import {
     Sidebar,
     SidebarFooter,
@@ -8,7 +8,7 @@ import {
 } from "@/lib/components/sidebar/Sidebar";
 import SidebarUserDetails from "@/lib/components/sidebar/components/SidebarUserDetails";
 import { SidebarLink } from "@/lib/types/sidebar-link";
-import { HomeIcon } from "lucide-react";
+import { HomeIcon, NewspaperIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 
@@ -22,6 +22,7 @@ export default async function ShellLayout({
 
     const sidebarLinks: SidebarLink[] = [
         { label: t("home"), href: "/", icon: <HomeIcon /> },
+        { label: "Posts", href: "/posts", icon: <NewspaperIcon /> },
     ];
 
     return (

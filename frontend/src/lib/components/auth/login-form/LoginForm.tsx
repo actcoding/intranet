@@ -1,6 +1,6 @@
 "use client";
 
-import { handleLogin } from "@/app/actions";
+import { handleLogin } from "@/lib/actions/auth";
 import LoginFormEmailInput from "@/lib/components/auth/login-form/components/LoginFormEmailInput";
 import LoginFormPasswordInput from "@/lib/components/auth/login-form/components/LoginFormPasswordInput";
 import LoginFormSubmitButton from "@/lib/components/auth/login-form/components/LoginFormSubmitButton";
