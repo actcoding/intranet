@@ -17,7 +17,8 @@
         "error-email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
         "error-password-missing": "Bitte geben Sie ein Passwort ein",
         "error-password-too-short": "Das Passwort muss mindestens {minCharCount} Zeichen lang sein",
-        "error-login": "Ungültige Zugangsdaten"
+        "error-login": "Ungültige Zugangsdaten",
+        "success-title": "Login erfolgreich"
     },
     "PwdReset": {
         "set-new-password": "Passwort zurücksetzen",

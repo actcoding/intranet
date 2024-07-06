@@ -11,7 +11,7 @@ import { setLaravelFormErrors } from "@/lib/utils";
 import { ToZod } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -46,30 +46,30 @@ const PasswordResetForm = () => {
 
     const { toast } = useToast();
 
-    const handleSubmit = async (data: ResetPasswordPayload) => {
-        const res = await resetPassword(data);
+    const handleSubmit = useCallback(
+        async (data: ResetPasswordPayload) => {
+            const res = await resetPassword(data);
 
-        if (res === undefined) {
-            toast({
-                title: tPage("success-title"),
-                description: tPage("success-message"),
-            });
-        } else if (res.status === 422) {
-            setLaravelFormErrors(form, res.errors, (key, value) => {
-                switch (value) {
-                    case "validation.confirmed":
-                        return tPage("error-mismatch");
-                    default:
-                        return value;
-                }
-            });
-        } else {
-            toast({
-                description: res.message,
-                variant: 'destructive',
-            });
-        }
-    };
+            if (res === undefined) {
+                toast({
+                    title: tPage("success-title"),
+                    description: tPage("success-message"),
+                });
+            } else if (res.status === 422) {
+                setLaravelFormErrors(form, res.errors, (key, value) => {
+                    switch (value) {
+                        case "validation.confirmed":
+                            return tPage("error-mismatch");
+                        default:
+                            return value;
+                    }
+                });
+            } else {
+                form.setError("root", { message: res.message });
+            }
+        },
+        [form, tPage, toast]
+    );
 
     return (
         <Form {...form}>
