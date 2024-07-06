@@ -23,27 +23,26 @@ const PageWelcome = async () => {
 
     return (
         <>
-            <div className="flex flex-col justify-center items-center h-screen bg-gradient-to-b from-primary/10">
-                <div className="max-w-[850px] w-full p-5 space-y-5">
-                    <Image
-                        src="/logo.png"
-                        width={80}
-                        height={80}
-                        alt="Logo"
-                        className="mx-auto"
-                    />
-                    <h1 className="text-3xl font-semibold mb-5 text-center">
-                        {t("set_new_password")}
-                    </h1>
-                    <div className="grid grid-cols-2 gap-x-16">
-                        <div className="space-y-4">
-                            <p>
-                                {t("welcome", { name: sessionData?.user.name })}
-                            </p>
-                            <p>{t("msg1")}</p>
-                            <p>{t("msg2")}</p>
-                        </div>
-
+            <div className="grid grid-cols-2 items-center h-screen">
+                <div className="space-y-4 mx-auto p-8">
+                    <p className="font-semibold">
+                        {t("welcome", { name: sessionData?.user.name })}
+                    </p>
+                    <p>{t("description-1")}</p>
+                    <p>{t("description-2")}</p>
+                </div>
+                <div className="bg-gradient-to-b from-primary/10 p-8 h-full">
+                    <div className="w-full max-w-[400px] mx-auto flex flex-col justify-center h-full">
+                        <Image
+                            src="/logo.png"
+                            width={80}
+                            height={80}
+                            alt="Logo"
+                            className="mx-auto mb-4"
+                        />
+                        <h1 className="text-3xl font-semibold mb-5 text-center">
+                            {t("set-new-password")}
+                        </h1>
                         <NextIntlClientProvider
                             messages={pick(messages, "PwdReset", "Auth")}
                         >
