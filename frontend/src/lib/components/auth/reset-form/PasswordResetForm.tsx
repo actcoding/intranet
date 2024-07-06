@@ -7,7 +7,7 @@ import ResetFormSubmitButton from "@/lib/components/auth/reset-form/components/R
 import { Alert, AlertDescription } from "@/lib/components/common/Alert";
 import { Form } from "@/lib/components/common/Form";
 import { useToast } from "@/lib/components/hooks/use-toast";
-import { setLaravelErrors } from "@/lib/utils";
+import { setLaravelFormErrors } from "@/lib/utils";
 import { ToZod } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
@@ -55,7 +55,7 @@ const PasswordResetForm = () => {
                 description: tPage("success-message"),
             });
         } else {
-            setLaravelErrors(form, res.errors, (key, value) => {
+            setLaravelFormErrors(form, res.errors, (key, value) => {
                 switch (value) {
                     case "validation.confirmed":
                         return tPage("error-mismatch");

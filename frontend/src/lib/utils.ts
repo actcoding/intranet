@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export function setLaravelErrors<T extends FieldValues = FieldValues>(
+export function setLaravelFormErrors<T extends FieldValues = FieldValues>(
     form: UseFormReturn<T>,
     errors: ApiErrors,
     getMessage: (key: string, value: string) => string
