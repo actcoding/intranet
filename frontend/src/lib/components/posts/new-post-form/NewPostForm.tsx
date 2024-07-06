@@ -8,7 +8,7 @@ import {
     FormLabel,
 } from "@/lib/components/common/Form";
 import { Input } from "@/lib/components/common/Input";
-import Editor from "@/lib/components/editor/Editor";
+import Editor from "@/lib/components/posts/new-post-form/components/editor/Editor";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -19,9 +19,9 @@ const formSchema = z.object({
     //attachments: z.array(z.string()),
 });
 
-interface NewsPostFormProps {}
+interface NewPostFormProps {}
 
-const NewsPostForm = (props: NewsPostFormProps) => {
+const NewPostForm = (props: NewPostFormProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -79,4 +79,4 @@ const NewsPostForm = (props: NewsPostFormProps) => {
         </Form>
     );
 };
-export default NewsPostForm;
+export default NewPostForm;
