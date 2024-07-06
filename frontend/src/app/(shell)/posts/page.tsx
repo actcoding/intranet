@@ -1,8 +1,13 @@
-import { fetchPosts } from "@/lib/actions/posts";
+import PostList from "@/lib/components/posts/post-list/PostList";
+import LoadMorePosts from "@/lib/components/posts/post-list/components/LoadMorePosts";
+import { Suspense } from "react";
 
 interface Props {}
 const PostsPage = async (props: Props) => {
-    const posts = await fetchPosts(0);
-    return <div>PostsPage</div>;
+    return (
+        <Suspense fallback={<LoadMorePosts />}>
+            <PostList />
+        </Suspense>
+    );
 };
 export default PostsPage;

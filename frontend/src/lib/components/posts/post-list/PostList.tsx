@@ -1,15 +1,10 @@
-import { useState } from 'react'
+import { fetchPosts } from "@/lib/actions/posts";
+import PostListContent from "@/lib/components/posts/post-list/components/PostListContent";
 
-interface PostListProps {
-    initialPosts: Post[];
-};
+interface PostListProps {}
 
-const PostList = (props: PostListProps) => {
-    const [posts, setPosts] = useState<Post[]>(props.initialPosts);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [page, setPage] = useState<number>(0);
-  return (
-    {posts.map((post) => (<span>{post.title}</span>))}
-  );
+const PostList = async (props: PostListProps) => {
+    const posts = await fetchPosts(1);
+    return <PostListContent initialPosts={posts} />;
 };
 export default PostList;

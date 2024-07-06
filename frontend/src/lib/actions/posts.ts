@@ -55,8 +55,63 @@ const posts: Post[][] = [
             content: "This is my tenth post.",
         },
     ],
+    [
+        {
+            id: 11,
+            title: "Eleventh Post",
+            content: "This is my eleventh post.",
+        },
+        {
+            id: 12,
+            title: "Twelfth Post",
+            content: "This is my twelfth post.",
+        },
+        {
+            id: 13,
+            title: "Thirteenth Post",
+            content: "This is my thirteenth post.",
+        },
+        {
+            id: 14,
+            title: "Fourteenth Post",
+            content: "This is my fourteenth post.",
+        },
+        {
+            id: 15,
+            title: "Fifteenth Post",
+            content: "This is my fifteenth post.",
+        },
+    ],
+    [
+        {
+            id: 16,
+            title: "Sixteenth Post",
+            content: "This is my sixteenth post.",
+        },
+        {
+            id: 17,
+            title: "Seventeenth Post",
+            content: "This is my seventeenth post.",
+        },
+        {
+            id: 18,
+            title: "Eighteenth Post",
+            content: "This is my eighteenth post.",
+        },
+        {
+            id: 19,
+            title: "Nineteenth Post",
+            content: "This is my nineteenth post.",
+        },
+        {
+            id: 20,
+            title: "Twentieth Post",
+            content: "This is my twentieth post.",
+        },
+    ],
 ];
 
-export async function fetchPosts(page: number): Promise<Post[] | Error> {
-    return posts[page];
+export async function fetchPosts(page: number): Promise<Post[]> {
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate database lookup delay
+    return posts[page - 1];
 }

@@ -1,4 +1,4 @@
-import NewsPostForm from "@/lib/components/news-post-form/NewsPostForm";
+import NewsPostForm from "@/lib/components/posts/new-post-form/NewPostForm";
 
 interface NewPostPageProps {}
 
