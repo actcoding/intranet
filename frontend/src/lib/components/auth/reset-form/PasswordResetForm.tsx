@@ -54,7 +54,7 @@ const PasswordResetForm = () => {
                 title: tPage("success-title"),
                 description: tPage("success-message"),
             });
-        } else {
+        } else if (res.status === 422) {
             setLaravelFormErrors(form, res.errors, (key, value) => {
                 switch (value) {
                     case "validation.confirmed":
@@ -62,6 +62,11 @@ const PasswordResetForm = () => {
                     default:
                         return value;
                 }
+            });
+        } else {
+            toast({
+                description: res.message,
+                variant: 'destructive',
             });
         }
     };

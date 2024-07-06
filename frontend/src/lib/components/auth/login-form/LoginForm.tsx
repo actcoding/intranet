@@ -32,8 +32,15 @@ const LoginForm = (props: LoginFormProps) => {
     const handleSubmit = useCallback(
         async (data: z.infer<typeof formSchema>) => {
             const res = await handleLogin(data);
-            if (res?.code === 401) {
-                form.setError("root", { message: t("error-login") });
+
+            if (res !== undefined) {
+                switch (res.status) {
+                    case 401:
+                        form.setError("root", { message: t("error-login") });
+                        break;
+                    default:
+                        break;
+                }
             }
         },
         [form, t]

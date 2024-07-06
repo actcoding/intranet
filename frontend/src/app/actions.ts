@@ -1,10 +1,10 @@
 "use server";
 
-import { ApiError, ApiErrors } from "@/types";
-import { IronSession, getIronSession } from "iron-session";
-import { decodeJwt } from "jose";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { ApiResponse } from "@/types"
+import { IronSession, getIronSession } from "iron-session"
+import { decodeJwt } from "jose"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 export async function getAppSession(): Promise<IronSession<AppSession>> {
     return getIronSession<AppSession>(cookies(), {
@@ -19,7 +19,7 @@ const apiUrl = process.env.API_URL as string;
 export async function handleLogin(credentials: {
     email: string;
     password: string;
-}): Promise<ApiError | undefined> {
+}): Promise<ApiResponse | undefined> {
     const res = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
         body: JSON.stringify(credentials),
@@ -32,8 +32,8 @@ export async function handleLogin(credentials: {
     if (!res.ok) {
         const data = await res.json();
         return {
-            code: res.status,
-            error: data.error,
+            status: res.status,
+            ...data,
         };
     }
 
@@ -68,7 +68,7 @@ export type ResetPasswordPayload = {
 export async function resetPassword(
     newPassword: ResetPasswordPayload,
     token?: string
-) {
+): Promise<ApiResponse | undefined> {
     const session = await getAppSession();
 
     const res = await fetch(`${apiUrl}/auth/reset-password`, {
@@ -84,8 +84,8 @@ export async function resetPassword(
     if (!res.ok) {
         const data = await res.json();
         return {
-            code: res.status,
-            errors: data.errors as ApiErrors,
+            status: res.status,
+            ...data,
         };
     }
 
