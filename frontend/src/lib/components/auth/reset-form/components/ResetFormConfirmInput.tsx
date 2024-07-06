@@ -20,7 +20,7 @@ const ResetFormConfirmInput = () => {
             name="password_confirmation"
             render={({ field }) => (
                 <FormItem>
-                    <Label>{t("password_cofirm")}</Label>
+                    <Label>{t("password-cofirm")}</Label>
                     <FormControl>
                         <Input type="password" {...field} />
                     </FormControl>

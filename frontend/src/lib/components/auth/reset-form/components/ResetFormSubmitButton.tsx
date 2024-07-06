@@ -15,7 +15,7 @@ const ResetFormSubmitButton = (props: Props) => {
             size="lg"
             loading={form.formState.isSubmitting}
         >
-            {t('set_new_password')}
+            {t("set-new-password")}
         </Button>
     );
 };

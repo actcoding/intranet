@@ -20,15 +20,15 @@
         "error-login": "Invalid credentials"
     },
     "PwdReset": {
-        "set_new_password": "Reset Password",
+        "set-new-password": "Reset Password",
         "password": "New Password",
-        "password_cofirm": "Confirm new Password",
+        "password-cofirm": "Confirm new Password",
         "error-password-too-short": "Password must be at least {minCharCount, plural, =1 {one character} other {# characters}} long",
         "error-mismatch": "Passwords don't match",
         "welcome": "Welcome, {name}!",
-        "msg1": "You appear to be logging in to the intranet for the first time. At this point, you must first assign a new password.",
-        "msg2": "Please enter a new password and then click on the green button.",
-        "successTitle": "Password changed",
-        "successMessage": "The password has been successfully changed. Please log in again for the changes to take effect."
+        "description-1": "You appear to be logging in to the intranet for the first time. At this point, you must first assign a new password.",
+        "description-2": "Please enter a new password and then click on the green button.",
+        "success-title": "Password changed",
+        "success-message": "The password has been successfully changed. Please log in again for the changes to take effect."
     }
 }

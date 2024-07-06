@@ -51,8 +51,8 @@ const PasswordResetForm = () => {
 
         if (res === undefined) {
             toast({
-                title: tPage("successTitle"),
-                description: tPage("successMessage"),
+                title: tPage("success-title"),
+                description: tPage("success-message"),
             });
         } else {
             setLaravelErrors(form, res.errors, (key, value) => {
