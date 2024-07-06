@@ -34,12 +34,14 @@ const NewsListContent = (props: Props) => {
     }, [isIntersecting, loadMoreNews]);
 
     return (
-        <div className="flex flex-col gap-4">
-            {news.map((news, index) => (
-                <NewsPreviewCard key={index} {...news} />
-            ))}
+        <>
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-4">
+                {news.map((news, index) => (
+                    <NewsPreviewCard key={index} {...news} />
+                ))}
+            </div>
             {hasMoreData && <LoadMoreNews ref={ref} />}
-        </div>
+        </>
     );
 };
 export default NewsListContent;

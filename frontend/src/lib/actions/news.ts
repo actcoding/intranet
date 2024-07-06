@@ -27,13 +27,13 @@ const news: News[][] = [
             title: "Fifth News",
             content: "This is my fifth news.",
         },
-    ],
-    [
         {
             id: 6,
             title: "Sixth News",
             content: "This is my sixth news.",
         },
+    ],
+    [
         {
             id: 7,
             title: "Seventh News",
@@ -54,8 +54,6 @@ const news: News[][] = [
             title: "Tenth News",
             content: "This is my tenth news.",
         },
-    ],
-    [
         {
             id: 11,
             title: "Eleventh News",
@@ -66,6 +64,8 @@ const news: News[][] = [
             title: "Twelfth News",
             content: "This is my twelfth news.",
         },
+    ],
+    [
         {
             id: 13,
             title: "Thirteenth News",
@@ -81,8 +81,6 @@ const news: News[][] = [
             title: "Fifteenth News",
             content: "This is my fifteenth news.",
         },
-    ],
-    [
         {
             id: 16,
             title: "Sixteenth News",
@@ -98,6 +96,8 @@ const news: News[][] = [
             title: "Eighteenth News",
             content: "This is my eighteenth news.",
         },
+    ],
+    [
         {
             id: 19,
             title: "Nineteenth News",
@@ -107,6 +107,26 @@ const news: News[][] = [
             id: 20,
             title: "Twentieth News",
             content: "This is my twentieth news.",
+        },
+        {
+            id: 21,
+            title: "Twenty-first News",
+            content: "This is my twenty-first news.",
+        },
+        {
+            id: 22,
+            title: "Twenty-second News",
+            content: "This is my twenty-second news.",
+        },
+        {
+            id: 23,
+            title: "Twenty-third News",
+            content: "This is my twenty-third news.",
+        },
+        {
+            id: 24,
+            title: "Twenty-fourth News",
+            content: "This is my twenty-fourth news.",
         },
     ],
 ];
