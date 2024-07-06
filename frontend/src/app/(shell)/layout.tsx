@@ -22,7 +22,7 @@ export default async function ShellLayout({
 
     const sidebarLinks: SidebarLink[] = [
         { label: t("home"), href: "/", icon: <HomeIcon /> },
-        { label: "Posts", href: "/posts", icon: <NewspaperIcon /> },
+        { label: "News", href: "/news", icon: <NewspaperIcon /> },
     ];
 
     return (

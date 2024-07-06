@@ -7,7 +7,7 @@ import {
     PopoverTrigger,
 } from "@/lib/components/common/Popover";
 import { Toggle } from "@/lib/components/common/Toggle";
-import SelectImageForm from "@/lib/components/editor/SelectImageForm";
+import SelectImageForm from "@/lib/components/news/create-news-form/components/editor/SelectImageForm";
 import Image from "@tiptap/extension-image";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";

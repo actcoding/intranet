@@ -6,8 +6,8 @@ import {
 } from "@/lib/components/common/Card";
 import Image from "next/image";
 
-interface PostPreviewCardProps extends Post {}
-const PostPreviewCard = (props: PostPreviewCardProps) => {
+interface NewsPreviewCardProps extends News {}
+const NewsPreviewCard = (props: NewsPreviewCardProps) => {
     return (
         <Card className="flex flex-row">
             {props.imageUrl && (
@@ -28,4 +28,4 @@ const PostPreviewCard = (props: PostPreviewCardProps) => {
         </Card>
     );
 };
-export default PostPreviewCard;
+export default NewsPreviewCard;
