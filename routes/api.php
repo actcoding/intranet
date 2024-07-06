@@ -16,6 +16,9 @@ Route::prefix('/auth')
 
         Route::post('/refresh', [AuthController::class, 'refresh'])
             ->name('auth.refresh');
+
+        Route::post('/reset-password', [AuthController::class, 'resetPassword'])
+            ->name('auth.reset');
     });
 
 Route::prefix('/user')
