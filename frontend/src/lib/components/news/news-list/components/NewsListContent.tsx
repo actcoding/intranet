@@ -7,10 +7,11 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
 
-interface Props {
+interface NewsListContentProps {
     initialNews: News[];
 }
-const NewsListContent = (props: Props) => {
+
+const NewsListContent = (props: NewsListContentProps) => {
     const [news, setNews] = useState<News[]>(props.initialNews);
     const [page, setPage] = useState(1);
     const [hasMoreData, setHasMoreData] = useState(true);
