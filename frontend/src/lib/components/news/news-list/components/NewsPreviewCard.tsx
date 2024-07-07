@@ -34,7 +34,9 @@ const NewsPreviewCard = (props: NewsPreviewCardProps) => {
             </CardHeader>
             <CardContent>{props.content}</CardContent>
             <CardFooter>
-                {format.relativeTime(Date.parse(props.publishedAt))}
+                <p className="text-muted-foreground">
+                    {format.relativeTime(Date.parse(props.publishedAt))}
+                </p>
             </CardFooter>
         </Card>
     );
