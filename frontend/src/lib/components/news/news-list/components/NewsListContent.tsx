@@ -2,6 +2,7 @@
 import { fetchNews } from "@/lib/actions/news";
 import LoadMoreNews from "@/lib/components/news/news-list/components/LoadMoreNews";
 import NewsPreviewCard from "@/lib/components/news/news-list/components/NewsPreviewCard";
+import Link from "next/link";
 
 import { useCallback, useEffect, useState } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
@@ -37,7 +38,9 @@ const NewsListContent = (props: Props) => {
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-4">
                 {news.map((news, index) => (
-                    <NewsPreviewCard key={index} {...news} />
+                    <Link href={`/news/${news.id}`} key={index}>
+                        <NewsPreviewCard {...news} />
+                    </Link>
                 ))}
             </div>
             {hasMoreData && <LoadMoreNews ref={ref} />}
