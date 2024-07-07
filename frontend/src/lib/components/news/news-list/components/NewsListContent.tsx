@@ -1,8 +1,10 @@
 "use client";
+
 import { fetchNews } from "@/lib/actions/news";
 import LoadMoreNews from "@/lib/components/news/news-list/components/LoadMoreNews";
 import NewsPreviewCard from "@/lib/components/news/news-list/components/NewsPreviewCard";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import { useCallback, useEffect, useState } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
@@ -39,12 +41,18 @@ const NewsListContent = (props: NewsListContentProps) => {
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-4">
                 {news.map((news, index) => (
-                    <Link href={`/news/${news.id}`} key={index}>
-                        <NewsPreviewCard {...news} />
-                    </Link>
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                    >
+                        <Link href={`/news/${news.id}`}>
+                            <NewsPreviewCard {...news} />
+                        </Link>
+                    </motion.div>
                 ))}
             </div>
-            {hasMoreData && <LoadMoreNews ref={ref} />}
+            {hasMoreData && <LoadMoreNews ref={ref} className="pb-60" />}
         </>
     );
 };
