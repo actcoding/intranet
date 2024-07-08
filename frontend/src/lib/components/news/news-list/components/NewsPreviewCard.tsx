@@ -6,6 +6,7 @@ import {
     CardTitle,
 } from "@/lib/components/common/Card";
 import { cn } from "@/lib/utils";
+import { cva } from "class-variance-authority";
 import { NewspaperIcon } from "lucide-react";
 import { useFormatter } from "next-intl";
 import Image from "next/image";
@@ -30,6 +31,7 @@ const NewsPreviewCard = ({
             <NewsPreviewCardHeaderImage
                 src={props.headerImage}
                 alt={props.title}
+                position={headerImagePosition}
             />
             <div>
                 <CardHeader>
@@ -49,12 +51,25 @@ const NewsPreviewCard = ({
 interface NewsPreviewCardHeaderImageProps {
     src?: string;
     alt: string;
+    position?: "top" | "left";
 }
 
 const NewsPreviewCardHeaderImage = (props: NewsPreviewCardHeaderImageProps) => {
+    const headerImageVariants = cva("relative", {
+        variants: {
+            position: {
+                top: "h-[200px]",
+                left: "w-[200px]",
+            },
+        },
+        defaultVariants: {
+            position: "top",
+        },
+    });
+
     if (props.src) {
         return (
-            <div className="relative w-full h-[200px]">
+            <div className={headerImageVariants({ position: props.position })}>
                 <Image
                     src={props.src}
                     alt={props.alt}
@@ -65,7 +80,12 @@ const NewsPreviewCardHeaderImage = (props: NewsPreviewCardHeaderImageProps) => {
         );
     } else {
         return (
-            <div className="w-full h-[200px] bg-primary/15 flex items-center justify-center">
+            <div
+                className={cn(
+                    headerImageVariants({ position: props.position }),
+                    "bg-primary/15 flex items-center justify-center"
+                )}
+            >
                 <NewspaperIcon className="text-primary" size={50} />
             </div>
         );
