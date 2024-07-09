@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Handles authentication stuff.
@@ -15,7 +14,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
 
@@ -31,7 +30,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout(): JsonResponse
+    public function logout()
     {
         auth()->logout();
 
@@ -43,7 +42,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh(): JsonResponse
+    public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
     }
@@ -54,7 +53,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken(string $token): JsonResponse
+    protected function respondWithToken(string $token)
     {
         return response()->json([
             'access_token' => $token,
