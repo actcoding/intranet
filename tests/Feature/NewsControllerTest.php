@@ -26,7 +26,7 @@ class NewsControllerTest extends TestCase
 
     public function test_creator_can(): void
     {
-        [$token, $type] = test_login($this, [
+        [$token, $type] = $this->login([
             'email' => 'admin@example.org',
             'password' => 'admin',
         ]);
@@ -43,7 +43,7 @@ class NewsControllerTest extends TestCase
 
     public function test_user_cannot(): void
     {
-        [$token, $type] = test_login($this, [
+        [$token, $type] = $this->login([
             'email' => 'spastus@example.org',
             'password' => 'spast',
         ]);
