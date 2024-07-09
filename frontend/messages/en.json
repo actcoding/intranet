@@ -1,6 +1,8 @@
 {
     "Index": {
-        "title": "hello world!"
+        "news": "News",
+        "show-more-news": "Show more",
+        "canteen-menu": "Menu"
     },
     "Sidebar": {
         "home": "Home",

@@ -1,6 +1,8 @@
 {
     "Index": {
-        "title": "hallo welt!"
+        "news": "Neuigkeiten",
+        "show-more-news": "Mehr anzeigen",
+        "canteen-menu": "Speiseplan"
     },
     "Sidebar": {
         "home": "Startseite",

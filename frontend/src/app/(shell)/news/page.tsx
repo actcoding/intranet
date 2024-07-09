@@ -5,9 +5,12 @@ import { Suspense } from "react";
 interface Props {}
 const NewsPage = async (props: Props) => {
     return (
-        <Suspense fallback={<LoadMoreNews />}>
-            <NewsList />
-        </Suspense>
+        <>
+            <h1 className="text-4xl font-semibold mb-4">News</h1>
+            <Suspense fallback={<LoadMoreNews />}>
+                <NewsList />
+            </Suspense>
+        </>
     );
 };
 export default NewsPage;
