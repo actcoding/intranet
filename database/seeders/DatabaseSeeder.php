@@ -27,5 +27,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user->assignRole(Role::whereName('Creator')->first());
+
+        $user2 = User::factory()->create([
+            'name' => 'Spastus',
+            'email' => 'spastus@example.org',
+            'password' => 'spast',
+        ]);
     }
 }

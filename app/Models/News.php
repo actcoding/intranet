@@ -35,7 +35,6 @@ class News extends Model
      */
     protected $fillable = [
         'published_at',
-        'author_id',
         'status',
         'title',
         'content',

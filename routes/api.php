@@ -26,9 +26,6 @@ Route::prefix('/user')
             ->name('user.profile');
     });
 
-Route::prefix('/news')
+Route::resource('/news', NewsController::class)
     ->middleware('auth:api')
-    ->group(function () {
-        Route::get('/', [NewsController::class, 'list'])
-            ->name('news.list');
-    });
+    ->except(['create', 'edit']);
