@@ -68,6 +68,10 @@ class NewsController extends Controller
     {
         $news = $this->find($id, 'update');
 
+        if ($news->trashed()) {
+            return response()->json(['message' => 'You cannot update trashed news.'], status: 403);
+        }
+
         $news->fill($request->validated());
         $news->save();
 
