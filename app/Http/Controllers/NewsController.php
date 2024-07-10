@@ -43,7 +43,8 @@ class NewsController extends Controller
      */
     public function store(NewsStoreRequest $request): JsonResponse
     {
-        // TODO: Custom request class
+        Gate::authorize('create', News::class);
+
         $news = new News($request->validated());
         $news->author_id = auth()->user()->id;
         $news->save();
