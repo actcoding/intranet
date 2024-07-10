@@ -16,7 +16,7 @@ class NewsStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['nullable', Rule::enum(NewsStatus::class)],
+            'status' => ['nullable', Rule::enum(NewsStatus::class)->except(NewsStatus::DELETED)],
             'title' => 'required|string',
             'content' => 'required|json',
             'header_image' => 'nullable|string',

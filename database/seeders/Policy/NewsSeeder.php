@@ -19,7 +19,7 @@ class NewsSeeder extends Seeder
             'news.update',
             'news.delete',
             'news.restore',
-            'news.delete.force',
+            'news.forceDelete',
         ];
 
         foreach ($names as $name) {

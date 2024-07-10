@@ -60,6 +60,6 @@ class NewsPolicy
      */
     public function forceDelete(User $user, News $news): bool
     {
-        return $user->can('news.delete.force', $news);
+        return $user->can('news.forceDelete', $news);
     }
 }

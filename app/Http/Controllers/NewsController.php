@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\News\NewsDestroyRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Models\News;
@@ -49,7 +48,7 @@ class NewsController extends Controller
         $news->author_id = auth()->user()->id;
         $news->save();
 
-        return response()->json($news, 201);
+        return response()->json($news->fresh(), 201);
     }
 
     /**
@@ -78,21 +77,24 @@ class NewsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(NewsDestroyRequest $request, string $id): Response|ResponseFactory
+    public function destroy(Request $request, string $id): Response|ResponseFactory
     {
-        $request->validate();
-
         $force = $request->boolean('force', false);
 
         if ($force) {
             $news = $this->find($id, 'forceDelete');
-            $news->forceDelete();
+            $news->forceDeleteQuietly();
         } else {
             $news = $this->find($id, 'delete');
             $news->delete();
         }
 
-        return response(status: 204);
+        return response()->noContent();
+    }
+
+    public function restore(Request $request, string $id)
+    {
+        $news = $this->find($id, 'restore');
     }
 
     private function find(string $id, string $action): News
