@@ -29,3 +29,7 @@ Route::prefix('/user')
 Route::resource('/news', NewsController::class)
     ->middleware('auth:api')
     ->except(['create', 'edit']);
+Route::patch('/news/{news}/restore', [NewsController::class, 'restore'])
+    ->name('news.restore')
+    ->middleware('auth:api')
+    ->whereNumber('news');

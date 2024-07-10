@@ -109,6 +109,17 @@ class NewsControllerTest extends TestCase
 
         $responseDestroy->assertStatus(204);
 
+        $responseRestore = $this->patchJson(route('news.restore', ['news' => $responseStore->json('id')]), headers: [
+            'Authorization' => $type . ' ' . $token,
+        ]);
+
+        $responseRestore->assertStatus(204);
+
+        $responseShow = $this->getJson(route('news.show', ['news' => $responseStore->json('id')]));
+
+        $responseShow->assertStatus(200);
+        $responseShow->assertJsonPath('status', NewsStatus::DRAFT->value);
+
         $responseDestroyForce = $this->deleteJson(route('news.destroy', ['news' => $responseStore->json('id')]), [
             'force' => true,
         ], [
@@ -118,8 +129,6 @@ class NewsControllerTest extends TestCase
         $responseDestroyForce->assertStatus(204);
 
         $responseShow = $this->getJson(route('news.show', ['news' => $responseStore->json('id')]));
-
-        $responseShow->dump();
 
         $responseShow->assertStatus(404);
     }

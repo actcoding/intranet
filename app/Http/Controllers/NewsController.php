@@ -95,6 +95,10 @@ class NewsController extends Controller
     public function restore(Request $request, string $id)
     {
         $news = $this->find($id, 'restore');
+
+        $news->restore();
+
+        return response()->noContent();
     }
 
     private function find(string $id, string $action): News
