@@ -5,16 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Models\News;
-use App\Models\User;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
 
-class NewsController extends Controller
+class NewsController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth:api', except: ['index', 'show']),
+        ];
+    }
+
     /**
      * Display a paginated list of News.
      *
@@ -23,14 +34,9 @@ class NewsController extends Controller
      */
     public function index(Request $request): Paginator
     {
-        Gate::authorize('viewAny', News::class);
-
         $query = News::query();
 
-        /** @var User */
-        $user = auth()->user();
-
-        if ($user->can('news.viewall')) {
+        if (Gate::check('news.viewall')) {
             $query = $query->withTrashed();
         }
 
@@ -56,7 +62,7 @@ class NewsController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $news = $this->find($id, 'view');
+        $news = $this->find($id, allowGuest: true);
 
         return response()->json($news);
     }
@@ -105,21 +111,20 @@ class NewsController extends Controller
         return response()->noContent();
     }
 
-    private function find(string $id, string $action): News
+    private function find(string $id, ?string $action = null, bool $allowGuest = false): News
     {
         $query = News::query()
             ->where('id', $id);
 
-        /** @var User */
-        $user = auth()->user();
-
-        if ($user->can('news.viewall')) {
+        if (Gate::check('news.viewall')) {
             $query = $query->withTrashed();
         }
 
         $news = $query->firstOrFail();
 
-        Gate::authorize($action, $news);
+        if (! $allowGuest) {
+            Gate::authorize($action, $news);
+        }
 
         return $news;
     }
