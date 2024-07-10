@@ -1,0 +1,43 @@
+Table users {
+  id integer [primary key]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  email text [not null]
+  first_name text [not null]
+  last_name text [not null]
+  password text
+  avatar_image_path text
+}
+
+Enum news_status {
+  draft
+  published
+  deleted
+}
+
+Table news {
+  id integer [primary key]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  deleted_at timestamp [not null]
+  title text [not null]
+  summary text
+  content text [not null]
+  status news_status
+  header_image_path text
+  author_id integer [not null]
+}
+
+Table news_read {
+  Note: 'Stores which user has read a news article.'
+
+  id integer [primary key]
+  created_at timestamp
+  news_id integer
+  user_id integer
+}
+
+Ref: users.id > news.author_id
+
+Ref: users.id > news_read.user_id
+Ref: news.id > news_read.id

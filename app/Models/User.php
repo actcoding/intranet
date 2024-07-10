@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\UserStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -24,6 +25,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'avatar_url',
+        'status',
     ];
 
     /**
@@ -47,6 +49,7 @@ class User extends Authenticatable implements JWTSubject
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status' => UserStatus::class,
         ];
     }
 

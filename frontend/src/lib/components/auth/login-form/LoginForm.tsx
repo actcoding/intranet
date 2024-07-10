@@ -6,6 +6,8 @@ import LoginFormPasswordInput from "@/lib/components/auth/login-form/components/
 import LoginFormSubmitButton from "@/lib/components/auth/login-form/components/LoginFormSubmitButton";
 import { Alert, AlertDescription } from "@/lib/components/common/Alert";
 import { Form } from "@/lib/components/common/Form";
+import { useToast } from '@/lib/components/hooks/use-toast'
+import { setLaravelFormErrors } from '@/lib/utils'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useCallback } from "react";
@@ -15,6 +17,8 @@ import * as z from "zod";
 interface LoginFormProps {}
 const LoginForm = (props: LoginFormProps) => {
     const t = useTranslations("Auth");
+    const { toast } = useToast();
+
     const formSchema = z.object({
         email: z.string().email({ message: t("error-email") }),
         password: z.string().min(1, {
@@ -32,11 +36,25 @@ const LoginForm = (props: LoginFormProps) => {
     const handleSubmit = useCallback(
         async (data: z.infer<typeof formSchema>) => {
             const res = await handleLogin(data);
-            if (res?.code === 401) {
+
+            if (res === undefined) {
+                toast({
+                    title: t("success-title"),
+                });
+            } else if (res.status === 422) {
+                setLaravelFormErrors(form, res.errors, (key, value) => {
+                    switch (value) {
+                        case "validation.email":
+                            return t("error-email");
+                        default:
+                            return value;
+                    }
+                });
+            } else {
                 form.setError("root", { message: t("error-login") });
             }
         },
-        [form, t]
+        [form, t, toast]
     );
 
     return (

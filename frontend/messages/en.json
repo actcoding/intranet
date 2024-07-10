@@ -19,6 +19,19 @@
         "error-email": "Please enter a valid email address",
         "error-password-missing": "Please enter a password",
         "error-password-too-short": "Password must be at least {minCharCount, plural, =1 {one character} other {# characters}} long",
-        "error-login": "Invalid credentials"
+        "error-login": "Invalid credentials",
+        "success-title": "Login successful"
+    },
+    "PwdReset": {
+        "set-new-password": "Reset Password",
+        "password": "New Password",
+        "password-cofirm": "Confirm new Password",
+        "error-password-too-short": "Password must be at least {minCharCount, plural, =1 {one character} other {# characters}} long",
+        "error-mismatch": "Passwords don't match",
+        "welcome": "Welcome, {name}!",
+        "description-1": "You appear to be logging in to the intranet for the first time. At this point, you must first assign a new password.",
+        "description-2": "Please enter a new password and then click on the green button.",
+        "success-title": "Password changed",
+        "success-message": "The password has been successfully changed. Please log in again for the changes to take effect."
     }
 }

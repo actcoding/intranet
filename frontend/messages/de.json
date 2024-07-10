@@ -19,6 +19,19 @@
         "error-email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
         "error-password-missing": "Bitte geben Sie ein Passwort ein",
         "error-password-too-short": "Das Passwort muss mindestens {minCharCount} Zeichen lang sein",
-        "error-login": "Ungültige Zugangsdaten"
+        "error-login": "Ungültige Zugangsdaten",
+        "success-title": "Login erfolgreich"
+    },
+    "PwdReset": {
+        "set-new-password": "Passwort zurücksetzen",
+        "password": "Neues Passwort",
+        "password-cofirm": "Bestätigen Sie das neue Passwort",
+        "error-password-too-short": "Das Passwort muss mindestens {minCharCount} Zeichen lang sein",
+        "error-mismatch": "Passwörter stimmen nicht überein",
+        "welcome": "Herzlich Willkommen, {name}!",
+        "description-1": "Sie melden sich scheinbar zum ersten Mal im Intranet an. An dieser Stelle müssen Sie zunächst ein neues Passwort vergeben.",
+        "description-2": "Bitte geben Sie ein neues Passwort ein und klicken Sie dann auf den grünen Knopf.",
+        "success-title": "Passwort geändert",
+        "success-message": "Das Passwort wurde erfolgreich geändert. Bitte melden Sie sich erneut an, damit die Änderungen wirksam werden."
     }
 }
