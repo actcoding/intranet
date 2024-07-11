@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enum\NewsStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class News extends Model
@@ -72,5 +73,10 @@ class News extends Model
     public function isAuthor(User $user): bool
     {
         return $this->author_id === $user->id;
+    }
+
+    public function attachments(): MorphToMany
+    {
+        return $this->morphToMany(Attachment::class, 'attachable');
     }
 }
