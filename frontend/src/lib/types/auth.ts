@@ -15,4 +15,5 @@ type User = {
 type AppSession = {
     access_token?: string;
     sessionData?: AppSessionData;
+    expiresAt?: number;
 };

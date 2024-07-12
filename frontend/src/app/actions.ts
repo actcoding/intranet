@@ -44,6 +44,7 @@ export async function handleLogin(credentials: {
 
     session.access_token = access_token;
     session.sessionData = decoded;
+    session.expiresAt = decoded.exp ? decoded.exp * 1000 : undefined; //convert to milliseconds
     await session.save();
 
     if (session.sessionData.user.status === "must_reset_password") {
@@ -91,4 +92,28 @@ export async function resetPassword(
 
     session.destroy();
     redirect("/auth/login");
+}
+
+export async function refreshToken() {
+    const session = await getAppSession();
+
+    const response = await fetch(`${apiUrl}/auth/refresh`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + session.access_token,
+        },
+    });
+
+    if (response.ok) {
+        const { access_token } = await response.json();
+        const decoded = decodeJwt<AppSessionData>(access_token);
+
+        session.access_token = access_token;
+        session.sessionData = decoded;
+        await session.save();
+    } else {
+        session.destroy();
+        redirect("/auth/login");
+    }
 }
