@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "ext-pgsql": "*",
+        "dedoc/scramble": "^0.11.4",
         "laravel/framework": "^11.9",
         "laravel/octane": "^2.4",
         "laravel/tinker": "^2.9",
@@ -22,8 +23,7 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
         "phpunit/phpunit": "^11.0.1",
-        "projektgopher/whisky": "^0.7.0",
-        "rakutentech/laravel-request-docs": "^2.36"
+        "projektgopher/whisky": "^0.7.0"
     },
     "autoload": {
         "psr-4": {

@@ -221,3 +221,5 @@ frankenphp
 frankenphp-worker.php
 
 coverage-backend.xml
+
+frontend/src/lib/api/generated

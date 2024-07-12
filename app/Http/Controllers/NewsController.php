@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\News\NewsListRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Models\News;
@@ -28,11 +29,8 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Display a paginated list of News.
-     *
-     * @LRDparam page integer|min:1
-     * @LRDparam perPage integer|min:1|default:10
      */
-    public function index(Request $request): Paginator
+    public function index(NewsListRequest $request): Paginator
     {
         $query = News::query();
 
@@ -85,7 +83,7 @@ class NewsController extends Controller implements HasMiddleware
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete the specified resource from storage.
      */
     public function destroy(Request $request, string $id): Response|ResponseFactory
     {
@@ -102,6 +100,9 @@ class NewsController extends Controller implements HasMiddleware
         return response()->noContent();
     }
 
+    /**
+     * Restore this resource from a deleted state.
+     */
     public function restore(Request $request, string $id)
     {
         $news = $this->find($id, 'restore');
