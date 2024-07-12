@@ -1,10 +1,10 @@
 "use server";
 
-import { ApiResponse } from "@/types"
-import { IronSession, getIronSession } from "iron-session"
-import { decodeJwt } from "jose"
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+import { ApiResponse } from "@/types";
+import { IronSession, getIronSession } from "iron-session";
+import { decodeJwt } from "jose";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function getAppSession(): Promise<IronSession<AppSession>> {
     return getIronSession<AppSession>(cookies(), {
