@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Dedoc\Scramble\Scramble;
+use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Scramble::routes(function (Route $route) {
+            return true;
+        });
     }
 }
