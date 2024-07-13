@@ -7,10 +7,10 @@ use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Models\News;
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
@@ -29,6 +29,8 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Display a paginated list of News.
+     *
+     * @return LengthAwarePaginator<News>
      */
     public function index(NewsListRequest $request): Paginator
     {
@@ -38,6 +40,7 @@ class NewsController extends Controller implements HasMiddleware
             $query = $query->withTrashed();
         }
 
+        // FIXME: Scramble response is wrong
         return $query->simplePaginate($request->query('perPage', 10));
     }
 
@@ -51,8 +54,9 @@ class NewsController extends Controller implements HasMiddleware
         $news = new News($request->validated());
         $news->author_id = auth()->user()->id;
         $news->save();
+        $news->refresh();
 
-        return response()->json($news->fresh(), 201);
+        return response()->json($news, 201);
     }
 
     /**
@@ -62,13 +66,15 @@ class NewsController extends Controller implements HasMiddleware
     {
         $news = $this->find($id, allowGuest: true);
 
+        $news->load('author');
+
         return response()->json($news);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(NewsUpdateRequest $request, string $id): JsonResponse
+    public function update(NewsUpdateRequest $request, string $id): Response
     {
         $news = $this->find($id, 'update');
 
@@ -79,13 +85,13 @@ class NewsController extends Controller implements HasMiddleware
         $news->fill($request->validated());
         $news->save();
 
-        return response()->json($news);
+        return response()->noContent();
     }
 
     /**
      * Delete the specified resource from storage.
      */
-    public function destroy(Request $request, string $id): Response|ResponseFactory
+    public function destroy(Request $request, string $id): Response
     {
         $force = $request->boolean('force', false);
 
@@ -103,7 +109,7 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Restore this resource from a deleted state.
      */
-    public function restore(Request $request, string $id)
+    public function restore(string $id): Response
     {
         $news = $this->find($id, 'restore');
 

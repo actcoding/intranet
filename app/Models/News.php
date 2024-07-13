@@ -47,7 +47,6 @@ class News extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'deleted_at',
         'author_id',
     ];
 
@@ -64,6 +63,11 @@ class News extends Model
         ];
     }
 
+    public function author()
+    {
+        return $this->hasOne(User::class);
+    }
+
     public function isPublished(): bool
     {
         return $this->published_at != null;
@@ -72,5 +76,33 @@ class News extends Model
     public function isAuthor(User $user): bool
     {
         return $this->author_id === $user->id;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            /** @var int */
+            'id' => $this->id,
+
+            /** @var string */
+            'created_at' => $this->created_at,
+            /** @var string */
+            'updated_at' => $this->updated_at,
+            /** @var string|null */
+            'deleted_at' => $this->deleted_at,
+            /** @var string|null */
+            'published_at' => $this->published_at,
+
+            /** @var NewsStatus */
+            'status' => $this->status,
+            /** @var string */
+            'title' => $this->title,
+            /** @var string */
+            'content' => $this->content,
+            /** @var string|null */
+            'header_image' => $this->header_image,
+
+            'author' => $this->author,
+        ];
     }
 }
