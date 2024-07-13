@@ -86,7 +86,7 @@ interface SidebarItemsProps {
 
 const SidebarItems = (props: SidebarItemsProps) => {
     const pathname = usePathname();
-
+    const currentPage = "/" + pathname.split("/")[1];
     return (
         <NavigationMenu
             orientation="vertical"
@@ -96,7 +96,7 @@ const SidebarItems = (props: SidebarItemsProps) => {
                 {props.links.map((link, index) => (
                     <SidebarItem
                         href={link.href}
-                        active={pathname === link.href}
+                        active={currentPage === link.href}
                         icon={link.icon}
                         key={index}
                     >

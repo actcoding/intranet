@@ -1,4 +1,4 @@
-import { fetchNews } from "@/lib/actions/news";
+import { apiFetch } from "@/lib/api";
 import NewsPreviewCard from "@/lib/components/news/news-list/components/NewsPreviewCard";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -8,15 +8,18 @@ interface NewsListWidgetProps {
 }
 
 const NewsListWidget = async (props: NewsListWidgetProps) => {
-    const news = await fetchNews(1, 5);
-    return (
-        <div className={cn("flex flex-col gap-4 mb-3", props.className)}>
-            {news.map((newsItem, index) => (
-                <Link href={`/news/${newsItem.id}`} key={index}>
-                    <NewsPreviewCard headerImagePosition="left" {...newsItem} />
-                </Link>
-            ))}
-        </div>
-    );
+    const res = await apiFetch("/news?page=1&perPage=5");
+    const news = await res.json();
+    if (news.data) {
+        return (
+            <div className={cn("flex flex-col gap-4 mb-3", props.className)}>
+                {news.data.map((item: News, index: number) => (
+                    <Link href={`/news/${item.id}`} key={index}>
+                        <NewsPreviewCard headerImagePosition="left" {...item} />
+                    </Link>
+                ))}
+            </div>
+        );
+    }
 };
 export default NewsListWidget;

@@ -8,7 +8,7 @@ import {
 } from "@/lib/components/sidebar/Sidebar";
 import SidebarUserDetails from "@/lib/components/sidebar/components/SidebarUserDetails";
 import { SidebarLink } from "@/lib/types/sidebar-link";
-import { HomeIcon, NewspaperIcon } from "lucide-react";
+import { HomeIcon, NewspaperIcon, Settings2Icon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 
@@ -23,6 +23,7 @@ export default async function ShellLayout({
     const sidebarLinks: SidebarLink[] = [
         { label: t("home"), href: "/", icon: <HomeIcon /> },
         { label: "News", href: "/news", icon: <NewspaperIcon /> },
+        { label: "Manage", href: "/manage", icon: <Settings2Icon /> },
     ];
 
     return (

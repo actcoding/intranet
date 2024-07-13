@@ -5,6 +5,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/lib/components/common/Card";
+import RenderedEditorContent from "@/lib/components/shared/RenderedEditorContent";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import { NewspaperIcon } from "lucide-react";
@@ -29,18 +30,23 @@ const NewsPreviewCard = ({
             )}
         >
             <NewsPreviewCardHeaderImage
-                src={props.headerImage}
-                alt={props.title}
+                src={props.header_image}
+                alt={props.title || "News"}
                 position={headerImagePosition}
             />
             <div>
                 <CardHeader>
                     <CardTitle>{props.title}</CardTitle>
                 </CardHeader>
-                <CardContent>{props.content}</CardContent>
+                <CardContent>
+                    <RenderedEditorContent
+                        content={JSON.parse(props.content)}
+                    />
+                </CardContent>
                 <CardFooter>
                     <p className="text-muted-foreground">
-                        {format.relativeTime(Date.parse(props.publishedAt))}
+                        {props.created_at &&
+                            format.relativeTime(Date.parse(props.created_at))}
                     </p>
                 </CardFooter>
             </div>

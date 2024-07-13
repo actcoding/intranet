@@ -1,6 +1,5 @@
 "use client";
 
-import { fetchNews } from "@/lib/actions/news";
 import LoadMoreNews from "@/lib/components/news/news-list/components/LoadMoreNews";
 import NewsPreviewCard from "@/lib/components/news/news-list/components/NewsPreviewCard";
 import Link from "next/link";
@@ -8,6 +7,7 @@ import { motion } from "framer-motion";
 
 import { useCallback, useEffect, useState } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
+import { getNewsListAction } from "@/lib/actions/news";
 
 interface NewsListContentProps {
     initialNews: News[];
@@ -21,7 +21,10 @@ const NewsListContent = (props: NewsListContentProps) => {
 
     const loadMoreNews = useCallback(async () => {
         if (hasMoreData) {
-            const newNews = await fetchNews(page + 1);
+            const { data: newNews } = await getNewsListAction({
+                page: page + 1,
+                perPage: 6,
+            });
             if (newNews && newNews.length > 0) {
                 setNews((prevNews) => [...prevNews, ...newNews]);
                 setPage((prevPage) => prevPage + 1);

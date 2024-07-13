@@ -12,16 +12,18 @@ import Editor from "@/lib/components/news/create-news-form/components/editor/Edi
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { JSONContent } from "@tiptap/react";
+import { createNewsAction } from "@/lib/actions/news";
 
 const formSchema = z.object({
     title: z.string(),
-    content: z.string(),
+    content: z.any(),
     //attachments: z.array(z.string()),
 });
 
-interface NewNewsFormProps {}
+interface CreateNewsFormProps {}
 
-const NewNewsForm = (props: NewNewsFormProps) => {
+const CreateNewsForm = (props: CreateNewsFormProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -34,7 +36,7 @@ const NewNewsForm = (props: NewNewsFormProps) => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(() =>
-                    console.log(form.getValues())
+                    createNewsAction(form.getValues())
                 )}
                 className="space-y-4"
             >
@@ -79,4 +81,4 @@ const NewNewsForm = (props: NewNewsFormProps) => {
         </Form>
     );
 };
-export default NewNewsForm;
+export default CreateNewsForm;

@@ -33,5 +33,9 @@
         "description-2": "Please enter a new password and then click on the green button.",
         "success-title": "Password changed",
         "success-message": "The password has been successfully changed. Please log in again for the changes to take effect."
+    },
+    "News": {
+        "news-status-published": "Published",
+        "news-status-draft": "Draft"
     }
 }
