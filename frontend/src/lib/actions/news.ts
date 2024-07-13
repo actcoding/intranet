@@ -1,6 +1,7 @@
 "use server";
 
-import { apiFetch } from "@/lib/api";
+import { newsApi } from "@/lib/api/api";
+import { NewsStoreRequest } from "@/lib/api/generated";
 
 export async function getNewsListAction({
     page,
@@ -9,23 +10,10 @@ export async function getNewsListAction({
     page: number;
     perPage: number;
 }) {
-    const res = await apiFetch(`/news?page=${page}&perPage=${perPage}`);
-    if (res.ok) {
-        return res.json();
-    } else {
-        return [];
-    }
+    const newsList = await newsApi.newsIndex({ page, perPage });
+    return newsList.data;
 }
 
-export async function createNewsAction(data: any) {
-    const res = await apiFetch("/news", {
-        method: "POST",
-        body: JSON.stringify(data),
-    });
-    if (res.ok) {
-        return res.json();
-    } else {
-        console.log(res.status);
-        return [];
-    }
+export async function createNewsAction(data: NewsStoreRequest) {
+    return newsApi.newsStore({ newsStoreRequest: data });
 }

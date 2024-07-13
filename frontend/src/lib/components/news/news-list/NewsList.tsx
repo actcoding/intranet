@@ -1,12 +1,11 @@
-import { apiFetch } from "@/lib/api";
+import { newsApi } from "@/lib/api/api";
 import NewsListContent from "@/lib/components/news/news-list/components/NewsListContent";
 import { NextIntlClientProvider } from "next-intl";
 
 interface NewsListProps {}
 
 const NewsList = async (props: NewsListProps) => {
-    const res = await apiFetch("/news?page=1&perPage=6");
-    const news = await res.json();
+    const news = await newsApi.newsIndex({ page: 1, perPage: 6 });
     if (news.data) {
         return (
             <NextIntlClientProvider>

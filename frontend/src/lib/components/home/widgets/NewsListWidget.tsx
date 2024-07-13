@@ -1,4 +1,4 @@
-import { apiFetch } from "@/lib/api";
+import { newsApi } from "@/lib/api/api";
 import NewsPreviewCard from "@/lib/components/news/news-list/components/NewsPreviewCard";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -8,8 +8,7 @@ interface NewsListWidgetProps {
 }
 
 const NewsListWidget = async (props: NewsListWidgetProps) => {
-    const res = await apiFetch("/news?page=1&perPage=5");
-    const news = await res.json();
+    const news = await newsApi.newsIndex({ page: 1, perPage: 5 });
     if (news.data) {
         return (
             <div className={cn("flex flex-col gap-4 mb-3", props.className)}>
