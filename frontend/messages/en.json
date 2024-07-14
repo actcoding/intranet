@@ -36,6 +36,7 @@
     },
     "News": {
         "news-status-published": "Published",
-        "news-status-draft": "Draft"
+        "news-status-draft": "Draft",
+        "news-status-deleted": "Deleted"
     }
 }

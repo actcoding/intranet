@@ -1,4 +1,4 @@
-import { getAppSession } from "@/app/actions";
+import { getAppSession } from "@/lib/actions/auth";
 import PasswordResetForm from "@/lib/components/auth/reset-form/PasswordResetForm";
 import pick from "lodash/pick";
 import { NextIntlClientProvider } from "next-intl";

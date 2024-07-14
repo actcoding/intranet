@@ -1,3 +1,4 @@
+import { News } from "@/lib/api/generated";
 import {
     Card,
     CardContent,
@@ -30,7 +31,7 @@ const NewsPreviewCard = ({
             )}
         >
             <NewsPreviewCardHeaderImage
-                src={props.header_image}
+                src={props.headerImage}
                 alt={props.title || "News"}
                 position={headerImagePosition}
             />
@@ -39,14 +40,12 @@ const NewsPreviewCard = ({
                     <CardTitle>{props.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <RenderedEditorContent
-                        content={JSON.parse(props.content)}
-                    />
+                    <RenderedEditorContent content={props.content} />
                 </CardContent>
                 <CardFooter>
                     <p className="text-muted-foreground">
-                        {props.created_at &&
-                            format.relativeTime(Date.parse(props.created_at))}
+                        {props.createdAt &&
+                            format.relativeTime(props.createdAt)}
                     </p>
                 </CardFooter>
             </div>
@@ -55,7 +54,7 @@ const NewsPreviewCard = ({
 };
 
 interface NewsPreviewCardHeaderImageProps {
-    src?: string;
+    src: string | undefined | null;
     alt: string;
     position?: "top" | "left";
 }

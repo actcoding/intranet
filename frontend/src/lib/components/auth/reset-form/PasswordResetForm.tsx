@@ -1,6 +1,6 @@
 "use client";
 
-import { ResetPasswordPayload, resetPassword } from "@/app/actions";
+import { ResetPasswordPayload, resetPassword } from "@/lib/actions/auth";
 import ResetFormConfirmInput from "@/lib/components/auth/reset-form/components/ResetFormConfirmInput";
 import ResetFormPasswordInput from "@/lib/components/auth/reset-form/components/ResetFormPasswordInput";
 import ResetFormSubmitButton from "@/lib/components/auth/reset-form/components/ResetFormSubmitButton";

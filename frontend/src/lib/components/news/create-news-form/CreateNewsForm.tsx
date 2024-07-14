@@ -17,7 +17,7 @@ import { createNewsAction } from "@/lib/actions/news";
 
 const formSchema = z.object({
     title: z.string(),
-    content: z.any(),
+    content: z.string(),
     //attachments: z.array(z.string()),
 });
 

@@ -2,6 +2,7 @@
 
 import { newsApi } from "@/lib/api/api";
 import { NewsStoreRequest } from "@/lib/api/generated";
+import { redirect } from "next/navigation";
 
 export async function getNewsListAction({
     page,
@@ -15,5 +16,12 @@ export async function getNewsListAction({
 }
 
 export async function createNewsAction(data: NewsStoreRequest) {
-    return newsApi.newsStore({ newsStoreRequest: data });
+    const res = await newsApi.newsStore({
+        newsStoreRequest: data,
+    });
+    redirect(`/news/${res.id}`);
+}
+
+export async function deleteNewsAction(id: number, force: boolean = false) {
+    return newsApi.newsDestroy({ id, force });
 }

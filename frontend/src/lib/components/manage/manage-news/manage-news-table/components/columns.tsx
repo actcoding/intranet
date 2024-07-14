@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteNewsAction } from "@/lib/actions/news";
 import { Button } from "@/lib/components/common/Button";
 import {
     DropdownMenu,
@@ -59,7 +60,9 @@ export const columns: ColumnDef<News>[] = [
                                 Edit
                             </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => deleteNewsAction(news.id)}
+                        >
                             <Trash2Icon
                                 size={16}
                                 className="mr-2 text-destructive"
