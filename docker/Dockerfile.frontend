@@ -4,6 +4,8 @@ COPY frontend/ /app/
 
 WORKDIR /app
 
+COPY api.json .
+
 RUN bun install --frozen-lockfile && \
     bun run build
 
