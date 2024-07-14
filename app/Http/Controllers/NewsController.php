@@ -162,7 +162,7 @@ class NewsController extends Controller implements HasMiddleware
             $news->save();
         }
 
-        return response()->json(['path' => url(Storage::url($path))]);
+        return response()->json(['url' => url(Storage::url($path))]);
     }
 
     private function find(string $id, ?string $action = null, bool $allowGuest = false): News
