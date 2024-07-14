@@ -9,6 +9,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class NewsResource extends JsonResource
 {
     /**
+     * The "data" wrapper that should be applied.
+     *
+     * @var string|null
+     */
+    public static $wrap = null;
+
+    /**
      * The resource instance.
      *
      * @var News

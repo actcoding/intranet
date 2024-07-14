@@ -90,18 +90,12 @@ class NewsControllerTest extends TestCase
             'Authorization' => $type . ' ' . $token,
         ]);
 
-        $responseUpdate->assertStatus(200);
-        $responseUpdate->assertJsonStructure([
-            'id',
-            'created_at',
-            'updated_at',
-            'published_at',
-            'status',
-            'title',
-            'content',
-            'header_image',
-        ]);
-        $responseUpdate->assertJsonPath('status', NewsStatus::ACTIVE->value);
+        $responseUpdate->assertStatus(204);
+
+        $responseShow = $this->getJson(route('news.show', ['news' => $responseStore->json('id')]));
+
+        $responseShow->assertStatus(200);
+        $responseShow->assertJsonPath('status', NewsStatus::ACTIVE->value);
 
         $responseDestroy = $this->deleteJson(route('news.destroy', ['news' => $responseStore->json('id')]), headers: [
             'Authorization' => $type . ' ' . $token,
