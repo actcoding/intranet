@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 TARGET_DIRECTORY="src/lib/api/generated"
 INPUT="http://localhost:8000/docs/api.json"

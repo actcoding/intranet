@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "$SHELL gen-api-client.sh"
+    "postinstall": "./gen-api-client.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
