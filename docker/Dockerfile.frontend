@@ -1,10 +1,10 @@
 FROM oven/bun:alpine as builder
 
 COPY frontend/ /app/
+COPY frontend/api.json /app/api.json
 
 WORKDIR /app
 
-COPY api.json .
 
 RUN bun install --frozen-lockfile && \
     bun run build
