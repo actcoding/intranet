@@ -1,25 +1,30 @@
-FROM oven/bun:alpine AS builder
+FROM oven/bun:slim AS builder
 
 COPY frontend/ /app/
 COPY frontend/api.json /app/api.json
 
 WORKDIR /app
 
-RUN apk add --no-cache \
+ENV NEXT_SHARP_PATH=/app/node_modules/sharp
+
+RUN apt-get update && \
+    apt-get install -y \
         curl \
-        openjdk17-jre-headless \
+        openjdk-17-jre-headless \
     && \
     bun install --frozen-lockfile && \
-    bun run build
+    bun run build && \
+    cp -R public/ .next/standalone/ && \
+    cp -R .next/static/ .next/standalone/.next/
 
 # TODO: Create user for rootless
 
 
-FROM oven/bun:alpine
-
-COPY --from=builder /app/.next/standalone /app
+FROM oven/bun:slim
 
 WORKDIR /app
+
+COPY --from=builder /app/.next/standalone ./
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
