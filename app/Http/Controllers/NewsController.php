@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\News\NewsListRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Requests\News\UploadImageRequest;
+use App\Http\Resources\NewsResource;
 use App\Models\Attachment;
 use App\Models\News;
-use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -32,10 +33,11 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Display a paginated list of News.
      *
-     * @LRDparam page integer|min:1
-     * @LRDparam perPage integer|min:1|default:10
+     * @unauthenticated
+     *
+     * @response Paginator<NewsResource>
      */
-    public function index(Request $request): Paginator
+    public function index(NewsListRequest $request): AnonymousResourceCollection
     {
         $query = News::query()
             ->with('attachments');
@@ -44,7 +46,9 @@ class NewsController extends Controller implements HasMiddleware
             $query = $query->withTrashed();
         }
 
-        return $query->simplePaginate($request->query('perPage', 10));
+        return NewsResource::collection(
+            $query->simplePaginate($request->query('perPage', 10))
+        );
     }
 
     /**
@@ -57,26 +61,32 @@ class NewsController extends Controller implements HasMiddleware
         $news = new News($request->validated());
         $news->author_id = auth()->user()->id;
         $news->save();
+        $news->refresh();
 
-        return response()->json($news->fresh(), 201);
+        return response()->json($news, 201);
     }
 
     /**
      * Display the specified resource.
+     *
+     * @unauthenticated
+     *
+     * @response NewsResource
      */
-    public function show(string $id): JsonResponse
+    public function show(string $id): NewsResource
     {
         $news = $this->find($id, allowGuest: true);
 
         $news->load('attachments');
+        $news->load('author');
 
-        return response()->json($news);
+        return new NewsResource($news);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(NewsUpdateRequest $request, string $id): JsonResponse
+    public function update(NewsUpdateRequest $request, string $id): Response
     {
         $news = $this->find($id, 'update');
 
@@ -87,13 +97,13 @@ class NewsController extends Controller implements HasMiddleware
         $news->fill($request->validated());
         $news->save();
 
-        return response()->json($news);
+        return response()->noContent();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete the specified resource from storage.
      */
-    public function destroy(Request $request, string $id): Response|ResponseFactory
+    public function destroy(Request $request, string $id): Response
     {
         $force = $request->boolean('force', false);
 
@@ -108,7 +118,10 @@ class NewsController extends Controller implements HasMiddleware
         return response()->noContent();
     }
 
-    public function restore(Request $request, string $id)
+    /**
+     * Restore this resource from a deleted state.
+     */
+    public function restore(string $id): Response
     {
         $news = $this->find($id, 'restore');
 
