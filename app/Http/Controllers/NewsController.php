@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
@@ -32,7 +33,7 @@ class NewsController extends Controller implements HasMiddleware
      *
      * @unauthenticated
      *
-     * @response Paginator<NewsResource>
+     * @return Paginator<NewsResource>
      */
     public function index(NewsListRequest $request): AnonymousResourceCollection
     {
