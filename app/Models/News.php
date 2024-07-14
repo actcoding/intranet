@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enum\NewsStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class News extends Model
@@ -63,9 +64,9 @@ class News extends Model
         ];
     }
 
-    public function author()
+    public function author(): BelongsTo
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function isPublished(): bool
@@ -81,28 +82,17 @@ class News extends Model
     public function toArray(): array
     {
         return [
-            /** @var int */
             'id' => $this->id,
 
-            /** @var string */
             'created_at' => $this->created_at,
-            /** @var string */
             'updated_at' => $this->updated_at,
-            /** @var string|null */
             'deleted_at' => $this->deleted_at,
-            /** @var string|null */
             'published_at' => $this->published_at,
 
-            /** @var NewsStatus */
             'status' => $this->status,
-            /** @var string */
             'title' => $this->title,
-            /** @var string */
             'content' => $this->content,
-            /** @var string|null */
             'header_image' => $this->header_image,
-
-            'author' => $this->author,
         ];
     }
 }

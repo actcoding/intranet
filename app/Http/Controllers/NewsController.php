@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\News\NewsListRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
+use App\Http\Resources\NewsResource;
 use App\Models\News;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
@@ -30,9 +30,11 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Display a paginated list of News.
      *
-     * @return LengthAwarePaginator<News>
+     * @unauthenticated
+     *
+     * @response Paginator<NewsResource>
      */
-    public function index(NewsListRequest $request): Paginator
+    public function index(NewsListRequest $request): AnonymousResourceCollection
     {
         $query = News::query();
 
@@ -40,8 +42,9 @@ class NewsController extends Controller implements HasMiddleware
             $query = $query->withTrashed();
         }
 
-        // FIXME: Scramble response is wrong
-        return $query->simplePaginate($request->query('perPage', 10));
+        return NewsResource::collection(
+            $query->simplePaginate($request->query('perPage', 10))
+        );
     }
 
     /**
@@ -61,14 +64,18 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Display the specified resource.
+     *
+     * @unauthenticated
+     *
+     * @response NewsResource
      */
-    public function show(string $id): JsonResponse
+    public function show(string $id): NewsResource
     {
         $news = $this->find($id, allowGuest: true);
 
         $news->load('author');
 
-        return response()->json($news);
+        return new NewsResource($news);
     }
 
     /**

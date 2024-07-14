@@ -1,5 +1,6 @@
 <?php
 
+use App\OpenApi\SimplePaginationExtension;
 use Dedoc\Scramble\Http\Middleware\RestrictedDocsAccess;
 
 return [
@@ -83,5 +84,7 @@ return [
         RestrictedDocsAccess::class,
     ],
 
-    'extensions' => [],
+    'extensions' => [
+        SimplePaginationExtension::class,
+    ],
 ];
