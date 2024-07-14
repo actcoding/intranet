@@ -18,7 +18,7 @@ class NewsUpdateRequest extends FormRequest
         return [
             'status' => [Rule::enum(NewsStatus::class)],
             'title' => 'string',
-            'content' => 'json',
+            'content' => 'string',
             'header_image' => 'nullable|string',
         ];
     }
