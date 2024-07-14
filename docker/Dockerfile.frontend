@@ -1,10 +1,15 @@
-FROM oven/bun:alpine as builder
+FROM oven/bun:alpine AS builder
 
 COPY frontend/ /app/
+COPY frontend/api.json /app/api.json
 
 WORKDIR /app
 
-RUN bun install --frozen-lockfile && \
+RUN apk add --no-cache \
+        curl \
+        openjdk17-jre-headless \
+    && \
+    bun install --frozen-lockfile && \
     bun run build
 
 # TODO: Create user for rootless
