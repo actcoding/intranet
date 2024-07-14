@@ -151,7 +151,10 @@ class NewsController extends Controller implements HasMiddleware
             ]);
             $attachment->attach($news);
         } elseif ($type == 'header') {
-            Storage::disk('public')->delete($news->getRawOriginal('header_image'));
+            $oldImage = $news->getRawOriginal('header_image');
+            if ($oldImage != null) {
+                Storage::disk('public')->delete($oldImage);
+            }
 
             $path = $file->store('news/' . $id, 'public');
             $news->header_image = $path;
