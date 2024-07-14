@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\News\NewsListRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
+use App\Http\Requests\News\UploadImageRequest;
 use App\Http\Resources\NewsResource;
+use App\Models\Attachment;
 use App\Models\News;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,6 +17,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller implements HasMiddleware
 {
@@ -37,7 +40,8 @@ class NewsController extends Controller implements HasMiddleware
      */
     public function index(NewsListRequest $request): AnonymousResourceCollection
     {
-        $query = News::query();
+        $query = News::query()
+            ->with('attachments');
 
         if (Gate::check('news.viewall')) {
             $query = $query->withTrashed();
@@ -74,6 +78,7 @@ class NewsController extends Controller implements HasMiddleware
     {
         $news = $this->find($id, allowGuest: true);
 
+        $news->load('attachments');
         $news->load('author');
 
         return new NewsResource($news);
@@ -124,6 +129,40 @@ class NewsController extends Controller implements HasMiddleware
         $news->restore();
 
         return response()->noContent();
+    }
+
+    /**
+     * Uploads a file to the scope of a news article.
+     */
+    public function upload(UploadImageRequest $request, string $id): JsonResponse
+    {
+        $news = $this->find($id, 'update');
+
+        $type = $request->input('type');
+        $file = $request->file('file');
+
+        if ($type == 'attachment') {
+            $path = $file->store('news/' . $id, 'public');
+
+            /** @var Attachment */
+            $attachment = Attachment::create([
+                'name' => $file->getClientOriginalName(),
+                'type' => $file->getMimeType(),
+                'path' => $path,
+            ]);
+            $attachment->attach($news);
+        } elseif ($type == 'header') {
+            $oldImage = $news->getRawOriginal('header_image');
+            if ($oldImage != null) {
+                Storage::disk('public')->delete($oldImage);
+            }
+
+            $path = $file->store('news/' . $id, 'public');
+            $news->header_image = $path;
+            $news->save();
+        }
+
+        return response()->json(['path' => url(Storage::url($path))]);
     }
 
     private function find(string $id, ?string $action = null, bool $allowGuest = false): News
