@@ -1,11 +1,9 @@
 FROM oven/bun:slim AS builder
 
 COPY frontend/ /app/
-COPY frontend/api.json /app/api.json
+COPY LICENSE /app
 
 WORKDIR /app
-
-ENV NEXT_SHARP_PATH=/app/node_modules/sharp
 
 RUN apt-get update && \
     apt-get install -y \
@@ -17,14 +15,17 @@ RUN apt-get update && \
     cp -R public/ .next/standalone/ && \
     cp -R .next/static/ .next/standalone/.next/
 
-# TODO: Create user for rootless
-
 
 FROM oven/bun:slim
 
-WORKDIR /app
+RUN groupadd -g 1001 intranet && \
+    useradd -M -d /app -u 1001 -g intranet intranet
 
-COPY --from=builder /app/.next/standalone ./
+COPY --from=builder --chown=intranet:intranet /app/.next/standalone /app
+
+USER intranet
+
+WORKDIR /app
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
