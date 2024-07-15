@@ -34,3 +34,6 @@ Route::resource('/news', NewsController::class)
 Route::patch('/news/{news}/restore', [NewsController::class, 'restore'])
     ->name('news.restore')
     ->whereNumber('news');
+Route::post('/news/{news}/upload', [NewsController::class, 'upload'])
+    ->name('news.upload')
+    ->whereNumber('news');
