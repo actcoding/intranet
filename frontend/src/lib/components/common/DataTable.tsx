@@ -17,22 +17,37 @@ import {
     TableRow,
 } from "@/lib/components/common/Table";
 import { Button } from "@/lib/components/common/Button";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    totalPages: number;
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
+    totalPages,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
     });
+
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const currentPage = Number(searchParams.get('page')) || 1;
+
+    const createPageURL = (pageNumber: number | string) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('page', pageNumber.toString());
+        return `${pathname}?${params.toString()}`;
+    }
+
 
     return (
         <div>
@@ -93,16 +108,16 @@ export function DataTable<TData, TValue>({
                 <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
+                    onClick={() => router.replace(createPageURL(currentPage - 1))}
+                    disabled={currentPage <= 1}
                 >
                     Previous
                 </Button>
                 <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
+                    onClick={() => router.replace(createPageURL(currentPage + 1))}
+                    disabled={currentPage >= totalPages}
                 >
                     Next
                 </Button>
