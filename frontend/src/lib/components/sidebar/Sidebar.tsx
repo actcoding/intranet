@@ -93,16 +93,20 @@ const SidebarItems = (props: SidebarItemsProps) => {
             className="max-w-none flex-col items-stretch"
         >
             <NavigationMenuList className="flex-col items-stretch space-x-0 gap-2 mt-4">
-                {props.links.map((link, index) => (
-                    <SidebarItem
-                        href={link.href}
-                        active={currentPage === link.href}
-                        icon={link.icon}
-                        key={index}
-                    >
-                        {link.label}
-                    </SidebarItem>
-                ))}
+                {props.links.map((link, index) => {
+                    if (!link.hidden) {
+                        return (
+                            <SidebarItem
+                                href={link.href}
+                                active={currentPage === link.href}
+                                icon={link.icon}
+                                key={index}
+                            >
+                                {link.label}
+                            </SidebarItem>
+                        );
+                    }
+                })}
             </NavigationMenuList>
         </NavigationMenu>
     );

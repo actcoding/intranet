@@ -23,7 +23,12 @@ export default async function ShellLayout({
     const sidebarLinks: SidebarLink[] = [
         { label: t("home"), href: "/", icon: <HomeIcon /> },
         { label: "News", href: "/news", icon: <NewspaperIcon /> },
-        { label: "Manage", href: "/manage", icon: <Settings2Icon /> },
+        {
+            label: "Manage",
+            href: "/manage",
+            icon: <Settings2Icon />,
+            hidden: !sessionData?.roles.includes("Creator"),
+        },
     ];
 
     return (

@@ -5,4 +5,5 @@ export type SidebarLink = {
     label: string;
     href: string;
     icon: React.ReactElement<LucideProps>;
+    hidden?: boolean;
 };
