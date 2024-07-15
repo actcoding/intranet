@@ -2,7 +2,7 @@
     "disabled": [],
     "hooks": {
         "pre-commit": [
-            "composer run-script lint"
+            "./composer run-script lint"
         ]
     }
 }
