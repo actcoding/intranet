@@ -23,13 +23,13 @@ import { useRouter } from "next/navigation";
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
-    totalPages: number;
+    hasNextPage: string | undefined;
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
-    totalPages,
+    hasNextPage,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -117,7 +117,7 @@ export function DataTable<TData, TValue>({
                     variant="outline"
                     size="sm"
                     onClick={() => router.replace(createPageURL(currentPage + 1))}
-                    disabled={currentPage >= totalPages}
+                    disabled={!hasNextPage}
                 >
                     Next
                 </Button>

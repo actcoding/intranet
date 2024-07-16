@@ -15,12 +15,11 @@ const ManageNewsPage = async (props: Props) => {
     const currentPage = Number(props.searchParams?.page) || 1;
     
     const newsList = await newsApi.newsIndex({ page: currentPage, perPage: 10 });
-    const totalPages = newsList.nextPageUrl ?? currentPage;
-    console.log(newsList)
+    const hasNextPage = newsList?.links.next;
     const messages = await getMessages();
     return (
         <NextIntlClientProvider messages={pick(messages, ["News"])}>
-            <DataTable columns={columns} data={newsList.data} totalPages={totalPages}/>
+            <DataTable columns={columns} data={newsList.data} hasNextPage={hasNextPage}/>
         </NextIntlClientProvider>
     );
 };
