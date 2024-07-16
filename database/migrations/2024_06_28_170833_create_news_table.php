@@ -26,8 +26,6 @@ return new class extends Migration
             $table->text('title');
             $table->longText('content');
             $table->string('header_image')->nullable();
-
-            // TODO: Attachments
         });
     }
 

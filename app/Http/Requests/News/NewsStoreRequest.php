@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests\News;
 
-use App\Enum\NewsStatus;
+use App\Rules\AppRules;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class NewsStoreRequest extends FormRequest
 {
@@ -16,10 +15,9 @@ class NewsStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['nullable', Rule::enum(NewsStatus::class)->except(NewsStatus::DELETED)],
+            'status' => ['nullable', AppRules::newsStatus()],
             'title' => 'required|string',
             'content' => 'required|string',
-            'header_image' => 'nullable|string',
         ];
     }
 }
