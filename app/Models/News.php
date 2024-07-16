@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Enum\NewsStatus;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class News extends Model
 {
@@ -63,6 +66,13 @@ class News extends Model
         ];
     }
 
+    protected function headerImage(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value) => $value == null ? null : url(Storage::url($value)),
+        );
+    }
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -76,6 +86,11 @@ class News extends Model
     public function isAuthor(User $user): bool
     {
         return $this->author_id === $user->id;
+    }
+
+    public function attachments(): MorphToMany
+    {
+        return $this->morphToMany(Attachment::class, 'attachable');
     }
 
     public function toArray(): array

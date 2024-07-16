@@ -1,23 +1,29 @@
-FROM oven/bun:alpine AS builder
+FROM oven/bun:slim AS builder
 
 COPY frontend/ /app/
-COPY frontend/api.json /app/api.json
+COPY LICENSE /app
 
 WORKDIR /app
 
-RUN apk add --no-cache \
+RUN apt-get update && \
+    apt-get install -y \
         curl \
-        openjdk17-jre-headless \
+        openjdk-17-jre-headless \
     && \
     bun install --frozen-lockfile && \
-    bun run build
+    bun run build && \
+    cp -R public/ .next/standalone/ && \
+    cp -R .next/static/ .next/standalone/.next/
 
-# TODO: Create user for rootless
 
+FROM oven/bun:slim
 
-FROM oven/bun:alpine
+RUN groupadd -g 1001 intranet && \
+    useradd -M -d /app -u 1001 -g intranet intranet
 
-COPY --from=builder /app/.next/standalone /app
+COPY --from=builder --chown=intranet:intranet /app/.next/standalone /app
+
+USER intranet
 
 WORKDIR /app
 

@@ -1,0 +1,15 @@
+*
+
+!app/
+!bootstrap/
+!config/
+!database/
+!lang/
+!public/
+!routes/
+!storage/
+
+!artisan
+!composer.json
+!composer.lock
+!LICENSE
