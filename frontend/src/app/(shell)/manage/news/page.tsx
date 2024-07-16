@@ -16,10 +16,13 @@ const ManageNewsPage = async (props: Props) => {
     
     const newsList = await newsApi.newsIndex({ page: currentPage, perPage: 1 });
     const hasNextPage = newsList?.links.next;
+    const total : number = newsList?.meta.total;
+    const pageSize = newsList?.meta.per_page;
+    const totalPages = Math.ceil(total/pageSize);
     const messages = await getMessages();
     return (
         <NextIntlClientProvider messages={pick(messages, ["News"])}>
-            <DataTable columns={columns} data={newsList.data} hasNextPage={hasNextPage} />
+            <DataTable columns={columns} data={newsList.data} hasNextPage={hasNextPage} totalPages={totalPages}/>
         </NextIntlClientProvider>
     );
 };

@@ -24,12 +24,14 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     hasNextPage: string | undefined;
+    totalPages: number
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
     hasNextPage,
+    totalPages,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -113,7 +115,7 @@ export function DataTable<TData, TValue>({
                 >
                     Previous
                 </Button>
-                <div>{currentPage}</div>
+                <div>{`${currentPage} / ${totalPages}`}</div>
                 <Button
                     variant="outline"
                     size="sm"
