@@ -113,6 +113,7 @@ export function DataTable<TData, TValue>({
                 >
                     Previous
                 </Button>
+                <div>{currentPage}</div>
                 <Button
                     variant="outline"
                     size="sm"
