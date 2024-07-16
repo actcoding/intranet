@@ -14,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
@@ -37,7 +38,7 @@ class NewsController extends Controller implements HasMiddleware
      * Guests and normal users will only see published news, while a Creator will receive
      * a list of all news.
      *
-     * @response AnonymousResourceCollection<LengthAwarePaginator<NewsResource>>
+     * @return AnonymousResourceCollection<LengthAwarePaginator<NewsResource>>
      */
     public function index(NewsListRequest $request): AnonymousResourceCollection
     {
