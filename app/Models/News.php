@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enum\NewsStatus;
+use Database\Factories\NewsFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,13 +24,23 @@ class News extends Model
     {
         static::deleted(function (News $news) {
             $news->status = NewsStatus::DELETED;
+            $news->published_at = null;
             $news->save();
         });
 
         static::restored(function (News $news) {
             $news->status = NewsStatus::DRAFT;
+            $news->published_at = null;
             $news->save();
         });
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): NewsFactory
+    {
+        return NewsFactory::new();
     }
 
     /**

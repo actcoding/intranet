@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\NewsStatus;
 use App\Http\Requests\News\NewsListRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
@@ -13,7 +14,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
@@ -34,17 +34,21 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Display a paginated list of News.
      *
-     * @unauthenticated
+     * Guests and normal users will only see published news, while a Creator will receive
+     * a list of all news.
      *
-     * @return Paginator<NewsResource>
+     * @response AnonymousResourceCollection<LengthAwarePaginator<NewsResource>>
      */
     public function index(NewsListRequest $request): AnonymousResourceCollection
     {
         $query = News::query()
+            ->orderByDesc('published_at')
             ->with('attachments');
 
         if (Gate::check('news.viewall')) {
             $query = $query->withTrashed();
+        } else {
+            $query = $query->whereStatus(NewsStatus::ACTIVE);
         }
 
         return NewsResource::collection(
@@ -61,6 +65,11 @@ class NewsController extends Controller implements HasMiddleware
 
         $news = new News($request->validated());
         $news->author_id = auth()->user()->id;
+
+        if ($news->status == NewsStatus::ACTIVE) {
+            $news->published_at = now();
+        }
+
         $news->save();
         $news->refresh();
 
@@ -70,7 +79,8 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Display the specified resource.
      *
-     * @unauthenticated
+     * Guests and normal users will only see published news, while a Creator will receive
+     * a list of all news.
      *
      * @response NewsResource
      */
@@ -87,7 +97,7 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(NewsUpdateRequest $request, string $id): Response
+    public function update(NewsUpdateRequest $request, string $id): Response|JsonResponse
     {
         $news = $this->find($id, 'update');
 
@@ -96,6 +106,15 @@ class NewsController extends Controller implements HasMiddleware
         }
 
         $news->fill($request->validated());
+
+        if ($news->status == NewsStatus::ACTIVE) {
+            if ($news->published_at == null) {
+                $news->published_at = now();
+            }
+        } else {
+            $news->published_at = null;
+        }
+
         $news->save();
 
         return response()->noContent();
@@ -104,17 +123,17 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Delete the specified resource from storage.
      */
-    public function destroy(Request $request, string $id): Response
+    public function destroy(Request $request, string $id): Response|JsonResponse
     {
         $force = $request->boolean('force', false);
 
-        if ($force) {
-            $news = $this->find($id, 'forceDelete');
-            $news->forceDeleteQuietly();
-        } else {
-            $news = $this->find($id, 'delete');
-            $news->delete();
+        $news = $this->find($id, $force ? 'forceDelete' : 'delete');
+
+        if ($news->trashed()) {
+            return response()->json(['message' => 'You cannot deleted trashed news.'], status: 403);
         }
+
+        $force ? $news->forceDeleteQuietly() : $news->delete();
 
         return response()->noContent();
     }
@@ -163,6 +182,17 @@ class NewsController extends Controller implements HasMiddleware
         }
 
         return response()->json(['url' => url(Storage::url($path))]);
+    }
+
+    /**
+     * Remove an attachment.
+     */
+    public function detach(News $news, Attachment $attachment)
+    {
+        $attachment->detach($news);
+        $attachment->delete();
+
+        return response()->noContent();
     }
 
     private function find(string $id, ?string $action = null, bool $allowGuest = false): News
