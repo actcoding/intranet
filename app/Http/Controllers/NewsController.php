@@ -53,7 +53,7 @@ class NewsController extends Controller implements HasMiddleware
         }
 
         return NewsResource::collection(
-            $query->simplePaginate($request->query('perPage', 10))
+            $query->paginate($request->query('perPage', 10))
         );
     }
 
