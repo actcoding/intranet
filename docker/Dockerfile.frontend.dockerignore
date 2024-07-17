@@ -1,0 +1,6 @@
+*
+
+!frontend/
+frontend/node_modules
+
+!LICENSE
