@@ -32,7 +32,13 @@ class AuthController extends Controller implements HasMiddleware
     }
 
     /**
-     * Get a Jwt via given credentials.
+     * Get an access token
+     *
+     * Upon successful authentication, two tokens will be generated:
+     *
+     * - An `access_token` for use with protected API endpoints. Typically short-lived (e.g. 10 minutes).
+     * - A `refresh_token` which can be used with the `/auth/refresh` endpoint to generate a new `access_token`.
+     *   Typically long-lived (e.g. 1 week).
      *
      * @unauthenticated
      */
@@ -48,7 +54,7 @@ class AuthController extends Controller implements HasMiddleware
     }
 
     /**
-     * Invalidate the token.
+     * Invalidate a token
      *
      * Optionally send a `refresh_token` to invalidate it too.
      */
@@ -65,18 +71,7 @@ class AuthController extends Controller implements HasMiddleware
     }
 
     /**
-     * Display the authenticated user.
-     */
-    public function whoami(): UserResource
-    {
-        /** @var User */
-        $user = $this->auth()->user();
-
-        return new UserResource($user);
-    }
-
-    /**
-     * Refresh a token.
+     * Refresh a token
      *
      * @unauthenticated
      */
@@ -88,7 +83,7 @@ class AuthController extends Controller implements HasMiddleware
     }
 
     /**
-     * Reset the user password.
+     * Reset the user password
      */
     public function resetPassword(PasswordResetRequest $request, Repository $repository): JsonResponse
     {
@@ -96,12 +91,10 @@ class AuthController extends Controller implements HasMiddleware
 
         /** @var User */
         $user = $this->auth()->user();
-
         $user->forceFill([
             'password' => Hash::make($data['password']),
             'status' => UserStatus::ACTIVE,
         ]);
-
         $user->save();
 
         event(new PasswordReset($user));
@@ -109,6 +102,17 @@ class AuthController extends Controller implements HasMiddleware
         $this->auth()->invalidate();
 
         return response()->json(['message' => 'Password has been reset. You\'ve been logged out.']);
+    }
+
+    /**
+     * Display the authenticated user
+     */
+    public function whoami(): UserResource
+    {
+        /** @var User */
+        $user = $this->auth()->user();
+
+        return new UserResource($user);
     }
 
     /**
