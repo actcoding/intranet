@@ -110,15 +110,16 @@ class Translate extends Command
             ->dot()
             ->filter(fn (mixed $value) => is_string($value))
             ->filter(fn (string $value, string $key) => $this->skip->doesntContain($key))
-            ->filter(fn (string $value, string $key) => !$existingKeys->has($key));
+            ->filter(fn (string $value, string $key) => ! $existingKeys->has($key));
 
         $count = $data->count();
         if ($count == 0) {
             $this->info('There is nothing to translate :)');
+
             return;
         }
 
-        if (!$this->confirmTranslation($data)) {
+        if (! $this->confirmTranslation($data)) {
             return;
         }
 
@@ -164,10 +165,11 @@ class Translate extends Command
         $count = $data->count();
         if ($count == 0) {
             $this->info('There is nothing to translate :)');
+
             return;
         }
 
-        if (!$this->confirmTranslation($data)) {
+        if (! $this->confirmTranslation($data)) {
             return;
         }
 
@@ -180,7 +182,7 @@ class Translate extends Command
             ->keyBy(fn (string $item, int $key) => $data->keys()[$key])
             ->undot();
 
-        $options = JSON_PRETTY_PRINT |  JSON_UNESCAPED_UNICODE;
+        $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE;
         file_put_contents(base_path('frontend/messages/' . $targetLanguage . '.json'), $translated->toJson($options));
 
         $this->info("Successfully translated {$count} strings.");
@@ -188,7 +190,7 @@ class Translate extends Command
     }
 
     /**
-     * @param Collection<string, string> $data
+     * @param  Collection<string, string>  $data
      */
     private function confirmTranslation(Collection $data): bool
     {
@@ -215,7 +217,7 @@ class Translate extends Command
     }
 
     /**
-     * @param Collection<int, string> $messages
+     * @param  Collection<int, string>  $messages
      */
     private function translate(Collection $messages): ?array
     {
