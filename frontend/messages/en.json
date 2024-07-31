@@ -6,6 +6,8 @@
     },
     "Sidebar": {
         "home": "Home",
+        "news": "News",
+        "manage": "Manage",
         "creator-login": "Creator Login",
         "logout": "Logout",
         "my-account": "My account"

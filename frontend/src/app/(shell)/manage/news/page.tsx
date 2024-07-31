@@ -13,16 +13,24 @@ interface Props {
 
 const ManageNewsPage = async (props: Props) => {
     const currentPage = Number(props.searchParams?.page) || 1;
-    
-    const newsList = await newsApi.newsIndex({ page: currentPage, perPage: 1 });
+
+    const newsList = await newsApi.newsIndex({
+        page: currentPage,
+        perPage: 10,
+    });
     const hasNextPage = newsList?.links.next;
-    const total : number = newsList?.meta.total;
-    const pageSize = newsList?.meta.per_page;
-    const totalPages = Math.ceil(total/pageSize);
+    const total: number = newsList?.meta.total;
+    const pageSize = newsList?.meta.perPage;
+    const totalPages = Math.ceil(total / pageSize);
     const messages = await getMessages();
     return (
         <NextIntlClientProvider messages={pick(messages, ["News"])}>
-            <DataTable columns={columns} data={newsList.data} hasNextPage={hasNextPage} totalPages={totalPages}/>
+            <DataTable
+                columns={columns}
+                data={newsList.data}
+                hasNextPage={hasNextPage}
+                totalPages={totalPages}
+            />
         </NextIntlClientProvider>
     );
 };

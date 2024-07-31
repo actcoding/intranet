@@ -1,6 +1,7 @@
 "use client";
 
-import { deleteNewsAction, udpateNewsAction } from "@/lib/actions/news";
+import { deleteNewsAction, editNewsAction } from "@/lib/actions/news";
+import { News } from "@/lib/api/generated";
 import { Button } from "@/lib/components/common/Button";
 import {
     DropdownMenu,
@@ -12,7 +13,13 @@ import {
 } from "@/lib/components/common/Dropdown";
 import NewsStatusBadge from "@/lib/components/shared/NewsStatusBadge";
 import { ColumnDef } from "@tanstack/react-table";
-import { Edit2Icon, EyeIcon, MoreHorizontal, Trash2Icon, FileUpIcon } from "lucide-react";
+import {
+    Edit2Icon,
+    EyeIcon,
+    MoreHorizontal,
+    Trash2Icon,
+    FileUpIcon,
+} from "lucide-react";
 import Link from "next/link";
 
 export const columns: ColumnDef<News>[] = [
@@ -26,12 +33,12 @@ export const columns: ColumnDef<News>[] = [
     },
     {
         accessorKey: "title",
-        header: "Title",
+        header: "Titel",
     },
-    {
-        accessorKey: "created_at",
-        header: "Created At",
-    },
+    // {
+    //     accessorKey: "created_at",
+    //     header: "Created At",
+    // },
     {
         id: "actions",
         cell: ({ row }) => {
@@ -49,34 +56,38 @@ export const columns: ColumnDef<News>[] = [
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
-                            onClick={() => console.log('active')}
+                            onClick={async () =>
+                                editNewsAction({
+                                    id: news.id,
+                                    newsUpdateRequest: { status: "active" },
+                                })
+                            }
                         >
-                            <FileUpIcon
-                                size={16}
-                                className="mr-2"
-                            />
-                            <span>Publish</span>
+                            <FileUpIcon size={16} className="mr-2" />
+                            <span>Veröffentlichen</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                             <Link href={`/news/${news.id}`}>
                                 <EyeIcon size={16} className="mr-2" />
-                                Preview
+                                Vorschau
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                             <Link href={`/manage/news/${news.id}`}>
                                 <Edit2Icon size={16} className="mr-2" />
-                                Edit
+                                Bearbeiten
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                            onClick={() => deleteNewsAction(news.id)}
+                            onClick={() => {
+                                deleteNewsAction(news.id);
+                            }}
                         >
                             <Trash2Icon
                                 size={16}
                                 className="mr-2 text-destructive"
                             />
-                            <span className="text-destructive">Delete</span>
+                            <span className="text-destructive">Löschen</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

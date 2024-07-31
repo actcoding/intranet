@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
 import { getNewsListAction } from "@/lib/actions/news";
+import { News } from "@/lib/api/generated";
 
 interface NewsListContentProps {
     initialNews: News[];
@@ -21,12 +22,12 @@ const NewsListContent = (props: NewsListContentProps) => {
 
     const loadMoreNews = useCallback(async () => {
         if (hasMoreData) {
-            const { data: newNews } = await getNewsListAction({
+            const news = await getNewsListAction({
                 page: page + 1,
                 perPage: 6,
             });
-            if (newNews && newNews.length > 0) {
-                setNews((prevNews) => [...prevNews, ...newNews]);
+            if (news && news.length > 0) {
+                setNews((prevNews) => [...prevNews, ...news]);
                 setPage((prevPage) => prevPage + 1);
             } else {
                 setHasMoreData(false);
@@ -50,7 +51,7 @@ const NewsListContent = (props: NewsListContentProps) => {
                         animate={{ opacity: 1, y: 0 }}
                     >
                         <Link href={`/news/${news.id}`}>
-                            <NewsPreviewCard {...news} />
+                            <NewsPreviewCard {...news} className="h-full" />
                         </Link>
                     </motion.div>
                 ))}

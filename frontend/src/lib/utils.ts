@@ -19,3 +19,24 @@ export function setLaravelFormErrors<T extends FieldValues = FieldValues>(
         form.setError(key, { message });
     });
 }
+
+export function serializeFileData(data: File | File[]) {
+    const formData = new FormData();
+    if (Array.isArray(data)) {
+        data.forEach((file) => {
+            formData.append("file[]", file);
+        });
+        return formData;
+    } else {
+        formData.append("file", data);
+        return formData;
+    }
+}
+
+export function deserializeFileData(formData: FormData) {
+    if (formData.has("file[]")) {
+        return Array.from(formData.getAll("file[]")) as File[];
+    } else {
+        return formData.get("file") as File;
+    }
+}

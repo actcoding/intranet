@@ -1,7 +1,12 @@
 "use server";
 
 import { newsApi } from "@/lib/api/api";
-import { NewsStoreRequest } from "@/lib/api/generated";
+import {
+    NewsStoreRequest,
+    NewsUpdateOperationRequest,
+    NewsUploadTypeEnum,
+} from "@/lib/api/generated";
+import { deserializeFile } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
 export async function getNewsListAction({
@@ -16,12 +21,23 @@ export async function getNewsListAction({
 }
 
 export async function createNewsAction(data: NewsStoreRequest) {
-    const res = await newsApi.newsStore({
+    return newsApi.newsStore({
         newsStoreRequest: data,
     });
-    redirect(`/news/${res.id}`);
+}
+
+export async function editNewsAction(request: NewsUpdateOperationRequest) {
+    return newsApi.newsUpdate(request);
 }
 
 export async function deleteNewsAction(id: number, force: boolean = false) {
     return newsApi.newsDestroy({ id, force });
+}
+
+export async function uploadNewsFileAction(
+    id: number,
+    type: NewsUploadTypeEnum,
+    formData: FormData
+) {
+    return newsApi.newsUpload({ id, type, file: deserializeFile(formData) });
 }

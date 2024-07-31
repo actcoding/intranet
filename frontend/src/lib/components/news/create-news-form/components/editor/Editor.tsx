@@ -59,6 +59,7 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
                     disabled={!editor?.can().undo()}
                     size={"icon"}
                     variant={"ghost"}
+                    type="button"
                 >
                     <Undo2Icon size={20} />
                 </Button>
@@ -67,6 +68,7 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
                     disabled={!editor?.can().redo()}
                     size={"icon"}
                     variant={"ghost"}
+                    type="button"
                 >
                     <Redo2Icon size={20} />
                 </Button>

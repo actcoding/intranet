@@ -6,6 +6,8 @@
     },
     "Sidebar": {
         "home": "Startseite",
+        "news": "Neuigkeiten",
+        "manage": "Verwalten",
         "creator-login": "Creator-Login",
         "logout": "Abmelden",
         "my-account": "Mein Konto"
@@ -37,6 +39,8 @@
     "News": {
         "news-status-published": "Veröffentlicht",
         "news-status-draft": "Entwurf",
-        "news-status-deleted": "Gelöscht"
+        "news-status-deleted": "Gelöscht",
+        "create": "Erstellen",
+        "manage": "Verwalten"
     }
 }

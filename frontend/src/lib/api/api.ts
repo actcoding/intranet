@@ -10,7 +10,6 @@ const configuration = new Configuration({
         return access_token;
     },
     headers: {
-        "Content-Type": "application/json",
         Accept: "application/json",
     },
 });
