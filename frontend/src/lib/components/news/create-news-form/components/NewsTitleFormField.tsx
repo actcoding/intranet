@@ -6,12 +6,10 @@ import {
     FormMessage,
 } from "@/lib/components/common/Form";
 import { Input } from "@/lib/components/common/Input";
-import { createNewsFormSchema } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
-import { UseFormReturn } from "react-hook-form";
+import { NewsFormField } from "@/lib/components/news/create-news-form/CreateNewsForm.types";
 
-interface NewsTitleFormFieldProps {
-    form: UseFormReturn<Zod.infer<typeof createNewsFormSchema>>;
-}
+interface NewsTitleFormFieldProps extends NewsFormField {}
+
 const NewsTitleFormField = (props: NewsTitleFormFieldProps) => {
     return (
         <FormField

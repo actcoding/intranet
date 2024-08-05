@@ -6,8 +6,7 @@ import {
     NewsUpdateOperationRequest,
     NewsUploadTypeEnum,
 } from "@/lib/api/generated";
-import { deserializeFile } from "@/lib/utils";
-import { redirect } from "next/navigation";
+import { deserializeFileData } from "@/lib/utils";
 
 export async function getNewsListAction({
     page,
@@ -39,5 +38,9 @@ export async function uploadNewsFileAction(
     type: NewsUploadTypeEnum,
     formData: FormData
 ) {
-    return newsApi.newsUpload({ id, type, file: deserializeFile(formData) });
+    return newsApi.newsUpload({
+        id,
+        type,
+        file: deserializeFileData(formData),
+    });
 }

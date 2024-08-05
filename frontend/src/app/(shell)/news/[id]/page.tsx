@@ -1,5 +1,6 @@
 import { newsApi } from "@/lib/api/api";
 import { Avatar, AvatarFallback } from "@/lib/components/common/Avatar";
+import FileListPreview from "@/lib/components/shared/FileListPreview";
 import NewsStatusBadge from "@/lib/components/shared/NewsStatusBadge";
 import SanitizedHTMLContent from "@/lib/components/shared/SanitizedHTMLContent";
 import { cn } from "@/lib/utils";

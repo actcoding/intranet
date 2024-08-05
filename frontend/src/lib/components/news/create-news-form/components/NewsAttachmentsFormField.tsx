@@ -19,19 +19,18 @@ import {
 } from "@/lib/components/common/ResponsiveDialog";
 import { allowedFileTypes } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
 import { NewsFormField } from "@/lib/components/news/create-news-form/CreateNewsForm.types";
-import { UploadIcon } from "lucide-react";
-import Image from "next/image";
+import FileListPreview from "@/lib/components/shared/FileListPreview";
 
-interface NewsHeaderImageFormFieldProps extends NewsFormField {}
+interface NewsAttachmentsFormFieldProps extends NewsFormField {}
 
-const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
-    async function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-        const file = event.target.files?.[0];
-        if (file) {
-            props.form.setValue("headerImage", file);
-            const isValid = await props.form.trigger("headerImage");
+const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
+    async function handleFileChange(newFiles: FileList | File[] | null) {
+        if (newFiles) {
+            const filesArray = Array.from(newFiles);
+            props.form.setValue("attachments", filesArray);
+            const isValid = await props.form.trigger("attachments");
             if (!isValid) {
-                props.form.resetField("headerImage", {
+                props.form.resetField("attachments", {
                     keepDirty: true,
                     keepError: true,
                     keepTouched: true,
@@ -43,11 +42,13 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
     return (
         <FormField
             control={props.form.control}
-            name="headerImage"
+            name="attachments"
             render={({ field: { onChange, value, ...rest } }) => (
                 <>
                     <ResponsiveDialog>
-                        <UploadButtonContent selectedFile={value} />
+                        <ResponsiveDialogTrigger>
+                            upload
+                        </ResponsiveDialogTrigger>
                         <ResponsiveDialogContent>
                             <ResponsiveDialogHeader>
                                 <ResponsiveDialogTitle>
@@ -57,31 +58,20 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
                             <ResponsiveDialogBody>
                                 <FormItem>
                                     <FormLabel className="sr-only">
-                                        Titelbild
+                                        Anhänge
                                     </FormLabel>
                                     <FormControl>
                                         <Input
                                             className="mb-2"
-                                            onChange={handleChange}
+                                            onChange={(e) =>
+                                                handleFileChange(e.target.files)
+                                            }
                                             type="file"
-                                            accept={allowedFileTypes.headerImage
-                                                .map((type) => `.${type}`)
-                                                .join(", ")}
+                                            multiple
                                             {...rest}
                                         />
                                     </FormControl>
-
-                                    {value && (
-                                        <div className="relative h-[200px]">
-                                            <Image
-                                                src={URL.createObjectURL(value)}
-                                                alt="Header image"
-                                                className="rounded-lg"
-                                                objectFit="cover"
-                                                fill
-                                            />
-                                        </div>
-                                    )}
+                                    {value && <FileListPreview files={value} />}
                                     <FormMessage />
                                 </FormItem>
                             </ResponsiveDialogBody>
@@ -91,9 +81,9 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
                                         type="button"
                                         disabled={
                                             props.form.getFieldState(
-                                                "headerImage"
+                                                "attachments"
                                             ).invalid ||
-                                            !props.form.getValues("headerImage")
+                                            !props.form.getValues("attachments")
                                         }
                                     >
                                         Save
@@ -103,45 +93,19 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
                         </ResponsiveDialogContent>
                     </ResponsiveDialog>
                     <FormMessage />
+                    {value && (
+                        <FileListPreview
+                            files={value}
+                            onRemove={(file) =>
+                                handleFileChange(
+                                    value.filter((e) => e.name !== file.name)
+                                )
+                            }
+                        />
+                    )}
                 </>
             )}
         />
     );
 };
-
-interface UploadButtonContentProps {
-    selectedFile?: File;
-}
-
-const UploadButtonContent = (props: UploadButtonContentProps) => {
-    if (props.selectedFile) {
-        return (
-            <div className="flex items-center gap-2">
-                <div className="relative h-[50px] w-[50px]">
-                    <Image
-                        src={URL.createObjectURL(props.selectedFile)}
-                        alt="Header image"
-                        className="rounded-lg"
-                        objectFit="cover"
-                        fill
-                    />
-                </div>
-                {props.selectedFile.name}
-                <ResponsiveDialogTrigger asChild>
-                    <Button variant={"outline"}>Bild ändern</Button>
-                </ResponsiveDialogTrigger>
-            </div>
-        );
-    } else {
-        return (
-            <ResponsiveDialogTrigger asChild>
-                <Button variant={"outline"}>
-                    <UploadIcon size={16} className="mr-2" />
-                    <span>Datei auswählen</span>
-                </Button>
-            </ResponsiveDialogTrigger>
-        );
-    }
-};
-
-export default NewsHeaderImageFormField;
+export default NewsAttachmentsFormField;

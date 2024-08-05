@@ -7,14 +7,30 @@ export const createNewsFormSchema = z.object({
         .instanceof(File, {
             message: "Invalid file",
         })
+        .refine(
+            (file) => {
+                return allowedFileTypes.headerImage.includes(
+                    file.type.split("/")[1]
+                );
+            },
+            {
+                message: "Invalid file type",
+            }
+        )
         .refine((file) => file.size < 1000000, {
             message: "File size must be less than 1MB",
         }),
-    contentImages: z.array(
-        z
-            .instanceof(File, { message: "Invalid file" })
-            .refine((file) => file.size < 1000000, {
-                message: "File size must be less than 1MB",
-            })
-    ),
+    attachments: z
+        .array(
+            z
+                .instanceof(File, { message: "Invalid file" })
+                .refine((file) => file.size < 1000000000, {
+                    message: "File size must be less than 1GB",
+                })
+        )
+        .optional(),
 });
+
+export const allowedFileTypes = {
+    headerImage: ["png", "jpeg", "jpg"],
+};

@@ -2,15 +2,8 @@
 import { createNewsAction, uploadNewsFileAction } from "@/lib/actions/news";
 import { instanceOfNewsUpload200Response } from "@/lib/api/generated";
 import { Button } from "@/lib/components/common/Button";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/lib/components/common/Form";
-import Editor from "@/lib/components/news/create-news-form/components/editor/Editor";
+import { Form } from "@/lib/components/common/Form";
+import NewsAttachmentsFormField from "@/lib/components/news/create-news-form/components/NewsAttachmentsFormField";
 import NewsContentFormField from "@/lib/components/news/create-news-form/components/NewsContentFormField";
 import NewsHeaderImageFormField from "@/lib/components/news/create-news-form/components/NewsHeaderImageFormField";
 import NewsTitleFormField from "@/lib/components/news/create-news-form/components/NewsTitleFormField";
@@ -54,6 +47,18 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
                 } else {
                     console.error("File upload failed:", res);
                 }
+
+                values.attachments?.forEach(async (file) => {
+                    const res = await uploadNewsFileAction(
+                        createdNews.id,
+                        "attachment",
+                        serializeFileData(file)
+                    );
+
+                    if (!instanceOfNewsUpload200Response(res)) {
+                        console.error("File upload failed:", res);
+                    }
+                });
             }
         } catch (error) {
             console.error("News creation or file upload failed:", error);
@@ -69,6 +74,7 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
                 <NewsTitleFormField form={form} />
                 <NewsHeaderImageFormField form={form} />
                 <NewsContentFormField form={form} />
+                <NewsAttachmentsFormField form={form} />
                 <Button type="submit" className="float-end">
                     Speichern
                 </Button>
