@@ -5,7 +5,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/lib/components/common/Form";
-import Editor from "@/lib/components/news/create-news-form/components/news-content-form-field/components/editor/Editor";
+import Editor from "./components/editor/Editor";
 import { CreateNewsForm } from "@/lib/components/news/create-news-form/CreateNewsForm.models";
 
 interface NewsContentFormFieldProps {
