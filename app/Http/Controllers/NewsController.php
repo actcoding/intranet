@@ -83,9 +83,13 @@ class NewsController extends Controller implements HasMiddleware
      * Guests and normal users will only see published news, while a Creator will receive
      * a list of all news.
      *
+     * @param  int  $id
+     *
+     * @unauthenticated
+     *
      * @response NewsResource
      */
-    public function show(string $id): NewsResource
+    public function show($id): NewsResource
     {
         $news = $this->find($id, allowGuest: true);
 
@@ -97,8 +101,10 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  int  $id
      */
-    public function update(NewsUpdateRequest $request, string $id): Response|JsonResponse
+    public function update(NewsUpdateRequest $request, $id): Response|JsonResponse
     {
         $news = $this->find($id, 'update');
 
@@ -123,8 +129,10 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Delete the specified resource from storage.
+     *
+     * @param  int  $id
      */
-    public function destroy(Request $request, string $id): Response|JsonResponse
+    public function destroy(Request $request, $id): Response|JsonResponse
     {
         $force = $request->boolean('force', false);
 
@@ -141,8 +149,10 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Restore this resource from a deleted state.
+     *
+     * @param  int  $id
      */
-    public function restore(string $id): Response
+    public function restore($id): Response
     {
         $news = $this->find($id, 'restore');
 
@@ -153,8 +163,10 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Uploads a file to the scope of a news article.
+     *
+     * @param  int  $id
      */
-    public function upload(UploadImageRequest $request, string $id): JsonResponse
+    public function upload(UploadImageRequest $request, $id): JsonResponse
     {
         $news = $this->find($id, 'update');
 
