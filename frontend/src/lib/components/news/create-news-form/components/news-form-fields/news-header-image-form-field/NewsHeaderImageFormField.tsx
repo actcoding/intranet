@@ -46,6 +46,8 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
                     keepError: true,
                     keepTouched: true,
                 });
+            } else {
+                setSelectedFilePreview(file);
             }
         }
     }
