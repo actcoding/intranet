@@ -17,15 +17,25 @@ import {
     ResponsiveDialogTitle,
     ResponsiveDialogTrigger,
 } from "@/lib/components/common/ResponsiveDialog";
+import { UploadButtonContent } from "@/lib/components/news/create-news-form/components/shared/UploadButtonContent";
 import { allowedFileTypes } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
-import { NewsFormField } from "@/lib/components/news/create-news-form/CreateNewsForm.types";
+import { CreateNewsForm } from "@/lib/components/news/create-news-form/CreateNewsForm.models";
 import { UploadIcon } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
-interface NewsHeaderImageFormFieldProps extends NewsFormField {}
+interface NewsHeaderImageFormFieldProps {
+    form: CreateNewsForm;
+}
 
 const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
-    async function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const [selectedFilePreview, setSelectedFilePreview] = useState<File | null>(
+        null
+    );
+
+    async function handleHeaderImageChange(
+        event: React.ChangeEvent<HTMLInputElement>
+    ) {
         const file = event.target.files?.[0];
         if (file) {
             props.form.setValue("headerImage", file);
@@ -40,13 +50,19 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
         }
     }
 
+    function handleDialogOpenChange(open: boolean) {
+        if (!open) {
+            setSelectedFilePreview(null);
+        }
+    }
+
     return (
         <FormField
             control={props.form.control}
             name="headerImage"
             render={({ field: { onChange, value, ...rest } }) => (
                 <>
-                    <ResponsiveDialog>
+                    <ResponsiveDialog onOpenChange={handleDialogOpenChange}>
                         <UploadButtonContent selectedFile={value} />
                         <ResponsiveDialogContent>
                             <ResponsiveDialogHeader>
@@ -62,7 +78,7 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
                                     <FormControl>
                                         <Input
                                             className="mb-2"
-                                            onChange={handleChange}
+                                            onChange={handleHeaderImageChange}
                                             type="file"
                                             accept={allowedFileTypes.headerImage
                                                 .map((type) => `.${type}`)
@@ -71,10 +87,12 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
                                         />
                                     </FormControl>
 
-                                    {value && (
+                                    {selectedFilePreview && (
                                         <div className="relative h-[200px]">
                                             <Image
-                                                src={URL.createObjectURL(value)}
+                                                src={URL.createObjectURL(
+                                                    selectedFilePreview
+                                                )}
                                                 alt="Header image"
                                                 className="rounded-lg"
                                                 objectFit="cover"
@@ -85,21 +103,6 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
                                     <FormMessage />
                                 </FormItem>
                             </ResponsiveDialogBody>
-                            <ResponsiveDialogFooter>
-                                <ResponsiveDialogClose asChild>
-                                    <Button
-                                        type="button"
-                                        disabled={
-                                            props.form.getFieldState(
-                                                "headerImage"
-                                            ).invalid ||
-                                            !props.form.getValues("headerImage")
-                                        }
-                                    >
-                                        Save
-                                    </Button>
-                                </ResponsiveDialogClose>
-                            </ResponsiveDialogFooter>
                         </ResponsiveDialogContent>
                     </ResponsiveDialog>
                     <FormMessage />
@@ -109,39 +112,4 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
     );
 };
 
-interface UploadButtonContentProps {
-    selectedFile?: File;
-}
-
-const UploadButtonContent = (props: UploadButtonContentProps) => {
-    if (props.selectedFile) {
-        return (
-            <div className="flex items-center gap-2">
-                <div className="relative h-[50px] w-[50px]">
-                    <Image
-                        src={URL.createObjectURL(props.selectedFile)}
-                        alt="Header image"
-                        className="rounded-lg"
-                        objectFit="cover"
-                        fill
-                    />
-                </div>
-                {props.selectedFile.name}
-                <ResponsiveDialogTrigger asChild>
-                    <Button variant={"outline"}>Bild ändern</Button>
-                </ResponsiveDialogTrigger>
-            </div>
-        );
-    } else {
-        return (
-            <ResponsiveDialogTrigger asChild>
-                <Button variant={"outline"}>
-                    <UploadIcon size={16} className="mr-2" />
-                    <span>Datei auswählen</span>
-                </Button>
-            </ResponsiveDialogTrigger>
-        );
-    }
-};
-
-export default NewsHeaderImageFormField;
+export { NewsHeaderImageFormField };

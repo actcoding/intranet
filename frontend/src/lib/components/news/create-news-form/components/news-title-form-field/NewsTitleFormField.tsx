@@ -6,9 +6,11 @@ import {
     FormMessage,
 } from "@/lib/components/common/Form";
 import { Input } from "@/lib/components/common/Input";
-import { NewsFormField } from "@/lib/components/news/create-news-form/CreateNewsForm.types";
+import { CreateNewsForm } from "@/lib/components/news/create-news-form/CreateNewsForm.models";
 
-interface NewsTitleFormFieldProps extends NewsFormField {}
+interface NewsTitleFormFieldProps {
+    form: CreateNewsForm;
+}
 
 const NewsTitleFormField = (props: NewsTitleFormFieldProps) => {
     return (
@@ -27,4 +29,4 @@ const NewsTitleFormField = (props: NewsTitleFormFieldProps) => {
         />
     );
 };
-export default NewsTitleFormField;
+export { NewsTitleFormField };

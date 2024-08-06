@@ -3,10 +3,12 @@ import { createNewsAction, uploadNewsFileAction } from "@/lib/actions/news";
 import { instanceOfNewsUpload200Response } from "@/lib/api/generated";
 import { Button } from "@/lib/components/common/Button";
 import { Form } from "@/lib/components/common/Form";
-import NewsAttachmentsFormField from "@/lib/components/news/create-news-form/components/NewsAttachmentsFormField";
-import NewsContentFormField from "@/lib/components/news/create-news-form/components/NewsContentFormField";
-import NewsHeaderImageFormField from "@/lib/components/news/create-news-form/components/NewsHeaderImageFormField";
-import NewsTitleFormField from "@/lib/components/news/create-news-form/components/NewsTitleFormField";
+import {
+    NewsAttachmentsFormField,
+    NewsContentFormField,
+    NewsHeaderImageFormField,
+    NewsTitleFormField,
+} from "@/lib/components/news/create-news-form/components";
 import { createNewsFormSchema } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
 import { serializeFileData } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";

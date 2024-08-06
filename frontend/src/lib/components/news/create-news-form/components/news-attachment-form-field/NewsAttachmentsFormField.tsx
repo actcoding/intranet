@@ -1,4 +1,3 @@
-import { Button } from "@/lib/components/common/Button";
 import {
     FormControl,
     FormField,
@@ -10,21 +9,25 @@ import { Input } from "@/lib/components/common/Input";
 import {
     ResponsiveDialog,
     ResponsiveDialogBody,
-    ResponsiveDialogClose,
     ResponsiveDialogContent,
-    ResponsiveDialogFooter,
     ResponsiveDialogHeader,
     ResponsiveDialogTitle,
     ResponsiveDialogTrigger,
 } from "@/lib/components/common/ResponsiveDialog";
-import { allowedFileTypes } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
-import { NewsFormField } from "@/lib/components/news/create-news-form/CreateNewsForm.types";
+import { CreateNewsForm } from "@/lib/components/news/create-news-form/CreateNewsForm.models";
 import FileListPreview from "@/lib/components/shared/FileListPreview";
+import { useState } from "react";
 
-interface NewsAttachmentsFormFieldProps extends NewsFormField {}
+interface NewsAttachmentsFormFieldProps {
+    form: CreateNewsForm;
+}
 
 const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
-    async function handleFileChange(newFiles: FileList | File[] | null) {
+    const [selectedFilesPreview, setSelectedFilesPreview] = useState<
+        File[] | null
+    >(null);
+
+    async function handleAttachmentsChange(newFiles: FileList | File[] | null) {
         if (newFiles) {
             const filesArray = Array.from(newFiles);
             props.form.setValue("attachments", filesArray);
@@ -35,7 +38,15 @@ const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
                     keepError: true,
                     keepTouched: true,
                 });
+            } else {
+                setSelectedFilesPreview(filesArray);
             }
+        }
+    }
+
+    function handleDialogOpenChange(open: boolean) {
+        if (!open) {
+            setSelectedFilesPreview(null);
         }
     }
 
@@ -45,14 +56,14 @@ const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
             name="attachments"
             render={({ field: { onChange, value, ...rest } }) => (
                 <>
-                    <ResponsiveDialog>
+                    <ResponsiveDialog onOpenChange={handleDialogOpenChange}>
                         <ResponsiveDialogTrigger>
                             upload
                         </ResponsiveDialogTrigger>
                         <ResponsiveDialogContent>
                             <ResponsiveDialogHeader>
                                 <ResponsiveDialogTitle>
-                                    Titelbild ändern
+                                    Anhänge ändern
                                 </ResponsiveDialogTitle>
                             </ResponsiveDialogHeader>
                             <ResponsiveDialogBody>
@@ -64,40 +75,32 @@ const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
                                         <Input
                                             className="mb-2"
                                             onChange={(e) =>
-                                                handleFileChange(e.target.files)
+                                                handleAttachmentsChange(
+                                                    e.target.files
+                                                )
                                             }
                                             type="file"
                                             multiple
                                             {...rest}
                                         />
                                     </FormControl>
-                                    {value && <FileListPreview files={value} />}
+                                    {selectedFilesPreview && (
+                                        <FileListPreview
+                                            files={selectedFilesPreview}
+                                        />
+                                    )}
                                     <FormMessage />
                                 </FormItem>
                             </ResponsiveDialogBody>
-                            <ResponsiveDialogFooter>
-                                <ResponsiveDialogClose asChild>
-                                    <Button
-                                        type="button"
-                                        disabled={
-                                            props.form.getFieldState(
-                                                "attachments"
-                                            ).invalid ||
-                                            !props.form.getValues("attachments")
-                                        }
-                                    >
-                                        Save
-                                    </Button>
-                                </ResponsiveDialogClose>
-                            </ResponsiveDialogFooter>
                         </ResponsiveDialogContent>
                     </ResponsiveDialog>
                     <FormMessage />
                     {value && (
                         <FileListPreview
                             files={value}
+                            display="grid"
                             onRemove={(file) =>
-                                handleFileChange(
+                                handleAttachmentsChange(
                                     value.filter((e) => e.name !== file.name)
                                 )
                             }
@@ -108,4 +111,4 @@ const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
         />
     );
 };
-export default NewsAttachmentsFormField;
+export { NewsAttachmentsFormField };

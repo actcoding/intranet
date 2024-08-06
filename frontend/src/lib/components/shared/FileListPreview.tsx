@@ -7,10 +7,14 @@ import { Trash2Icon } from "lucide-react";
 
 interface FileListPreviewProps {
     files: File[];
+    display?: "list" | "grid";
     onRemove?: (file: File) => void;
 }
 
-const FileListPreview = (props: FileListPreviewProps) => {
+const FileListPreview = ({
+    display = "list",
+    ...props
+}: FileListPreviewProps) => {
     return (
         <ul>
             <AnimatePresence>
@@ -22,7 +26,7 @@ const FileListPreview = (props: FileListPreviewProps) => {
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.1 }}
                         layout
-                        className="inline-block"
+                        className={cn(display === "grid" && "inline-block")}
                     >
                         <Card
                             className={cn(
@@ -35,7 +39,9 @@ const FileListPreview = (props: FileListPreviewProps) => {
                                 size={16}
                                 className="flex-shrink-0"
                             />
-                            <span className="line-clamp-1">{file.name}</span>
+                            <span className="line-clamp-1 py-2">
+                                {file.name}
+                            </span>
                             {props.onRemove && (
                                 <Button
                                     type="button"
