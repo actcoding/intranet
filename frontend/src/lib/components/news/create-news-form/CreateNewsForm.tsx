@@ -8,7 +8,7 @@ import {
     NewsContentFormField,
     NewsHeaderImageFormField,
     NewsTitleFormField,
-} from "@/lib/components/news/create-news-form/components";
+} from "@/lib/components/news/create-news-form/components/news-form-fields";
 import { createNewsFormSchema } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
 import { serializeFileData } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
