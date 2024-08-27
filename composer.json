@@ -9,7 +9,6 @@
         "php": "^8.2",
         "ext-pgsql": "*",
         "dedoc/scramble": "^0.11.4",
-        "google/cloud-translate": "^1.17",
         "laravel/framework": "^11.9",
         "laravel/octane": "^2.4",
         "laravel/prompts": "^0.1.24",
@@ -21,6 +20,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "google/cloud-translate": "^1.18",
         "laravel/pint": "^1.16",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
