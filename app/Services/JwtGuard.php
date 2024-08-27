@@ -15,6 +15,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Lcobucci\JWT\JwtFacade;
@@ -32,6 +33,8 @@ class JwtGuard implements Guard
 {
     use GuardHelpers,
         Macroable;
+
+    private const CACHE_KEY = 'jwt_blacklist_';
 
     public const AUDIENCE_ACCESS = 'access_token';
 
@@ -81,10 +84,6 @@ class JwtGuard implements Guard
         try {
             $token = $this->getTokenFromRequest();
 
-            if ($this->isBlacklisted($token)) {
-                return null;
-            }
-
             return $this->user = $this->retrieveUser($token);
         } catch (\Throwable $th) {
             return null;
@@ -129,8 +128,13 @@ class JwtGuard implements Guard
     /**
      * Invalidates a token by adding it to the blacklist. It cannot be used afterwards.
      */
-    public function invalidate(string|UnencryptedToken|null $token): void
+    public function invalidate(string|UnencryptedToken|null $token = null): void
     {
+        if ($token === null)
+        {
+            $token = $this->getTokenFromRequest();
+        }
+
         $this->blacklist($token);
     }
 
@@ -143,8 +147,12 @@ class JwtGuard implements Guard
         return $this->provider->retrieveById($token->claims()->get('sub'));
     }
 
-    private function validateToken(string $token, Constraint ...$constraints): UnencryptedToken
+    private function validateToken(string|null $token, Constraint ...$constraints): UnencryptedToken
     {
+        if ($token === null) {
+            abort(401, 'Unauthenticated.');
+        }
+
         $token = $this->jwt->parse(
             $token,
             new SignedWith($this->signer, $this->key),
@@ -178,7 +186,7 @@ class JwtGuard implements Guard
 
         $jti = $token->claims()->get('jti');
 
-        return Cache::has('jwt_blacklist_' . $jti);
+        return Cache::has(self::CACHE_KEY . $jti);
     }
 
     private function blacklist(string|UnencryptedToken $token): void
@@ -187,12 +195,11 @@ class JwtGuard implements Guard
             $token = $this->validateToken($token);
         }
 
-        $aud = $token->claims()->get('aud');
         $jti = $token->claims()->get('jti');
 
-        Cache::add(
-            'jwt_blacklist_' . $jti,
-            null,
+        Cache::put(
+            self::CACHE_KEY . $jti,
+            'blacklisted',
             config('jwt.ttl.blacklist'),
         );
     }

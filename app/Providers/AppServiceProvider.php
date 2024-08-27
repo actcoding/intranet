@@ -40,6 +40,8 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(Request::class),
             );
 
+            $app->refresh('request', $guard, 'setRequest');
+
             return $guard;
         });
     }
