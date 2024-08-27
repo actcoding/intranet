@@ -17,7 +17,7 @@ class LogoutRequest extends FormRequest
         return [
             'refresh_token' => [
                 'string',
-                new Jwt(),
+                new Jwt,
             ],
         ];
     }

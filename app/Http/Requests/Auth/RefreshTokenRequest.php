@@ -18,7 +18,7 @@ class RefreshTokenRequest extends FormRequest
             'refresh_token' => [
                 'required',
                 'string',
-                new Jwt(),
+                new Jwt,
             ],
         ];
     }

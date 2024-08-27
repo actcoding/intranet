@@ -24,11 +24,11 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(Signer::class, function (Application $app) {
-            return new Sha256();
+            return new Sha256;
         });
 
         $this->app->bind(JwtFacade::class, function (Application $app) {
-            return new JwtFacade();
+            return new JwtFacade;
         });
 
         Auth::extend('jwt', function (Application $app, string $name, array $config) {
