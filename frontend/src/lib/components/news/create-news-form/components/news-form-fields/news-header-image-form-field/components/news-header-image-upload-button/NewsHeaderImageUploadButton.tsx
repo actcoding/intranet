@@ -3,11 +3,13 @@ import { ResponsiveDialogTrigger } from "@/lib/components/common/ResponsiveDialo
 import { UploadIcon } from "lucide-react";
 import Image from "next/image";
 
-interface UploadButtonContentProps {
+interface NewsHeaderImageUploadButtonProps {
     selectedFile?: File;
 }
 
-const UploadButtonContent = (props: UploadButtonContentProps) => {
+const NewsHeaderImageUploadButton = (
+    props: NewsHeaderImageUploadButtonProps
+) => {
     if (props.selectedFile) {
         return (
             <div className="flex items-center gap-2">
@@ -38,4 +40,4 @@ const UploadButtonContent = (props: UploadButtonContentProps) => {
     }
 };
 
-export { UploadButtonContent };
+export { NewsHeaderImageUploadButton };

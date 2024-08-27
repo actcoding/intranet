@@ -1,4 +1,3 @@
-import { Button } from "@/lib/components/common/Button";
 import {
     FormControl,
     FormField,
@@ -6,22 +5,23 @@ import {
     FormLabel,
     FormMessage,
 } from "@/lib/components/common/Form";
-import { Input } from "@/lib/components/common/Input";
+import { NewsHeaderImageUploadButton } from "@/lib/components/news/create-news-form/components/news-form-fields/news-header-image-form-field/components";
 import {
-    ResponsiveDialog,
-    ResponsiveDialogBody,
-    ResponsiveDialogClose,
-    ResponsiveDialogContent,
-    ResponsiveDialogFooter,
-    ResponsiveDialogHeader,
-    ResponsiveDialogTitle,
-    ResponsiveDialogTrigger,
-} from "@/lib/components/common/ResponsiveDialog";
-import { UploadButtonContent } from "@/lib/components/news/create-news-form/components/shared/UploadButtonContent";
-import { allowedFileTypes } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
+    allowedFileTypes,
+    createNewsFormSchema,
+} from "@/lib/components/news/create-news-form/CreateNewsForm.config";
 import { CreateNewsForm } from "@/lib/components/news/create-news-form/CreateNewsForm.models";
-import { UploadIcon } from "lucide-react";
-import Image from "next/image";
+import FileImagePreview from "@/lib/components/shared/FileImagePreview";
+import {
+    FileSelector,
+    FileSelectorBody,
+    FileSelectorContent,
+    FileSelectorFooter,
+    FileSelectorHeader,
+    FileSelectorInput,
+    FileSelectorTitle,
+    FileSelectorTrigger,
+} from "@/lib/components/shared/FileSelector";
 import { useState } from "react";
 
 interface NewsHeaderImageFormFieldProps {
@@ -29,33 +29,31 @@ interface NewsHeaderImageFormFieldProps {
 }
 
 const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
-    const [selectedFilePreview, setSelectedFilePreview] = useState<File | null>(
-        null
-    );
+    const [filePreview, setFilePreview] = useState<File | null>(null);
 
-    async function handleHeaderImageChange(
-        event: React.ChangeEvent<HTMLInputElement>
-    ) {
-        const file = event.target.files?.[0];
+    function handleHeaderImagePreviewChange(files: File[] | null) {
+        if (!files) {
+            setFilePreview(null);
+            return;
+        }
+        const file = files[0];
         if (file) {
-            props.form.setValue("headerImage", file);
-            const isValid = await props.form.trigger("headerImage");
-            if (!isValid) {
-                props.form.resetField("headerImage", {
-                    keepDirty: true,
-                    keepError: true,
-                    keepTouched: true,
-                });
+            const validation = createNewsFormSchema.safeParse({
+                ...props.form.getValues(),
+                headerImage: file,
+            });
+            if (validation.success) {
+                setFilePreview(file);
+                props.form.clearErrors("headerImage");
             } else {
-                setSelectedFilePreview(file);
+                setFilePreview(null);
+                props.form.setError("headerImage", validation.error.errors[0]);
             }
         }
     }
 
-    function handleDialogOpenChange(open: boolean) {
-        if (!open) {
-            setSelectedFilePreview(null);
-        }
+    function handleFileSelectionConfirm(files: File[]) {
+        props.form.setValue("headerImage", files[0]);
     }
 
     return (
@@ -63,52 +61,40 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
             control={props.form.control}
             name="headerImage"
             render={({ field: { onChange, value, ...rest } }) => (
-                <>
-                    <ResponsiveDialog onOpenChange={handleDialogOpenChange}>
-                        <UploadButtonContent selectedFile={value} />
-                        <ResponsiveDialogContent>
-                            <ResponsiveDialogHeader>
-                                <ResponsiveDialogTitle>
-                                    Titelbild ändern
-                                </ResponsiveDialogTitle>
-                            </ResponsiveDialogHeader>
-                            <ResponsiveDialogBody>
-                                <FormItem>
-                                    <FormLabel className="sr-only">
-                                        Titelbild
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            className="mb-2"
-                                            onChange={handleHeaderImageChange}
-                                            type="file"
-                                            accept={allowedFileTypes.headerImage
-                                                .map((type) => `.${type}`)
-                                                .join(", ")}
-                                            {...rest}
-                                        />
-                                    </FormControl>
-
-                                    {selectedFilePreview && (
-                                        <div className="relative h-[200px]">
-                                            <Image
-                                                src={URL.createObjectURL(
-                                                    selectedFilePreview
-                                                )}
-                                                alt="Header image"
-                                                className="rounded-lg"
-                                                objectFit="cover"
-                                                fill
-                                            />
-                                        </div>
+                <FormItem>
+                    <FormLabel className="sr-only">Titelbild</FormLabel>
+                    <FormControl>
+                        <FileSelector
+                            onChange={handleFileSelectionConfirm}
+                            onPreviewChange={handleHeaderImagePreviewChange}
+                            accept={allowedFileTypes.headerImage
+                                .map((type) => `.${type}`)
+                                .join(", ")}
+                            {...rest}
+                        >
+                            <FileSelectorTrigger asChild>
+                                <NewsHeaderImageUploadButton
+                                    selectedFile={value}
+                                />
+                            </FileSelectorTrigger>
+                            <FileSelectorContent>
+                                <FileSelectorHeader>
+                                    <FileSelectorTitle>
+                                        Titelbild ändern
+                                    </FileSelectorTitle>
+                                </FileSelectorHeader>
+                                <FileSelectorBody>
+                                    <FileSelectorInput />
+                                    {filePreview && (
+                                        <FileImagePreview image={filePreview} />
                                     )}
-                                    <FormMessage />
-                                </FormItem>
-                            </ResponsiveDialogBody>
-                        </ResponsiveDialogContent>
-                    </ResponsiveDialog>
+                                </FileSelectorBody>
+                                <FileSelectorFooter />
+                            </FileSelectorContent>
+                        </FileSelector>
+                    </FormControl>
                     <FormMessage />
-                </>
+                </FormItem>
             )}
         />
     );

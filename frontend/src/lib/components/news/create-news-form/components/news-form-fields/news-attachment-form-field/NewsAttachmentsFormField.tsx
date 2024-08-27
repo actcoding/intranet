@@ -1,3 +1,4 @@
+import { Button } from "@/lib/components/common/Button";
 import {
     FormControl,
     FormField,
@@ -5,17 +6,20 @@ import {
     FormLabel,
     FormMessage,
 } from "@/lib/components/common/Form";
-import { Input } from "@/lib/components/common/Input";
-import {
-    ResponsiveDialog,
-    ResponsiveDialogBody,
-    ResponsiveDialogContent,
-    ResponsiveDialogHeader,
-    ResponsiveDialogTitle,
-    ResponsiveDialogTrigger,
-} from "@/lib/components/common/ResponsiveDialog";
+import { createNewsFormSchema } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
 import { CreateNewsForm } from "@/lib/components/news/create-news-form/CreateNewsForm.models";
 import FileListPreview from "@/lib/components/shared/FileListPreview";
+import {
+    FileSelector,
+    FileSelectorBody,
+    FileSelectorContent,
+    FileSelectorFooter,
+    FileSelectorHeader,
+    FileSelectorInput,
+    FileSelectorTitle,
+    FileSelectorTrigger,
+} from "@/lib/components/shared/FileSelector";
+import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 
 interface NewsAttachmentsFormFieldProps {
@@ -23,31 +27,36 @@ interface NewsAttachmentsFormFieldProps {
 }
 
 const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
-    const [selectedFilesPreview, setSelectedFilesPreview] = useState<
-        File[] | null
-    >(null);
+    const [filesPreview, setFilesPreview] = useState<File[] | null>(null);
 
-    async function handleAttachmentsChange(newFiles: FileList | File[] | null) {
-        if (newFiles) {
-            const filesArray = Array.from(newFiles);
-            props.form.setValue("attachments", filesArray);
-            const isValid = await props.form.trigger("attachments");
-            if (!isValid) {
-                props.form.resetField("attachments", {
-                    keepDirty: true,
-                    keepError: true,
-                    keepTouched: true,
-                });
+    function handleAttachmentsChange(files: File[] | null) {
+        if (!files) {
+            setFilesPreview(null);
+            return;
+        }
+        const combinedFiles = props.form
+            .getValues("attachments")
+            ?.concat(files);
+        if (combinedFiles) {
+            const validation = createNewsFormSchema.safeParse({
+                ...props.form.getValues(),
+                attachments: combinedFiles,
+            });
+            if (validation.success) {
+                setFilesPreview(files);
+                props.form.clearErrors("attachments");
             } else {
-                setSelectedFilesPreview(filesArray);
+                setFilesPreview(null);
+                props.form.setError("attachments", validation.error.errors[0]);
             }
         }
     }
 
-    function handleDialogOpenChange(open: boolean) {
-        if (!open) {
-            setSelectedFilesPreview(null);
-        }
+    function handleFilesSelectionConfirm(files: File[]) {
+        props.form.setValue(
+            "attachments",
+            props.form.getValues("attachments")?.concat(files)
+        );
     }
 
     return (
@@ -56,51 +65,47 @@ const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
             name="attachments"
             render={({ field: { onChange, value, ...rest } }) => (
                 <>
-                    <ResponsiveDialog onOpenChange={handleDialogOpenChange}>
-                        <ResponsiveDialogTrigger>
-                            upload
-                        </ResponsiveDialogTrigger>
-                        <ResponsiveDialogContent>
-                            <ResponsiveDialogHeader>
-                                <ResponsiveDialogTitle>
-                                    Anhänge ändern
-                                </ResponsiveDialogTitle>
-                            </ResponsiveDialogHeader>
-                            <ResponsiveDialogBody>
-                                <FormItem>
-                                    <FormLabel className="sr-only">
-                                        Anhänge
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            className="mb-2"
-                                            onChange={(e) =>
-                                                handleAttachmentsChange(
-                                                    e.target.files
-                                                )
-                                            }
-                                            type="file"
-                                            multiple
-                                            {...rest}
-                                        />
-                                    </FormControl>
-                                    {selectedFilesPreview && (
-                                        <FileListPreview
-                                            files={selectedFilesPreview}
-                                        />
-                                    )}
-                                    <FormMessage />
-                                </FormItem>
-                            </ResponsiveDialogBody>
-                        </ResponsiveDialogContent>
-                    </ResponsiveDialog>
-                    <FormMessage />
+                    <FormItem>
+                        <FormLabel className="sr-only">Anhänge</FormLabel>
+                        <FormControl>
+                            <FileSelector
+                                onChange={handleFilesSelectionConfirm}
+                                onPreviewChange={handleAttachmentsChange}
+                                multiple
+                                {...rest}
+                            >
+                                <FileSelectorTrigger asChild>
+                                    <Button variant={"outline"}>
+                                        <PlusIcon size={16} className="mr-2" />
+                                        Anhänge hinzufügen
+                                    </Button>
+                                </FileSelectorTrigger>
+                                <FileSelectorContent>
+                                    <FileSelectorHeader>
+                                        <FileSelectorTitle>
+                                            Anhänge hinzufügen
+                                        </FileSelectorTitle>
+                                    </FileSelectorHeader>
+                                    <FileSelectorBody>
+                                        <FileSelectorInput />
+                                        {filesPreview && (
+                                            <FileListPreview
+                                                files={filesPreview}
+                                            />
+                                        )}
+                                    </FileSelectorBody>
+                                    <FileSelectorFooter />
+                                </FileSelectorContent>
+                            </FileSelector>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
                     {value && (
                         <FileListPreview
                             files={value}
                             display="grid"
                             onRemove={(file) =>
-                                handleAttachmentsChange(
+                                onChange(
                                     value.filter((e) => e.name !== file.name)
                                 )
                             }

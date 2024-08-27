@@ -29,12 +29,12 @@ interface BaseProps {
     children: React.ReactNode;
 }
 
-interface RootResponsiveDialogProps extends BaseProps {
+export interface RootResponsiveDialogProps extends BaseProps {
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
 }
 
-interface ResponsiveDialogProps extends BaseProps {
+export interface ResponsiveDialogProps extends BaseProps {
     className?: string;
     asChild?: true;
 }

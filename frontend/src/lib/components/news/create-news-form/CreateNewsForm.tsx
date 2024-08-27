@@ -24,6 +24,7 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
         defaultValues: {
             title: "",
             content: "",
+            attachments: [],
         },
     });
     const router = useRouter();

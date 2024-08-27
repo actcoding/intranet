@@ -1,5 +1,6 @@
 import { Button } from "@/lib/components/common/Button";
 import { Card } from "@/lib/components/common/Card";
+import { useFileSelector } from "@/lib/components/hooks/use-file-selector";
 import FileTypeIcon from "@/lib/components/shared/FileTypeIcon";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
