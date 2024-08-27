@@ -11,13 +11,16 @@
         "dedoc/scramble": "^0.11.4",
         "laravel/framework": "^11.9",
         "laravel/octane": "^2.4",
+        "laravel/prompts": "^0.1.24",
         "laravel/tinker": "^2.9",
         "lcobucci/jwt": "^5.3",
+        "orkhanahmadov/laravel-accept-language-middleware": "^2.3",
         "predis/predis": "^2.2",
         "spatie/laravel-permission": "^6.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "google/cloud-translate": "^1.18",
         "laravel/pint": "^1.16",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
