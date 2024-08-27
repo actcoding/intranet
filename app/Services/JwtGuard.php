@@ -15,7 +15,6 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Lcobucci\JWT\JwtFacade;
@@ -130,8 +129,7 @@ class JwtGuard implements Guard
      */
     public function invalidate(string|UnencryptedToken|null $token = null): void
     {
-        if ($token === null)
-        {
+        if ($token === null) {
             $token = $this->getTokenFromRequest();
         }
 
@@ -147,7 +145,7 @@ class JwtGuard implements Guard
         return $this->provider->retrieveById($token->claims()->get('sub'));
     }
 
-    private function validateToken(string|null $token, Constraint ...$constraints): UnencryptedToken
+    private function validateToken(?string $token, Constraint ...$constraints): UnencryptedToken
     {
         if ($token === null) {
             abort(401, 'Unauthenticated.');
