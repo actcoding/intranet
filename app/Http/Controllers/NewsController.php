@@ -173,9 +173,9 @@ class NewsController extends Controller implements HasMiddleware
         $type = $request->input('type');
         $file = $request->file('file');
 
-        if ($type == 'attachment') {
-            $path = $file->store('news/' . $id, 'public');
+        $path = $file->store('news/' . $id, 'public');
 
+        if ($type == 'attachment') {
             /** @var Attachment */
             $attachment = Attachment::create([
                 'name' => $file->getClientOriginalName(),
@@ -189,7 +189,6 @@ class NewsController extends Controller implements HasMiddleware
                 Storage::disk('public')->delete($oldImage);
             }
 
-            $path = $file->store('news/' . $id, 'public');
             $news->header_image = $path;
             $news->save();
         }
