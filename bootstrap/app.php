@@ -12,6 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         apiPrefix: '',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->api(
+            append: \Orkhanahmadov\LaravelAcceptLanguageMiddleware\Middleware::class,
+        );
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
