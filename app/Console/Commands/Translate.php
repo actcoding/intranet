@@ -50,6 +50,7 @@ class Translate extends Command
     {
         parent::__construct();
 
+        // TODO: Configure this somewhere else
         $this->skip = collect([
             // Backend
             'validation.custom.attribute-name.rule-name',
