@@ -162,8 +162,8 @@ class JwtGuard implements Guard
             abort(401, 'Unauthenticated.');
         }
 
-        $userId = $token->claims()->get('sub');
-        $this->user = User::whereId($userId)->firstOrFail();
+        $identifier = $token->claims()->get('sub');
+        $this->user = $this->provider->retrieveById($identifier);
 
         return $token;
     }
