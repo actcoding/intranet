@@ -72,7 +72,7 @@ const SelectImageForm = (props: SelectImageFormProps) => {
                                 <FileSelector
                                     onChange={(file) => {
                                         form.setValue("image", file[0]);
-                                        form.handleSubmit(props.onSubmit);
+                                        form.handleSubmit(props.onSubmit)();
                                     }}
                                     onPreviewChange={handleImagePreviewChange}
                                     {...rest}
