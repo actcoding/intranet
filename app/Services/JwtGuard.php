@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Contracts\JwtSubject;
-use App\Models\User;
 use Carbon\Carbon;
 use Carbon\WrapperClock;
 use Closure;
@@ -205,8 +204,9 @@ class JwtGuard implements Guard
     private function issue(): array
     {
         $claims = [];
-        if (class_implements($this->user(), JwtSubject::class)) {
-            $claims = $this->user()->getClaims();
+        $user = $this->user();
+        if (class_implements($user, JwtSubject::class)) {
+            $claims = $user->getClaims();
         }
 
         $access_token = $this->make(
