@@ -21,6 +21,7 @@ import {
     FileUpIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<News>[] = [
     {
@@ -43,7 +44,7 @@ export const columns: ColumnDef<News>[] = [
         id: "actions",
         cell: ({ row }) => {
             const news = row.original;
-
+            const router = useRouter();
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -56,11 +57,13 @@ export const columns: ColumnDef<News>[] = [
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
-                            onClick={async () =>
+                            onClick={() => {
                                 editNewsAction({
                                     id: news.id,
                                     newsUpdateRequest: { status: "active" },
-                                })
+                                });
+                                router.refresh();
+                                }
                             }
                         >
                             <FileUpIcon size={16} className="mr-2" />
@@ -81,6 +84,7 @@ export const columns: ColumnDef<News>[] = [
                         <DropdownMenuItem
                             onClick={() => {
                                 deleteNewsAction(news.id);
+                                router.refresh();
                             }}
                         >
                             <Trash2Icon
