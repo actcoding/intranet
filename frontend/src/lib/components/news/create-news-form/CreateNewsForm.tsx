@@ -1,5 +1,9 @@
 "use client";
-import { createNewsAction, uploadNewsFileAction } from "@/lib/actions/news";
+import {
+    createNewsAction,
+    editNewsAction,
+    uploadNewsFileAction,
+} from "@/lib/actions/news";
 import { instanceOfNewsUpload200Response } from "@/lib/api/generated";
 import { Button } from "@/lib/components/common/Button";
 import { Form } from "@/lib/components/common/Form";
@@ -45,11 +49,44 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
                     serializeFileData(file)
                 );
 
-                if (instanceOfNewsUpload200Response(res)) {
-                    router.push(`/news/${createdNews.id}`);
-                } else {
-                    console.error("File upload failed:", res);
+                // if (instanceOfNewsUpload200Response(res)) {
+                //     router.push(`/news/${createdNews.id}`);
+                // } else {
+                //     console.error("File upload failed:", res);
+                // }
+
+                let content = form.getValues("content");
+                const tempImages = content.match(
+                    /<img[^>]+data-temp-id="([^"]+)"[^>]*>/g
+                );
+                console.log("tempImages:", tempImages);
+                console.log("contentimages:", form.getValues("contentImages"));
+
+                if (tempImages) {
+                    for (let index = 0; index < tempImages.length; index++) {
+                        const tempImage = tempImages[index];
+                        const file = form.getValues("contentImages")?.[index];
+                        console.log("file:", file);
+                        if (!file) continue;
+                        const imageUrl = await uploadNewsFileAction(
+                            createdNews.id,
+                            "content",
+                            serializeFileData(file.file)
+                        );
+                        console.log("imageUrl:", imageUrl);
+                        content = content.replace(
+                            tempImage,
+                            `<img src="${imageUrl.url}" alt="Uploaded image">`
+                        );
+                        console.log("content:", content);
+                    }
                 }
+
+                console.log("real content:", content);
+                await editNewsAction({
+                    id: createdNews.id,
+                    newsUpdateRequest: { content: content },
+                });
 
                 values.attachments?.forEach(async (file) => {
                     const res = await uploadNewsFileAction(

@@ -16,6 +16,7 @@ interface Props {
 const SingleNewsPage = async (props: Props) => {
     const news = await newsApi.newsShow({ id: props.params.id });
     const format = await getFormatter();
+    console.log(JSON.stringify(news.content));
     return (
         <div className="max-w-[800px] mx-auto h-full">
             <div
@@ -64,7 +65,16 @@ const SingleNewsPage = async (props: Props) => {
             </div>
             <SanitizedHTMLContent
                 content={news.content}
-                allowedTags={["p", "strong", "em", "a", "ul", "ol", "li"]}
+                allowedTags={[
+                    "p",
+                    "strong",
+                    "em",
+                    "a",
+                    "ul",
+                    "ol",
+                    "li",
+                    "img",
+                ]}
             />
         </div>
     );

@@ -19,6 +19,30 @@ import {
     Undo2Icon,
 } from "lucide-react";
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
+import { createNewsFormSchema } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
+import { useForm, useFormContext, UseFormReturn } from "react-hook-form";
+import { CreateNewsForm } from "@/lib/components/news/create-news-form/CreateNewsForm.models";
+
+const CustomImage = Image.extend({
+    addAttributes() {
+        return {
+            ...this.parent?.(),
+            "data-temp-id": {
+                default: null,
+                parseHTML: (element) => element.getAttribute("data-temp-id"),
+                renderHTML: (attributes) => {
+                    if (!attributes["data-temp-id"]) {
+                        return {};
+                    }
+                    return {
+                        "data-temp-id": attributes["data-temp-id"],
+                    };
+                },
+            },
+        };
+    },
+});
 
 interface EditorProps {
     value?: string;
@@ -27,7 +51,7 @@ interface EditorProps {
 
 const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
     const editor = useEditor({
-        extensions: [StarterKit, Image],
+        extensions: [StarterKit, CustomImage],
         content: props.value,
         onUpdate({ editor }) {
             props.onChange && props.onChange(editor.getHTML());
@@ -38,6 +62,7 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
             },
         },
     });
+    const form: CreateNewsForm = useFormContext();
 
     return (
         <div className="flex flex-col min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
@@ -72,24 +97,27 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
                 >
                     <Redo2Icon size={20} />
                 </Button>
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant={"ghost"} size={"icon"}>
-                            <ImageIcon size={20} />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <SelectImageForm
-                            onSubmit={(formData) =>
-                                editor
-                                    ?.chain()
-                                    .focus()
-                                    .setImage({ src: formData.imageUrl })
-                                    .run()
-                            }
-                        />
-                    </PopoverContent>
-                </Popover>
+
+                <SelectImageForm
+                    onSubmit={(formData) => {
+                        const tempId = uuidv4();
+                        editor
+                            ?.chain()
+                            .focus()
+                            .setImage({
+                                src: URL.createObjectURL(formData.image),
+                                "data-temp-id": tempId,
+                            })
+                            .run();
+                        const currentImages = form.getValues("contentImages");
+                        form.setValue("contentImages", [
+                            ...(currentImages ?? []),
+                            {
+                                file: formData.image,
+                            },
+                        ]);
+                    }}
+                />
             </div>
             <EditorContent editor={editor} ref={ref} />
         </div>

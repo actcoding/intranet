@@ -23,23 +23,18 @@
 	"settings": {
 		"files.exclude": {
 			"frontend": true,
-			"**/node_modules": true,
-			"**/.next": true,
-			"**/vendor": true,
 			"docker": true,
-			".github": true,
-			".vscode": true
 		},
 		"files.associations": {
 			"artisan": "php",
 			"composer": "shellscript"
 		},
-	
+
 		"explorer.autoRevealExclude": {
 			"**/node_modules": true,
 			"**/vendor": true
 		},
-	
+
 		"editor.defaultFormatter": null,
 		"editor.linkedEditing": true,
 		"editor.codeActionsOnSave": {
@@ -48,7 +43,7 @@
 		"typescript.preferences.importModuleSpecifier": "non-relative",
 		"typescript.preferences.quoteStyle": "single",
 		"typescript.format.semicolons": "remove",
-	
+
 		"[typescript]": {
 			"editor.defaultFormatter": "esbenp.prettier-vscode",
 			"editor.formatOnSave": true,
@@ -57,11 +52,11 @@
 			"editor.defaultFormatter": "esbenp.prettier-vscode",
 			"editor.formatOnSave": true,
 		},
-	
+
 		"i18n-ally.localesPaths": [
 			"frontend/messages"
 		],
-	
+
 		"[json]": {
 			"editor.defaultFormatter": "vscode.json-language-features"
 		},

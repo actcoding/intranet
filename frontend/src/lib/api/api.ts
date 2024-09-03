@@ -12,6 +12,18 @@ const configuration = new Configuration({
     headers: {
         Accept: "application/json",
     },
+    fetchApi: async (input: RequestInfo, init: RequestInit) => {
+        const res = await fetch(input, init);
+        console.log(
+            "API:",
+            init.method,
+            res.url,
+            JSON.stringify(init.body),
+            "(" + res.status,
+            res.statusText + ")"
+        );
+        return res;
+    },
 });
 
 export const newsApi = new NewsApi(configuration);
