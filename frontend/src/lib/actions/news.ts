@@ -33,6 +33,10 @@ export async function deleteNewsAction(id: number, force: boolean = false) {
     return newsApi.newsDestroy({ id, force });
 }
 
+export async function restoreNewsAction(id: number) {
+    return newsApi.newsRestore({ id });
+}
+
 export async function uploadNewsFileAction(
     id: number,
     type: NewsUploadTypeEnum,
