@@ -97,8 +97,10 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param integer $id
      */
-    public function update(NewsUpdateRequest $request, string $id): Response
+    public function update(NewsUpdateRequest $request, $id): Response
     {
         $news = $this->find($id, 'update');
 
@@ -123,8 +125,10 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Delete the specified resource from storage.
+     *
+     * @param integer $id
      */
-    public function destroy(Request $request, string $id): Response
+    public function destroy(Request $request, $id): Response
     {
         $force = $request->boolean('force', false);
 
@@ -141,8 +145,10 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Restore this resource from a deleted state.
+     *
+     * @param integer $id
      */
-    public function restore(string $id): Response
+    public function restore($id): Response
     {
         $news = $this->find($id, 'restore');
 
@@ -153,8 +159,10 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Uploads a file to the scope of a news article.
+     *
+     * @param integer $id
      */
-    public function upload(UploadImageRequest $request, string $id): JsonResponse
+    public function upload(UploadImageRequest $request, $id): JsonResponse
     {
         $news = $this->find($id, 'update');
 
