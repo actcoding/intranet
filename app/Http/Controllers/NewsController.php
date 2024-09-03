@@ -98,7 +98,7 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      *
-     * @param integer $id
+     * @param  int  $id
      */
     public function update(NewsUpdateRequest $request, $id): Response
     {
@@ -126,7 +126,7 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Delete the specified resource from storage.
      *
-     * @param integer $id
+     * @param  int  $id
      */
     public function destroy(Request $request, $id): Response
     {
@@ -146,7 +146,7 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Restore this resource from a deleted state.
      *
-     * @param integer $id
+     * @param  int  $id
      */
     public function restore($id): Response
     {
@@ -160,7 +160,7 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Uploads a file to the scope of a news article.
      *
-     * @param integer $id
+     * @param  int  $id
      */
     public function upload(UploadImageRequest $request, $id): JsonResponse
     {
