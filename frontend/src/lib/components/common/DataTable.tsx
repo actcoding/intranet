@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
-    hasNextPage: string | undefined;
+    hasNextPage: string | null;
     totalPages: number
 }
 
