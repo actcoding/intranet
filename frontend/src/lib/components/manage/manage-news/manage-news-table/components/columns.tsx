@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteNewsAction, editNewsAction } from "@/lib/actions/news";
+import { deleteNewsAction, editNewsAction, restoreNewsAction } from "@/lib/actions/news";
 import { News } from "@/lib/api/generated";
 import { Button } from "@/lib/components/common/Button";
 import {
@@ -19,8 +19,10 @@ import {
     MoreHorizontal,
     Trash2Icon,
     FileUpIcon,
+    ArchiveRestore
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<News>[] = [
     {
@@ -43,7 +45,7 @@ export const columns: ColumnDef<News>[] = [
         id: "actions",
         cell: ({ row }) => {
             const news = row.original;
-
+            const router = useRouter();
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -55,17 +57,32 @@ export const columns: ColumnDef<News>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                            onClick={async () =>
+                        {news.status === "draft" && <DropdownMenuItem
+                            onClick={() => {
                                 editNewsAction({
                                     id: news.id,
                                     newsUpdateRequest: { status: "active" },
-                                })
+                                });
+                                router.refresh();
+                                }
                             }
                         >
                             <FileUpIcon size={16} className="mr-2" />
                             <span>Veröffentlichen</span>
-                        </DropdownMenuItem>
+                        </DropdownMenuItem>}
+                        {news.status === "active" && <DropdownMenuItem
+                            onClick={() => {
+                                editNewsAction({
+                                    id: news.id,
+                                    newsUpdateRequest: { status: "draft" },
+                                });
+                                router.refresh();
+                                }
+                            }
+                        >
+                            <FileUpIcon size={16} className="mr-2" />
+                            <span>Veröffentlichung aufheben</span>
+                        </DropdownMenuItem>}
                         <DropdownMenuItem asChild>
                             <Link href={`/news/${news.id}`}>
                                 <EyeIcon size={16} className="mr-2" />
@@ -78,9 +95,10 @@ export const columns: ColumnDef<News>[] = [
                                 Bearbeiten
                             </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem
+                        {news.status !== "deleted" && <DropdownMenuItem
                             onClick={() => {
                                 deleteNewsAction(news.id);
+                                router.refresh();
                             }}
                         >
                             <Trash2Icon
@@ -88,7 +106,19 @@ export const columns: ColumnDef<News>[] = [
                                 className="mr-2 text-destructive"
                             />
                             <span className="text-destructive">Löschen</span>
-                        </DropdownMenuItem>
+                        </DropdownMenuItem>}
+                        {news.status === "deleted" && <DropdownMenuItem
+                            onClick={() => {
+                                restoreNewsAction(news.id);
+                                router.refresh();
+                            }}
+                        >
+                            <ArchiveRestore
+                                size={16}
+                                className="mr-2"
+                            />
+                            <span>Wiederherstellen</span>
+                        </DropdownMenuItem>}
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

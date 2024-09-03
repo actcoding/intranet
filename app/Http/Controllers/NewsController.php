@@ -104,12 +104,12 @@ class NewsController extends Controller implements HasMiddleware
      *
      * @param  int  $id
      */
-    public function update(NewsUpdateRequest $request, $id): Response|JsonResponse
+    public function update(NewsUpdateRequest $request, $id): Response
     {
         $news = $this->find($id, 'update');
 
         if ($news->trashed()) {
-            return response()->json(['message' => 'You cannot update trashed news.'], status: 403);
+            abort(403, 'You cannot update trashed news.');
         }
 
         $news->fill($request->validated());
@@ -132,14 +132,14 @@ class NewsController extends Controller implements HasMiddleware
      *
      * @param  int  $id
      */
-    public function destroy(Request $request, $id): Response|JsonResponse
+    public function destroy(Request $request, $id): Response
     {
         $force = $request->boolean('force', false);
 
         $news = $this->find($id, $force ? 'forceDelete' : 'delete');
 
         if ($news->trashed()) {
-            return response()->json(['message' => 'You cannot deleted trashed news.'], status: 403);
+            abort(403, 'You cannot delete trashed news.');
         }
 
         $force ? $news->forceDeleteQuietly() : $news->delete();
