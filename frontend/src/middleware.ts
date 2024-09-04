@@ -1,3 +1,5 @@
+"use server";
+
 import { getAppSession } from "@/app/actions";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
@@ -5,8 +7,8 @@ import { refreshToken } from "@/app/actions";
 import { IronSession } from "iron-session";
 
 function isTokenExpired(session: IronSession<AppSession>) {
-    if (!session.expiresAt) return true;
-    return Date.now() > session.expiresAt;
+    // return Date.now() > session.expiresAt;
+    return true;
 }
 
 export async function middleware(request: NextRequest) {
@@ -15,7 +17,10 @@ export async function middleware(request: NextRequest) {
         const roles = session.sessionData?.roles;
 
         if (isTokenExpired(session)) {
-            refreshToken();
+            const res = await refreshToken(request);
+            if (res !== undefined) {
+                return res;
+            }
         }
         if (!roles?.includes("Creator")) {
             return NextResponse.redirect(new URL("/auth/login", request.url));

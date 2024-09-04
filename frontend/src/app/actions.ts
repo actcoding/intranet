@@ -1,17 +1,27 @@
 "use server";
 
 import { ApiResponse } from "@/types";
-import { IronSession, getIronSession } from "iron-session";
+import { SessionOptions, IronSession, getIronSession } from "iron-session";
 import { decodeJwt } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { NextRequest, NextResponse } from "next/server";
+
+const sessionOptions: SessionOptions = {
+    password: process.env.APP_SECRET as string,
+    cookieName: "intranet_session",
+    ttl: 60 * 60 * 24 * 7,
+};
 
 export async function getAppSession(): Promise<IronSession<AppSession>> {
-    return getIronSession<AppSession>(cookies(), {
-        password: process.env.APP_SECRET as string,
-        cookieName: "intranet_session",
-        ttl: 60 * 60 * 24 * 7,
-    });
+    return getIronSession<AppSession>(cookies(), sessionOptions);
+}
+
+export async function getReqSession(
+    request: NextRequest,
+    response: NextResponse
+): Promise<IronSession<AppSession>> {
+    return getIronSession<AppSession>(request, response, sessionOptions);
 }
 
 const apiUrl = process.env.API_URL as string;
@@ -48,6 +58,7 @@ export async function handleLogin(credentials: {
     session.expiresAt = decoded.exp ? decoded.exp * 1000 : undefined; //convert to milliseconds
     await session.save();
 
+    console.log("refresh token", refresh_token);
     if (session.sessionData.user.status === "must_reset_password") {
         redirect("/auth/welcome");
     } else {
@@ -105,10 +116,11 @@ export async function resetPassword(
     redirect("/auth/login");
 }
 
-export async function refreshToken() {
-    const session = await getAppSession();
+export async function refreshToken(request: NextRequest) {
+    let response = NextResponse.next();
+    const session = await getReqSession(request, response);
 
-    const response = await fetch(`${apiUrl}/auth/refresh`, {
+    const tokenResponse = await fetch(`${apiUrl}/auth/refresh`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -117,8 +129,10 @@ export async function refreshToken() {
         body: JSON.stringify({ refresh_token: session.refresh_token }),
     });
 
-    if (response.ok) {
-        const { access_token, refresh_token } = await response.json();
+    console.log(tokenResponse.status);
+
+    if (tokenResponse.ok) {
+        const { access_token, refresh_token } = await tokenResponse.json();
         const decoded = decodeJwt<AppSessionData>(access_token);
 
         session.access_token = access_token;
@@ -126,7 +140,9 @@ export async function refreshToken() {
         session.sessionData = decoded;
         await session.save();
     } else {
+        response = NextResponse.redirect(new URL("/auth/login", request.url));
+        const session = await getReqSession(request, response);
         session.destroy();
-        redirect("/auth/login");
+        return response;
     }
 }
