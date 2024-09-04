@@ -21,6 +21,7 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class NewsController extends Controller implements HasMiddleware
 {
@@ -226,8 +227,12 @@ class NewsController extends Controller implements HasMiddleware
      * - header
      * - content
      */
-    public function listAttachments(News $news): JsonResponse
+    public function listAttachments(Request $request, News $news): JsonResponse
     {
+        $query = collect(Validator::make($request->query(), [
+            'type' => 'nullable|string|in:content,header,attachment'
+        ])->validated());
+
         /** @var Collection */
         $list = collect($news->attachments)
             ->map(fn (Attachment $val) => [
@@ -257,6 +262,11 @@ class NewsController extends Controller implements HasMiddleware
             ]);
         if ($contents->count() > 0) {
             $list = $list->concat($contents);
+        }
+
+        $filter = $query->get('type');
+        if (is_string($filter)) {
+            $list = $list->filter(fn (array $entry) => $entry['type'] === $filter);
         }
 
         return response()->json($list);
