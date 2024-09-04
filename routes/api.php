@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\StorageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/storage/{path}', StorageController::class)
+    ->where('path', '.*');
 
 Route::prefix('/auth')
     ->middleware('auth:api')
