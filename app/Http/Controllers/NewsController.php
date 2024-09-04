@@ -107,7 +107,7 @@ class NewsController extends Controller implements HasMiddleware
      *
      * @param  int  $id
      */
-    public function update(NewsUpdateRequest $request, $id): Response
+    public function update(NewsUpdateRequest $request, $id): JsonResponse
     {
         $news = $this->find($id, 'update');
 
@@ -127,7 +127,7 @@ class NewsController extends Controller implements HasMiddleware
 
         $news->save();
 
-        return response()->noContent();
+        return response()->json($news);
     }
 
     /**
