@@ -62,11 +62,9 @@ class Attachment extends Model
     public function detach(Model $model): void
     {
         DB::table('attachables')
-            ->whereAll([
-                'attachment_id' => $this->id,
-                'attachable_id' => $model->getKey(),
-                'attachable_type' => get_class($model),
-            ])
+            ->where('attachment_id', $this->id)
+            ->where('attachable_id', $model->getKey())
+            ->where('attachable_type', get_class($model))
             ->delete();
     }
 }

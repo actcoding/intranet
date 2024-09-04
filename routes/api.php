@@ -37,3 +37,10 @@ Route::patch('/news/{news}/restore', [NewsController::class, 'restore'])
 Route::post('/news/{news}/upload', [NewsController::class, 'upload'])
     ->name('news.upload')
     ->whereNumber('news');
+Route::get('/news/{news}/upload', [NewsController::class, 'listAttachments'])
+    ->name('news.upload.list')
+    ->whereNumber('news');
+Route::delete('/news/{news}/upload/{attachment}', [NewsController::class, 'detach'])
+    ->name('news.upload.delete')
+    ->whereNumber('news')
+    ->whereNumber('attachment');

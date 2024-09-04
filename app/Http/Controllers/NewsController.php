@@ -7,6 +7,7 @@ use App\Http\Requests\News\NewsListRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Requests\News\UploadImageRequest;
+use App\Http\Resources\AttachmentResource;
 use App\Http\Resources\NewsResource;
 use App\Models\Attachment;
 use App\Models\News;
@@ -17,6 +18,7 @@ use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,7 +30,7 @@ class NewsController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth:api', except: ['index', 'show']),
+            new Middleware('auth:api', except: ['index', 'show', 'listAttachments']),
         ];
     }
 
@@ -162,7 +164,7 @@ class NewsController extends Controller implements HasMiddleware
     }
 
     /**
-     * Uploads a file to the scope of a news article.
+     * Attach a file to the specified resource.
      *
      * @param  int  $id
      */
@@ -173,7 +175,7 @@ class NewsController extends Controller implements HasMiddleware
         $type = $request->input('type');
         $file = $request->file('file');
 
-        $path = $file->store('news/' . $id, 'public');
+        $path = $file->store('news/' . $id . '/' . $type, 'public');
 
         if ($type == 'attachment') {
             /** @var Attachment */
@@ -197,14 +199,67 @@ class NewsController extends Controller implements HasMiddleware
     }
 
     /**
-     * Remove an attachment.
+     * Delete an attachment from the specified resource.
+     *
+     * Deletes the specified attachment associated to the given News entity.
+     * If both are not related to each other or one is not found, a HTTP 404 error is
+     * returned.
      */
-    public function detach(News $news, Attachment $attachment)
+    public function detach(News $news, Attachment $attachment): Response
     {
+        $belongs = $news->attachments()->where('id', $attachment->id)->exists();
+        if (! $belongs) {
+            abort(404, 'No matching attachment could be found!');
+        }
+
         $attachment->detach($news);
         $attachment->delete();
 
         return response()->noContent();
+    }
+
+    /**
+     * List all uploads of the specified resource.
+     *
+     * Returns a list of all files associated to a News entity, including the upload types:
+     * - attachment
+     * - header
+     * - content
+     */
+    public function listAttachments(News $news): JsonResponse
+    {
+        /** @var Collection */
+        $list = collect($news->attachments)
+            ->map(fn (Attachment $val) => [
+                'type' => 'attachment',
+                'data' => new AttachmentResource($val),
+            ]);
+
+        if ($news->header_image != null) {
+            $list->add([
+                'type' => 'header',
+                'data' => [
+                    'url' => $news->header_image,
+                ],
+            ]);
+        }
+
+        /** @var Collection */
+        $contents = collect(
+            Storage::disk('public')->files('news/' . $news->id . '/content')
+        )
+            ->map(fn (string $path) => url(Storage::url($path)))
+            ->map(fn (string $url) => [
+                'type' => 'content',
+                'data' => [
+                    'url' => $url,
+                ],
+            ]);
+        if ($contents->count() > 0) {
+            $list = $list->concat($contents);
+        }
+
+        return response()->json($list);
     }
 
     private function find(string $id, ?string $action = null, bool $allowGuest = false): News
