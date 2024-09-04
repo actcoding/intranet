@@ -37,12 +37,13 @@ export async function handleLogin(credentials: {
         };
     }
 
-    const { access_token } = await res.json();
+    const { access_token, refresh_token } = await res.json();
     const decoded = decodeJwt<AppSessionData>(access_token);
 
     const session = await getAppSession();
 
     session.access_token = access_token;
+    session.refresh_token = refresh_token;
     session.sessionData = decoded;
     session.expiresAt = decoded.exp ? decoded.exp * 1000 : undefined; //convert to milliseconds
     await session.save();
@@ -56,6 +57,16 @@ export async function handleLogin(credentials: {
 
 export async function handleLogout(): Promise<void> {
     const session = await getAppSession();
+    // invalidate tokens
+    fetch(`${apiUrl}/auth/logout`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + session.access_token,
+        },
+        body: JSON.stringify({ refresh_token: session.refresh_token }),
+    });
 
     session.destroy();
     redirect("/auth/login");
@@ -101,15 +112,17 @@ export async function refreshToken() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + session.access_token,
+            Accept: "application/json",
         },
+        body: JSON.stringify({ refresh_token: session.refresh_token }),
     });
 
     if (response.ok) {
-        const { access_token } = await response.json();
+        const { access_token, refresh_token } = await response.json();
         const decoded = decodeJwt<AppSessionData>(access_token);
 
         session.access_token = access_token;
+        session.refresh_token = refresh_token;
         session.sessionData = decoded;
         await session.save();
     } else {

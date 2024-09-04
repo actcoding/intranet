@@ -14,6 +14,7 @@ type User = {
 
 type AppSession = {
     access_token?: string;
+    refresh_token?: string;
     sessionData?: AppSessionData;
     expiresAt?: number;
 };
