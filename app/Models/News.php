@@ -3,9 +3,14 @@
 namespace App\Models;
 
 use App\Enum\NewsStatus;
+use Database\Factories\NewsFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class News extends Model
 {
@@ -19,13 +24,23 @@ class News extends Model
     {
         static::deleted(function (News $news) {
             $news->status = NewsStatus::DELETED;
+            $news->published_at = null;
             $news->save();
         });
 
         static::restored(function (News $news) {
             $news->status = NewsStatus::DRAFT;
+            $news->published_at = null;
             $news->save();
         });
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): NewsFactory
+    {
+        return NewsFactory::new();
     }
 
     /**
@@ -47,7 +62,6 @@ class News extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'deleted_at',
         'author_id',
     ];
 
@@ -60,8 +74,19 @@ class News extends Model
     {
         return [
             'status' => NewsStatus::class,
-            'content' => 'array',
         ];
+    }
+
+    protected function headerImage(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value) => $value == null ? null : url(Storage::url($value)),
+        );
+    }
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function isPublished(): bool
@@ -72,5 +97,27 @@ class News extends Model
     public function isAuthor(User $user): bool
     {
         return $this->author_id === $user->id;
+    }
+
+    public function attachments(): MorphToMany
+    {
+        return $this->morphToMany(Attachment::class, 'attachable');
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
+            'published_at' => $this->published_at,
+
+            'status' => $this->status,
+            'title' => $this->title,
+            'content' => $this->content,
+            'header_image' => $this->header_image,
+        ];
     }
 }

@@ -2,11 +2,20 @@
 
 namespace App\Http\Requests\News;
 
-use App\Rules\AppRules;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsUpdateRequest extends FormRequest
+class NewsDestroyRequest extends FormRequest
 {
+    /**
+     * Get data to be validated from the request.
+     *
+     * @return array
+     */
+    public function validationData(): string|array|null
+    {
+        return $this->query();
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -15,9 +24,7 @@ class NewsUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['nullable', AppRules::newsStatus()],
-            'title' => 'string',
-            'content' => 'string',
+            'force' => 'boolean',
         ];
     }
 }

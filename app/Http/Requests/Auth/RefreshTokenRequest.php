@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\News;
+namespace App\Http\Requests\Auth;
 
-use App\Rules\AppRules;
+use App\Rules\Jwt;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsUpdateRequest extends FormRequest
+class RefreshTokenRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,9 +15,11 @@ class NewsUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['nullable', AppRules::newsStatus()],
-            'title' => 'string',
-            'content' => 'string',
+            'refresh_token' => [
+                'required',
+                'string',
+                new Jwt,
+            ],
         ];
     }
 }

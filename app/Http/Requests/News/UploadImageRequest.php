@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\News;
 
-use App\Rules\AppRules;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsUpdateRequest extends FormRequest
+class UploadImageRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,9 +14,8 @@ class NewsUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['nullable', AppRules::newsStatus()],
-            'title' => 'string',
-            'content' => 'string',
+            'type' => 'required|in:content,header,attachment',
+            'file' => 'required|file',
         ];
     }
 }

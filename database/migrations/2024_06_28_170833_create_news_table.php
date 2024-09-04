@@ -24,10 +24,8 @@ return new class extends Migration
             $statusEnum = collect(NewsStatus::cases())->map(fn ($case) => $case->value)->toArray();
             $table->enum('status', $statusEnum)->default(NewsStatus::DRAFT);
             $table->text('title');
-            $table->jsonb('content');
+            $table->longText('content');
             $table->string('header_image')->nullable();
-
-            // TODO: Attachments
         });
     }
 

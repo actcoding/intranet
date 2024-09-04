@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\NewsStatus;
+use App\Http\Requests\News\NewsListRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
+use App\Http\Requests\News\UploadImageRequest;
+use App\Http\Resources\NewsResource;
+use App\Models\Attachment;
 use App\Models\News;
-use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller implements HasMiddleware
 {
@@ -29,18 +35,26 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Display a paginated list of News.
      *
-     * @LRDparam page integer|min:1
-     * @LRDparam perPage integer|min:1|default:10
+     * Guests and normal users will only see published news, while a Creator will receive
+     * a list of all news.
+     *
+     * @return AnonymousResourceCollection<LengthAwarePaginator<NewsResource>>
      */
-    public function index(Request $request): Paginator
+    public function index(NewsListRequest $request): AnonymousResourceCollection
     {
-        $query = News::query();
+        $query = News::query()
+            ->orderByDesc('published_at')
+            ->with('attachments');
 
         if (Gate::check('news.viewall')) {
             $query = $query->withTrashed();
+        } else {
+            $query = $query->whereStatus(NewsStatus::ACTIVE);
         }
 
-        return $query->simplePaginate($request->query('perPage', 10));
+        return NewsResource::collection(
+            $query->paginate($request->query('perPage', 10))
+        );
     }
 
     /**
@@ -52,25 +66,39 @@ class NewsController extends Controller implements HasMiddleware
 
         $news = new News($request->validated());
         $news->author_id = auth()->user()->id;
-        $news->save();
 
-        return response()->json($news->fresh(), 201);
+        if ($news->status == NewsStatus::ACTIVE) {
+            $news->published_at = now();
+        }
+
+        $news->save();
+        $news->refresh();
+
+        return response()->json($news, 201);
     }
 
     /**
      * Display the specified resource.
+     *
+     * Guests and normal users will only see published news, while a Creator will receive
+     * a list of all news.
+     *
+     * @response NewsResource
      */
-    public function show(string $id): JsonResponse
+    public function show(string $id): NewsResource
     {
         $news = $this->find($id, allowGuest: true);
 
-        return response()->json($news);
+        $news->load('attachments');
+        $news->load('author');
+
+        return new NewsResource($news);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(NewsUpdateRequest $request, string $id): JsonResponse
+    public function update(NewsUpdateRequest $request, string $id): Response|JsonResponse
     {
         $news = $this->find($id, 'update');
 
@@ -79,34 +107,91 @@ class NewsController extends Controller implements HasMiddleware
         }
 
         $news->fill($request->validated());
-        $news->save();
 
-        return response()->json($news);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request, string $id): Response|ResponseFactory
-    {
-        $force = $request->boolean('force', false);
-
-        if ($force) {
-            $news = $this->find($id, 'forceDelete');
-            $news->forceDeleteQuietly();
+        if ($news->status == NewsStatus::ACTIVE) {
+            if ($news->published_at == null) {
+                $news->published_at = now();
+            }
         } else {
-            $news = $this->find($id, 'delete');
-            $news->delete();
+            $news->published_at = null;
         }
+
+        $news->save();
 
         return response()->noContent();
     }
 
-    public function restore(Request $request, string $id)
+    /**
+     * Delete the specified resource from storage.
+     */
+    public function destroy(Request $request, string $id): Response|JsonResponse
+    {
+        $force = $request->boolean('force', false);
+
+        $news = $this->find($id, $force ? 'forceDelete' : 'delete');
+
+        if ($news->trashed()) {
+            return response()->json(['message' => 'You cannot deleted trashed news.'], status: 403);
+        }
+
+        $force ? $news->forceDeleteQuietly() : $news->delete();
+
+        return response()->noContent();
+    }
+
+    /**
+     * Restore this resource from a deleted state.
+     */
+    public function restore(string $id): Response
     {
         $news = $this->find($id, 'restore');
 
         $news->restore();
+
+        return response()->noContent();
+    }
+
+    /**
+     * Uploads a file to the scope of a news article.
+     */
+    public function upload(UploadImageRequest $request, string $id): JsonResponse
+    {
+        $news = $this->find($id, 'update');
+
+        $type = $request->input('type');
+        $file = $request->file('file');
+
+        if ($type == 'attachment') {
+            $path = $file->store('news/' . $id, 'public');
+
+            /** @var Attachment */
+            $attachment = Attachment::create([
+                'name' => $file->getClientOriginalName(),
+                'type' => $file->getMimeType(),
+                'path' => $path,
+            ]);
+            $attachment->attach($news);
+        } elseif ($type == 'header') {
+            $oldImage = $news->getRawOriginal('header_image');
+            if ($oldImage != null) {
+                Storage::disk('public')->delete($oldImage);
+            }
+
+            $path = $file->store('news/' . $id, 'public');
+            $news->header_image = $path;
+            $news->save();
+        }
+
+        return response()->json(['url' => url(Storage::url($path))]);
+    }
+
+    /**
+     * Remove an attachment.
+     */
+    public function detach(News $news, Attachment $attachment)
+    {
+        $attachment->detach($news);
+        $attachment->delete();
 
         return response()->noContent();
     }

@@ -3,91 +3,137 @@
 namespace App\Http\Controllers;
 
 use App\Enum\UserStatus;
+use App\Http\Requests\Auth\LogoutRequest;
+use App\Http\Requests\Auth\RefreshTokenRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\PasswordResetRequest;
+use App\Http\Resources\UserResource;
+use App\Services\JwtGuard;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 /**
  * Handles authentication stuff.
  */
-class AuthController extends Controller
+class AuthController extends Controller implements HasMiddleware
 {
     /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * Get the middleware that should be assigned to the controller.
      */
-    public function login(LoginRequest $request)
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth:api', except: ['login', 'refresh']),
+        ];
+    }
+
+    /**
+     * Get an access token
+     *
+     * Upon successful authentication, two tokens will be generated:
+     *
+     * - An `access_token` for use with protected API endpoints. Typically short-lived (e.g. 10 minutes).
+     * - A `refresh_token` which can be used with the `/auth/refresh` endpoint to generate a new `access_token`.
+     *   Typically long-lived (e.g. 1 week).
+     *
+     * @unauthenticated
+     */
+    public function login(LoginRequest $request): JsonResponse
     {
         $credentials = $request->validated();
 
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+        if (! $token = $this->auth()->attempt($credentials)) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
         }
 
         return $this->respondWithToken($token);
     }
 
     /**
-     * Log the user out (Invalidate the token).
+     * Invalidate a token
      *
-     * @return \Illuminate\Http\JsonResponse
+     * Optionally send a `refresh_token` to invalidate it too.
      */
-    public function logout()
+    public function logout(LogoutRequest $request): JsonResponse
     {
-        auth()->invalidate();
-        auth()->logout();
+        $request->validated();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        $this->auth()->invalidate();
+        if ($request->has(JwtGuard::AUDIENCE_REFRESH)) {
+            $this->auth()->invalidate($request->input(JwtGuard::AUDIENCE_REFRESH));
+        }
+
+        return response()->json(['message' => 'Successfully logged out.']);
     }
 
     /**
-     * Refresh a token.
+     * Refresh a token
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @unauthenticated
      */
-    public function refresh()
+    public function refresh(RefreshTokenRequest $request): JsonResponse
     {
-        return $this->respondWithToken(auth()->refresh());
+        $request->validated();
+
+        return $this->respondWithToken($this->auth()->refresh());
     }
 
-    public function resetPassword(PasswordResetRequest $request, Repository $repository)
+    /**
+     * Reset the user password
+     */
+    public function resetPassword(PasswordResetRequest $request, Repository $repository): JsonResponse
     {
         $data = $request->validated();
 
-        $user = auth()->user();
-
+        /** @var User */
+        $user = $this->auth()->user();
         $user->forceFill([
             'password' => Hash::make($data['password']),
             'status' => UserStatus::ACTIVE,
-        ])->setRememberToken(Str::random(60));
-
+        ]);
         $user->save();
 
         event(new PasswordReset($user));
 
-        auth()->invalidate();
-        auth()->logout();
+        $this->auth()->invalidate();
 
         return response()->json(['message' => 'Password has been reset. You\'ve been logged out.']);
     }
 
     /**
-     * Get the token array structure.
-     *
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * Display the authenticated user
      */
-    protected function respondWithToken(string $token)
+    public function whoami(): UserResource
     {
+        /** @var User */
+        $user = $this->auth()->user();
+
+        return new UserResource($user);
+    }
+
+    /**
+     * Get the token array structure.
+     */
+    protected function respondWithToken(array $token): JsonResponse
+    {
+        [$access_token, $refresh_token] = $token;
+
         return response()->json([
-            'access_token' => $token,
+            'access_token' => $access_token,
+            'refresh_token' => $refresh_token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
         ]);
+    }
+
+    /**
+     * @return JwtGuard
+     */
+    protected function auth()
+    {
+        return auth();
     }
 }
