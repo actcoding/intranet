@@ -1,20 +1,20 @@
-"use client";
+'use client'
 
-import { Button } from "@/lib/components/common/Button";
-import { Card } from "@/lib/components/common/Card";
-import FileTypeIcon from "@/lib/components/shared/FileTypeIcon";
-import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
-import { Trash2Icon } from "lucide-react";
+import { Button } from '@/lib/components/common/Button'
+import { Card } from '@/lib/components/common/Card'
+import FileTypeIcon from '@/lib/components/shared/FileTypeIcon'
+import { cn } from '@/lib/utils'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Trash2Icon } from 'lucide-react'
 
 interface FileListPreviewProps {
     files: File[];
-    display?: "list" | "grid";
+    display?: 'list' | 'grid';
     onRemove?: (file: File) => void;
 }
 
 const FileListPreview = ({
-    display = "list",
+    display = 'list',
     ...props
 }: FileListPreviewProps) => {
     return (
@@ -28,18 +28,18 @@ const FileListPreview = ({
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.1 }}
                         layout
-                        className={cn(display === "grid" && "inline-block")}
+                        className={cn(display === 'grid' && 'inline-block')}
                     >
                         <Card
                             className={cn(
-                                "flex items-center gap-2 me-2 mb-2 px-2",
-                                props.onRemove && "pr-0"
+                                'flex items-center gap-2 me-2 mb-2 px-2',
+                                props.onRemove && 'pr-0',
                             )}
                         >
                             <FileTypeIcon
                                 fileType={file.type}
                                 size={16}
-                                className="flex-shrink-0"
+                                className="shrink-0"
                             />
                             <span className="line-clamp-1 py-2">
                                 {file.name}
@@ -47,8 +47,8 @@ const FileListPreview = ({
                             {props.onRemove && (
                                 <Button
                                     type="button"
-                                    variant={"ghost"}
-                                    size={"icon"}
+                                    variant={'ghost'}
+                                    size={'icon'}
                                     onClick={() =>
                                         props.onRemove && props.onRemove(file)
                                     }
@@ -65,6 +65,6 @@ const FileListPreview = ({
                 ))}
             </AnimatePresence>
         </ul>
-    );
-};
-export default FileListPreview;
+    )
+}
+export default FileListPreview

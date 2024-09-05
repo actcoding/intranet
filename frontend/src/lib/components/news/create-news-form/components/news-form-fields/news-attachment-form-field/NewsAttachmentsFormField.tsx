@@ -1,14 +1,14 @@
-import { Button } from "@/lib/components/common/Button";
+import { Button } from '@/lib/components/common/Button'
 import {
     FormControl,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/lib/components/common/Form";
-import { createNewsFormSchema } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
-import { CreateNewsForm } from "@/lib/components/news/create-news-form/CreateNewsForm.models";
-import FileListPreview from "@/lib/components/shared/FileListPreview";
+} from '@/lib/components/common/Form'
+import { createNewsFormSchema } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
+import { CreateNewsForm } from '@/lib/components/news/create-news-form/CreateNewsForm.models'
+import FileListPreview from '@/lib/components/shared/FileListPreview'
 import {
     FileSelector,
     FileSelectorBody,
@@ -18,50 +18,50 @@ import {
     FileSelectorInput,
     FileSelectorTitle,
     FileSelectorTrigger,
-} from "@/lib/components/shared/FileSelector";
-import { PlusIcon } from "lucide-react";
-import { useState } from "react";
+} from '@/lib/components/shared/FileSelector'
+import { PlusIcon } from 'lucide-react'
+import { useState } from 'react'
 
 interface NewsAttachmentsFormFieldProps {
     form: CreateNewsForm;
 }
 
 const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
-    const [filesPreview, setFilesPreview] = useState<File[] | null>(null);
+    const [filesPreview, setFilesPreview] = useState<File[] | null>(null)
 
     function handleAttachmentsChange(files: File[] | null) {
         if (!files) {
-            setFilesPreview(null);
-            return;
+            setFilesPreview(null)
+            return
         }
         const combinedFiles = props.form
-            .getValues("attachments")
-            ?.concat(files);
+            .getValues('attachments')
+            ?.concat(files)
         if (combinedFiles) {
             const validation = createNewsFormSchema.safeParse({
                 ...props.form.getValues(),
                 attachments: combinedFiles,
-            });
+            })
             if (validation.success) {
-                setFilesPreview(files);
-                props.form.clearErrors("attachments");
+                setFilesPreview(files)
+                props.form.clearErrors('attachments')
             } else {
-                setFilesPreview(null);
-                props.form.setError("attachments", validation.error.errors[0]);
+                setFilesPreview(null)
+                props.form.setError('attachments', validation.error.errors[0])
             }
         }
     }
 
     function handleFilesSelectionConfirm(files: File[]) {
         props.form.setValue(
-            "attachments",
-            props.form.getValues("attachments")?.concat(files),
+            'attachments',
+            props.form.getValues('attachments')?.concat(files),
             {
                 shouldDirty: true,
                 shouldTouch: true,
                 shouldValidate: true,
-            }
-        );
+            },
+        )
     }
 
     return (
@@ -80,7 +80,7 @@ const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
                                 {...rest}
                             >
                                 <FileSelectorTrigger asChild>
-                                    <Button variant={"outline"}>
+                                    <Button variant={'outline'}>
                                         <PlusIcon size={16} className="mr-2" />
                                         Anhänge hinzufügen
                                     </Button>
@@ -111,7 +111,7 @@ const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
                             display="grid"
                             onRemove={(file) =>
                                 onChange(
-                                    value.filter((e) => e.name !== file.name)
+                                    value.filter((e) => e.name !== file.name),
                                 )
                             }
                         />
@@ -119,6 +119,6 @@ const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
                 </>
             )}
         />
-    );
-};
-export { NewsAttachmentsFormField };
+    )
+}
+export { NewsAttachmentsFormField }

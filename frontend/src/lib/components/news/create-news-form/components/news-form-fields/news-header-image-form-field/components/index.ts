@@ -1,1 +1,1 @@
-export * from "./news-header-image-upload-button/NewsHeaderImageUploadButton";
+export * from './news-header-image-upload-button/NewsHeaderImageUploadButton'

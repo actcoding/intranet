@@ -1,30 +1,30 @@
-import { News, NewsStatus } from "@/lib/api/generated";
-import { Badge } from "@/lib/components/common/Badge";
-import { useTranslations } from "next-intl";
+import { NewsStatus } from '@/lib/api/generated'
+import { Badge } from '@/lib/components/common/Badge'
+import { useTranslations } from 'next-intl'
 
 interface NewsStatusBadgeProps {
     status: NewsStatus;
 }
 
 const NewsStatusBadge = (props: NewsStatusBadgeProps) => {
-    const t = useTranslations("News");
+    const t = useTranslations('News')
     switch (props.status) {
-        case "active":
+        case 'active':
             return (
-                <Badge variant={"default"}>{t("news-status-published")}</Badge>
-            );
-        case "draft":
+                <Badge variant={'default'}>{t('news-status-published')}</Badge>
+            )
+        case 'draft':
             return (
-                <Badge variant={"secondary"}>{t("news-status-draft")}</Badge>
-            );
-        case "deleted":
+                <Badge variant={'secondary'}>{t('news-status-draft')}</Badge>
+            )
+        case 'deleted':
             return (
-                <Badge variant={"destructive"}>
-                    {t("news-status-deleted")}
+                <Badge variant={'destructive'}>
+                    {t('news-status-deleted')}
                 </Badge>
-            );
+            )
         default:
-            return null;
+            return null
     }
-};
-export default NewsStatusBadge;
+}
+export default NewsStatusBadge

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image'
 
 interface FileImagePreviewProps {
     image: File;
@@ -15,6 +15,6 @@ const FileImagePreview = (props: FileImagePreviewProps) => {
                 fill
             />
         </div>
-    );
-};
-export default FileImagePreview;
+    )
+}
+export default FileImagePreview

@@ -1,11 +1,11 @@
-import { ZodObject, ZodOptional, ZodType } from "zod";
+import { ZodObject, ZodOptional, ZodType } from 'zod'
 
 export interface ApiError {
     code: number;
     error: string;
 }
 
-export type ApiErrors = Record<string, string[]>;
+export type ApiErrors = Record<string, string[]>
 
 export type ApiResponse = {
     status: 400 | 401 | 403 | 406 | 422 | 429 | 500 | 503 | number
@@ -20,4 +20,4 @@ export type ToZod<T> = {
             ? ZodOptional<ZodType<Exclude<T[K], undefined>>>
             : ZodType<T[K]>
         : ZodObject<ToZod<T[K]>>;
-};
+}

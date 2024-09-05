@@ -1,29 +1,29 @@
-"use client";
+'use client'
 import {
     editNewsAction,
-    uploadNewsFileAction
-} from "@/lib/actions/news";
-import { News } from "@/lib/api/generated";
-import { Button } from "@/lib/components/common/Button";
-import { Form } from "@/lib/components/common/Form";
+    uploadNewsFileAction,
+} from '@/lib/actions/news'
+import { News } from '@/lib/api/generated'
+import { Button } from '@/lib/components/common/Button'
+import { Form } from '@/lib/components/common/Form'
 import {
     NewsAttachmentsFormField,
     NewsContentFormField,
     NewsHeaderImageFormField,
     NewsTitleFormField,
-} from "@/lib/components/news/create-news-form/components/news-form-fields";
-import { createNewsFormSchema } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
+} from '@/lib/components/news/create-news-form/components/news-form-fields'
+import { createNewsFormSchema } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
 import {
-    updateAttachments
-} from "@/lib/components/news/create-news-form/CreateNewsForm.utils";
-import { serializeFileData, urlToFile } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import NewsProvider from "../provider";
-import { useToast } from "../../hooks/use-toast";
+    updateAttachments,
+} from '@/lib/components/news/create-news-form/CreateNewsForm.utils'
+import { serializeFileData, urlToFile } from '@/lib/utils'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+import NewsProvider from '../provider'
+import { useToast } from '../../hooks/use-toast'
 
 interface CreateNewsFormProps {
     news: News;
@@ -33,10 +33,10 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
     const form = useForm<z.infer<typeof createNewsFormSchema>>({
         resolver: zodResolver(createNewsFormSchema),
         defaultValues: {
-            title: props.news?.title ?? "",
-            content: props.news?.content ?? "",
+            title: props.news?.title ?? '',
+            content: props.news?.content ?? '',
         },
-    });
+    })
 
     // const router = useRouter();
     const { toast } = useToast()
@@ -47,24 +47,24 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
                 try {
                     const file = await urlToFile(
                         props.news.headerImage,
-                        "header.png"
-                    );
-                    form.setValue("headerImage", file, {
+                        'header.png',
+                    )
+                    form.setValue('headerImage', file, {
                         shouldDirty: false,
                         shouldTouch: false,
                         shouldValidate: false,
-                    });
+                    })
                 } catch (error) {
                     console.error(
-                        "Fehler beim Laden des Header-Bildes:",
-                        error
-                    );
+                        'Fehler beim Laden des Header-Bildes:',
+                        error,
+                    )
                 }
             }
         }
 
-        loadHeaderImage();
-    }, [props.news?.headerImage, form]);
+        loadHeaderImage()
+    }, [props.news?.headerImage, form])
 
     async function handleSubmit(values: z.infer<typeof createNewsFormSchema>) {
         try {
@@ -74,28 +74,28 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
                     title: values.title,
                     content: values.content,
                 },
-            });
+            })
 
-            if (form.getFieldState("headerImage").isDirty && values.headerImage !== null) {
+            if (form.getFieldState('headerImage').isDirty && values.headerImage !== null) {
                 await uploadNewsFileAction(
                     id,
-                    "header",
-                    serializeFileData(values.headerImage)
-                );
+                    'header',
+                    serializeFileData(values.headerImage),
+                )
             }
 
             if (
-                form.getFieldState("attachments").isDirty &&
+                form.getFieldState('attachments').isDirty &&
                 (values.attachments?.length ?? 0 > 0)
             ) {
-                updateAttachments(id, values.attachments!);
+                updateAttachments(id, values.attachments!)
             }
             
             toast({
                 title: 'Gespeichert',
             })
         } catch (error) {
-            console.error("News creation or file upload failed:", error);
+            console.error('News creation or file upload failed:', error)
         }
     }
 
@@ -116,7 +116,7 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
                 </form>
             </Form>
         </NewsProvider>
-    );
-};
+    )
+}
 
-export default CreateNewsForm;
+export default CreateNewsForm

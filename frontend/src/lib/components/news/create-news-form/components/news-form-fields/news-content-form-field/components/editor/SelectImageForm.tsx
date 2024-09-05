@@ -1,12 +1,12 @@
-import { Button } from "@/lib/components/common/Button";
+import { Button } from '@/lib/components/common/Button'
 import {
     Form,
     FormControl,
     FormField,
     FormItem,
     FormMessage,
-} from "@/lib/components/common/Form";
-import FileImagePreview from "@/lib/components/shared/FileImagePreview";
+} from '@/lib/components/common/Form'
+import FileImagePreview from '@/lib/components/shared/FileImagePreview'
 import {
     FileSelector,
     FileSelectorBody,
@@ -16,16 +16,16 @@ import {
     FileSelectorInput,
     FileSelectorTitle,
     FileSelectorTrigger,
-} from "@/lib/components/shared/FileSelector";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ImageIcon } from "lucide-react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+} from '@/lib/components/shared/FileSelector'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ImageIcon } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 const formSchema = z.object({
     image: z.instanceof(File),
-});
+})
 
 interface SelectImageFormProps {
     onSubmit: (data: z.infer<typeof formSchema>) => void;
@@ -34,24 +34,24 @@ interface SelectImageFormProps {
 const SelectImageForm = (props: SelectImageFormProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-    });
-    const [filePreview, setFilePreview] = useState<File | null>(null);
+    })
+    const [filePreview, setFilePreview] = useState<File | null>(null)
     function handleImagePreviewChange(files: File[] | null) {
         if (!files) {
-            setFilePreview(null);
-            return;
+            setFilePreview(null)
+            return
         }
-        const file = files[0];
+        const file = files[0]
         if (file) {
             const validation = formSchema.safeParse({
                 image: file,
-            });
+            })
             if (validation.success) {
-                setFilePreview(file);
-                form.clearErrors("image");
+                setFilePreview(file)
+                form.clearErrors('image')
             } else {
-                setFilePreview(null);
-                form.setError("image", validation.error.errors[0]);
+                setFilePreview(null)
+                form.setError('image', validation.error.errors[0])
             }
         }
     }
@@ -65,14 +65,14 @@ const SelectImageForm = (props: SelectImageFormProps) => {
                         <FormControl>
                             <FileSelector
                                 onChange={(file) => {
-                                    form.setValue("image", file[0]);
-                                    form.handleSubmit(props.onSubmit)();
+                                    form.setValue('image', file[0])
+                                    form.handleSubmit(props.onSubmit)()
                                 }}
                                 onPreviewChange={handleImagePreviewChange}
                                 {...rest}
                             >
                                 <FileSelectorTrigger asChild>
-                                    <Button variant={"ghost"} size={"icon"}>
+                                    <Button variant={'ghost'} size={'icon'}>
                                         <ImageIcon size={20} />
                                     </Button>
                                 </FileSelectorTrigger>
@@ -99,6 +99,6 @@ const SelectImageForm = (props: SelectImageFormProps) => {
                 )}
             />
         </Form>
-    );
-};
-export default SelectImageForm;
+    )
+}
+export default SelectImageForm

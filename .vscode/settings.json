@@ -1,0 +1,18 @@
+{
+    "editor.foldingImportsByDefault": true,
+    "editor.defaultFormatter": null,
+    "editor.linkedEditing": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.format.semicolons": "remove",
+    "[typescript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+        "editor.formatOnSave": true,
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+        "editor.formatOnSave": true,
+    },
+}

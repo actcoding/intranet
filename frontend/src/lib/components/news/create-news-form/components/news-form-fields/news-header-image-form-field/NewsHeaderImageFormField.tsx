@@ -4,14 +4,14 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/lib/components/common/Form";
-import { NewsHeaderImageUploadButton } from "@/lib/components/news/create-news-form/components/news-form-fields/news-header-image-form-field/components";
+} from '@/lib/components/common/Form'
+import { NewsHeaderImageUploadButton } from '@/lib/components/news/create-news-form/components/news-form-fields/news-header-image-form-field/components'
 import {
     allowedFileTypes,
     createNewsFormSchema,
-} from "@/lib/components/news/create-news-form/CreateNewsForm.config";
-import { CreateNewsForm } from "@/lib/components/news/create-news-form/CreateNewsForm.models";
-import FileImagePreview from "@/lib/components/shared/FileImagePreview";
+} from '@/lib/components/news/create-news-form/CreateNewsForm.config'
+import { CreateNewsForm } from '@/lib/components/news/create-news-form/CreateNewsForm.models'
+import FileImagePreview from '@/lib/components/shared/FileImagePreview'
 import {
     FileSelector,
     FileSelectorBody,
@@ -21,43 +21,43 @@ import {
     FileSelectorInput,
     FileSelectorTitle,
     FileSelectorTrigger,
-} from "@/lib/components/shared/FileSelector";
-import { useState } from "react";
+} from '@/lib/components/shared/FileSelector'
+import { useState } from 'react'
 
 interface NewsHeaderImageFormFieldProps {
     form: CreateNewsForm;
 }
 
 const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
-    const [filePreview, setFilePreview] = useState<File | null>(null);
+    const [filePreview, setFilePreview] = useState<File | null>(null)
 
     function handleHeaderImagePreviewChange(files: File[] | null) {
         if (!files) {
-            setFilePreview(null);
-            return;
+            setFilePreview(null)
+            return
         }
-        const file = files[0];
+        const file = files[0]
         if (file) {
             const validation = createNewsFormSchema.safeParse({
                 ...props.form.getValues(),
                 headerImage: file,
-            });
+            })
             if (validation.success) {
-                setFilePreview(file);
-                props.form.clearErrors("headerImage");
+                setFilePreview(file)
+                props.form.clearErrors('headerImage')
             } else {
-                setFilePreview(null);
-                props.form.setError("headerImage", validation.error.errors[0]);
+                setFilePreview(null)
+                props.form.setError('headerImage', validation.error.errors[0])
             }
         }
     }
 
     function handleFileSelectionConfirm(files: File[]) {
-        props.form.setValue("headerImage", files[0], {
+        props.form.setValue('headerImage', files[0], {
             shouldDirty: true,
             shouldTouch: true,
             shouldValidate: true,
-        });
+        })
     }
 
     return (
@@ -73,7 +73,7 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
                             onPreviewChange={handleHeaderImagePreviewChange}
                             accept={allowedFileTypes.headerImage
                                 .map((type) => `.${type}`)
-                                .join(", ")}
+                                .join(', ')}
                             {...rest}
                         >
                             <FileSelectorTrigger asChild>
@@ -101,7 +101,7 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
                 </FormItem>
             )}
         />
-    );
-};
+    )
+}
 
-export { NewsHeaderImageFormField };
+export { NewsHeaderImageFormField }

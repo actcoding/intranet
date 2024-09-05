@@ -1,5 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/lib/components/common/Card";
-import CreateNewsDraftForm from "@/lib/components/news/create-news-form/CreateNewsDraftForm";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/lib/components/common/Card'
+import CreateNewsDraftForm from '@/lib/components/news/create-news-form/CreateNewsDraftForm'
 
 interface CreateNewsPagePageProps {}
 
@@ -21,6 +21,6 @@ const CreateNewsPage = (props: CreateNewsPagePageProps) => {
                 </CardContent>
             </Card>
         </div>
-    );
-};
-export default CreateNewsPage;
+    )
+}
+export default CreateNewsPage

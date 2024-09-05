@@ -1,6 +1,6 @@
-"use server";
+'use server'
 
-import { newsApi } from "@/lib/api/api";
+import { newsApi } from '@/lib/api/api'
 import {
     FetchError,
     News,
@@ -8,8 +8,8 @@ import {
     NewsUpdateOperationRequest,
     NewsUploadTypeEnum,
     ResponseError,
-} from "@/lib/api/generated";
-import { deserializeFileData } from "@/lib/utils";
+} from '@/lib/api/generated'
+import { deserializeFileData } from '@/lib/utils'
 
 export type ApiResult<T, E = { message: string }> =
     | {
@@ -28,8 +28,8 @@ export async function getNewsListAction({
     page: number;
     perPage: number;
 }) {
-    const newsList = await newsApi.newsIndex({ page, perPage });
-    return newsList.data;
+    const newsList = await newsApi.newsIndex({ page, perPage })
+    return newsList.data
 }
 
 export async function createNewsAction(newsStoreRequest: NewsStoreRequest): Promise<ApiResult<News>> {
@@ -48,7 +48,7 @@ export async function createNewsAction(newsStoreRequest: NewsStoreRequest): Prom
                 data: null,
                 error: {
                     message: error.message,
-                }
+                },
             }
         }
 
@@ -57,31 +57,31 @@ export async function createNewsAction(newsStoreRequest: NewsStoreRequest): Prom
             error: {
                 //@ts-expect-error error is unknown
                 message: error.message,
-            }
+            },
         }
     }
 }
 
 export async function editNewsAction(request: NewsUpdateOperationRequest) {
-    return newsApi.newsUpdate(request);
+    return newsApi.newsUpdate(request)
 }
 
 export async function deleteNewsAction(id: number, force: boolean = false) {
-    return newsApi.newsDestroy({ id, force });
+    return newsApi.newsDestroy({ id, force })
 }
 
 export async function restoreNewsAction(id: number) {
-    return newsApi.newsRestore({ id });
+    return newsApi.newsRestore({ id })
 }
 
 export async function uploadNewsFileAction(
     id: number,
     type: NewsUploadTypeEnum,
-    formData: FormData
+    formData: FormData,
 ) {
     return newsApi.newsUpload({
         id,
         type,
         file: deserializeFileData(formData) as Blob,
-    });
+    })
 }

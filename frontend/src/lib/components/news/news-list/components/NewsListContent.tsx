@@ -1,49 +1,49 @@
-"use client";
+'use client'
 
-import LoadMoreNews from "@/lib/components/news/news-list/components/LoadMoreNews";
-import NewsPreviewCard from "@/lib/components/news/news-list/components/NewsPreviewCard";
-import Link from "next/link";
-import { motion } from "framer-motion";
+import LoadMoreNews from '@/lib/components/news/news-list/components/LoadMoreNews'
+import NewsPreviewCard from '@/lib/components/news/news-list/components/NewsPreviewCard'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 
-import { useCallback, useEffect, useState } from "react";
-import { useIntersectionObserver } from "usehooks-ts";
-import { getNewsListAction } from "@/lib/actions/news";
-import { News } from "@/lib/api/generated";
+import { useCallback, useEffect, useState } from 'react'
+import { useIntersectionObserver } from 'usehooks-ts'
+import { getNewsListAction } from '@/lib/actions/news'
+import { News } from '@/lib/api/generated'
 
 interface NewsListContentProps {
     initialNews: News[];
 }
 
 const NewsListContent = (props: NewsListContentProps) => {
-    const [news, setNews] = useState<News[]>(props.initialNews);
-    const [page, setPage] = useState(1);
-    const [hasMoreData, setHasMoreData] = useState(true);
-    const { isIntersecting, ref } = useIntersectionObserver();
+    const [news, setNews] = useState<News[]>(props.initialNews)
+    const [page, setPage] = useState(1)
+    const [hasMoreData, setHasMoreData] = useState(true)
+    const { isIntersecting, ref } = useIntersectionObserver()
 
     const loadMoreNews = useCallback(async () => {
         if (hasMoreData) {
             const news = await getNewsListAction({
                 page: page + 1,
                 perPage: 6,
-            });
+            })
             if (news && news.length > 0) {
-                setNews((prevNews) => [...prevNews, ...news]);
-                setPage((prevPage) => prevPage + 1);
+                setNews((prevNews) => [...prevNews, ...news])
+                setPage((prevPage) => prevPage + 1)
             } else {
-                setHasMoreData(false);
+                setHasMoreData(false)
             }
         }
-    }, [hasMoreData, page]);
+    }, [hasMoreData, page])
 
     useEffect(() => {
         if (isIntersecting) {
-            loadMoreNews();
+            loadMoreNews()
         }
-    }, [isIntersecting, loadMoreNews]);
+    }, [isIntersecting, loadMoreNews])
 
     return (
         <>
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-4">
+            <div className="mb-4 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
                 {news.map((news, index) => (
                     <motion.div
                         key={index}
@@ -58,6 +58,6 @@ const NewsListContent = (props: NewsListContentProps) => {
             </div>
             {hasMoreData && <LoadMoreNews ref={ref} className="pb-60" />}
         </>
-    );
-};
-export default NewsListContent;
+    )
+}
+export default NewsListContent

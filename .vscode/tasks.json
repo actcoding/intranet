@@ -14,14 +14,22 @@
                 "focus": false,
                 "panel": "dedicated"
             },
-            "group": "none"
+            "group": "none",
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            }
         },
         {
             "label": "Frontend",
             "type": "shell",
             "command": "bun run dev",
             "options": {
-                "cwd": "frontend"
+                "cwd": "frontend",
+                "statusbar": {
+                    "hide": true
+                }
             },
             "problemMatcher": [],
             "presentation": {
@@ -44,7 +52,12 @@
                 "focus": false,
                 "panel": "dedicated"
             },
-            "group": "none"
+            "group": "none",
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            }
         },
         {
             "label": "Queue",
@@ -59,7 +72,12 @@
                 "focus": false,
                 "panel": "dedicated"
             },
-            "group": "none"
+            "group": "none",
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            }
         },
         {
             "label": "Dev",
@@ -79,7 +97,12 @@
                 "Backend",
                 "Scheduler",
                 "Queue"
-            ]
+            ],
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            }
         },
         {
             "label": "Open Browser",
@@ -97,6 +120,11 @@
                 "panel": "shared",
             },
             "group": "none",
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            }
         },
         {
             "label": "Reset database",

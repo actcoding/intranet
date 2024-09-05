@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { Loader2Icon } from "lucide-react";
+import { cn } from '@/lib/utils'
+import { Loader2Icon } from 'lucide-react'
 
 interface SpinnerProps {
     className?: string;
@@ -8,9 +8,9 @@ interface SpinnerProps {
 const Spinner = (props: SpinnerProps) => {
     return (
         <Loader2Icon
-            className={cn("animate-spin", props.className)}
+            className={cn('animate-spin', props.className)}
             size={props.size}
         />
-    );
-};
-export default Spinner;
+    )
+}
+export default Spinner

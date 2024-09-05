@@ -1,25 +1,24 @@
-import { getAppSession } from "@/lib/actions/auth";
-import { newsApi } from "@/lib/api/api";
-import { Avatar, AvatarFallback } from "@/lib/components/common/Avatar";
-import { Button } from "@/lib/components/common/Button";
+import { getAppSession } from '@/lib/actions/auth'
+import { newsApi } from '@/lib/api/api'
+import { Avatar, AvatarFallback } from '@/lib/components/common/Avatar'
+import { Button } from '@/lib/components/common/Button'
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/lib/components/common/Dropdown";
+} from '@/lib/components/common/Dropdown'
 import {
     DeleteNewsDropdownMenuItem,
     PublishNewsDropdownMenuItem,
-} from "@/lib/components/manage/manage-news/manage-news-table/components";
-import FileListPreview from "@/lib/components/shared/FileListPreview";
-import NewsStatusBadge from "@/lib/components/shared/NewsStatusBadge";
-import SanitizedHTMLContent from "@/lib/components/shared/SanitizedHTMLContent";
-import { cn, isCreator } from "@/lib/utils";
-import { MenuIcon, MoreHorizontalIcon, PenIcon, TrashIcon } from "lucide-react";
-import { getFormatter } from "next-intl/server";
-import Image from "next/image";
-import Link from "next/link";
+} from '@/lib/components/manage/manage-news/manage-news-table/components'
+import NewsStatusBadge from '@/lib/components/shared/NewsStatusBadge'
+import SanitizedHTMLContent from '@/lib/components/shared/SanitizedHTMLContent'
+import { cn, isCreator } from '@/lib/utils'
+import { MoreHorizontalIcon, PenIcon } from 'lucide-react'
+import { getFormatter } from 'next-intl/server'
+import Image from 'next/image'
+import Link from 'next/link'
 
 interface Props {
     params: {
@@ -28,20 +27,20 @@ interface Props {
 }
 
 const SingleNewsPage = async (props: Props) => {
-    const news = await newsApi.newsShow({ id: parseInt(props.params.id) });
-    const format = await getFormatter();
+    const news = await newsApi.newsShow({ id: parseInt(props.params.id) })
+    const format = await getFormatter()
     const attachments = await newsApi.newsUploadList({
         news: news.id,
-        type: "attachment",
-    });
-    const { sessionData } = await getAppSession();
+        type: 'attachment',
+    })
+    const { sessionData } = await getAppSession()
     return (
         <>
             {isCreator(sessionData) && (
-                <div className="flex justify-end w-full">
+                <div className="flex w-full justify-end">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant={"ghost"} size={"icon"}>
+                            <Button variant={'ghost'} size={'icon'}>
                                 <MoreHorizontalIcon />
                             </Button>
                         </DropdownMenuTrigger>
@@ -65,11 +64,11 @@ const SingleNewsPage = async (props: Props) => {
                     </DropdownMenu>
                 </div>
             )}
-            <div className="max-w-[800px] mx-auto h-full">
+            <div className="mx-auto h-full max-w-[800px]">
                 <div
                     className={cn(
-                        "mb-6 rounded-lg overflow-hidden",
-                        news.headerImage && "h-[400px] relative"
+                        'mb-6 rounded-lg overflow-hidden',
+                        news.headerImage && 'h-[400px] relative',
                     )}
                 >
                     {news.headerImage && (
@@ -82,16 +81,16 @@ const SingleNewsPage = async (props: Props) => {
                     )}
                     <div
                         className={cn(
-                            "flex flex-col gap-3 justify-end items-start",
+                            'flex flex-col gap-3 justify-end items-start',
                             news.headerImage &&
-                                "bg-black bg-opacity-50 absolute inset-0 text-white p-6"
+                                'bg-black bg-opacity-50 absolute inset-0 text-white p-6',
                         )}
                     >
-                        {news.status === "draft" && (
+                        {news.status === 'draft' && (
                             <NewsStatusBadge status={news.status} />
                         )}
 
-                        <h1 className="text-4xl font-bold mb-2">
+                        <h1 className="mb-2 text-4xl font-bold">
                             {news.title}
                         </h1>
 
@@ -105,7 +104,7 @@ const SingleNewsPage = async (props: Props) => {
                             {news.publishedAt && (
                                 <span className="opacity-70">
                                     {format.relativeTime(
-                                        Date.parse(news.publishedAt)
+                                        Date.parse(news.publishedAt),
                                     )}
                                 </span>
                             )}
@@ -115,14 +114,14 @@ const SingleNewsPage = async (props: Props) => {
                 <SanitizedHTMLContent
                     content={news.content}
                     allowedTags={[
-                        "p",
-                        "strong",
-                        "em",
-                        "a",
-                        "ul",
-                        "ol",
-                        "li",
-                        "img",
+                        'p',
+                        'strong',
+                        'em',
+                        'a',
+                        'ul',
+                        'ol',
+                        'li',
+                        'img',
                     ]}
                 />
             </div>
@@ -136,7 +135,7 @@ const SingleNewsPage = async (props: Props) => {
                 />
             )} */}
         </>
-    );
-};
+    )
+}
 
-export default SingleNewsPage;
+export default SingleNewsPage

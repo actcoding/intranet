@@ -1,6 +1,6 @@
-"server-only";
+'server-only'
 
-import sanitizeHtml from "sanitize-html";
+import sanitizeHtml from 'sanitize-html'
 
 interface SanitizedHTMLContentProps {
     content: string;
@@ -9,10 +9,10 @@ interface SanitizedHTMLContentProps {
 }
 
 const SanitizedHTMLContent = (props: SanitizedHTMLContentProps) => {
-    var content = props.content;
+    var content = props.content
     // Replace paragraphs with whitespace if they are not allowed
-    if (!props.allowedTags?.includes("p")) {
-        content = content.replace(/<p>/g, " ").replace(/<\/p>/g, " ");
+    if (!props.allowedTags?.includes('p')) {
+        content = content.replace(/<p>/g, ' ').replace(/<\/p>/g, ' ')
     }
     return (
         <div
@@ -23,7 +23,7 @@ const SanitizedHTMLContent = (props: SanitizedHTMLContentProps) => {
                 }),
             }}
         ></div>
-    );
-};
+    )
+}
 
-export default SanitizedHTMLContent;
+export default SanitizedHTMLContent

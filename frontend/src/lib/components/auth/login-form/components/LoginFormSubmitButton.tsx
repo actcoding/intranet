@@ -1,13 +1,13 @@
-"use client";
+'use client'
 
-import { Button } from "@/lib/components/common/Button";
-import { useTranslations } from "next-intl";
-import { useFormContext } from "react-hook-form";
+import { Button } from '@/lib/components/common/Button'
+import { useTranslations } from 'next-intl'
+import { useFormContext } from 'react-hook-form'
 
 interface Props {}
 const LoginFormSubmitButton = (props: Props) => {
-    const form = useFormContext();
-    const t = useTranslations("Auth");
+    const form = useFormContext()
+    const t = useTranslations('Auth')
     return (
         <Button
             type="submit"
@@ -15,8 +15,8 @@ const LoginFormSubmitButton = (props: Props) => {
             size="lg"
             loading={form.formState.isSubmitting}
         >
-            {t("login")}
+            {t('login')}
         </Button>
-    );
-};
-export default LoginFormSubmitButton;
+    )
+}
+export default LoginFormSubmitButton

@@ -1,15 +1,15 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next/navigation"
-import { useForm, UseFormReturn } from "react-hook-form"
-import { z } from "zod"
-import { Form } from "../../common/Form"
-import { NewsTitleFormField } from "./components/news-form-fields"
-import { Button } from "../../common/Button"
-import { useCallback } from "react"
-import { createNewsAction } from "@/lib/actions/news"
-import { useToast } from "../../hooks/use-toast"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { useForm, UseFormReturn } from 'react-hook-form'
+import { z } from 'zod'
+import { Form } from '../../common/Form'
+import { NewsTitleFormField } from './components/news-form-fields'
+import { Button } from '../../common/Button'
+import { useCallback } from 'react'
+import { createNewsAction } from '@/lib/actions/news'
+import { useToast } from '../../hooks/use-toast'
 
 const formSchema = z.object({
     title: z.string().min(1),
@@ -47,7 +47,7 @@ export default function CreateNewsDraftForm() {
 
         toast({
             title: 'Entwurf erstellt',
-            description: 'Der Entwurf wurde erstellt und kann jetzt vollumfänglich bearbeitet werden.'
+            description: 'Der Entwurf wurde erstellt und kann jetzt vollumfänglich bearbeitet werden.',
         })
 
         const { id } = data

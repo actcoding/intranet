@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import { Button } from "@/lib/components/common/Button";
-import { Input } from "@/lib/components/common/Input";
+import { Button } from '@/lib/components/common/Button'
+import { Input } from '@/lib/components/common/Input'
 import {
     ResponsiveDialog,
     ResponsiveDialogBody,
@@ -12,9 +12,9 @@ import {
     ResponsiveDialogHeader,
     ResponsiveDialogTitle,
     ResponsiveDialogTrigger,
-} from "@/lib/components/common/ResponsiveDialog";
-import { useFileSelector } from "@/lib/components/hooks/use-file-selector";
-import React, { createContext, useState } from "react";
+} from '@/lib/components/common/ResponsiveDialog'
+import { useFileSelector } from '@/lib/components/hooks/use-file-selector'
+import React, { createContext, useState } from 'react'
 
 interface FileSelectorContextProps {
     selectedFilePreview: File[] | null;
@@ -31,7 +31,7 @@ export const FileSelectorContext = createContext<FileSelectorContextProps>({
     setSelectedFilePreview: () => {},
     dialogOpen: false,
     setDialogOpen: () => {},
-});
+})
 
 interface FileSelectorProps {
     children?: React.ReactNode;
@@ -45,17 +45,17 @@ const FileSelector = React.forwardRef(
     (props: FileSelectorProps, ref: React.Ref<any>) => {
         const [selectedFilePreview, setSelectedFilePreview] = useState<
             File[] | null
-        >(null);
-        const [dialogOpen, setDialogOpen] = useState(false);
+        >(null)
+        const [dialogOpen, setDialogOpen] = useState(false)
 
         function handleFilePreviewChange(file: File[] | null) {
-            setSelectedFilePreview(file);
-            props.onPreviewChange && props.onPreviewChange(file);
+            setSelectedFilePreview(file)
+            props.onPreviewChange && props.onPreviewChange(file)
         }
 
         function handleDialogOpenChange(open: boolean) {
-            setDialogOpen(open);
-            if (!open) handleFilePreviewChange(null);
+            setDialogOpen(open)
+            if (!open) handleFilePreviewChange(null)
         }
 
         return (
@@ -77,80 +77,72 @@ const FileSelector = React.forwardRef(
                     {props.children}
                 </ResponsiveDialog>
             </FileSelectorContext.Provider>
-        );
-    }
-);
+        )
+    },
+)
 
-FileSelector.displayName = "FileSelector";
+FileSelector.displayName = 'FileSelector'
 
-const FileSelectorTrigger = ResponsiveDialogTrigger;
+const FileSelectorTrigger = ResponsiveDialogTrigger
 
-const FileSelectorContent = ResponsiveDialogContent;
+const FileSelectorContent = ResponsiveDialogContent
 
-const FileSelectorHeader = ResponsiveDialogHeader;
+const FileSelectorHeader = ResponsiveDialogHeader
 
-const FileSelectorTitle = ResponsiveDialogTitle;
+const FileSelectorTitle = ResponsiveDialogTitle
 
-const FileSelectorDescription = ResponsiveDialogDescription;
+const FileSelectorDescription = ResponsiveDialogDescription
 
-const FileSelectorBody = ResponsiveDialogBody;
+const FileSelectorBody = ResponsiveDialogBody
 
 interface FileSelectorInputProps {}
 
 const FileSelectorInput = (props: FileSelectorInputProps) => {
-    const { setSelectedFilePreview, accept, multiple } = useFileSelector();
+    const { setSelectedFilePreview, accept, multiple } = useFileSelector()
 
     return (
         <Input
             className="mb-2"
             onChange={(e) =>
                 setSelectedFilePreview(
-                    e.target.files && Array.from(e.target.files)
+                    e.target.files && Array.from(e.target.files),
                 )
             }
             type="file"
             accept={accept}
             multiple={multiple}
         />
-    );
-};
+    )
+}
 
 interface FileSelectorFooterProps {}
 
 const FileSelectorFooter = (props: FileSelectorFooterProps) => {
-    const { selectedFilePreview, setDialogOpen, onChange } = useFileSelector();
+    const { selectedFilePreview, setDialogOpen, onChange } = useFileSelector()
 
     function handleFileSelectionConfirm() {
-        if (!selectedFilePreview) return;
-        onChange && onChange(selectedFilePreview);
-        setDialogOpen(false);
+        if (!selectedFilePreview) return
+        onChange && onChange(selectedFilePreview)
+        setDialogOpen(false)
     }
 
     return (
         <ResponsiveDialogFooter>
             <ResponsiveDialogClose>
-                <Button variant={"outline"}>Abbrechen</Button>
+                <Button variant={'outline'}>Abbrechen</Button>
             </ResponsiveDialogClose>
             <Button
                 onClick={() => {
-                    handleFileSelectionConfirm();
+                    handleFileSelectionConfirm()
                 }}
                 disabled={!selectedFilePreview}
             >
                 Speichern
             </Button>
         </ResponsiveDialogFooter>
-    );
-};
+    )
+}
 
 export {
-    FileSelector,
-    FileSelectorTrigger,
-    FileSelectorContent,
-    FileSelectorHeader,
-    FileSelectorTitle,
-    FileSelectorDescription,
-    FileSelectorBody,
-    FileSelectorInput,
-    FileSelectorFooter,
-};
+    FileSelector, FileSelectorBody, FileSelectorContent, FileSelectorDescription, FileSelectorFooter, FileSelectorHeader, FileSelectorInput, FileSelectorTitle, FileSelectorTrigger,
+}

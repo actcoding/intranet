@@ -1,45 +1,45 @@
-import { News } from "@/lib/api/generated";
-import { Badge } from "@/lib/components/common/Badge";
+import { News } from '@/lib/api/generated'
+import { Badge } from '@/lib/components/common/Badge'
 import {
     Card,
     CardContent,
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/lib/components/common/Card";
-import SanitizedHTMLContent from "@/lib/components/shared/SanitizedHTMLContent";
-import { cn } from "@/lib/utils";
-import { cva } from "class-variance-authority";
-import { NewspaperIcon } from "lucide-react";
-import { useFormatter } from "next-intl";
-import Image from "next/image";
+} from '@/lib/components/common/Card'
+import SanitizedHTMLContent from '@/lib/components/shared/SanitizedHTMLContent'
+import { cn } from '@/lib/utils'
+import { cva } from 'class-variance-authority'
+import { NewspaperIcon } from 'lucide-react'
+import { useFormatter } from 'next-intl'
+import Image from 'next/image'
 
 interface NewsPreviewCardProps extends News {
-    headerImagePosition?: "top" | "left";
+    headerImagePosition?: 'top' | 'left';
     className?: string;
 }
 
 const NewsPreviewCard = ({
-    headerImagePosition = "top",
+    headerImagePosition = 'top',
     ...props
 }: NewsPreviewCardProps) => {
-    const format = useFormatter();
+    const format = useFormatter()
 
     return (
         <Card
             className={cn(
-                "flex",
-                headerImagePosition === "top" && "flex-col",
-                "overflow-hidden",
-                props.className
+                'flex',
+                headerImagePosition === 'top' && 'flex-col',
+                'overflow-hidden',
+                props.className,
             )}
         >
             <NewsPreviewCardHeaderImage
                 src={props.headerImage}
-                alt={props.title || "News"}
+                alt={props.title || 'News'}
                 position={headerImagePosition}
             />
-            <div className="flex flex-col flex-grow">
+            <div className="flex grow flex-col">
                 <CardHeader>
                     <CardTitle>{props.title}</CardTitle>
                 </CardHeader>
@@ -55,32 +55,32 @@ const NewsPreviewCard = ({
                             {format.relativeTime(Date.parse(props.publishedAt))}
                         </p>
                     ) : (
-                        <Badge variant={"secondary"}>Entwurf</Badge>
+                        <Badge variant={'secondary'}>Entwurf</Badge>
                     )}
                 </CardFooter>
             </div>
         </Card>
-    );
-};
+    )
+}
 
 interface NewsPreviewCardHeaderImageProps {
     src: string | undefined | null;
     alt: string;
-    position?: "top" | "left";
+    position?: 'top' | 'left';
 }
 
 const NewsPreviewCardHeaderImage = (props: NewsPreviewCardHeaderImageProps) => {
-    const headerImageVariants = cva("relative flex-shrink-0", {
+    const headerImageVariants = cva('relative shrink-0', {
         variants: {
             position: {
-                top: "h-[200px]",
-                left: "w-[200px]",
+                top: 'h-[200px]',
+                left: 'w-[200px]',
             },
         },
         defaultVariants: {
-            position: "top",
+            position: 'top',
         },
-    });
+    })
 
     if (props.src) {
         return (
@@ -93,19 +93,19 @@ const NewsPreviewCardHeaderImage = (props: NewsPreviewCardHeaderImageProps) => {
                     priority
                 />
             </div>
-        );
+        )
     } else {
         return (
             <div
                 className={cn(
                     headerImageVariants({ position: props.position }),
-                    "bg-primary/15 flex items-center justify-center"
+                    'bg-primary/15 flex items-center justify-center',
                 )}
             >
                 <NewspaperIcon className="text-primary" size={50} />
             </div>
-        );
+        )
     }
-};
+}
 
-export default NewsPreviewCard;
+export default NewsPreviewCard
