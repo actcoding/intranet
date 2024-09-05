@@ -28,7 +28,7 @@ interface Props {
 }
 
 const SingleNewsPage = async (props: Props) => {
-    const news = await newsApi.newsShow({ id: props.params.id });
+    const news = await newsApi.newsShow({ id: parseInt(props.params.id) });
     const format = await getFormatter();
     const attachments = await newsApi.newsUploadList({
         news: news.id,

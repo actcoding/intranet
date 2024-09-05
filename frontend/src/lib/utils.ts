@@ -45,9 +45,9 @@ export function deserializeFileData(formData: FormData): File | File[] {
 
 export async function urlToFile(url: string, filename: string): Promise<File> {
     const response = await fetch(url);
-    const contentType = response.headers.get("content-type");
+    const type = response.headers.get("Content-Type")!;
     const blob = await response.blob();
-    const file = new File([blob], filename, { type: contentType });
+    const file = new File([blob], filename, { type });
     console.log(file);
     return file;
 }

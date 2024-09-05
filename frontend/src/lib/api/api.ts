@@ -7,7 +7,7 @@ const configuration = new Configuration({
     basePath: process.env.API_URL,
     accessToken: async () => {
         const { access_token } = await getAppSession();
-        return access_token;
+        return access_token!;
     },
     headers: {
         Accept: "application/json",

@@ -23,6 +23,8 @@ import { v4 as uuidv4 } from "uuid";
 import { createNewsFormSchema } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
 import { useForm, useFormContext, UseFormReturn } from "react-hook-form";
 import { CreateNewsForm } from "@/lib/components/news/create-news-form/CreateNewsForm.models";
+import { useNews } from "@/lib/components/news/provider";
+import { uploadNewsFileAction } from "@/lib/actions/news";
 
 const CustomImage = Image.extend({
     addAttributes() {
@@ -62,7 +64,8 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
             },
         },
     });
-    const form: CreateNewsForm = useFormContext();
+
+    const news = useNews()
 
     return (
         <div className="flex flex-col min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
@@ -99,24 +102,18 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
                 </Button>
 
                 <SelectImageForm
-                    onSubmit={(formData) => {
-                        const tempId = uuidv4();
+                    onSubmit={async (formData) => {
+                        const uploadData = new FormData()
+                        uploadData.set('file', formData.image)
+                        const { url } = await uploadNewsFileAction(news.id, 'content', uploadData)
+
                         editor
                             ?.chain()
                             .focus()
                             .setImage({
-                                src: URL.createObjectURL(formData.image),
-                                "data-temp-id": tempId,
+                                src: url,
                             })
                             .run();
-                        const currentImages = form.getValues("contentImages");
-                        form.setValue("contentImages", [
-                            ...(currentImages ?? []),
-                            {
-                                tempId: tempId,
-                                image: formData.image,
-                            },
-                        ]);
                     }}
                 />
             </div>

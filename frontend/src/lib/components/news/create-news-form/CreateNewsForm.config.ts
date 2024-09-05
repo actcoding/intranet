@@ -3,23 +3,26 @@ import * as z from "zod";
 export const createNewsFormSchema = z.object({
     title: z.string(),
     content: z.string(),
-    headerImage: z
-        .instanceof(File, {
-            message: "Invalid file",
-        })
-        .refine(
-            (file) => {
-                return allowedFileTypes.headerImage.includes(
+    headerImage: z.undefined()
+        .or(
+            z.instanceof(File, {
+                message: "Invalid file",
+            })
+            .refine(
+                (file) => allowedFileTypes.headerImage.includes(
                     file.type.split("/")[1]
-                );
-            },
-            {
-                message: "Invalid file type",
-            }
-        )
-        .refine((file) => file.size < 1000000, {
-            message: "File size must be less than 1MB",
-        }),
+                ),
+                {
+                    message: "Invalid file type",
+                }
+            )
+            .refine(
+                (file) => file.size < 1000000,
+                {
+                    message: "File size must be less than 1MB",
+                }
+            )
+        ),
     attachments: z
         .array(
             z
@@ -27,18 +30,6 @@ export const createNewsFormSchema = z.object({
                 .refine((file) => file.size < 1000000000, {
                     message: "File size must be less than 1GB",
                 })
-        )
-        .optional(),
-    contentImages: z
-        .array(
-            z.object({
-                tempId: z.string().optional(),
-                image: z
-                    .instanceof(File, { message: "Invalid file" })
-                    .refine((file) => file.size < 1000000000, {
-                        message: "File size must be less than 1GB",
-                    }),
-            })
         )
         .optional(),
 });
