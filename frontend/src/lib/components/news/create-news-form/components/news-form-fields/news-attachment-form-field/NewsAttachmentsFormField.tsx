@@ -55,7 +55,12 @@ const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
     function handleFilesSelectionConfirm(files: File[]) {
         props.form.setValue(
             "attachments",
-            props.form.getValues("attachments")?.concat(files)
+            props.form.getValues("attachments")?.concat(files),
+            {
+                shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true,
+            }
         );
     }
 

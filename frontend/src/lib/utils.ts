@@ -1,5 +1,7 @@
+import { getAppSession } from "@/lib/actions/auth";
 import { ApiErrors } from "@/types";
 import { clsx, type ClassValue } from "clsx";
+import { headers } from "next/headers";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
@@ -20,7 +22,7 @@ export function setLaravelFormErrors<T extends FieldValues = FieldValues>(
     });
 }
 
-export function serializeFileData(data: File | File[]) {
+export function serializeFileData(data: File | File[]): FormData {
     const formData = new FormData();
     if (Array.isArray(data)) {
         data.forEach((file) => {
@@ -33,10 +35,23 @@ export function serializeFileData(data: File | File[]) {
     }
 }
 
-export function deserializeFileData(formData: FormData) {
+export function deserializeFileData(formData: FormData): File | File[] {
     if (formData.has("file[]")) {
         return Array.from(formData.getAll("file[]")) as File[];
     } else {
         return formData.get("file") as File;
     }
+}
+
+export async function urlToFile(url: string, filename: string): Promise<File> {
+    const response = await fetch(url);
+    const contentType = response.headers.get("content-type");
+    const blob = await response.blob();
+    const file = new File([blob], filename, { type: contentType });
+    console.log(file);
+    return file;
+}
+
+export function isCreator(sessionData?: AppSessionData): boolean {
+    return sessionData?.roles.includes("Creator") ?? false;
 }

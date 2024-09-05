@@ -57,54 +57,47 @@ const SelectImageForm = (props: SelectImageFormProps) => {
     }
     return (
         <Form {...form}>
-            <form
-                onSubmit={(e) => {
-                    e.stopPropagation();
-                }}
-                className="flex gap-2"
-            >
-                <FormField
-                    control={form.control}
-                    name="image"
-                    render={({ field: { onChange, value, ...rest } }) => (
-                        <FormItem>
-                            <FormControl>
-                                <FileSelector
-                                    onChange={(file) => {
-                                        form.setValue("image", file[0]);
-                                        form.handleSubmit(props.onSubmit)();
-                                    }}
-                                    onPreviewChange={handleImagePreviewChange}
-                                    {...rest}
-                                >
-                                    <FileSelectorTrigger asChild>
-                                        <Button variant={"ghost"} size={"icon"}>
-                                            <ImageIcon size={20} />
-                                        </Button>
-                                    </FileSelectorTrigger>
-                                    <FileSelectorContent>
-                                        <FileSelectorHeader>
-                                            <FileSelectorTitle>
-                                                Bild wählen
-                                            </FileSelectorTitle>
-                                        </FileSelectorHeader>
-                                        <FileSelectorBody>
-                                            <FileSelectorInput />
-                                            {filePreview && (
-                                                <FileImagePreview
-                                                    image={filePreview}
-                                                />
-                                            )}
-                                        </FileSelectorBody>
-                                        <FileSelectorFooter />
-                                    </FileSelectorContent>
-                                </FileSelector>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-            </form>
+            <FormField
+                control={form.control}
+                name="image"
+                render={({ field: { onChange, value, ...rest } }) => (
+                    <FormItem>
+                        <FormControl>
+                            <FileSelector
+                                onChange={(file) => {
+                                    form.setValue("image", file[0]);
+                                    form.handleSubmit(props.onSubmit)();
+                                }}
+                                onPreviewChange={handleImagePreviewChange}
+                                {...rest}
+                            >
+                                <FileSelectorTrigger asChild>
+                                    <Button variant={"ghost"} size={"icon"}>
+                                        <ImageIcon size={20} />
+                                    </Button>
+                                </FileSelectorTrigger>
+                                <FileSelectorContent>
+                                    <FileSelectorHeader>
+                                        <FileSelectorTitle>
+                                            Bild wählen
+                                        </FileSelectorTitle>
+                                    </FileSelectorHeader>
+                                    <FileSelectorBody>
+                                        <FileSelectorInput />
+                                        {filePreview && (
+                                            <FileImagePreview
+                                                image={filePreview}
+                                            />
+                                        )}
+                                    </FileSelectorBody>
+                                    <FileSelectorFooter />
+                                </FileSelectorContent>
+                            </FileSelector>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
         </Form>
     );
 };

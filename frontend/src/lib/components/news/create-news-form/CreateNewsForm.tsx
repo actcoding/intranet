@@ -4,7 +4,7 @@ import {
     editNewsAction,
     uploadNewsFileAction,
 } from "@/lib/actions/news";
-import { instanceOfNewsUpload200Response } from "@/lib/api/generated";
+import { instanceOfNewsUpload200Response, News } from "@/lib/api/generated";
 import { Button } from "@/lib/components/common/Button";
 import { Form } from "@/lib/components/common/Form";
 import {
@@ -14,92 +14,112 @@ import {
     NewsTitleFormField,
 } from "@/lib/components/news/create-news-form/components/news-form-fields";
 import { createNewsFormSchema } from "@/lib/components/news/create-news-form/CreateNewsForm.config";
-import { serializeFileData } from "@/lib/utils";
+import {
+    getImagesFromHtml,
+    updateAttachments,
+    updateContentImages,
+} from "@/lib/components/news/create-news-form/CreateNewsForm.utils";
+import { serializeFileData, urlToFile } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useEffect, useReducer, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-interface CreateNewsFormProps {}
+interface CreateNewsFormProps {
+    news?: News;
+}
 
 const CreateNewsForm = (props: CreateNewsFormProps) => {
     const form = useForm<z.infer<typeof createNewsFormSchema>>({
         resolver: zodResolver(createNewsFormSchema),
         defaultValues: {
-            title: "",
-            content: "",
-            attachments: [],
+            title: props.news?.title ?? "",
+            content: props.news?.content ?? "",
+            contentImages: props.news?.content
+                ? getImagesFromHtml(props.news?.content).map((e) => {
+                      return { image: e };
+                  })
+                : [],
         },
     });
+
     const router = useRouter();
+
+    useEffect(() => {
+        async function loadHeaderImage() {
+            if (props.news?.headerImage) {
+                try {
+                    const file = await urlToFile(
+                        props.news.headerImage,
+                        "header.png"
+                    );
+                    form.setValue("headerImage", file, {
+                        shouldDirty: false,
+                        shouldTouch: false,
+                        shouldValidate: false,
+                    });
+                } catch (error) {
+                    console.error(
+                        "Fehler beim Laden des Header-Bildes:",
+                        error
+                    );
+                }
+            }
+        }
+
+        loadHeaderImage();
+    }, [props.news?.headerImage, form]);
 
     async function handleSubmit(values: z.infer<typeof createNewsFormSchema>) {
         try {
-            const createdNews = await createNewsAction({
-                title: values.title,
-                content: values.content,
-            });
-            if (createdNews) {
-                const file = values.headerImage;
-                if (!file) return;
+            let persistedNewsId: number | undefined;
+            if (props.news) {
+                await editNewsAction({
+                    id: props.news.id,
+                    newsUpdateRequest: {
+                        title: values.title,
+                        content: values.content,
+                    },
+                });
+                persistedNewsId = props.news.id;
+            } else {
+                const res = await createNewsAction({
+                    title: values.title,
+                    content: values.content,
+                });
 
-                const res = await uploadNewsFileAction(
-                    createdNews.id,
-                    "header",
-                    serializeFileData(file)
-                );
+                persistedNewsId = res.id;
+            }
 
-                // if (instanceOfNewsUpload200Response(res)) {
-                //     router.push(`/news/${createdNews.id}`);
-                // } else {
-                //     console.error("File upload failed:", res);
-                // }
-
-                let content = form.getValues("content");
-                const tempImages = content.match(
-                    /<img[^>]+data-temp-id="([^"]+)"[^>]*>/g
-                );
-                console.log("tempImages:", tempImages);
-                console.log("contentimages:", form.getValues("contentImages"));
-
-                if (tempImages) {
-                    for (let index = 0; index < tempImages.length; index++) {
-                        const tempImage = tempImages[index];
-                        const file = form.getValues("contentImages")?.[index];
-                        console.log("file:", file);
-                        if (!file) continue;
-                        const imageUrl = await uploadNewsFileAction(
-                            createdNews.id,
-                            "content",
-                            serializeFileData(file.file)
-                        );
-                        console.log("imageUrl:", imageUrl);
-                        content = content.replace(
-                            tempImage,
-                            `<img src="${imageUrl.url}" alt="Uploaded image">`
-                        );
-                        console.log("content:", content);
-                    }
+            if (persistedNewsId) {
+                if (form.getFieldState("headerImage").isDirty) {
+                    await uploadNewsFileAction(
+                        persistedNewsId,
+                        "header",
+                        serializeFileData(values.headerImage)
+                    );
                 }
 
-                console.log("real content:", content);
-                await editNewsAction({
-                    id: createdNews.id,
-                    newsUpdateRequest: { content: content },
-                });
-
-                values.attachments?.forEach(async (file) => {
-                    const res = await uploadNewsFileAction(
-                        createdNews.id,
-                        "attachment",
-                        serializeFileData(file)
+                if (
+                    form.getFieldState("content").isDirty &&
+                    (values.contentImages?.length ?? 0 > 0)
+                ) {
+                    await updateContentImages(
+                        persistedNewsId,
+                        values.content,
+                        values.contentImages!
                     );
+                }
 
-                    if (!instanceOfNewsUpload200Response(res)) {
-                        console.error("File upload failed:", res);
-                    }
-                });
+                if (
+                    form.getFieldState("attachments").isDirty &&
+                    (values.attachments?.length ?? 0 > 0)
+                ) {
+                    updateAttachments(persistedNewsId, values.attachments!);
+                }
             }
+            router.push(`/news/${persistedNewsId}`);
         } catch (error) {
             console.error("News creation or file upload failed:", error);
         }

@@ -53,7 +53,11 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
     }
 
     function handleFileSelectionConfirm(files: File[]) {
-        props.form.setValue("headerImage", files[0]);
+        props.form.setValue("headerImage", files[0], {
+            shouldDirty: true,
+            shouldTouch: true,
+            shouldValidate: true,
+        });
     }
 
     return (

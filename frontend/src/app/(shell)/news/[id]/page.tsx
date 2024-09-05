@@ -1,11 +1,25 @@
+import { getAppSession } from "@/lib/actions/auth";
 import { newsApi } from "@/lib/api/api";
 import { Avatar, AvatarFallback } from "@/lib/components/common/Avatar";
+import { Button } from "@/lib/components/common/Button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/lib/components/common/Dropdown";
+import {
+    DeleteNewsDropdownMenuItem,
+    PublishNewsDropdownMenuItem,
+} from "@/lib/components/manage/manage-news/manage-news-table/components";
 import FileListPreview from "@/lib/components/shared/FileListPreview";
 import NewsStatusBadge from "@/lib/components/shared/NewsStatusBadge";
 import SanitizedHTMLContent from "@/lib/components/shared/SanitizedHTMLContent";
-import { cn } from "@/lib/utils";
+import { cn, isCreator } from "@/lib/utils";
+import { MenuIcon, MoreHorizontalIcon, PenIcon, TrashIcon } from "lucide-react";
 import { getFormatter } from "next-intl/server";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
     params: {
@@ -16,67 +30,112 @@ interface Props {
 const SingleNewsPage = async (props: Props) => {
     const news = await newsApi.newsShow({ id: props.params.id });
     const format = await getFormatter();
-    console.log(JSON.stringify(news.content));
+    const attachments = await newsApi.newsUploadList({
+        news: news.id,
+        type: "attachment",
+    });
+    const { sessionData } = await getAppSession();
     return (
-        <div className="max-w-[800px] mx-auto h-full">
-            <div
-                className={cn(
-                    "mb-6 rounded-lg overflow-hidden",
-                    news.headerImage && "h-[400px] relative"
-                )}
-            >
-                {news.headerImage && (
-                    <Image
-                        src={news.headerImage}
-                        alt={news.title}
-                        layout="fill"
-                        objectFit="cover"
-                    />
-                )}
+        <>
+            {isCreator(sessionData) && (
+                <div className="flex justify-end w-full">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant={"ghost"} size={"icon"}>
+                                <MoreHorizontalIcon />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <Link href={`/manage/news/${news.id}`}>
+                                <DropdownMenuItem>
+                                    <PenIcon size={16} className="mr-2" />
+                                    Edit
+                                </DropdownMenuItem>
+                            </Link>
+                            <PublishNewsDropdownMenuItem newsId={news.id}>
+                                Veröffentlichen
+                            </PublishNewsDropdownMenuItem>
+                            <DeleteNewsDropdownMenuItem
+                                newsId={news.id}
+                                callbackUrl="/news"
+                            >
+                                Löschen
+                            </DeleteNewsDropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            )}
+            <div className="max-w-[800px] mx-auto h-full">
                 <div
                     className={cn(
-                        "flex flex-col gap-3 justify-end items-start",
-                        news.headerImage &&
-                            "bg-black bg-opacity-50 absolute inset-0 text-white p-6"
+                        "mb-6 rounded-lg overflow-hidden",
+                        news.headerImage && "h-[400px] relative"
                     )}
                 >
-                    {news.status === "draft" && (
-                        <NewsStatusBadge status={news.status} />
+                    {news.headerImage && (
+                        <Image
+                            src={news.headerImage}
+                            alt={news.title}
+                            layout="fill"
+                            objectFit="cover"
+                        />
                     )}
-
-                    <h1 className="text-4xl font-bold mb-2">{news.title}</h1>
-
-                    <div className="flex items-center gap-2">
-                        <Avatar className="text-black">
-                            <AvatarFallback>
-                                {news.author.name[0]}
-                            </AvatarFallback>
-                        </Avatar>
-                        <span>{news.author.name}</span>
-                        {news.publishedAt && (
-                            <span className="opacity-70">
-                                {format.relativeTime(
-                                    Date.parse(news.publishedAt)
-                                )}
-                            </span>
+                    <div
+                        className={cn(
+                            "flex flex-col gap-3 justify-end items-start",
+                            news.headerImage &&
+                                "bg-black bg-opacity-50 absolute inset-0 text-white p-6"
                         )}
+                    >
+                        {news.status === "draft" && (
+                            <NewsStatusBadge status={news.status} />
+                        )}
+
+                        <h1 className="text-4xl font-bold mb-2">
+                            {news.title}
+                        </h1>
+
+                        <div className="flex items-center gap-2">
+                            <Avatar className="text-black">
+                                <AvatarFallback>
+                                    {news.author.name[0]}
+                                </AvatarFallback>
+                            </Avatar>
+                            <span>{news.author.name}</span>
+                            {news.publishedAt && (
+                                <span className="opacity-70">
+                                    {format.relativeTime(
+                                        Date.parse(news.publishedAt)
+                                    )}
+                                </span>
+                            )}
+                        </div>
                     </div>
                 </div>
+                <SanitizedHTMLContent
+                    content={news.content}
+                    allowedTags={[
+                        "p",
+                        "strong",
+                        "em",
+                        "a",
+                        "ul",
+                        "ol",
+                        "li",
+                        "img",
+                    ]}
+                />
             </div>
-            <SanitizedHTMLContent
-                content={news.content}
-                allowedTags={[
-                    "p",
-                    "strong",
-                    "em",
-                    "a",
-                    "ul",
-                    "ol",
-                    "li",
-                    "img",
-                ]}
-            />
-        </div>
+            {/* {attachments.length > 0 && (
+                <FileListPreview
+                    files={[
+                        attachments.map((attachment) => {
+                            return attachment.data;
+                        }),
+                    ]}
+                />
+            )} */}
+        </>
     );
 };
 

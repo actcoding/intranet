@@ -8,6 +8,7 @@ import {
 } from "@/lib/components/sidebar/Sidebar";
 import SidebarUserDetails from "@/lib/components/sidebar/components/SidebarUserDetails";
 import { SidebarLink } from "@/lib/types/sidebar-link";
+import { isCreator } from "@/lib/utils";
 import { HomeIcon, NewspaperIcon, Settings2Icon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
@@ -27,7 +28,7 @@ export default async function ShellLayout({
             label: t("manage"),
             href: "/manage",
             icon: <Settings2Icon />,
-            hidden: !sessionData?.roles.includes("Creator"),
+            hidden: !isCreator(sessionData),
         },
     ];
 

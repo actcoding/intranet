@@ -113,7 +113,8 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
                         form.setValue("contentImages", [
                             ...(currentImages ?? []),
                             {
-                                file: formData.image,
+                                tempId: tempId,
+                                image: formData.image,
                             },
                         ]);
                     }}

@@ -32,7 +32,8 @@ export const createNewsFormSchema = z.object({
     contentImages: z
         .array(
             z.object({
-                file: z
+                tempId: z.string().optional(),
+                image: z
                     .instanceof(File, { message: "Invalid file" })
                     .refine((file) => file.size < 1000000000, {
                         message: "File size must be less than 1GB",
@@ -41,6 +42,8 @@ export const createNewsFormSchema = z.object({
         )
         .optional(),
 });
+
+export const editNewsFormSchema = createNewsFormSchema;
 
 export const allowedFileTypes = {
     headerImage: ["png", "jpeg", "jpg"],
