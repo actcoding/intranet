@@ -23,15 +23,6 @@ export const createNewsFormSchema = z.object({
                     },
                 ),
         ),
-    attachments: z
-        .array(
-            z
-                .instanceof(File, { message: 'Invalid file' })
-                .refine((file) => file.size < 1000000000, {
-                    message: 'File size must be less than 1GB',
-                }),
-        )
-        .optional(),
 })
 
 export const editNewsFormSchema = createNewsFormSchema

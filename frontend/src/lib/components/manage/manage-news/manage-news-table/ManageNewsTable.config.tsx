@@ -44,12 +44,12 @@ function CellActions({ row }: { row: Row<News> }) {
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {news.status === 'draft' && (
+                {news.status === 'draft' ? (
                     <PublishNewsDropdownMenuItem newsId={news.id}>
                         <span>Veröffentlichen</span>
                     </PublishNewsDropdownMenuItem>
-                )}
-                {news.status === 'active' && (
+                ) : null}
+                {news.status === 'active' ? (
                     <DropdownMenuItem
                         onClick={() => {
                             editNewsAction({
@@ -62,7 +62,7 @@ function CellActions({ row }: { row: Row<News> }) {
                         <FileUpIcon size={16} className="mr-2" />
                         <span>Veröffentlichung aufheben</span>
                     </DropdownMenuItem>
-                )}
+                ) : null}
                 <DropdownMenuItem asChild>
                     <Link href={`/news/${news.id}`}>
                         <EyeIcon size={16} className="mr-2" />
@@ -75,12 +75,12 @@ function CellActions({ row }: { row: Row<News> }) {
                         Bearbeiten
                     </Link>
                 </DropdownMenuItem>
-                {news.status !== 'deleted' && (
+                {news.status !== 'deleted' ? (
                     <DeleteNewsDropdownMenuItem newsId={news.id}>
                         Löschen
                     </DeleteNewsDropdownMenuItem>
-                )}
-                {news.status === 'deleted' && (
+                ) : null}
+                {news.status === 'deleted' ? (
                     <DropdownMenuItem
                         onClick={() => {
                             restoreNewsAction(news.id)
@@ -90,7 +90,7 @@ function CellActions({ row }: { row: Row<News> }) {
                         <ArchiveRestore size={16} className="mr-2" />
                         <span>Wiederherstellen</span>
                     </DropdownMenuItem>
-                )}
+                ) : null}
             </DropdownMenuContent>
         </DropdownMenu>
     )

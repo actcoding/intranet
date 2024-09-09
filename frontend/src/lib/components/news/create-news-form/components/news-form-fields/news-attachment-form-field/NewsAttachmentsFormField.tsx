@@ -1,13 +1,6 @@
+import { newsApi } from '@/lib/api/api'
+import { News } from '@/lib/api/generated'
 import { Button } from '@/lib/components/common/Button'
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/lib/components/common/Form'
-import { createNewsFormSchema } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
-import { CreateNewsForm } from '@/lib/components/news/create-news-form/CreateNewsForm.models'
 import FileListPreview from '@/lib/components/shared/FileListPreview'
 import {
     FileSelector,
@@ -20,105 +13,55 @@ import {
     FileSelectorTrigger,
 } from '@/lib/components/shared/FileSelector'
 import { PlusIcon } from 'lucide-react'
-import { useState } from 'react'
 
 interface NewsAttachmentsFormFieldProps {
-    form: CreateNewsForm;
+    news: News
 }
 
-const NewsAttachmentsFormField = (props: NewsAttachmentsFormFieldProps) => {
-    const [filesPreview, setFilesPreview] = useState<File[] | null>(null)
+export async function NewsAttachmentsFormField ({ news }: NewsAttachmentsFormFieldProps) {
+    const files: File[] = await newsApi.newsUploadList({
+        news: news.id,
+        type: 'attachment',
+    })
 
-    function handleAttachmentsChange(files: File[] | null) {
-        if (!files) {
-            setFilesPreview(null)
-            return
-        }
-        const combinedFiles = props.form
-            .getValues('attachments')
-            ?.concat(files)
-        if (combinedFiles) {
-            const validation = createNewsFormSchema.safeParse({
-                ...props.form.getValues(),
-                attachments: combinedFiles,
-            })
-            if (validation.success) {
-                setFilesPreview(files)
-                props.form.clearErrors('attachments')
-            } else {
-                setFilesPreview(null)
-                props.form.setError('attachments', validation.error.errors[0])
-            }
-        }
-    }
-
-    function handleFilesSelectionConfirm(files: File[]) {
-        props.form.setValue(
-            'attachments',
-            props.form.getValues('attachments')?.concat(files),
-            {
-                shouldDirty: true,
-                shouldTouch: true,
-                shouldValidate: true,
-            },
-        )
+    const onChange = async (files: File[]) => {
+        console.log(files)
     }
 
     return (
-        <FormField
-            control={props.form.control}
-            name="attachments"
-            render={({ field: { onChange, value, ...rest } }) => (
-                <>
-                    <FormItem>
-                        <FormLabel className="sr-only">Anhänge</FormLabel>
-                        <FormControl>
-                            <FileSelector
-                                onChange={handleFilesSelectionConfirm}
-                                onPreviewChange={handleAttachmentsChange}
-                                multiple
-                                {...rest}
-                            >
-                                <FileSelectorTrigger asChild>
-                                    <Button variant={'outline'}>
-                                        <PlusIcon size={16} className="mr-2" />
-                                        Anhänge hinzufügen
-                                    </Button>
-                                </FileSelectorTrigger>
-                                <FileSelectorContent>
-                                    <FileSelectorHeader>
-                                        <FileSelectorTitle>
-                                            Anhänge hinzufügen
-                                        </FileSelectorTitle>
-                                    </FileSelectorHeader>
-                                    <FileSelectorBody>
-                                        <FileSelectorInput />
-                                        {filesPreview && (
-                                            <FileListPreview
-                                                files={filesPreview}
-                                            />
-                                        )}
-                                    </FileSelectorBody>
-                                    <FileSelectorFooter />
-                                </FileSelectorContent>
-                            </FileSelector>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    {value && (
-                        <FileListPreview
-                            files={value}
-                            display="grid"
-                            onRemove={(file) =>
-                                onChange(
-                                    value.filter((e) => e.name !== file.name),
-                                )
-                            }
-                        />
-                    )}
-                </>
-            )}
-        />
+        <div className='space-y-2'>
+            <p className="text-sm font-medium leading-none">
+                Anhänge
+            </p>
+
+            <FileSelector
+                // onPreviewChange={files => setFiles(files ?? [])}
+                // onChange={onChange}
+                multiple
+            >
+                <FileSelectorTrigger asChild>
+                    <Button variant={'outline'}>
+                        <PlusIcon size={16} className="mr-2" />
+                        Anhänge hinzufügen
+                    </Button>
+                </FileSelectorTrigger>
+                <FileSelectorContent>
+                    <FileSelectorHeader>
+                        <FileSelectorTitle>
+                            Anhänge hinzufügen
+                        </FileSelectorTitle>
+                    </FileSelectorHeader>
+                    <FileSelectorBody>
+                        <FileSelectorInput />
+                    </FileSelectorBody>
+                    <FileSelectorFooter />
+                </FileSelectorContent>
+            </FileSelector>
+
+            <FileListPreview
+                display='grid'
+                files={files.map(file => file.data)}
+            />
+        </div>
     )
 }
-export { NewsAttachmentsFormField }

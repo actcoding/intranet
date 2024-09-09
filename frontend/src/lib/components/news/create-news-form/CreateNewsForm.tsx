@@ -1,4 +1,5 @@
 'use client'
+
 import {
     editNewsAction,
     uploadNewsFileAction,
@@ -7,23 +8,18 @@ import { News } from '@/lib/api/generated'
 import { Button } from '@/lib/components/common/Button'
 import { Form } from '@/lib/components/common/Form'
 import {
-    NewsAttachmentsFormField,
     NewsContentFormField,
     NewsHeaderImageFormField,
     NewsTitleFormField,
 } from '@/lib/components/news/create-news-form/components/news-form-fields'
 import { createNewsFormSchema } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
-import {
-    updateAttachments,
-} from '@/lib/components/news/create-news-form/CreateNewsForm.utils'
 import { serializeFileData, urlToFile } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
-import NewsProvider from '../provider'
 import { useToast } from '../../hooks/use-toast'
+import NewsProvider from '../provider'
 
 interface CreateNewsFormProps {
     news: News;
@@ -84,13 +80,6 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
                 )
             }
 
-            if (
-                form.getFieldState('attachments').isDirty &&
-                (values.attachments?.length ?? 0 > 0)
-            ) {
-                updateAttachments(id, values.attachments!)
-            }
-            
             toast({
                 title: 'Gespeichert',
             })
@@ -109,7 +98,6 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
                     <NewsTitleFormField form={form} />
                     <NewsHeaderImageFormField form={form} />
                     <NewsContentFormField form={form} />
-                    <NewsAttachmentsFormField form={form} />
                     <Button type="submit" className="float-end">
                         Speichern
                     </Button>

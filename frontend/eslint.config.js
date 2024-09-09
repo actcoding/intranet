@@ -10,6 +10,13 @@ const config = [
         rules: {
             '@react/react-in-jsx-scope': 'off',
             '@react/prop-types': 'off',
+            'no-restricted-syntax': [
+                'error',
+                {
+                    'selector': 'JSXElement > JSXExpressionContainer > LogicalExpression[operator!=\'??\']',
+                    'message': 'Please use ternary operator instead',
+                },
+            ],
         },
     },
     {

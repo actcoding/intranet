@@ -1,5 +1,6 @@
 import { getAppSession } from '@/lib/actions/auth'
 import { newsApi } from '@/lib/api/api'
+import { News } from '@/lib/api/generated'
 import { Avatar, AvatarFallback } from '@/lib/components/common/Avatar'
 import { Button } from '@/lib/components/common/Button'
 import {
@@ -12,6 +13,7 @@ import {
     DeleteNewsDropdownMenuItem,
     PublishNewsDropdownMenuItem,
 } from '@/lib/components/manage/manage-news/manage-news-table/components'
+import FileListPreview from '@/lib/components/shared/FileListPreview'
 import NewsStatusBadge from '@/lib/components/shared/NewsStatusBadge'
 import SanitizedHTMLContent from '@/lib/components/shared/SanitizedHTMLContent'
 import { cn, isCreator } from '@/lib/utils'
@@ -19,6 +21,7 @@ import { MoreHorizontalIcon, PenIcon } from 'lucide-react'
 import { getFormatter } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect } from 'react'
 
 interface Props {
     params: {
@@ -27,16 +30,33 @@ interface Props {
 }
 
 const SingleNewsPage = async (props: Props) => {
-    const news = await newsApi.newsShow({ id: parseInt(props.params.id) })
     const format = await getFormatter()
-    const attachments = await newsApi.newsUploadList({
-        news: news.id,
-        type: 'attachment',
-    })
+
+    let news: News|null = null
+    let attachments: [] = []
+
+    try {
+        // @ts-ignore
+        news = await newsApi.newsShow({ id: parseInt(props.params.id) })
+        attachments = await newsApi.newsUploadList({
+            news: news.id,
+            type: 'attachment',
+        })
+    } catch (error) {
+    }
+
+    if (news === null) {
+        return (
+            <p>
+                404
+            </p>
+        )
+    }
+
     const { sessionData } = await getAppSession()
     return (
         <>
-            {isCreator(sessionData) && (
+            {isCreator(sessionData) ? (
                 <div className="flex w-full justify-end">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -63,7 +83,7 @@ const SingleNewsPage = async (props: Props) => {
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
-            )}
+            ) : null}
             <div className="mx-auto h-full max-w-[800px]">
                 <div
                     className={cn(
@@ -71,12 +91,12 @@ const SingleNewsPage = async (props: Props) => {
                         news.headerImage && 'h-[400px] relative',
                     )}
                 >
-                    {news.headerImage && (
+                    {news.headerImage === null ? null : (
                         <Image
                             src={news.headerImage}
                             alt={news.title}
-                            layout="fill"
-                            objectFit="cover"
+                            fill
+                            style={{ objectFit: 'cover' }}
                         />
                     )}
                     <div
@@ -86,9 +106,9 @@ const SingleNewsPage = async (props: Props) => {
                                 'bg-black bg-opacity-50 absolute inset-0 text-white p-6',
                         )}
                     >
-                        {news.status === 'draft' && (
+                        {news.status === 'draft' ? (
                             <NewsStatusBadge status={news.status} />
-                        )}
+                        ) : null}
 
                         <h1 className="mb-2 text-4xl font-bold">
                             {news.title}
@@ -101,7 +121,7 @@ const SingleNewsPage = async (props: Props) => {
                                 </AvatarFallback>
                             </Avatar>
                             <span>{news.author.name}</span>
-                            {news.publishedAt && (
+                            {news.publishedAt === null ? null : (
                                 <span className="opacity-70">
                                     {format.relativeTime(
                                         Date.parse(news.publishedAt),
@@ -124,16 +144,14 @@ const SingleNewsPage = async (props: Props) => {
                         'img',
                     ]}
                 />
+                <hr className="my-6" />
+                {attachments.length > 0 ? (
+                    <FileListPreview
+                        display='grid'
+                        files={attachments.map((attachment) => attachment.data)}
+                    />
+                ) : null}
             </div>
-            {/* {attachments.length > 0 && (
-                <FileListPreview
-                    files={[
-                        attachments.map((attachment) => {
-                            return attachment.data;
-                        }),
-                    ]}
-                />
-            )} */}
         </>
     )
 }

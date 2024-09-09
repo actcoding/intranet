@@ -7,15 +7,14 @@ import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
-interface Props {}
-const NewsPage = async (props: Props) => {
+const NewsPage = async () => {
     const { sessionData } = await getAppSession()
     const t = await getTranslations('News')
     return (
         <>
             <div className="flex justify-between">
                 <h1 className="mb-4 text-4xl font-semibold">News</h1>
-                {sessionData?.roles.includes('Creator') && (
+                {sessionData?.roles.includes('Creator') ? (
                     <div className="space-x-2">
                         <Button asChild>
                             <Link href="/manage/news/create">
@@ -30,7 +29,7 @@ const NewsPage = async (props: Props) => {
                             </Link>
                         </Button>
                     </div>
-                )}
+                ) : null}
             </div>
             <Suspense fallback={<LoadMoreNews />}>
                 <NewsList />

@@ -7,6 +7,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/lib/components/common/Card'
+import NewsStatusBadge from '@/lib/components/shared/NewsStatusBadge'
 import SanitizedHTMLContent from '@/lib/components/shared/SanitizedHTMLContent'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
@@ -55,7 +56,7 @@ const NewsPreviewCard = ({
                             {format.relativeTime(Date.parse(props.publishedAt))}
                         </p>
                     ) : (
-                        <Badge variant={'secondary'}>Entwurf</Badge>
+                        <NewsStatusBadge status={props.status} />
                     )}
                 </CardFooter>
             </div>
@@ -88,8 +89,8 @@ const NewsPreviewCardHeaderImage = (props: NewsPreviewCardHeaderImageProps) => {
                 <Image
                     src={props.src}
                     alt={props.alt}
-                    layout="fill"
-                    objectFit="cover"
+                    fill
+                    style={{ objectFit: 'cover' }}
                     priority
                 />
             </div>

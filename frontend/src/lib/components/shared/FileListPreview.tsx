@@ -5,7 +5,7 @@ import { Card } from '@/lib/components/common/Card'
 import FileTypeIcon from '@/lib/components/shared/FileTypeIcon'
 import { cn } from '@/lib/utils'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Trash2Icon } from 'lucide-react'
+import { DownloadIcon, Trash2Icon } from 'lucide-react'
 
 interface FileListPreviewProps {
     files: File[];
@@ -32,19 +32,20 @@ const FileListPreview = ({
                     >
                         <Card
                             className={cn(
-                                'flex items-center gap-2 me-2 mb-2 px-2',
+                                'flex items-center gap-2 me-2 mb-2 px-2 hover:bg-muted cursor-pointer',
                                 props.onRemove && 'pr-0',
                             )}
                         >
                             <FileTypeIcon
-                                fileType={file.type}
+                                fileType={file.type ?? 'text/plain'}
                                 size={16}
                                 className="shrink-0"
                             />
                             <span className="line-clamp-1 py-2">
                                 {file.name}
                             </span>
-                            {props.onRemove && (
+                            <DownloadIcon />
+                            {props.onRemove === undefined ? null : (
                                 <Button
                                     type="button"
                                     variant={'ghost'}

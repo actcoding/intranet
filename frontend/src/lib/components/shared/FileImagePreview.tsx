@@ -11,7 +11,7 @@ const FileImagePreview = (props: FileImagePreviewProps) => {
                 src={URL.createObjectURL(props.image)}
                 alt=""
                 className="rounded-lg"
-                objectFit="cover"
+                style={{ objectFit: 'cover' }}
                 fill
             />
         </div>

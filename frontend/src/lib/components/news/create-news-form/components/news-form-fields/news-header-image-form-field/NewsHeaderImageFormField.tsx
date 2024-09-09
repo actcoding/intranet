@@ -1,3 +1,5 @@
+'use client'
+
 import {
     FormControl,
     FormField,
@@ -64,17 +66,17 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
         <FormField
             control={props.form.control}
             name="headerImage"
-            render={({ field: { onChange, value, ...rest } }) => (
+            render={({ field: { value, ...rest } }) => (
                 <FormItem>
                     <FormLabel className="sr-only">Titelbild</FormLabel>
                     <FormControl>
                         <FileSelector
+                            {...rest}
                             onChange={handleFileSelectionConfirm}
                             onPreviewChange={handleHeaderImagePreviewChange}
                             accept={allowedFileTypes.headerImage
                                 .map((type) => `.${type}`)
                                 .join(', ')}
-                            {...rest}
                         >
                             <FileSelectorTrigger asChild>
                                 <NewsHeaderImageUploadButton
@@ -89,7 +91,7 @@ const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
                                 </FileSelectorHeader>
                                 <FileSelectorBody>
                                     <FileSelectorInput />
-                                    {filePreview && (
+                                    {filePreview === null ? null : (
                                         <FileImagePreview image={filePreview} />
                                     )}
                                 </FileSelectorBody>

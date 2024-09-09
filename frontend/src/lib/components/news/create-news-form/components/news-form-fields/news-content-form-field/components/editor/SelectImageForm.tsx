@@ -60,16 +60,16 @@ const SelectImageForm = (props: SelectImageFormProps) => {
             <FormField
                 control={form.control}
                 name="image"
-                render={({ field: { onChange, value, ...rest } }) => (
+                render={({ field }) => (
                     <FormItem>
                         <FormControl>
                             <FileSelector
+                                {...field}
                                 onChange={(file) => {
                                     form.setValue('image', file[0])
                                     form.handleSubmit(props.onSubmit)()
                                 }}
                                 onPreviewChange={handleImagePreviewChange}
-                                {...rest}
                             >
                                 <FileSelectorTrigger asChild>
                                     <Button variant={'ghost'} size={'icon'}>
@@ -84,7 +84,7 @@ const SelectImageForm = (props: SelectImageFormProps) => {
                                     </FileSelectorHeader>
                                     <FileSelectorBody>
                                         <FileSelectorInput />
-                                        {filePreview && (
+                                        {filePreview == null ? null : (
                                             <FileImagePreview
                                                 image={filePreview}
                                             />

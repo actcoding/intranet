@@ -45,9 +45,7 @@ export async function urlToFile(url: string, filename: string): Promise<File> {
     const response = await fetch(url)
     const type = response.headers.get('Content-Type')!
     const blob = await response.blob()
-    const file = new File([blob], filename, { type })
-    console.log(file)
-    return file
+    return new File([blob], filename, { type })
 }
 
 export function isCreator(sessionData?: AppSessionData): boolean {

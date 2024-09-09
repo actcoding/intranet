@@ -5,7 +5,6 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-import { useMemo } from 'react'
 
 const PageWelcome = async () => {
     const { sessionData, access_token } = await getAppSession()

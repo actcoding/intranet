@@ -18,7 +18,7 @@ const NewsHeaderImageUploadButton = (
                         src={URL.createObjectURL(props.selectedFile)}
                         alt="Header image"
                         className="rounded-lg"
-                        objectFit="cover"
+                        style={{ objectFit: 'cover' }}
                         fill
                     />
                 </div>

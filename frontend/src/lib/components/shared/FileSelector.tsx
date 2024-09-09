@@ -115,9 +115,7 @@ const FileSelectorInput = (props: FileSelectorInputProps) => {
     )
 }
 
-interface FileSelectorFooterProps {}
-
-const FileSelectorFooter = (props: FileSelectorFooterProps) => {
+const FileSelectorFooter = () => {
     const { selectedFilePreview, setDialogOpen, onChange } = useFileSelector()
 
     function handleFileSelectionConfirm() {
@@ -128,7 +126,7 @@ const FileSelectorFooter = (props: FileSelectorFooterProps) => {
 
     return (
         <ResponsiveDialogFooter>
-            <ResponsiveDialogClose>
+            <ResponsiveDialogClose asChild>
                 <Button variant={'outline'}>Abbrechen</Button>
             </ResponsiveDialogClose>
             <Button
