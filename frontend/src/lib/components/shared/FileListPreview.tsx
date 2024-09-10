@@ -10,11 +10,13 @@ import { DownloadIcon, Trash2Icon } from 'lucide-react'
 interface FileListPreviewProps {
     files: File[];
     display?: 'list' | 'grid';
+    download?: boolean
     onRemove?: (file: File) => void;
 }
 
 const FileListPreview = ({
     display = 'list',
+    download,
     ...props
 }: FileListPreviewProps) => {
     return (
@@ -32,9 +34,11 @@ const FileListPreview = ({
                     >
                         <Card
                             className={cn(
-                                'flex items-center gap-2 me-2 mb-2 px-2 hover:bg-muted cursor-pointer',
+                                'flex items-center gap-2 me-2 mb-2 px-2',
+                                download && 'hover:bg-muted cursor-pointer',
                                 props.onRemove && 'pr-0',
                             )}
+                            onClick={() => window.open(file.url, '_blank')}
                         >
                             <FileTypeIcon
                                 fileType={file.type ?? 'text/plain'}
@@ -44,7 +48,7 @@ const FileListPreview = ({
                             <span className="line-clamp-1 py-2">
                                 {file.name}
                             </span>
-                            <DownloadIcon />
+                            {download ? <DownloadIcon /> : null}
                             {props.onRemove === undefined ? null : (
                                 <Button
                                     type="button"

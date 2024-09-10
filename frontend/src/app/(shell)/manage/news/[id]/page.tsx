@@ -1,5 +1,5 @@
 import { newsApi } from '@/lib/api/api'
-import { NewsAttachmentsFormField } from '@/lib/components/news/create-news-form/components/news-form-fields'
+import { NewsAttachments } from '@/lib/components/news/create-news-form/components/news-form-fields'
 import CreateNewsForm from '@/lib/components/news/create-news-form/CreateNewsForm'
 
 interface EditNewsPageProps {
@@ -17,7 +17,7 @@ const EditNewsPage = async (props: EditNewsPageProps) => {
             <div className="col-span-3">
                 <CreateNewsForm news={news} />
             </div>
-            <NewsAttachmentsFormField news={news} />
+            <NewsAttachments news={news} />
         </div>
     )
 }

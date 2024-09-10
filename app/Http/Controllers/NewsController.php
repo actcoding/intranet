@@ -226,9 +226,13 @@ class NewsController extends Controller implements HasMiddleware
      * - attachment
      * - header
      * - content
+     *
+     * @param  int  $id
      */
-    public function listAttachments(Request $request, News $news): JsonResponse
+    public function listAttachments(Request $request, $id)
     {
+        $news = $this->find($id, allowGuest: true);
+
         $query = collect(Validator::make($request->query(), [
             'type' => 'nullable|string|in:content,header,attachment'
         ])->validated());

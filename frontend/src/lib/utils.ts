@@ -26,16 +26,15 @@ export function serializeFileData(data: File | File[]): FormData {
         data.forEach((file) => {
             formData.append('file[]', file)
         })
-        return formData
     } else {
         formData.append('file', data)
-        return formData
     }
+    return formData
 }
 
 export function deserializeFileData(formData: FormData): File | File[] {
     if (formData.has('file[]')) {
-        return Array.from(formData.getAll('file[]')) as File[]
+        return formData.getAll('file[]') as File[]
     } else {
         return formData.get('file') as File
     }

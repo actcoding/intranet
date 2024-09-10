@@ -6,6 +6,7 @@ import {
     News,
     NewsStoreRequest,
     NewsUpdateOperationRequest,
+    NewsUpload200Response,
     NewsUploadTypeEnum,
     ResponseError,
 } from '@/lib/api/generated'
@@ -78,10 +79,36 @@ export async function uploadNewsFileAction(
     id: number,
     type: NewsUploadTypeEnum,
     formData: FormData,
-) {
-    return newsApi.newsUpload({
-        id,
-        type,
-        file: deserializeFileData(formData) as Blob,
-    })
+): Promise<ApiResult<NewsUpload200Response>> {
+    try {
+        const file = deserializeFileData(formData)
+        const data = await newsApi.newsUpload({
+            id,
+            type,
+            // TODO: Multiple
+            file: file[0],
+        })
+        return {
+            data,
+            error: null,
+        }
+    } catch (error) {
+        if (error instanceof ResponseError) {
+            const data = await error.response.json()
+            return {
+                data: null,
+                error: {
+                    message: data.message,
+                },
+            }
+        }
+
+        return {
+            data: null,
+            error: {
+                //@ts-expect-error error is unknown
+                message: error.message,
+            },
+        }
+    }
 }
