@@ -24,7 +24,7 @@ export async function NewsAttachments ({ news }: NewsAttachmentsFormFieldProps) 
             <hr />
 
             <FileListPreview
-                display='grid'
+                display='list'
                 files={files.map(file => file.data)}
                 download
             />
