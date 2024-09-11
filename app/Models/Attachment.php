@@ -30,6 +30,7 @@ class Attachment extends Model
         'name',
         'type',
         'path',
+        'metadata',
     ];
 
     /**
@@ -42,6 +43,18 @@ class Attachment extends Model
         'deleted_at',
         'pivot',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'metadata' => 'array',
+        ];
+    }
 
     protected function path(): Attribute
     {

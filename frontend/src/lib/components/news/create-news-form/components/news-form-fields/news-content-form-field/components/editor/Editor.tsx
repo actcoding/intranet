@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import React from 'react'
 import SelectImageForm from './SelectImageForm'
+import { useToast } from '@/lib/components/hooks/use-toast'
 
 const CustomImage = Image.extend({
     addAttributes() {
@@ -42,6 +43,7 @@ interface EditorProps {
 }
 
 const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
+    const { toast } = useToast()
     const editor = useEditor({
         extensions: [StarterKit, CustomImage],
         content: props.value,
@@ -95,13 +97,22 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
                     onSubmit={async (formData) => {
                         const uploadData = new FormData()
                         uploadData.set('file', formData.image)
-                        const { url } = await uploadNewsFileAction(news.id, 'content', uploadData)
+                        const { error, data } = await uploadNewsFileAction(news.id, 'content', uploadData)
+
+                        if (error) {
+                            toast({
+                                title: 'Fehler',
+                                description: error.message,
+                                variant: 'destructive',
+                            })
+                            return
+                        }
 
                         editor
                             ?.chain()
                             .focus()
                             .setImage({
-                                src: url,
+                                src: data?.url,
                             })
                             .run()
                     }}

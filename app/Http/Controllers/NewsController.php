@@ -178,23 +178,16 @@ class NewsController extends Controller implements HasMiddleware
 
         $path = $file->store('news/' . $id . '/' . $type, 'public');
 
-        if ($type == 'attachment') {
-            /** @var Attachment */
-            $attachment = Attachment::create([
-                'name' => $file->getClientOriginalName(),
-                'type' => $file->getMimeType(),
-                'path' => $path,
-            ]);
-            $attachment->attach($news);
-        } elseif ($type == 'header') {
-            $oldImage = $news->getRawOriginal('header_image');
-            if ($oldImage != null) {
-                Storage::disk('public')->delete($oldImage);
-            }
-
-            $news->header_image = $path;
-            $news->save();
-        }
+        /** @var Attachment */
+        $attachment = Attachment::create([
+            'name' => $file->getClientOriginalName(),
+            'type' => $file->getMimeType(),
+            'path' => $path,
+            'metadata' => [
+                'type' => $type,
+            ],
+        ]);
+        $attachment->attach($news);
 
         return response()->json(['url' => url(Storage::url($path))]);
     }
@@ -228,6 +221,7 @@ class NewsController extends Controller implements HasMiddleware
      * - content
      *
      * @param  int  $id
+     * @return AnonymousResourceCollection<AttachmentResource>
      */
     public function listAttachments(Request $request, $id)
     {
@@ -237,43 +231,7 @@ class NewsController extends Controller implements HasMiddleware
             'type' => 'nullable|string|in:content,header,attachment'
         ])->validated());
 
-        /** @var Collection */
-        $list = collect($news->attachments)
-            ->map(fn (Attachment $val) => [
-                'type' => 'attachment',
-                'data' => new AttachmentResource($val),
-            ]);
-
-        if ($news->header_image != null) {
-            $list->add([
-                'type' => 'header',
-                'data' => [
-                    'url' => $news->header_image,
-                ],
-            ]);
-        }
-
-        /** @var Collection */
-        $contents = collect(
-            Storage::disk('public')->files('news/' . $news->id . '/content')
-        )
-            ->map(fn (string $path) => url(Storage::url($path)))
-            ->map(fn (string $url) => [
-                'type' => 'content',
-                'data' => [
-                    'url' => $url,
-                ],
-            ]);
-        if ($contents->count() > 0) {
-            $list = $list->concat($contents);
-        }
-
-        $filter = $query->get('type');
-        if (is_string($filter)) {
-            $list = $list->filter(fn (array $entry) => $entry['type'] === $filter);
-        }
-
-        return response()->json($list);
+        return AttachmentResource::collection($news->attachments);
     }
 
     private function find(string $id, ?string $action = null, bool $allowGuest = false): News

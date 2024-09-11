@@ -1,18 +1,12 @@
 'use client'
 
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/lib/components/common/Form'
+import { newsDetachFile, uploadNewsFileAction } from '@/lib/actions/news'
+import { AttachmentResourceData } from '@/lib/api/generated'
+import { useToast } from '@/lib/components/hooks/use-toast'
 import { NewsHeaderImageUploadButton } from '@/lib/components/news/create-news-form/components/news-form-fields/news-header-image-form-field/components'
 import {
     allowedFileTypes,
-    createNewsFormSchema,
 } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
-import { CreateNewsForm } from '@/lib/components/news/create-news-form/CreateNewsForm.models'
 import FileImagePreview from '@/lib/components/shared/FileImagePreview'
 import {
     FileSelector,
@@ -24,85 +18,73 @@ import {
     FileSelectorTitle,
     FileSelectorTrigger,
 } from '@/lib/components/shared/FileSelector'
-import { useState } from 'react'
+import { serializeFileData } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
+import { useCallback, useState } from 'react'
 
-interface NewsHeaderImageFormFieldProps {
-    form: CreateNewsForm;
+interface Props {
+    id: number
+    current?: AttachmentResourceData
 }
 
-const NewsHeaderImageFormField = (props: NewsHeaderImageFormFieldProps) => {
-    const [filePreview, setFilePreview] = useState<File | null>(null)
+const NewsHeaderImageFormField = ({ id, current }: Props) => {
+    const [file, setFile] = useState<File>()
+    const { toast } = useToast()
+    const router = useRouter()
 
-    function handleHeaderImagePreviewChange(files: File[] | null) {
-        if (!files) {
-            setFilePreview(null)
-            return
+    const onChange = useCallback(async (files: File[]) => {
+        if (current) {
+            await newsDetachFile(id, current.id)
         }
-        const file = files[0]
-        if (file) {
-            const validation = createNewsFormSchema.safeParse({
-                ...props.form.getValues(),
-                headerImage: file,
+
+        const { error } = await uploadNewsFileAction(id, 'header', serializeFileData(files))
+        if (error) {
+            toast({
+                title: 'Fehler beim Hochladen',
+                description: error.message,
+                variant: 'destructive',
             })
-            if (validation.success) {
-                setFilePreview(file)
-                props.form.clearErrors('headerImage')
-            } else {
-                setFilePreview(null)
-                props.form.setError('headerImage', validation.error.errors[0])
-            }
         }
-    }
 
-    function handleFileSelectionConfirm(files: File[]) {
-        props.form.setValue('headerImage', files[0], {
-            shouldDirty: true,
-            shouldTouch: true,
-            shouldValidate: true,
-        })
-    }
+        router.refresh()
+    }, [current, id, router, toast])
 
     return (
-        <FormField
-            control={props.form.control}
-            name="headerImage"
-            render={({ field: { value, ...rest } }) => (
-                <FormItem>
-                    <FormLabel className="sr-only">Titelbild</FormLabel>
-                    <FormControl>
-                        <FileSelector
-                            {...rest}
-                            onChange={handleFileSelectionConfirm}
-                            onPreviewChange={handleHeaderImagePreviewChange}
-                            accept={allowedFileTypes.headerImage
-                                .map((type) => `.${type}`)
-                                .join(', ')}
-                        >
-                            <FileSelectorTrigger asChild>
-                                <NewsHeaderImageUploadButton
-                                    selectedFile={value}
-                                />
-                            </FileSelectorTrigger>
-                            <FileSelectorContent>
-                                <FileSelectorHeader>
-                                    <FileSelectorTitle>
-                                        Titelbild ändern
-                                    </FileSelectorTitle>
-                                </FileSelectorHeader>
-                                <FileSelectorBody>
-                                    <FileSelectorInput />
-                                    {filePreview === null ? null : (
-                                        <FileImagePreview image={filePreview} />
-                                    )}
-                                </FileSelectorBody>
-                                <FileSelectorFooter />
-                            </FileSelectorContent>
-                        </FileSelector>
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
+        <FileSelector
+            accept={allowedFileTypes.headerImage
+                .map((type) => `.${type}`)
+                .join(', ')}
+            onPreviewChange={files => setFile(files?.[0])}
+            onChange={onChange}
+        >
+            <FileSelectorTrigger asChild>
+                <NewsHeaderImageUploadButton
+                    file={current}
+                />
+            </FileSelectorTrigger>
+            <FileSelectorContent>
+                <FileSelectorHeader>
+                    <FileSelectorTitle>
+                        Titelbild ändern
+                    </FileSelectorTitle>
+                </FileSelectorHeader>
+                <FileSelectorBody>
+                    <FileSelectorInput />
+
+                    {file === undefined ?
+                        current === undefined ? null : (
+                            <img
+                                src={current.url}
+                                alt={current.name}
+                                className="rounded-lg"
+                            />
+                        ) : (
+                            <FileImagePreview image={file} />
+                        )}
+                </FileSelectorBody>
+                <FileSelectorFooter />
+            </FileSelectorContent>
+        </FileSelector>
     )
 }
 

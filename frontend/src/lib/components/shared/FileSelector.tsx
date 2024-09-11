@@ -120,7 +120,7 @@ const FileSelectorFooter = () => {
 
     function handleFileSelectionConfirm() {
         if (!selectedFilePreview) return
-        onChange && onChange(selectedFilePreview)
+        onChange?.(selectedFilePreview)
         setDialogOpen(false)
     }
 

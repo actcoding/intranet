@@ -1,5 +1,6 @@
 'use client'
 
+import { AttachmentResourceData } from '@/lib/api/generated'
 import { Button } from '@/lib/components/common/Button'
 import { Card } from '@/lib/components/common/Card'
 import FileTypeIcon from '@/lib/components/shared/FileTypeIcon'
@@ -8,7 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { DownloadIcon, Trash2Icon } from 'lucide-react'
 
 interface FileListPreviewProps {
-    files: File[];
+    files: File[] | AttachmentResourceData[];
     display?: 'list' | 'grid';
     download?: boolean
     onRemove?: (file: File) => void;

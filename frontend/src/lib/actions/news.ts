@@ -86,7 +86,7 @@ export async function uploadNewsFileAction(
             id,
             type,
             // TODO: Multiple
-            file: file[0],
+            file: Array.isArray(file) ? file[0] : file,
         })
         return {
             data,
@@ -111,4 +111,11 @@ export async function uploadNewsFileAction(
             },
         }
     }
+}
+
+export async function newsDetachFile(news: number, attachment: number) {
+    await newsApi.newsUploadDelete({
+        news,
+        attachment,
+    })
 }

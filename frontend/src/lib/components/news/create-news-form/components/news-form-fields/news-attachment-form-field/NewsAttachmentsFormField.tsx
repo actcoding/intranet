@@ -7,18 +7,20 @@ import FileListPreview from '@/lib/components/shared/FileListPreview'
 import { FileSelector, FileSelectorBody, FileSelectorContent, FileSelectorFooter, FileSelectorHeader, FileSelectorInput, FileSelectorTitle, FileSelectorTrigger } from '@/lib/components/shared/FileSelector'
 import { serializeFileData } from '@/lib/utils'
 import { PlusIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 
 type Props = {
-    newsId: number
+    id: number
 }
 
-export default function NewsAttachmentsFormField({ newsId }: Props) {
+export default function NewsAttachmentsFormField({ id }: Props) {
     const [files, setFiles] = useState<File[]>([])
     const { toast } = useToast()
+    const router = useRouter()
 
     const onChange = useCallback(async (files: File[]) => {
-        const { error } = await uploadNewsFileAction(newsId, 'attachment', serializeFileData(files))
+        const { error } = await uploadNewsFileAction(id, 'attachment', serializeFileData(files))
         if (error) {
             toast({
                 title: 'Fehler beim Hochladen',
@@ -26,7 +28,9 @@ export default function NewsAttachmentsFormField({ newsId }: Props) {
                 variant: 'destructive',
             })
         }
-    }, [newsId, toast])
+
+        router.refresh()
+    }, [id, router, toast])
 
     return (<>
         <FileSelector
