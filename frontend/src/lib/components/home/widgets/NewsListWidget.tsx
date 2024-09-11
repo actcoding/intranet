@@ -14,7 +14,7 @@ const NewsListWidget = async (props: NewsListWidgetProps) => {
             <div className={cn('flex flex-col gap-4 mb-3', props.className)}>
                 {news.data.map((item, index) => (
                     <Link href={`/news/${item.id}`} key={index}>
-                        <NewsPreviewCard headerImagePosition="left" {...item} />
+                        <NewsPreviewCard news={item} headerImagePosition="left" />
                     </Link>
                 ))}
             </div>
