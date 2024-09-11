@@ -1,5 +1,4 @@
-import { News } from '@/lib/api/generated'
-import { Badge } from '@/lib/components/common/Badge'
+import { NewsResource } from '@/lib/api/generated'
 import {
     Card,
     CardContent,
@@ -15,14 +14,16 @@ import { NewspaperIcon } from 'lucide-react'
 import { useFormatter } from 'next-intl'
 import Image from 'next/image'
 
-interface NewsPreviewCardProps extends News {
+interface NewsPreviewCardProps {
+    news: NewsResource
     headerImagePosition?: 'top' | 'left';
     className?: string;
 }
 
 const NewsPreviewCard = ({
     headerImagePosition = 'top',
-    ...props
+    className,
+    news,
 }: NewsPreviewCardProps) => {
     const format = useFormatter()
 
@@ -32,31 +33,31 @@ const NewsPreviewCard = ({
                 'flex',
                 headerImagePosition === 'top' && 'flex-col',
                 'overflow-hidden',
-                props.className,
+                className,
             )}
         >
             <NewsPreviewCardHeaderImage
-                src={props.headerImage}
-                alt={props.title || 'News'}
+                src={news.attachments.find(a => a.type === 'header')?.data.url}
+                alt={news.title || 'News'}
                 position={headerImagePosition}
             />
             <div className="flex grow flex-col">
                 <CardHeader>
-                    <CardTitle>{props.title}</CardTitle>
+                    <CardTitle>{news.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <SanitizedHTMLContent
-                        content={props.content}
+                        content={news.content}
                         className="line-clamp-3"
                     />
                 </CardContent>
                 <CardFooter className="mb-0 mt-auto">
-                    {props.publishedAt ? (
+                    {news.publishedAt ? (
                         <p className="text-muted-foreground">
-                            {format.relativeTime(Date.parse(props.publishedAt))}
+                            {format.relativeTime(Date.parse(news.publishedAt))}
                         </p>
                     ) : (
-                        <NewsStatusBadge status={props.status} />
+                        <NewsStatusBadge status={news.status} />
                     )}
                 </CardFooter>
             </div>
@@ -70,7 +71,7 @@ interface NewsPreviewCardHeaderImageProps {
     position?: 'top' | 'left';
 }
 
-const NewsPreviewCardHeaderImage = (props: NewsPreviewCardHeaderImageProps) => {
+const NewsPreviewCardHeaderImage = ({ src, alt, position }: NewsPreviewCardHeaderImageProps) => {
     const headerImageVariants = cva('relative shrink-0', {
         variants: {
             position: {
@@ -83,12 +84,12 @@ const NewsPreviewCardHeaderImage = (props: NewsPreviewCardHeaderImageProps) => {
         },
     })
 
-    if (props.src) {
+    if (src) {
         return (
-            <div className={headerImageVariants({ position: props.position })}>
+            <div className={headerImageVariants({ position })}>
                 <Image
-                    src={props.src}
-                    alt={props.alt}
+                    src={src}
+                    alt={alt}
                     fill
                     style={{ objectFit: 'cover' }}
                     priority
@@ -99,7 +100,7 @@ const NewsPreviewCardHeaderImage = (props: NewsPreviewCardHeaderImageProps) => {
         return (
             <div
                 className={cn(
-                    headerImageVariants({ position: props.position }),
+                    headerImageVariants({ position }),
                     'bg-primary/15 flex items-center justify-center',
                 )}
             >

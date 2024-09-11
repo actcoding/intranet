@@ -2,20 +2,20 @@
 
 import LoadMoreNews from '@/lib/components/news/news-list/components/LoadMoreNews'
 import NewsPreviewCard from '@/lib/components/news/news-list/components/NewsPreviewCard'
-import Link from 'next/link'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
+import { getNewsListAction } from '@/lib/actions/news'
+import { NewsResource } from '@/lib/api/generated'
 import { useCallback, useEffect, useState } from 'react'
 import { useIntersectionObserver } from 'usehooks-ts'
-import { getNewsListAction } from '@/lib/actions/news'
-import { News } from '@/lib/api/generated'
 
 interface NewsListContentProps {
-    initialNews: News[];
+    initialNews: NewsResource[];
 }
 
 const NewsListContent = (props: NewsListContentProps) => {
-    const [news, setNews] = useState<News[]>(props.initialNews)
+    const [news, setNews] = useState<NewsResource[]>(props.initialNews)
     const [page, setPage] = useState(1)
     const [hasMoreData, setHasMoreData] = useState(true)
     const { isIntersecting, ref } = useIntersectionObserver()
@@ -51,7 +51,7 @@ const NewsListContent = (props: NewsListContentProps) => {
                         animate={{ opacity: 1, y: 0 }}
                     >
                         <Link href={`/news/${news.id}`}>
-                            <NewsPreviewCard {...news} className="h-full" />
+                            <NewsPreviewCard news={news} className="h-full" />
                         </Link>
                     </motion.div>
                 ))}

@@ -1,6 +1,6 @@
 import { getAppSession } from '@/lib/actions/auth'
 import { newsApi } from '@/lib/api/api'
-import { News } from '@/lib/api/generated'
+import { NewsResource, NewsUploadList200Response } from '@/lib/api/generated'
 import { Avatar, AvatarFallback } from '@/lib/components/common/Avatar'
 import { Button } from '@/lib/components/common/Button'
 import {
@@ -21,7 +21,6 @@ import { MoreHorizontalIcon, PenIcon } from 'lucide-react'
 import { getFormatter } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect } from 'react'
 
 interface Props {
     params: {
@@ -32,20 +31,21 @@ interface Props {
 const SingleNewsPage = async (props: Props) => {
     const format = await getFormatter()
 
-    let news: News|null = null
-    let attachments: [] = []
+    let news: NewsResource|undefined
+    let attachments: NewsUploadList200Response|undefined
 
     try {
         // @ts-ignore
         news = await newsApi.newsShow({ id: parseInt(props.params.id) })
         attachments = await newsApi.newsUploadList({
-            news: news.id,
-            type: 'attachment',
+            id: news.id,
         })
     } catch (error) {
     }
 
-    if (news === null) {
+    const headerImage = attachments?.data.find(a => a.type === 'header')?.data
+
+    if (news === undefined) {
         return (
             <p>
                 404
@@ -88,12 +88,12 @@ const SingleNewsPage = async (props: Props) => {
                 <div
                     className={cn(
                         'mb-6 rounded-lg overflow-hidden',
-                        news.headerImage && 'h-[400px] relative',
+                        headerImage && 'h-[400px] relative',
                     )}
                 >
-                    {news.headerImage === null ? null : (
+                    {headerImage === undefined ? null : (
                         <Image
-                            src={news.headerImage}
+                            src={headerImage?.url}
                             alt={news.title}
                             fill
                             style={{ objectFit: 'cover' }}
@@ -102,7 +102,7 @@ const SingleNewsPage = async (props: Props) => {
                     <div
                         className={cn(
                             'flex flex-col gap-3 justify-end items-start',
-                            news.headerImage &&
+                            headerImage &&
                                 'bg-black bg-opacity-50 absolute inset-0 text-white p-6',
                         )}
                     >
@@ -145,10 +145,11 @@ const SingleNewsPage = async (props: Props) => {
                     ]}
                 />
                 <hr className="my-6" />
-                {attachments.length > 0 ? (
+                {(attachments?.data.length ?? 0) > 0 ? (
                     <FileListPreview
                         display='grid'
-                        files={attachments.map((attachment) => attachment.data)}
+                        files={attachments?.data.filter(a => a.type === 'attachment').map(a => a.data) ?? []}
+                        download
                     />
                 ) : null}
             </div>
