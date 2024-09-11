@@ -1,4 +1,5 @@
 import { newsApi } from '@/lib/api/api'
+import { Button } from '@/lib/components/common/Button'
 import { NewsAttachments } from '@/lib/components/news/create-news-form/components/news-form-fields'
 import NewsHeaderImage from '@/lib/components/news/create-news-form/components/news-form-fields/news-header-image-form-field/NewsHeaderImage'
 import CreateNewsForm from '@/lib/components/news/create-news-form/CreateNewsForm'
@@ -21,6 +22,7 @@ const EditNewsPage = async (props: EditNewsPageProps) => {
                     </p>
                     {/* TODO: Hilfe */}
                     {/* <HelpCircleIcon /> */}
+                    <Button form='create-news-form' type='submit' className='float-end'>Speichern</Button>
                 </div>
                 <CreateNewsForm news={news} />
             </div>

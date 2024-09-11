@@ -55,14 +55,15 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
         <NewsProvider news={props.news}>
             <Form {...form}>
                 <form
+                    id='create-news-form'
                     onSubmit={form.handleSubmit(handleSubmit)}
                     className="space-y-4"
                 >
                     <NewsTitleFormField form={form} />
                     <NewsContentFormField form={form} />
-                    <Button type="submit" className="float-end">
+                    {/* <Button type="submit" className="float-end">
                         Speichern
-                    </Button>
+                    </Button> */}
                 </form>
             </Form>
         </NewsProvider>
