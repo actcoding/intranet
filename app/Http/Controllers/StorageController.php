@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,11 +14,18 @@ class StorageController extends Controller
     public function __invoke(Request $request, string $path)
     {
         $disk = Storage::disk('public');
-
         if (!$disk->exists($path)) {
             abort(404);
         }
 
-        return $disk->response($path);
+        /** @var Attachment */
+        $attachment = Attachment::query()
+            ->where('path', $path)
+            ->first();
+        if ($attachment != null) {
+            return $disk->download($path, $attachment->name);
+        }
+
+        return $disk->download($path);
     }
 }
