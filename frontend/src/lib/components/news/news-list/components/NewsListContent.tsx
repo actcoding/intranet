@@ -41,6 +41,14 @@ const NewsListContent = (props: NewsListContentProps) => {
         }
     }, [isIntersecting, loadMoreNews])
 
+    if (news.length === 0) {
+        return (
+            <p>
+                Es gibt noch keine Neuigkeiten.
+            </p>
+        )
+    }
+
     return (<>
         <div className="mb-4 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
             {news.map((news, index) => (
@@ -55,7 +63,7 @@ const NewsListContent = (props: NewsListContentProps) => {
                 </motion.div>
             ))}
         </div>
-        {hasMoreData && <LoadMoreNews ref={ref} className="pb-60" />}
+        {hasMoreData ? <LoadMoreNews ref={ref} className="pb-60" /> : null}
     </>)
 }
 export default NewsListContent

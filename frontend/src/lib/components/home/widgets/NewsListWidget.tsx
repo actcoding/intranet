@@ -13,16 +13,23 @@ const NewsListWidget = async (props: NewsListWidgetProps) => {
         perPage: 5,
         status: 'active',
     })
-    if (news.data) {
+
+    if (news.data.length === 0) {
         return (
-            <div className={cn('flex flex-col gap-4 mb-3', props.className)}>
-                {news.data.map((item, index) => (
-                    <Link href={`/news/${item.id}`} key={index}>
-                        <NewsPreviewCard news={item} headerImagePosition="left" />
-                    </Link>
-                ))}
-            </div>
+            <p>
+                Es gibt noch keine Neuigkeiten.
+            </p>
         )
     }
+
+    return (
+        <div className={cn('flex flex-col gap-4 mb-3', props.className)}>
+            {news.data.map((item, index) => (
+                <Link href={`/news/${item.id}`} key={index}>
+                    <NewsPreviewCard news={item} headerImagePosition="left" />
+                </Link>
+            ))}
+        </div>
+    )
 }
 export default NewsListWidget
