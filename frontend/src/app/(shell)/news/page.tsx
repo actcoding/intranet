@@ -34,7 +34,7 @@ const NewsPage = async () => {
             ) : null}
         </div>
         <Suspense fallback={<LoadMoreNews />}>
-            <NewsList />
+            <NewsList status='active' />
         </Suspense>
     </>)
 }

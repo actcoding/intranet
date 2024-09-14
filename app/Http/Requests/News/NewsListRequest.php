@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\News;
 
+use App\Enum\NewsStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class NewsListRequest extends FormRequest
 {
@@ -26,6 +28,7 @@ class NewsListRequest extends FormRequest
         return [
             'page' => 'integer|min:1',
             'perPage' => 'integer|min:1',
+            'status' => Rule::enum(NewsStatus::class),
         ];
     }
 }

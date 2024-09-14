@@ -8,7 +8,11 @@ interface NewsListWidgetProps {
 }
 
 const NewsListWidget = async (props: NewsListWidgetProps) => {
-    const news = await newsApi.newsIndex({ page: 1, perPage: 5 })
+    const news = await newsApi.newsIndex({
+        page: 1,
+        perPage: 5,
+        status: 'active',
+    })
     if (news.data) {
         return (
             <div className={cn('flex flex-col gap-4 mb-3', props.className)}>

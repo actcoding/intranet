@@ -47,10 +47,15 @@ class NewsController extends Controller implements HasMiddleware
     {
         $query = News::query()
             ->orderByDesc('published_at')
+            ->orderByDesc('created_at')
             ->with('attachments');
 
         if (Gate::check('news.viewall')) {
-            $query = $query->withTrashed();
+            if ($request->has('status')) {
+                $query = $query->whereStatus($request->input('status'));
+            } else {
+                $query = $query->withTrashed();
+            }
         } else {
             $query = $query->whereStatus(NewsStatus::ACTIVE);
         }
