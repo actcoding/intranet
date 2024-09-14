@@ -32,21 +32,19 @@ export default async function ShellLayout({
         },
     ]
 
-    return (
-        <>
-            <Sidebar breakpoint="640px">
-                <SidebarHeader>
-                    <Image src="/logo.png" alt="logo" width={25} height={25} />
-                    <h3 className="mx-3 text-lg font-semibold text-foreground">
-                        Intranet
-                    </h3>
-                </SidebarHeader>
-                <SidebarItems links={sidebarLinks} />
-                <SidebarFooter>
-                    <SidebarUserDetails loggedInUser={sessionData?.user} />
-                </SidebarFooter>
-            </Sidebar>
-            <main className="mx-5 mt-16 sm:ml-[300px] sm:mt-3">{children}</main>
-        </>
-    )
+    return (<>
+        <Sidebar breakpoint="640px">
+            <SidebarHeader>
+                <Image src="/logo.png" alt="logo" width={25} height={25} />
+                <h3 className="mx-3 text-lg font-semibold text-foreground">
+                    Intranet
+                </h3>
+            </SidebarHeader>
+            <SidebarItems links={sidebarLinks} />
+            <SidebarFooter>
+                <SidebarUserDetails loggedInUser={sessionData?.user} />
+            </SidebarFooter>
+        </Sidebar>
+        <main className="mx-5 mt-16 sm:ml-[300px] sm:mt-3">{children}</main>
+    </>)
 }

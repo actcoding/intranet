@@ -41,23 +41,21 @@ const NewsListContent = (props: NewsListContentProps) => {
         }
     }, [isIntersecting, loadMoreNews])
 
-    return (
-        <>
-            <div className="mb-4 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
-                {news.map((news, index) => (
-                    <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                    >
-                        <Link href={`/news/${news.id}`}>
-                            <NewsPreviewCard news={news} className="h-full" />
-                        </Link>
-                    </motion.div>
-                ))}
-            </div>
-            {hasMoreData && <LoadMoreNews ref={ref} className="pb-60" />}
-        </>
-    )
+    return (<>
+        <div className="mb-4 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
+            {news.map((news, index) => (
+                <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                >
+                    <Link href={`/news/${news.id}`}>
+                        <NewsPreviewCard news={news} className="h-full" />
+                    </Link>
+                </motion.div>
+            ))}
+        </div>
+        {hasMoreData && <LoadMoreNews ref={ref} className="pb-60" />}
+    </>)
 }
 export default NewsListContent
