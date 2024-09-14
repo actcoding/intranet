@@ -1,13 +1,27 @@
-import { AttachmentResource } from '@/lib/api/generated'
+'use client'
+
+import { AttachmentResource, AttachmentResourceData } from '@/lib/api/generated'
 import FileListPreview from '@/lib/components/shared/FileListPreview'
 import NewsAttachmentsFormField from './NewsAttachmentsFormField'
+import { newsApi } from '@/lib/api/api'
+import { useRouter } from 'next/navigation'
 
 interface Props {
     id: number
     attachments: AttachmentResource[]
 }
 
-export async function NewsAttachments({ id, attachments }: Props) {
+export function NewsAttachments({ id, attachments }: Props) {
+    const router = useRouter()
+
+    const onRemove = async (file: File | AttachmentResourceData) => {
+        await newsApi.newsUploadDelete({
+            news: id,
+            attachment: file.id,
+        })
+        router.refresh()
+    }
+
     return (
         <div className='space-y-4'>
             <p className="text-sm font-medium leading-none">
@@ -17,9 +31,10 @@ export async function NewsAttachments({ id, attachments }: Props) {
             <NewsAttachmentsFormField id={id} />
 
             <FileListPreview
-                display='list'
                 files={attachments.map(file => file.data)}
+                display='list'
                 download
+                onRemove={onRemove}
             />
         </div>
     )
