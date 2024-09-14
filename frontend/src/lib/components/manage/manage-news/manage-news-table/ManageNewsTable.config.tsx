@@ -19,6 +19,7 @@ import {
     PublishNewsDropdownMenuItem,
 } from '@/lib/components/manage/manage-news/manage-news-table/components'
 import NewsStatusBadge from '@/lib/components/shared/NewsStatusBadge'
+import dayjs from '@/lib/dayjs'
 import { ColumnDef, Row } from '@tanstack/react-table'
 import {
     ArchiveRestore,
@@ -109,10 +110,16 @@ export const columns: ColumnDef<News>[] = [
         accessorKey: 'title',
         header: 'Titel',
     },
-    // {
-    //     accessorKey: "created_at",
-    //     header: "Created At",
-    // },
+    {
+        accessorKey: 'createdAt',
+        header: 'Erstellt',
+        cell: ({ row }) => dayjs(row.original.createdAt).format('lll'),
+    },
+    {
+        accessorKey: 'updatedAt',
+        header: 'Geändert',
+        cell: ({ row }) => dayjs(row.original.updatedAt).format('lll'),
+    },
     {
         id: 'actions',
         cell: ({ row }) => <CellActions row={row} />,

@@ -9,23 +9,25 @@ import { Suspense } from 'react'
 
 const NewsPage = async () => {
     const { sessionData } = await getAppSession()
-    const t = await getTranslations('News')
+    const t = await getTranslations()
 
     return (<>
         <div className="flex justify-between">
-            <h1 className="mb-4 text-4xl font-semibold">News</h1>
+            <h1 className="mb-4 text-4xl font-semibold">
+                {t('Index.news')}
+            </h1>
             {sessionData?.roles.includes('Creator') ? (
                 <div className="space-x-2">
                     <Button asChild>
                         <Link href="/manage/news/create">
                             <PlusIcon className="me-2" size={20} />
-                            {t('create')}
+                            {t('News.create')}
                         </Link>
                     </Button>
                     <Button asChild variant={'secondary'}>
                         <Link href="/manage/news">
                             <Settings2Icon className="me-2" size={20} />
-                            {t('manage')}
+                            {t('News.manage')}
                         </Link>
                     </Button>
                 </div>
