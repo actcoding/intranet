@@ -4,7 +4,7 @@ import { configActDefault, configActReact, configActNext } from '@actcoding/esli
 const config = [
     ...configActDefault,
     ...configActReact,
-    // ...configActNext,
+    ...configActNext,
     {
         name: 'frontend/react-jsx',
         rules: {

@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint",
     "postinstall": "./gen-api-client.sh"
   },
   "packageManager": "bun@1.1.19",
@@ -54,6 +54,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@actcoding/eslint-config": "^0.0.8",
     "@openapitools/openapi-generator-cli": "^2.13.4",
     "@types/node": "^20",
     "@types/react": "^18",
