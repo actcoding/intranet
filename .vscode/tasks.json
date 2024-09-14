@@ -127,6 +127,20 @@
             }
         },
         {
+            "label": "Migrate",
+            "type": "shell",
+            "command": "./artisan migrate",
+            "osx": {
+                "command": "php artisan migrate"
+            },
+            "problemMatcher": [],
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+            }
+        },
+        {
             "label": "Reset database",
             "type": "shell",
             "command": "./artisan migrate:fresh --seed",
@@ -138,7 +152,8 @@
             "presentation": {
                 "reveal": "always",
                 "panel": "shared",
-            }
+                "focus": true,
+            },
         },
         {
             "label": "Clear Cache",
@@ -154,5 +169,19 @@
                 "panel": "shared",
             }
         },
-    ]
+        {
+            "label": "Gen API Client",
+            "type": "shell",
+            "command": "bash gen-api-client.sh",
+            "options": {
+                "cwd": "${workspaceFolder}/frontend"
+            },
+            "problemMatcher": [],
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+            },
+        },
+    ],
 }
