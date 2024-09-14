@@ -41,6 +41,7 @@ const SingleNewsPage = async (props: Props) => {
             id: news.id,
         })
     } catch (error) {
+        console.error(error)
     }
 
     const headerImage = attachments?.data.find(a => a.type === 'header')?.data

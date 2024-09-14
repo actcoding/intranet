@@ -1,9 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/lib/components/common/Card'
 import CreateNewsDraftForm from '@/lib/components/news/create-news-form/CreateNewsDraftForm'
 
-interface CreateNewsPagePageProps {}
-
-const CreateNewsPage = (props: CreateNewsPagePageProps) => {
+const CreateNewsPage = () => {
     return (
         <div className="container xl:w-2/3">
             <Card>

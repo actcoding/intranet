@@ -8,6 +8,8 @@ const config = [
     {
         name: 'frontend/react-jsx',
         rules: {
+            '@tailwindcss/no-custom-classname': 'off',
+            '@react-refresh/only-export-components': 'off',
             '@react/react-in-jsx-scope': 'off',
             '@react/prop-types': 'off',
             'no-restricted-syntax': [
@@ -17,6 +19,12 @@ const config = [
                     'message': 'Please use ternary operator instead',
                 },
             ],
+        },
+    },
+    {
+        name: 'frontend/css',
+        rules: {
+
         },
     },
     {

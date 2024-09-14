@@ -1,37 +1,34 @@
 import { AttachmentResource } from '@/lib/api/generated'
-import Image from 'next/image'
 import { NewsHeaderImageFormField } from './NewsHeaderImageFormField'
-import { ResponsiveDialog } from '@/lib/components/common/ResponsiveDialog'
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/lib/components/common/Dialog'
 
 interface Props {
     id: number
     attachments: AttachmentResource[]
 }
 
-interface PropsPreview {
-    image: AttachmentResource['data'] | null
-}
+// interface PropsPreview {
+//     image: AttachmentResource['data'] | null
+// }
 
-async function Preview({ image }: PropsPreview) {
-    if (image === null) {
-        return null
-    }
+// async function Preview({ image }: PropsPreview) {
+//     if (image === null) {
+//         return null
+//     }
 
-    return (
-        <Dialog>
-            <DialogTrigger>
-                <img src={image.url} alt={image.name} className='rounded shadow' />
-            </DialogTrigger>
-            <DialogContent className='w-3/4 max-w-none'>
-                <DialogTitle>
-                    Titelbild
-                </DialogTitle>
-                <img src={image.url} alt={image.name} className='rounded-lg shadow' />
-            </DialogContent>
-        </Dialog>
-    )
-}
+//     return (
+//         <Dialog>
+//             <DialogTrigger>
+//                 <img src={image.url} alt={image.name} className='rounded shadow' />
+//             </DialogTrigger>
+//             <DialogContent className='w-3/4 max-w-none'>
+//                 <DialogTitle>
+//                     Titelbild
+//                 </DialogTitle>
+//                 <img src={image.url} alt={image.name} className='rounded-lg shadow' />
+//             </DialogContent>
+//         </Dialog>
+//     )
+// }
 
 export default async function NewsHeaderImage({ id, attachments }: Props) {
     return (

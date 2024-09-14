@@ -14,8 +14,7 @@ import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
-interface LoginFormProps {}
-const LoginForm = (props: LoginFormProps) => {
+const LoginForm = () => {
     const t = useTranslations('Auth')
     const { toast } = useToast()
 
@@ -63,13 +62,13 @@ const LoginForm = (props: LoginFormProps) => {
                 onSubmit={form.handleSubmit((data) => handleSubmit(data))}
                 className="space-y-4"
             >
-                {form.formState.errors.root && (
+                {form.formState.errors.root ? (
                     <Alert variant={'destructive'}>
                         <AlertDescription>
                             {form.formState.errors.root.message}
                         </AlertDescription>
                     </Alert>
-                )}
+                ) : null}
                 <LoginFormEmailInput />
                 <LoginFormPasswordInput />
                 <LoginFormSubmitButton />

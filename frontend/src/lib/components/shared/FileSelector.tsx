@@ -41,45 +41,43 @@ interface FileSelectorProps {
     multiple?: boolean;
 }
 
-const FileSelector = React.forwardRef(
-    (props: FileSelectorProps, ref: React.Ref<any>) => {
-        const [selectedFilePreview, setSelectedFilePreview] = useState<
-            File[] | null
-        >(null)
-        const [dialogOpen, setDialogOpen] = useState(false)
+const FileSelector = (props: FileSelectorProps) => {
+    const [selectedFilePreview, setSelectedFilePreview] = useState<
+        File[] | null
+    >(null)
+    const [dialogOpen, setDialogOpen] = useState(false)
 
-        function handleFilePreviewChange(file: File[] | null) {
-            setSelectedFilePreview(file)
-            props.onPreviewChange && props.onPreviewChange(file)
-        }
+    function handleFilePreviewChange(file: File[] | null) {
+        setSelectedFilePreview(file)
+        props.onPreviewChange && props.onPreviewChange(file)
+    }
 
-        function handleDialogOpenChange(open: boolean) {
-            setDialogOpen(open)
-            if (!open) handleFilePreviewChange(null)
-        }
+    function handleDialogOpenChange(open: boolean) {
+        setDialogOpen(open)
+        if (!open) handleFilePreviewChange(null)
+    }
 
-        return (
-            <FileSelectorContext.Provider
-                value={{
-                    selectedFilePreview,
-                    setSelectedFilePreview: handleFilePreviewChange,
-                    dialogOpen,
-                    setDialogOpen: handleDialogOpenChange,
-                    onChange: props.onChange,
-                    accept: props.accept,
-                    multiple: props.multiple,
-                }}
+    return (
+        <FileSelectorContext.Provider
+            value={{
+                selectedFilePreview,
+                setSelectedFilePreview: handleFilePreviewChange,
+                dialogOpen,
+                setDialogOpen: handleDialogOpenChange,
+                onChange: props.onChange,
+                accept: props.accept,
+                multiple: props.multiple,
+            }}
+        >
+            <ResponsiveDialog
+                open={dialogOpen}
+                onOpenChange={handleDialogOpenChange}
             >
-                <ResponsiveDialog
-                    open={dialogOpen}
-                    onOpenChange={handleDialogOpenChange}
-                >
-                    {props.children}
-                </ResponsiveDialog>
-            </FileSelectorContext.Provider>
-        )
-    },
-)
+                {props.children}
+            </ResponsiveDialog>
+        </FileSelectorContext.Provider>
+    )
+}
 
 FileSelector.displayName = 'FileSelector'
 
@@ -95,9 +93,7 @@ const FileSelectorDescription = ResponsiveDialogDescription
 
 const FileSelectorBody = ResponsiveDialogBody
 
-interface FileSelectorInputProps {}
-
-const FileSelectorInput = (props: FileSelectorInputProps) => {
+const FileSelectorInput = () => {
     const { setSelectedFilePreview, accept, multiple } = useFileSelector()
 
     return (

@@ -1,6 +1,6 @@
 'use server'
 
-import { ApiResponse } from '@/types'
+import { ApiResponse, AppSession, AppSessionData } from '@/types'
 import { IronSession, getIronSession } from 'iron-session'
 import { decodeJwt } from 'jose'
 import { cookies } from 'next/headers'

@@ -4,8 +4,7 @@ import { Button } from '@/lib/components/common/Button'
 import { useTranslations } from 'next-intl'
 import { useFormContext } from 'react-hook-form'
 
-interface Props {}
-const ResetFormSubmitButton = (props: Props) => {
+const ResetFormSubmitButton = () => {
     const form = useFormContext()
     const t = useTranslations('PwdReset')
     return (

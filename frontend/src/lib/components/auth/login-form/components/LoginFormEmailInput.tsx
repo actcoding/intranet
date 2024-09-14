@@ -11,8 +11,7 @@ import { Label } from '@/lib/components/common/Label'
 import { useTranslations } from 'next-intl'
 import { useFormContext } from 'react-hook-form'
 
-interface LoginFormEmailInputProps {}
-const LoginFormEmailInput = (props: LoginFormEmailInputProps) => {
+const LoginFormEmailInput = () => {
     const form = useFormContext()
     const t = useTranslations('Auth')
     return (

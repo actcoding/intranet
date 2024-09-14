@@ -1,10 +1,10 @@
-type AppSessionData = {
+export type AppSessionData = {
     user: User;
     roles: string[];
     permissions: string[];
 }
 
-type User = {
+export type User = {
     id: number;
     name: string;
     email: string;
@@ -12,7 +12,7 @@ type User = {
     status: 'active' | 'disabled' | 'must_reset_password';
 }
 
-type AppSession = {
+export type AppSession = {
     access_token?: string;
     sessionData?: AppSessionData;
 }

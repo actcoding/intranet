@@ -1,5 +1,7 @@
 import { ZodObject, ZodOptional, ZodType } from 'zod'
 
+export * from './types/index'
+
 export interface ApiError {
     code: number;
     error: string;

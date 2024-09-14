@@ -7,7 +7,7 @@ import {
     SidebarItems,
 } from '@/lib/components/sidebar/Sidebar'
 import SidebarUserDetails from '@/lib/components/sidebar/components/SidebarUserDetails'
-import { SidebarLink } from '@/lib/types/sidebar-link'
+import { SidebarLink } from '@/types/sidebar-link'
 import { isCreator } from '@/lib/utils'
 import { HomeIcon, NewspaperIcon, Settings2Icon } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'

@@ -77,13 +77,13 @@ const PasswordResetForm = () => {
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="space-y-4"
             >
-                {form.formState.errors.root && (
+                {form.formState.errors.root ? (
                     <Alert variant={'destructive'}>
                         <AlertDescription>
                             {form.formState.errors.root.message}
                         </AlertDescription>
                     </Alert>
-                )}
+                ) : null}
 
                 <ResetFormPasswordInput />
                 <ResetFormConfirmInput />
