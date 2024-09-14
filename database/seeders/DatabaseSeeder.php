@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+
 use function Laravel\Prompts\confirm;
 
 class DatabaseSeeder extends Seeder
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
             ],
         );
 
-        if (confirm("Run News seeder?", true)) {
+        if (confirm('Run News seeder?', true)) {
             $this->call(NewsSeeder::class);
         }
     }

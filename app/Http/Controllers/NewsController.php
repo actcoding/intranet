@@ -18,7 +18,6 @@ use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -233,7 +232,7 @@ class NewsController extends Controller implements HasMiddleware
         $news = $this->find($id, allowGuest: true);
 
         $query = collect(Validator::make($request->query(), [
-            'type' => 'nullable|string|in:content,header,attachment'
+            'type' => 'nullable|string|in:content,header,attachment',
         ])->validated());
 
         return AttachmentResource::collection($news->attachments);

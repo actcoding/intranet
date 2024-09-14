@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum UploadType : string
+enum UploadType: string
 {
     case ATTACHMENT = 'attachment';
     case HEADER = 'header';
