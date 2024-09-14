@@ -12,20 +12,18 @@ interface Props {
 export function NewsHeaderImageUploadButton({ file }: Props) {
     if (file) {
         return (
-            <div className="flex flex-col items-center gap-2">
-                <ResponsiveDialogTrigger>
-                    <div className="relative rounded-lg bg-black">
-                        <img
-                            src={file.url}
-                            alt={file.name}
-                            className="rounded-lg opacity-50"
-                        />
-                        <span className='absolute inset-0 text-white'>
-                            Bild ändern
-                        </span>
-                    </div>
-                </ResponsiveDialogTrigger>
-            </div>
+            <ResponsiveDialogTrigger>
+                <div className="stack aspect-video items-center rounded-lg bg-black">
+                    <img
+                        src={file.url}
+                        alt={file.name}
+                        className="h-full rounded-lg object-cover opacity-65"
+                    />
+                    <span className='z-10 bg-white/75 py-2 text-black'>
+                        Bild ändern
+                    </span>
+                </div>
+            </ResponsiveDialogTrigger>
         )
     }
 
