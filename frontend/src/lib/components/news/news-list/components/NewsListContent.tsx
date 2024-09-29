@@ -12,6 +12,7 @@ import { useIntersectionObserver } from 'usehooks-ts'
 
 interface NewsListContentProps {
     initialNews: NewsResource[];
+    perPage: number
 }
 
 const NewsListContent = (props: NewsListContentProps) => {
@@ -24,7 +25,7 @@ const NewsListContent = (props: NewsListContentProps) => {
         if (hasMoreData) {
             const news = await getNewsListAction({
                 page: page + 1,
-                perPage: 6,
+                perPage: props.perPage,
             })
             if (news && news.length > 0) {
                 setNews((prevNews) => [...prevNews, ...news])

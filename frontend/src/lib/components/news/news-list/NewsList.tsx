@@ -19,7 +19,7 @@ const NewsList = async ({ status }: Props) => {
 
     return (
         <NextIntlClientProvider messages={pick(messages, 'News')}>
-            <NewsListContent initialNews={news.data} />
+            <NewsListContent initialNews={news.data} perPage={6} />
         </NextIntlClientProvider>
     )
 }
