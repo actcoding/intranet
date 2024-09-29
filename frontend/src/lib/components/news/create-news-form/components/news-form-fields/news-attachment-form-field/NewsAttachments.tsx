@@ -15,10 +15,12 @@ export function NewsAttachments({ id, attachments }: Props) {
     const router = useRouter()
 
     const onRemove = async (file: File | AttachmentResourceData) => {
-        await newsApi.newsUploadDelete({
-            news: id,
-            attachment: file.id,
-        })
+        if (!(file instanceof File)) {
+            await newsApi.newsUploadDelete({
+                news: id,
+                attachment: file.id,
+            })
+        }
         router.refresh()
     }
 
