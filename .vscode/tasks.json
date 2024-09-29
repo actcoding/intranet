@@ -14,14 +14,22 @@
                 "focus": false,
                 "panel": "dedicated"
             },
-            "group": "none"
+            "group": "none",
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            }
         },
         {
             "label": "Frontend",
             "type": "shell",
             "command": "bun run dev",
             "options": {
-                "cwd": "frontend"
+                "cwd": "frontend",
+                "statusbar": {
+                    "hide": true
+                }
             },
             "problemMatcher": [],
             "presentation": {
@@ -44,7 +52,12 @@
                 "focus": false,
                 "panel": "dedicated"
             },
-            "group": "none"
+            "group": "none",
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            }
         },
         {
             "label": "Queue",
@@ -59,7 +72,12 @@
                 "focus": false,
                 "panel": "dedicated"
             },
-            "group": "none"
+            "group": "none",
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            }
         },
         {
             "label": "Dev",
@@ -79,7 +97,12 @@
                 "Backend",
                 "Scheduler",
                 "Queue"
-            ]
+            ],
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            }
         },
         {
             "label": "Open Browser",
@@ -97,6 +120,25 @@
                 "panel": "shared",
             },
             "group": "none",
+            "options": {
+                "statusbar": {
+                    "hide": true
+                }
+            }
+        },
+        {
+            "label": "Migrate",
+            "type": "shell",
+            "command": "./artisan migrate",
+            "osx": {
+                "command": "php artisan migrate"
+            },
+            "problemMatcher": [],
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+            }
         },
         {
             "label": "Reset database",
@@ -110,7 +152,8 @@
             "presentation": {
                 "reveal": "always",
                 "panel": "shared",
-            }
+                "focus": true,
+            },
         },
         {
             "label": "Clear Cache",
@@ -126,5 +169,19 @@
                 "panel": "shared",
             }
         },
-    ]
+        {
+            "label": "Gen API Client",
+            "type": "shell",
+            "command": "bash gen-api-client.sh",
+            "options": {
+                "cwd": "${workspaceFolder}/frontend"
+            },
+            "problemMatcher": [],
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+            },
+        },
+    ],
 }

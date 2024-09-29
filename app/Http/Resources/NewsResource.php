@@ -40,11 +40,12 @@ class NewsResource extends JsonResource
             'status' => $this->resource->status,
             'title' => $this->resource->title,
             'content' => $this->resource->content,
-            'header_image' => $this->resource->header_image,
 
             'author' => [
                 'name' => $this->resource->author->name,
             ],
+
+            'attachments' => AttachmentResource::collection($this->resource->attachments),
         ];
     }
 }

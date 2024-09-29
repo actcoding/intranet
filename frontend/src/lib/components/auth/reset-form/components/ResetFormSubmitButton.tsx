@@ -1,13 +1,12 @@
-"use client";
+'use client'
 
-import { Button } from "@/lib/components/common/Button";
-import { useTranslations } from "next-intl";
-import { useFormContext } from "react-hook-form";
+import { Button } from '@/lib/components/common/Button'
+import { useTranslations } from 'next-intl'
+import { useFormContext } from 'react-hook-form'
 
-interface Props {}
-const ResetFormSubmitButton = (props: Props) => {
-    const form = useFormContext();
-    const t = useTranslations("PwdReset");
+const ResetFormSubmitButton = () => {
+    const form = useFormContext()
+    const t = useTranslations('PwdReset')
     return (
         <Button
             type="submit"
@@ -15,8 +14,8 @@ const ResetFormSubmitButton = (props: Props) => {
             size="lg"
             loading={form.formState.isSubmitting}
         >
-            {t("set-new-password")}
+            {t('set-new-password')}
         </Button>
-    );
-};
-export default ResetFormSubmitButton;
+    )
+}
+export default ResetFormSubmitButton

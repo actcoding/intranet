@@ -1,9 +1,13 @@
 {
     "Index": {
-        "title": "hello world!"
+        "news": "News",
+        "show-more-news": "Show more",
+        "canteen-menu": "Menu"
     },
     "Sidebar": {
         "home": "Home",
+        "news": "News",
+        "manage": "Manage",
         "creator-login": "Creator Login",
         "logout": "Logout",
         "my-account": "My account"
@@ -31,5 +35,10 @@
         "description-2": "Please enter a new password and then click on the green button.",
         "success-title": "Password changed",
         "success-message": "The password has been successfully changed. Please log in again for the changes to take effect."
+    },
+    "News": {
+        "news-status-published": "Published",
+        "news-status-draft": "Draft",
+        "news-status-deleted": "Deleted"
     }
 }
