@@ -8,7 +8,7 @@ import {
     FormMessage,
 } from '@/lib/components/common/Form'
 import { Input } from '@/lib/components/common/Input'
-import { CreateNewsForm } from '@/lib/components/news/create-news-form/CreateNewsForm.models'
+import { CreateNewsForm } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
 import { CreateDraftNewsForm } from '../../../CreateNewsDraftForm'
 import { Control } from 'react-hook-form'
 
