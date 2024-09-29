@@ -47,7 +47,7 @@ const FileListPreview = ({
                             <span className="line-clamp-1 flex-1 py-2">
                                 {file.name}
                             </span>
-                            {download ? (
+                            {(download && !(file instanceof File)) ? (
                                 <DownloadIcon
                                     onClick={() => window.open(file.url, '_blank')}
                                     className='cursor-pointer'
