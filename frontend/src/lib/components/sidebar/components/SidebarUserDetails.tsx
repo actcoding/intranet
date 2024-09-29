@@ -13,6 +13,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/lib/components/common/Dropdown'
+import { User } from '@/types'
 import { LogInIcon, LogOutIcon, MoreVerticalIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
