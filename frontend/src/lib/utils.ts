@@ -1,4 +1,4 @@
-import { ApiErrors } from '@/types'
+import { ApiErrors, AppSessionData } from '@/types'
 import { clsx, type ClassValue } from 'clsx'
 import { FieldValues, UseFormReturn } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'

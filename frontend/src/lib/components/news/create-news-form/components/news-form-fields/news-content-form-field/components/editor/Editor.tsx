@@ -112,7 +112,8 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
                             ?.chain()
                             .focus()
                             .setImage({
-                                src: data?.url,
+                                // TODO: Better types
+                                src: data!.url,
                             })
                             .run()
                     }}

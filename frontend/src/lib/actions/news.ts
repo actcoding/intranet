@@ -79,18 +79,32 @@ export async function uploadNewsFileAction(
     id: number,
     type: NewsUploadTypeEnum,
     formData: FormData,
-): Promise<ApiResult<NewsUpload200Response>> {
+): Promise<ApiResult<NewsUpload200Response|null>> {
     try {
-        const file = deserializeFileData(formData)
-        const data = await newsApi.newsUpload({
-            id,
-            type,
-            // TODO: Multiple
-            file: Array.isArray(file) ? file[0] : file,
-        })
-        return {
-            data,
-            error: null,
+        const fileData = deserializeFileData(formData)
+
+        if (Array.isArray(fileData)) {
+            for await (const file of fileData) {
+                await newsApi.newsUpload({
+                    id,
+                    type,
+                    file,
+                })
+            }
+            return {
+                data: null,
+                error: null,
+            }
+        } else {
+            const data = await newsApi.newsUpload({
+                id,
+                type,
+                file: fileData,
+            })
+            return {
+                data,
+                error: null,
+            }
         }
     } catch (error) {
         if (error instanceof ResponseError) {
