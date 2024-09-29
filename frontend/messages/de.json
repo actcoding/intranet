@@ -1,9 +1,13 @@
 {
     "Index": {
-        "title": "hallo welt!"
+        "news": "Neuigkeiten",
+        "show-more-news": "Mehr anzeigen",
+        "canteen-menu": "Speiseplan"
     },
     "Sidebar": {
         "home": "Startseite",
+        "news": "Neuigkeiten",
+        "manage": "Verwalten",
         "creator-login": "Creator-Login",
         "logout": "Abmelden",
         "my-account": "Mein Konto"
@@ -31,5 +35,12 @@
         "description-2": "Bitte geben Sie ein neues Passwort ein und klicken Sie dann auf den grünen Knopf.",
         "success-title": "Passwort geändert",
         "success-message": "Das Passwort wurde erfolgreich geändert. Bitte melden Sie sich erneut an, damit die Änderungen wirksam werden."
+    },
+    "News": {
+        "news-status-published": "Veröffentlicht",
+        "news-status-draft": "Entwurf",
+        "news-status-deleted": "Gelöscht",
+        "create": "Erstellen",
+        "manage": "Verwalten"
     }
 }

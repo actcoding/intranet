@@ -1,6 +1,19 @@
 {
     "recommendations": [
-        "esbenp.prettier-vscode",
-        "redhat.vscode-yaml",
+        "axelrindle.duplicate-file",
+        "axelrindle.task-explorer",
+        "actboy168.tasks",
+        "mikestead.dotenv",
+        "phpactor.vscode-phpactor",
+        "ctf0.php-class-imports-folding",
+        "oven.bun-vscode",
+        "dbaeumer.vscode-eslint",
+        "herrmannplatz.npm-dependency-links",
+        "bradlc.vscode-tailwindcss",
+        "GitHub.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
     ],
+    "unwantedRecommendations": [
+        "esbenp.prettier-vscode"
+    ]
 }
