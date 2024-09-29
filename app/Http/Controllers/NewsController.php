@@ -7,6 +7,7 @@ use App\Http\Requests\News\NewsListRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Requests\News\UploadImageRequest;
+use App\Http\Resources\AttachmentResource;
 use App\Http\Resources\NewsResource;
 use App\Models\Attachment;
 use App\Models\News;
@@ -19,6 +20,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class NewsController extends Controller implements HasMiddleware
 {
@@ -28,7 +30,7 @@ class NewsController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth:api', except: ['index', 'show']),
+            new Middleware('auth:api', except: ['index', 'show', 'listAttachments']),
         ];
     }
 
@@ -44,10 +46,15 @@ class NewsController extends Controller implements HasMiddleware
     {
         $query = News::query()
             ->orderByDesc('published_at')
+            ->orderByDesc('created_at')
             ->with('attachments');
 
         if (Gate::check('news.viewall')) {
-            $query = $query->withTrashed();
+            if ($request->has('status')) {
+                $query = $query->whereStatus($request->input('status'));
+            } else {
+                $query = $query->withTrashed();
+            }
         } else {
             $query = $query->whereStatus(NewsStatus::ACTIVE);
         }
@@ -98,12 +105,12 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(NewsUpdateRequest $request, string $id): Response|JsonResponse
+    public function update(NewsUpdateRequest $request, $id): JsonResponse
     {
         $news = $this->find($id, 'update');
 
         if ($news->trashed()) {
-            return response()->json(['message' => 'You cannot update trashed news.'], status: 403);
+            abort(403, 'You cannot update trashed news.');
         }
 
         $news->fill($request->validated());
@@ -118,20 +125,20 @@ class NewsController extends Controller implements HasMiddleware
 
         $news->save();
 
-        return response()->noContent();
+        return response()->json($news);
     }
 
     /**
      * Delete the specified resource from storage.
      */
-    public function destroy(Request $request, string $id): Response|JsonResponse
+    public function destroy(Request $request, $id): Response
     {
         $force = $request->boolean('force', false);
 
         $news = $this->find($id, $force ? 'forceDelete' : 'delete');
 
         if ($news->trashed()) {
-            return response()->json(['message' => 'You cannot deleted trashed news.'], status: 403);
+            abort(403, 'You cannot delete trashed news.');
         }
 
         $force ? $news->forceDeleteQuietly() : $news->delete();
@@ -152,7 +159,9 @@ class NewsController extends Controller implements HasMiddleware
     }
 
     /**
-     * Uploads a file to the scope of a news article.
+     * Attach a file to the specified resource.
+     *
+     * @param  int  $id
      */
     public function upload(UploadImageRequest $request, string $id): JsonResponse
     {
@@ -161,39 +170,62 @@ class NewsController extends Controller implements HasMiddleware
         $type = $request->input('type');
         $file = $request->file('file');
 
-        if ($type == 'attachment') {
-            $path = $file->store('news/' . $id, 'public');
+        $path = $file->store('news/' . $id . '/' . $type, 'public');
 
-            /** @var Attachment */
-            $attachment = Attachment::create([
-                'name' => $file->getClientOriginalName(),
-                'type' => $file->getMimeType(),
-                'path' => $path,
-            ]);
-            $attachment->attach($news);
-        } elseif ($type == 'header') {
-            $oldImage = $news->getRawOriginal('header_image');
-            if ($oldImage != null) {
-                Storage::disk('public')->delete($oldImage);
-            }
-
-            $path = $file->store('news/' . $id, 'public');
-            $news->header_image = $path;
-            $news->save();
-        }
+        /** @var Attachment */
+        $attachment = Attachment::create([
+            'name' => $file->getClientOriginalName(),
+            'type' => $file->getMimeType(),
+            'path' => $path,
+            'metadata' => [
+                'type' => $type,
+            ],
+        ]);
+        $attachment->attach($news);
 
         return response()->json(['url' => url(Storage::url($path))]);
     }
 
     /**
-     * Remove an attachment.
+     * Delete an attachment from the specified resource.
+     *
+     * Deletes the specified attachment associated to the given News entity.
+     * If both are not related to each other or one is not found, a HTTP 404 error is
+     * returned.
      */
-    public function detach(News $news, Attachment $attachment)
+    public function detach(News $news, Attachment $attachment): Response
     {
+        $belongs = $news->attachments()->where('id', $attachment->id)->exists();
+        if (! $belongs) {
+            abort(404, 'No matching attachment could be found!');
+        }
+
         $attachment->detach($news);
         $attachment->delete();
 
         return response()->noContent();
+    }
+
+    /**
+     * List all uploads of the specified resource.
+     *
+     * Returns a list of all files associated to a News entity, including the upload types:
+     * - attachment
+     * - header
+     * - content
+     *
+     * @param  int  $id
+     * @return AnonymousResourceCollection<AttachmentResource>
+     */
+    public function listAttachments(Request $request, $id)
+    {
+        $news = $this->find($id, allowGuest: true);
+
+        $query = collect(Validator::make($request->query(), [
+            'type' => 'nullable|string|in:content,header,attachment',
+        ])->validated());
+
+        return AttachmentResource::collection($news->attachments);
     }
 
     private function find(string $id, ?string $action = null, bool $allowGuest = false): News

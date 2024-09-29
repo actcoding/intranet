@@ -1,29 +1,29 @@
-import "@/app/globals.css";
-import { Toaster } from "@/lib/components/common/Toaster";
-import type { Metadata } from "next";
-import { getLocale } from "next-intl/server";
-import { Inter } from "next/font/google";
+import '@/app/globals.css'
+import { Toaster } from '@/lib/components/common/Toaster'
+import type { Metadata } from 'next'
+import { getLocale } from 'next-intl/server'
+import { Inter } from 'next/font/google'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-    title: "Intranet",
+    title: 'Intranet',
     authors: {
-        name: "act coding GbR",
-        url: "https://act-coding.de/",
+        name: 'act coding GbR',
+        url: 'https://act-coding.de/',
     },
     robots: {
         index: false,
         follow: false,
     },
-};
+}
 
 export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const locale = await getLocale();
+    const locale = await getLocale()
 
     return (
         <html lang={locale}>
@@ -33,5 +33,5 @@ export default async function RootLayout({
                 <Toaster />
             </body>
         </html>
-    );
+    )
 }
