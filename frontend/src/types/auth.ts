@@ -17,4 +17,4 @@ export type AppSession = {
     refresh_token?: string;
     sessionData?: AppSessionData;
     expiresAt?: number;
-};
+}

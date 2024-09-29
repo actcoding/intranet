@@ -1,34 +1,41 @@
-"use server";
+'use server'
 
-import { getAppSession } from "@/app/actions";
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { refreshToken } from "@/app/actions";
-import { IronSession } from "iron-session";
+import { getAppSession, refreshToken } from '@/lib/actions/auth'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { IronSession } from 'iron-session'
+import { AppSession } from '@/types/auth'
 
 function isTokenExpired(session: IronSession<AppSession>) {
-    // return Date.now() > session.expiresAt;
-    return true;
+    Date.now() > (session?.expiresAt ?? Date.now())
+    return true
 }
 
 export async function middleware(request: NextRequest) {
-    if (request.nextUrl.pathname.startsWith("/posts")) {
-        const session = await getAppSession();
-        const roles = session.sessionData?.roles;
-
+    let response = NextResponse.next()
+    
+    if (request.nextUrl.pathname.startsWith('/posts')) {
+        const session = await getAppSession()
+        
         if (isTokenExpired(session)) {
-            const res = await refreshToken(request);
-            if (res !== undefined) {
-                return res;
+            console.log('Token is expired. Trying to get a new token...')
+            response = await refreshToken(request, response)
+            if (!response) {
+                return NextResponse.redirect(new URL('/auth/login', request.url))
             }
         }
-        if (!roles?.includes("Creator")) {
-            return NextResponse.redirect(new URL("/auth/login", request.url));
+        
+        const roles = session?.sessionData?.roles
+
+        if (!roles?.includes('Creator')) {
+            return NextResponse.redirect(new URL('/auth/login', request.url))
         }
     }
+    
+    return response
 }
 
 export const config = {
-    matcher: "/posts/:path*",
+    matcher: '/posts/:path*',
     // url "/manage/:path*"
-};
+}
