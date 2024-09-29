@@ -5,6 +5,7 @@ import { IronSession, getIronSession } from 'iron-session'
 import { decodeJwt } from 'jose'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { authApi } from '../api/api'
 
 export async function getAppSession(): Promise<IronSession<AppSession>> {
     return getIronSession<AppSession>(cookies(), {
@@ -20,30 +21,19 @@ export async function handleLogin(credentials: {
     email: string;
     password: string;
 }): Promise<ApiResponse | undefined> {
-    const res = await fetch(`${apiUrl}/auth/login`, {
-        method: 'POST',
-        body: JSON.stringify(credentials),
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
+    const res = await authApi.authLogin({
+        loginRequest: credentials,
     })
 
-    if (!res.ok) {
-        const data = await res.json()
-        return {
-            status: res.status,
-            ...data,
-        }
-    }
-
-    const { access_token } = await res.json()
-    const decoded = decodeJwt<AppSessionData>(access_token)
+    const { accessToken, refreshToken } = res
+    const decoded = decodeJwt<AppSessionData>(accessToken)
 
     const session = await getAppSession()
 
-    session.access_token = access_token
+    session.access_token = accessToken
+    session.refresh_token = refreshToken
     session.sessionData = decoded
+    session.expiresAt = decoded.exp
     await session.save()
 
     if (session.sessionData.user.status === 'must_reset_password') {
