@@ -29,7 +29,7 @@ export async function getNewsListAction({
     page: number;
     perPage: number;
 }) {
-    const newsList = await newsApi.newsIndex({ page, perPage })
+    const newsList = await newsApi.newsIndex({ page, perPage, status: 'active' })
     return newsList.data
 }
 
