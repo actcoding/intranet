@@ -1,7 +1,7 @@
 'use server'
 
 import { ApiResponse, AppSession, AppSessionData } from '@/types'
-import { IronSession, getIronSession } from 'iron-session'
+import { getIronSession, IronSession } from 'iron-session'
 import { decodeJwt } from 'jose'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -10,6 +10,10 @@ export async function getAppSession(): Promise<IronSession<AppSession>> {
     return getIronSession<AppSession>(cookies(), {
         password: process.env.APP_SECRET as string,
         cookieName: 'intranet_session',
+        cookieOptions: {
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+        },
         ttl: 60 * 60 * 24 * 7,
     })
 }
