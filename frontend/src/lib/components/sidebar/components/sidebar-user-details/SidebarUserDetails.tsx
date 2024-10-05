@@ -88,4 +88,4 @@ const SidebarUserDetails = (props: SidebarUserDetailsProps) => {
         )
     }
 }
-export default SidebarUserDetails
+export { SidebarUserDetails }
