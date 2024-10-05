@@ -1,11 +1,4 @@
 import { getAppSession } from '@/lib/actions/auth'
-import { Button } from '@/lib/components/common/Button'
-import {
-    ResponsiveDialog,
-    ResponsiveDialogBody,
-    ResponsiveDialogContent,
-    ResponsiveDialogTrigger,
-} from '@/lib/components/common/ResponsiveDialog'
 import {
     SidebarContainer,
     SidebarFooter,
@@ -13,10 +6,11 @@ import {
     SidebarItems,
     SidebarUserDetails,
 } from '@/lib/components/sidebar/components'
+import { AddContentAction } from '@/lib/components/sidebar/components/add-content-action/AddContentAction'
 import SidebarProvider from '@/lib/components/sidebar/hooks/useSidebar'
 import { isCreator } from '@/lib/utils'
 import { SidebarLink } from '@/types'
-import { HomeIcon, NewspaperIcon, PlusIcon, Settings2Icon } from 'lucide-react'
+import { HomeIcon, NewspaperIcon, Settings2Icon } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
@@ -42,16 +36,7 @@ const Sidebar = async () => {
                     <h3 className="mx-3 text-lg font-semibold text-foreground">
                         Intranet
                     </h3>
-                    <ResponsiveDialog>
-                        <ResponsiveDialogTrigger asChild>
-                            <Button size="icon" variant="ghost">
-                                <PlusIcon size={20} />
-                            </Button>
-                        </ResponsiveDialogTrigger>
-                        <ResponsiveDialogContent>
-                            <ResponsiveDialogBody>hi</ResponsiveDialogBody>
-                        </ResponsiveDialogContent>
-                    </ResponsiveDialog>
+                    <AddContentAction />
                 </SidebarHeader>
                 <SidebarItems links={sidebarLinks} />
                 <SidebarFooter>
