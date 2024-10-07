@@ -1,5 +1,5 @@
 import { ApiErrors, AppSessionData } from '@/types'
-import { clsx, type ClassValue } from 'clsx'
+import { type ClassValue, clsx } from 'clsx'
 import { FieldValues, UseFormReturn } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
 
@@ -50,3 +50,5 @@ export async function urlToFile(url: string, filename: string): Promise<File> {
 export function isCreator(sessionData?: AppSessionData): boolean {
     return sessionData?.roles.includes('Creator') ?? false
 }
+
+export const isProduction = () => process.env.NODE_ENV === 'production'
