@@ -90,13 +90,9 @@ class NewsController extends Controller implements HasMiddleware
      * Guests and normal users will only see published news, while a Creator will receive
      * a list of all news.
      *
-     * @param  int  $id
-     *
-     * @unauthenticated
-     *
      * @response NewsResource
      */
-    public function show($id): NewsResource
+    public function show(string $id): NewsResource
     {
         $news = $this->find($id, allowGuest: true);
 
@@ -108,8 +104,6 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  int  $id
      */
     public function update(NewsUpdateRequest $request, $id): JsonResponse
     {
@@ -136,8 +130,6 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Delete the specified resource from storage.
-     *
-     * @param  int  $id
      */
     public function destroy(Request $request, $id): Response
     {
@@ -156,10 +148,8 @@ class NewsController extends Controller implements HasMiddleware
 
     /**
      * Restore this resource from a deleted state.
-     *
-     * @param  int  $id
      */
-    public function restore($id): Response
+    public function restore(string $id): Response
     {
         $news = $this->find($id, 'restore');
 
@@ -173,7 +163,7 @@ class NewsController extends Controller implements HasMiddleware
      *
      * @param  int  $id
      */
-    public function upload(UploadImageRequest $request, $id): JsonResponse
+    public function upload(UploadImageRequest $request, string $id): JsonResponse
     {
         $news = $this->find($id, 'update');
 

@@ -90,7 +90,7 @@ class NewsControllerTest extends TestCase
             'Authorization' => $type . ' ' . $token,
         ]);
 
-        $responseUpdate->assertStatus(204);
+        $responseUpdate->assertStatus(200);
 
         $responseShow = $this->getJson(route('news.show', ['news' => $responseStore->json('id')]));
 
