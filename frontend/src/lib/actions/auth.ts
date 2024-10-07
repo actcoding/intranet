@@ -1,5 +1,6 @@
 'use server'
 
+import { isProduction } from '@/lib/utils'
 import { ApiResponse, AppSession, AppSessionData } from '@/types'
 import { getIronSession, IronSession } from 'iron-session'
 import { decodeJwt } from 'jose'
@@ -12,7 +13,7 @@ export async function getAppSession(): Promise<IronSession<AppSession>> {
         cookieName: 'intranet_session',
         cookieOptions: {
             // TODO: Evaluate most appropriate cookie settings
-            secure: process.env.NODE_ENV === 'production',
+            secure: isProduction(),
         },
         ttl: 60 * 60 * 24 * 7,
     })
