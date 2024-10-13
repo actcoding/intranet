@@ -5,7 +5,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/lib/components/common/Card'
-import CreateContentForm from '@/lib/components/shared/create-content-form/CreateContentForm'
+import CreateDraftForm from '@/lib/components/shared/create-content-draft-form/CreateDraftForm'
 
 const CreateNewsPage = () => {
     return (
@@ -20,7 +20,7 @@ const CreateNewsPage = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <CreateContentForm />
+                    <CreateDraftForm />
                 </CardContent>
             </Card>
         </div>

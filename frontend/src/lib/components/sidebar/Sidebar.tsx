@@ -1,12 +1,12 @@
 import { getAppSession } from '@/lib/actions/auth'
 import {
+    CreateDraftDialog,
     SidebarContainer,
     SidebarFooter,
     SidebarHeader,
     SidebarItems,
     SidebarUserDetails,
 } from '@/lib/components/sidebar/components'
-import { AddContentAction } from '@/lib/components/sidebar/components/add-content-action/AddContentAction'
 import SidebarProvider from '@/lib/components/sidebar/hooks/useSidebar'
 import { isCreator } from '@/lib/utils'
 import { SidebarLink } from '@/types'
@@ -36,7 +36,7 @@ const Sidebar = async () => {
                     <h3 className="mx-3 text-lg font-semibold text-foreground">
                         Intranet
                     </h3>
-                    <AddContentAction />
+                    <CreateDraftDialog />
                 </SidebarHeader>
                 <SidebarItems links={sidebarLinks} />
                 <SidebarFooter>

@@ -5,26 +5,33 @@ import { Button } from '@/lib/components/common/Button'
 import { Form } from '@/lib/components/common/Form'
 import { useToast } from '@/lib/components/hooks/use-toast'
 import { NewsTitleFormField } from '@/lib/components/news/create-news-form/components/news-form-fields'
-import { createContentFormSchema } from '@/lib/components/shared/create-content-form/CreateContentForm.config'
-import { CreateContentFormSchema } from '@/lib/components/shared/create-content-form/CreateContentForm.model'
+import { createDraftFormSchema } from '@/lib/components/shared/create-content-draft-form/CreateDraftForm.config'
+import { createDraftForm } from '@/lib/components/shared/create-content-draft-form/CreateDraftForm.model'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
+import { ContentTypeFormField } from './components'
 
-const CreateContentForm = () => {
+interface CreateContentFormProps {
+    onSuccess?: () => void;
+}
+
+const CreateDraftForm = ({ onSuccess }: CreateContentFormProps) => {
     const router = useRouter()
     const { toast } = useToast()
 
-    const form = useForm<CreateContentFormSchema>({
-        resolver: zodResolver(createContentFormSchema),
+    const form = useForm<createDraftForm>({
+        resolver: zodResolver(createDraftFormSchema),
         defaultValues: {
             title: '',
+            type: 'news',
         },
+        mode: 'onChange',
     })
 
     const handleSubmit = useCallback(
-        async (values: CreateContentFormSchema) => {
+        async (values: createDraftForm) => {
             const { data, error } = await createNewsAction({
                 title: values.title,
                 content: 'Hier könnte Ihre Neugikeit stehen.',
@@ -47,9 +54,10 @@ const CreateContentForm = () => {
             })
 
             const { id } = data
+            onSuccess && onSuccess()
             router.push(`/manage/news/${id}`)
         },
-        [router, toast],
+        [router, toast, onSuccess],
     )
 
     return (
@@ -58,14 +66,20 @@ const CreateContentForm = () => {
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="space-y-4"
             >
-                <NewsTitleFormField form={form} />
-
+                <NewsTitleFormField />
+                <ContentTypeFormField />
                 <div className="flex flex-row justify-end">
-                    <Button type="submit">Speichern</Button>
+                    <Button
+                        type="submit"
+                        disabled={!form.formState.isValid}
+                        loading={form.formState.isSubmitting}
+                    >
+                        Speichern
+                    </Button>
                 </div>
             </form>
         </Form>
     )
 }
 
-export default CreateContentForm
+export default CreateDraftForm

@@ -9,17 +9,14 @@ import {
 } from '@/lib/components/common/Form'
 import { Input } from '@/lib/components/common/Input'
 import { CreateNewsForm } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
-import { Control } from 'react-hook-form'
-import { CreateDraftNewsForm } from 'src/lib/components/news/create-news-form/CreateContentForm'
+import { createDraftForm } from '@/lib/components/shared/create-content-draft-form/CreateDraftForm.model'
+import { useFormContext } from 'react-hook-form'
 
-interface NewsTitleFormFieldProps {
-    form: CreateNewsForm | CreateDraftNewsForm;
-}
-
-const NewsTitleFormField = ({ form }: NewsTitleFormFieldProps) => {
+const NewsTitleFormField = () => {
+    const form = useFormContext<CreateNewsForm | createDraftForm>()
     return (
         <FormField
-            control={form.control as Control<any>}
+            control={form.control}
             name="title"
             render={({ field }) => (
                 <FormItem>

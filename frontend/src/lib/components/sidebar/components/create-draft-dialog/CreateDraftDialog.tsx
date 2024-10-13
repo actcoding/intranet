@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@/lib/components/common/Button'
 import {
     ResponsiveDialog,
@@ -8,12 +10,15 @@ import {
     ResponsiveDialogTitle,
     ResponsiveDialogTrigger,
 } from '@/lib/components/common/ResponsiveDialog'
-import CreateContentForm from '@/lib/components/shared/create-content-form/CreateContentForm'
+import CreateDraftForm from '@/lib/components/shared/create-content-draft-form/CreateDraftForm'
 import { PlusIcon } from 'lucide-react'
+import { useState } from 'react'
 
-const AddContentAction = () => {
+const CreateDraftDialog = () => {
+    const [open, setOpen] = useState(false)
+
     return (
-        <ResponsiveDialog>
+        <ResponsiveDialog open={open} onOpenChange={setOpen}>
             <ResponsiveDialogTrigger asChild>
                 <Button size="icon" variant="ghost">
                     <PlusIcon size={20} />
@@ -26,16 +31,16 @@ const AddContentAction = () => {
                     </ResponsiveDialogTitle>
                     <ResponsiveDialogDescription>
                         Gib unten einen Titel für den Entwurf ein und klicke auf
-                        speichern. Danach kann der Artikel vollumfänglich
+                        speichern. Danach kann der Inhalt vollumfänglich
                         bearbeitet werden.
                     </ResponsiveDialogDescription>
                 </ResponsiveDialogHeader>
                 <ResponsiveDialogBody>
-                    <CreateContentForm />
+                    <CreateDraftForm onSuccess={() => setOpen(false)} />
                 </ResponsiveDialogBody>
             </ResponsiveDialogContent>
         </ResponsiveDialog>
     )
 }
 
-export { AddContentAction }
+export { CreateDraftDialog }
