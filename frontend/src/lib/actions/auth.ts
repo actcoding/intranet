@@ -12,8 +12,8 @@ export async function getAppSession(): Promise<IronSession<AppSession>> {
         password: process.env.APP_SECRET as string,
         cookieName: 'intranet_session',
         cookieOptions: {
-            // TODO: Evaluate most appropriate cookie settings
             secure: isProduction(),
+            sameSite: 'strict',
         },
         ttl: 60 * 60 * 24 * 7,
     })
