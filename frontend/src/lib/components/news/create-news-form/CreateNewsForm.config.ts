@@ -1,4 +1,3 @@
-import { UseFormReturn } from 'react-hook-form'
 import * as z from 'zod'
 
 export const createNewsFormSchema = z.object({
@@ -6,9 +5,7 @@ export const createNewsFormSchema = z.object({
     content: z.string(),
 })
 
-export type CreateNewsForm = UseFormReturn<
-    Zod.infer<typeof createNewsFormSchema>
->
+export type CreateNewsFormValues = Zod.infer<typeof createNewsFormSchema>
 
 export const editNewsFormSchema = createNewsFormSchema
 

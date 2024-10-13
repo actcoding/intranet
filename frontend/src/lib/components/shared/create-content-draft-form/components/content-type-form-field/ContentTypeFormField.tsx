@@ -6,12 +6,12 @@ import {
 } from '@/lib/components/common/Form'
 import { RadioGroup } from '@/lib/components/common/RadioGroup'
 import { ContentTypeFormFieldItem } from '@/lib/components/shared/create-content-draft-form/components/content-type-form-field/components'
-import { createDraftForm } from '@/lib/components/shared/create-content-draft-form/CreateDraftForm.model'
+import { CreateDraftFormValues } from '@/lib/components/shared/create-content-draft-form/CreateDraftForm.model'
 import { CalendarIcon, NewspaperIcon } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 
 const ContentTypeFormField = () => {
-    const form = useFormContext<createDraftForm>()
+    const form = useFormContext<CreateDraftFormValues>()
     return (
         <FormField
             control={form.control}
