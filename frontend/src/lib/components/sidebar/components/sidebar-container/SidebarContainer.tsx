@@ -21,7 +21,9 @@ const SidebarContainer = (props: SidebarWrapperProps) => {
     if (isDesktop) {
         return (
             <aside className="fixed left-0 top-0 z-40 h-screen w-[270px] max-w-xs border-r">
-                <div className="h-full px-3 py-4">{props.children}</div>
+                <div className="flex flex-col items-stretch gap-3 px-3 py-4 ">
+                    {props.children}
+                </div>
             </aside>
         )
     } else {
@@ -36,7 +38,11 @@ const SidebarContainer = (props: SidebarWrapperProps) => {
                         <Menu size={20} />
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="px-3 py-4" hideClose>
+                <SheetContent
+                    side="left"
+                    className="flex flex-col items-stretch px-3 py-4"
+                    hideClose
+                >
                     {props.children}
                 </SheetContent>
             </Sheet>

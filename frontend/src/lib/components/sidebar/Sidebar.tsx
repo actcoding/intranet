@@ -36,9 +36,9 @@ const Sidebar = async () => {
                     <h3 className="mx-3 text-lg font-semibold text-foreground">
                         Intranet
                     </h3>
-                    <CreateDraftDialog />
                 </SidebarHeader>
                 <SidebarItems links={sidebarLinks} />
+                <CreateDraftDialog />
                 <SidebarFooter>
                     <SidebarUserDetails loggedInUser={sessionData?.user} />
                 </SidebarFooter>

@@ -19,7 +19,7 @@ const ContentTypeFormField = () => {
             render={({ field }) => {
                 return (
                     <FormItem>
-                        <FormLabel>Typ</FormLabel>
+                        <FormLabel>Art des Inhalts</FormLabel>
                         <FormControl>
                             <RadioGroup
                                 className="grid grid-cols-2 gap-4"

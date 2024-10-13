@@ -20,8 +20,9 @@ const CreateDraftDialog = () => {
     return (
         <ResponsiveDialog open={open} onOpenChange={setOpen}>
             <ResponsiveDialogTrigger asChild>
-                <Button size="icon" variant="ghost">
-                    <PlusIcon size={20} />
+                <Button variant="outline">
+                    <PlusIcon size={20} className="mr-2" />
+                    Inhalt erstellen
                 </Button>
             </ResponsiveDialogTrigger>
             <ResponsiveDialogContent>

@@ -19,9 +19,9 @@ const SidebarItems = (props: SidebarItemsProps) => {
     return (
         <NavigationMenu
             orientation="vertical"
-            className="max-w-none flex-col items-stretch"
+            className="max-w-none flex-none flex-col items-stretch"
         >
-            <NavigationMenuList className="mt-4 flex-col items-stretch gap-2 space-x-0">
+            <NavigationMenuList className="flex-col items-stretch gap-2 space-x-0">
                 {props.links.map((link, index) => {
                     if (!link.hidden) {
                         return (
