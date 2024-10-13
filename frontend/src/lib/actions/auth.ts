@@ -83,38 +83,3 @@ export async function resetPassword(
     session.destroy()
     redirect('/auth/login')
 }
-
-export async function refreshToken(request: NextRequest, response: NextResponse) {
-    const session = await getAppSession()
-    
-    if (!session.refresh_token) {
-        return NextResponse.redirect(new URL('/auth/login', request.url))
-    }
-
-    // Refresh token API request
-    const tokenResponse = await fetch(`${apiUrl}/auth/refresh`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-        },
-        body: JSON.stringify({ refresh_token: session.refresh_token }),
-    })
-
-    console.log('Token Response', tokenResponse.status)
-
-    if (tokenResponse.ok) {
-        const { access_token, refresh_token } = await tokenResponse.json()
-        const decoded = decodeJwt<AppSessionData>(access_token)
-
-        session.access_token = access_token
-        session.refresh_token = refresh_token
-        session.sessionData = decoded
-        
-        await session.save()
-        return response 
-    } else {
-        session.destroy()
-        return NextResponse.redirect(new URL('/auth/login', request.url))
-    }
-}
