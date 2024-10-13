@@ -1,12 +1,14 @@
 {
     "Index": {
         "news": "Neuigkeiten",
+        "events": "Veranstaltungen",
         "show-more-news": "Mehr anzeigen",
         "canteen-menu": "Speiseplan"
     },
     "Sidebar": {
         "home": "Startseite",
         "news": "Neuigkeiten",
+        "events": "Veranstaltungen",
         "manage": "Verwalten",
         "creator-login": "Creator-Login",
         "logout": "Abmelden",
@@ -40,6 +42,10 @@
         "news-status-published": "Veröffentlicht",
         "news-status-draft": "Entwurf",
         "news-status-deleted": "Gelöscht",
+        "create": "Erstellen",
+        "manage": "Verwalten"
+    },
+    "Events": {
         "create": "Erstellen",
         "manage": "Verwalten"
     }

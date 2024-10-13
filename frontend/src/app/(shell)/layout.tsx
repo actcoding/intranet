@@ -9,7 +9,7 @@ import {
 import SidebarUserDetails from '@/lib/components/sidebar/components/SidebarUserDetails'
 import { SidebarLink } from '@/types/sidebar-link'
 import { isCreator } from '@/lib/utils'
-import { HomeIcon, NewspaperIcon, Settings2Icon } from 'lucide-react'
+import { HomeIcon, NewspaperIcon, Settings2Icon, CalendarDaysIcon } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
@@ -24,6 +24,7 @@ export default async function ShellLayout({
     const sidebarLinks: SidebarLink[] = [
         { label: t('home'), href: '/', icon: <HomeIcon /> },
         { label: t('news'), href: '/news', icon: <NewspaperIcon /> },
+        { label: t('events'), href: '/events', icon: <CalendarDaysIcon />},
         {
             label: t('manage'),
             href: '/manage',
