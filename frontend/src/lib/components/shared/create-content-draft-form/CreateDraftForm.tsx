@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { ContentTypeFormField } from './components'
+import dayjs from '@/lib/dayjs'
 
 interface CreateContentFormProps {
     onSuccess?: () => void;
@@ -45,6 +46,9 @@ const CreateDraftForm = ({ onSuccess }: CreateContentFormProps) => {
                 case 'event':
                     response = await createEventAction({
                         title: values.title,
+                        content: 'Hier könnte Ihre Eventbeschreibung stehen.',
+                        startingAt: dayjs().format(),
+                        endingAt: dayjs().add(1, 'day').format(),
                     })
                     break
             }

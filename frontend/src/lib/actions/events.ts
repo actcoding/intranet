@@ -1,3 +1,33 @@
-export const createEventAction = (request: {title: string}) => {
-    console.log(`event with title ${request.title} successfully created!`)
+import { eventApi, newsApi } from '../api/api'
+import { EventStoreRequest, FetchError, ResponseError } from '../api/generated'
+
+export const createEventAction = async (eventStoreRequest: EventStoreRequest) => {
+    try {
+        const data = await eventApi.eventStore({
+            eventStoreRequest
+        })
+
+        return {
+            data,
+            error: null,
+        }
+    } catch (error) {
+        console.error(error)
+        if (error instanceof ResponseError || error instanceof FetchError) {
+            return {
+                data: null,
+                error: {
+                    message: error.message,
+                },
+            }
+        }
+
+        return {
+            data: null,
+            error: {
+                //@ts-expect-error error is unknown
+                message: error.message,
+            },
+        }
+    }
 }
