@@ -8,8 +8,8 @@ import { Suspense } from 'react'
 const EventsPage = async () => {
     const { sessionData } = await getAppSession()
     const t = await getTranslations()
-    
-    return ( 
+
+    return (
         <>
             <div className="flex justify-between">
                 <h1 className="mb-4 text-4xl font-semibold">
@@ -20,13 +20,13 @@ const EventsPage = async () => {
                         <Button asChild>
                             <Link href="/manage/events/create">
                                 <PlusIcon className="me-2" size={20} />
-                                {t('Events.create')}
+                                {t('Event.create')}
                             </Link>
                         </Button>
                         <Button asChild variant={'secondary'}>
                             <Link href="/manage/events">
                                 <Settings2Icon className="me-2" size={20} />
-                                {t('Events.manage')}
+                                {t('Event.manage')}
                             </Link>
                         </Button>
                     </div>
@@ -36,5 +36,5 @@ const EventsPage = async () => {
         </>
     )
 }
- 
+
 export default EventsPage

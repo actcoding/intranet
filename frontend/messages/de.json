@@ -45,7 +45,10 @@
         "create": "Erstellen",
         "manage": "Verwalten"
     },
-    "Events": {
+    "Event": {
+        "event-status-published": "Veröffentlicht",
+        "event-status-draft": "Entwurf",
+        "event-status-deleted": "Gelöscht",
         "create": "Erstellen",
         "manage": "Verwalten"
     }

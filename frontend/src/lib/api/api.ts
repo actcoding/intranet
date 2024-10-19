@@ -1,7 +1,7 @@
 'server-only'
 
 import { getAppSession } from '@/lib/actions/auth'
-import { AuthApi, Configuration, NewsApi } from '@/lib/api/generated'
+import { AuthApi, Configuration, EventApi, NewsApi } from '@/lib/api/generated'
 
 const configuration = new Configuration({
     basePath: process.env.API_URL,
@@ -29,3 +29,5 @@ const configuration = new Configuration({
 export const newsApi = new NewsApi(configuration)
 
 export const authApi = new AuthApi(configuration)
+
+export const eventApi = new EventApi(configuration)
