@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Enum\NewsStatus;
+use App\Enum\EntityStatus;
 use Database\Factories\NewsFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
@@ -23,13 +24,13 @@ class News extends Model
     protected static function booted(): void
     {
         static::deleted(function (News $news) {
-            $news->status = NewsStatus::DELETED;
+            $news->status = EntityStatus::DELETED;
             $news->published_at = null;
             $news->save();
         });
 
         static::restored(function (News $news) {
-            $news->status = NewsStatus::DRAFT;
+            $news->status = EntityStatus::DRAFT;
             $news->published_at = null;
             $news->save();
         });
@@ -73,7 +74,7 @@ class News extends Model
     protected function casts(): array
     {
         return [
-            'status' => NewsStatus::class,
+            'status' => EntityStatus::class,
         ];
     }
 
@@ -102,6 +103,11 @@ class News extends Model
     public function attachments(): MorphToMany
     {
         return $this->morphToMany(Attachment::class, 'attachable');
+    }
+
+    public function events(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class);
     }
 
     public function toArray(): array

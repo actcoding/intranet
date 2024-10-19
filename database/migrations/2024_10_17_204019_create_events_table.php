@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\EntityStatus;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,6 +21,8 @@ return new class extends Migration
 
             $table->foreignIdFor(User::class, 'author_id');
 
+            $statusEnum = collect(EntityStatus::cases())->map(fn ($case) => $case->value)->toArray();
+            $table->enum('status', $statusEnum)->default(EntityStatus::DRAFT);
             $table->timestamp('starting_at');
             $table->timestamp('ending_at');
             $table->text('title');

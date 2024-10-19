@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\EntityStatus;
 use App\Http\Requests\Event\EventListRequest;
 use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
@@ -49,9 +50,13 @@ class EventController extends Controller implements HasMiddleware
             ->with('attachments');
 
         if (Gate::check('event.viewall')) {
-            $query = $query->withTrashed();
+            if ($request->has('status')) {
+                $query = $query->whereStatus($request->input('status'));
+            } else {
+                $query = $query->withTrashed();
+            }
         } else {
-            $query = $query->whereNotNull('published_at');
+            $query = $query->whereStatus(EntityStatus::ACTIVE);
         }
 
         return EventResource::collection(
@@ -68,6 +73,10 @@ class EventController extends Controller implements HasMiddleware
 
         $event = new Event($request->validated());
         $event->author_id = auth()->user()->id;
+
+        if ($news->status == EntityStatus::ACTIVE) {
+            $news->published_at = now();
+        }
 
         $event->save();
         $event->refresh();
@@ -111,6 +120,15 @@ class EventController extends Controller implements HasMiddleware
         }
 
         $event->fill($request->validated());
+
+        if ($event->status == EntityStatus::ACTIVE) {
+            if ($event->published_at == null) {
+                $event->published_at = now();
+            }
+        } else {
+            $event->published_at = null;
+        }
+
         $event->save();
 
         return response()->json($event);

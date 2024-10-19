@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enum\EntityStatus;
 use Database\Factories\EventFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,6 +15,24 @@ class Event extends Model
 {
     use HasFactory,
         SoftDeletes;
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleted(function (Event $event) {
+            $event->status = EntityStatus::DELETED;
+            $event->published_at = null;
+            $event->save();
+        });
+
+        static::restored(function (Event $event) {
+            $event->status = EntityStatus::DRAFT;
+            $event->published_at = null;
+            $event->save();
+        });
+    }
 
     /**
      * Create a new factory instance for the model.
@@ -62,6 +82,11 @@ class Event extends Model
     public function attachments(): MorphToMany
     {
         return $this->morphToMany(Attachment::class, 'attachable');
+    }
+
+    public function news(): BelongsToMany
+    {
+        return $this->belongsToMany(News::class);
     }
 
     public function toArray(): array

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\NewsStatus;
+use App\Enum\EntityStatus;
 use App\Http\Requests\News\NewsListRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
@@ -56,7 +56,7 @@ class NewsController extends Controller implements HasMiddleware
                 $query = $query->withTrashed();
             }
         } else {
-            $query = $query->whereStatus(NewsStatus::ACTIVE);
+            $query = $query->whereStatus(EntityStatus::ACTIVE);
         }
 
         return NewsResource::collection(
@@ -74,7 +74,7 @@ class NewsController extends Controller implements HasMiddleware
         $news = new News($request->validated());
         $news->author_id = auth()->user()->id;
 
-        if ($news->status == NewsStatus::ACTIVE) {
+        if ($news->status == EntityStatus::ACTIVE) {
             $news->published_at = now();
         }
 
@@ -121,7 +121,7 @@ class NewsController extends Controller implements HasMiddleware
 
         $news->fill($request->validated());
 
-        if ($news->status == NewsStatus::ACTIVE) {
+        if ($news->status == EntityStatus::ACTIVE) {
             if ($news->published_at == null) {
                 $news->published_at = now();
             }
@@ -145,7 +145,7 @@ class NewsController extends Controller implements HasMiddleware
 
         $news = $this->find($id, $force ? 'forceDelete' : 'delete');
 
-        if ($news->trashed()) {
+        if (! $force && $news->trashed()) {
             abort(403, 'You cannot delete trashed news.');
         }
 
