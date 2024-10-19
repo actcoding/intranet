@@ -127,7 +127,7 @@ class EventController extends Controller implements HasMiddleware
 
         $event = $this->find($id, $force ? 'forceDelete' : 'delete');
 
-        if ($event->trashed()) {
+        if (! $force && $event->trashed()) {
             abort(403, 'You cannot delete trashed events.');
         }
 
