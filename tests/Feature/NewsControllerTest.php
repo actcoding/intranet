@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Enum\NewsStatus;
+use App\Enum\EntityStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -85,7 +85,7 @@ class NewsControllerTest extends TestCase
         ]);
 
         $responseUpdate = $this->putJson(route('news.update', ['news' => $responseStore->json('id')]), [
-            'status' => NewsStatus::ACTIVE,
+            'status' => EntityStatus::ACTIVE,
         ], [
             'Authorization' => $type . ' ' . $token,
         ]);
@@ -95,7 +95,7 @@ class NewsControllerTest extends TestCase
         $responseShow = $this->getJson(route('news.show', ['news' => $responseStore->json('id')]));
 
         $responseShow->assertStatus(200);
-        $responseShow->assertJsonPath('status', NewsStatus::ACTIVE->value);
+        $responseShow->assertJsonPath('status', EntityStatus::ACTIVE->value);
 
         $responseDestroy = $this->deleteJson(route('news.destroy', ['news' => $responseStore->json('id')]), headers: [
             'Authorization' => $type . ' ' . $token,
@@ -112,7 +112,7 @@ class NewsControllerTest extends TestCase
         $responseShow = $this->getJson(route('news.show', ['news' => $responseStore->json('id')]));
 
         $responseShow->assertStatus(200);
-        $responseShow->assertJsonPath('status', NewsStatus::DRAFT->value);
+        $responseShow->assertJsonPath('status', EntityStatus::DRAFT->value);
 
         $responseDestroyForce = $this->deleteJson(route('news.destroy', ['news' => $responseStore->json('id')]), [
             'force' => true,

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Event;
 
+use App\Enum\EntityStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EventListRequest extends FormRequest
 {
@@ -26,6 +28,7 @@ class EventListRequest extends FormRequest
         return [
             'page' => 'integer|min:1',
             'perPage' => 'integer|min:1',
+            'status' => Rule::enum(EntityStatus::class),
         ];
     }
 }

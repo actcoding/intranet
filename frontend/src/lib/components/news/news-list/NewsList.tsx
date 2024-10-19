@@ -1,12 +1,12 @@
 import { newsApi } from '@/lib/api/api'
-import { NewsStatus } from '@/lib/api/generated'
+import { EntityStatus } from '@/lib/api/generated'
 import NewsListContent from '@/lib/components/news/news-list/components/NewsListContent'
 import { pick } from 'lodash'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 
 type Props = {
-    status?: NewsStatus
+    status?: EntityStatus
 }
 
 const NewsList = async ({ status }: Props) => {

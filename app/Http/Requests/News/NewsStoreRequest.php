@@ -15,7 +15,7 @@ class NewsStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['nullable', AppRules::newsStatus()],
+            'status' => ['nullable', AppRules::entityStatus()],
             'title' => 'required|string',
             'content' => 'required|string',
         ];

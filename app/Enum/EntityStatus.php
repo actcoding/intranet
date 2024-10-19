@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum NewsStatus: string
+enum EntityStatus: string
 {
     case ACTIVE = 'active';
     case DRAFT = 'draft';
