@@ -81,7 +81,6 @@ class NewsControllerTest extends TestCase
             'status',
             'title',
             'content',
-            'header_image',
         ]);
 
         $responseUpdate = $this->putJson(route('news.update', ['news' => $responseStore->json('id')]), [
