@@ -2,10 +2,16 @@
 
 namespace App\Http\Requests\Event;
 
+use App\Models\Event;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventStoreRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return $this->user()->can('create', Event::class);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

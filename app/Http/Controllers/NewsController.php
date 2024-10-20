@@ -70,8 +70,6 @@ class NewsController extends Controller implements HasMiddleware
      */
     public function store(NewsStoreRequest $request): JsonResponse
     {
-        Gate::authorize('create', News::class);
-
         $news = new News($request->validated());
         $news->author_id = auth()->user()->id;
 

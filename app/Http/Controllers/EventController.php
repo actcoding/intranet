@@ -70,8 +70,6 @@ class EventController extends Controller implements HasMiddleware
      */
     public function store(EventStoreRequest $request): JsonResponse
     {
-        Gate::authorize('create', Event::class);
-
         $event = new Event($request->validated());
         $event->author_id = auth()->user()->id;
 
