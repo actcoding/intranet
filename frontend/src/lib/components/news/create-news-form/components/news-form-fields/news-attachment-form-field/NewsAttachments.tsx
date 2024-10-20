@@ -17,7 +17,7 @@ export function NewsAttachments({ id, attachments }: Props) {
     const onRemove = async (file: File | AttachmentResourceData) => {
         if (!(file instanceof File)) {
             await newsApi.newsUploadDelete({
-                news: id,
+                id,
                 attachment: file.id,
             })
         }

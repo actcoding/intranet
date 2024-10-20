@@ -6,9 +6,10 @@ use App\Enum\EntityStatus;
 use App\Http\Requests\Event\EventListRequest;
 use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
-use App\Http\Requests\Event\UploadImageRequest;
+use App\Http\Requests\Event\EventUploadImageRequest;
 use App\Http\Resources\AttachmentResource;
 use App\Http\Resources\EventResource;
+use App\Http\Resources\UrlResource;
 use App\Models\Attachment;
 use App\Models\Event;
 use Illuminate\Http\JsonResponse;
@@ -74,14 +75,22 @@ class EventController extends Controller implements HasMiddleware
         $event = new Event($request->validated());
         $event->author_id = auth()->user()->id;
 
-        if ($news->status == EntityStatus::ACTIVE) {
-            $news->published_at = now();
+        if ($event->status == EntityStatus::ACTIVE) {
+            $event->published_at = now();
         }
 
         $event->save();
         $event->refresh();
 
-        return response()->json($event, 201);
+        /**
+         * `EventResource`
+         *
+         * @status 201
+         * @body EventResource
+         */
+        return (new EventResource($event))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -93,8 +102,6 @@ class EventController extends Controller implements HasMiddleware
      * @param  int  $id
      *
      * @unauthenticated
-     *
-     * @response EventResource
      */
     public function show($id): EventResource
     {
@@ -111,7 +118,7 @@ class EventController extends Controller implements HasMiddleware
      *
      * @param  int  $id
      */
-    public function update(EventUpdateRequest $request, $id): JsonResponse
+    public function update(EventUpdateRequest $request, $id): EventResource
     {
         $event = $this->find($id, 'update');
 
@@ -131,7 +138,7 @@ class EventController extends Controller implements HasMiddleware
 
         $event->save();
 
-        return response()->json($event);
+        return new EventResource($event);
     }
 
     /**
@@ -173,7 +180,7 @@ class EventController extends Controller implements HasMiddleware
      *
      * @param  int  $id
      */
-    public function upload(UploadImageRequest $request, $id): JsonResponse
+    public function upload(EventUploadImageRequest $request, $id): UrlResource
     {
         $event = $this->find($id, 'update');
 
@@ -193,7 +200,7 @@ class EventController extends Controller implements HasMiddleware
         ]);
         $attachment->attach($event);
 
-        return response()->json(['url' => url(Storage::url($path))]);
+        return new UrlResource($path);
     }
 
     /**

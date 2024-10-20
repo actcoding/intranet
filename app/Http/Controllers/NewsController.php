@@ -6,9 +6,10 @@ use App\Enum\EntityStatus;
 use App\Http\Requests\News\NewsListRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
-use App\Http\Requests\News\UploadImageRequest;
+use App\Http\Requests\News\NewsUploadImageRequest;
 use App\Http\Resources\AttachmentResource;
 use App\Http\Resources\NewsResource;
+use App\Http\Resources\UrlResource;
 use App\Models\Attachment;
 use App\Models\News;
 use Illuminate\Http\JsonResponse;
@@ -81,7 +82,15 @@ class NewsController extends Controller implements HasMiddleware
         $news->save();
         $news->refresh();
 
-        return response()->json($news, 201);
+        /**
+         * `NewsResource`
+         *
+         * @status 201
+         * @body NewsResource
+         */
+        return (new NewsResource($news))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -93,8 +102,6 @@ class NewsController extends Controller implements HasMiddleware
      * @param  int  $id
      *
      * @unauthenticated
-     *
-     * @response NewsResource
      */
     public function show($id): NewsResource
     {
@@ -111,7 +118,7 @@ class NewsController extends Controller implements HasMiddleware
      *
      * @param  int  $id
      */
-    public function update(NewsUpdateRequest $request, $id): JsonResponse
+    public function update(NewsUpdateRequest $request, $id): NewsResource
     {
         $news = $this->find($id, 'update');
 
@@ -131,7 +138,7 @@ class NewsController extends Controller implements HasMiddleware
 
         $news->save();
 
-        return response()->json($news);
+        return new NewsResource($news);
     }
 
     /**
@@ -173,7 +180,7 @@ class NewsController extends Controller implements HasMiddleware
      *
      * @param  int  $id
      */
-    public function upload(UploadImageRequest $request, $id): JsonResponse
+    public function upload(NewsUploadImageRequest $request, $id): UrlResource
     {
         $news = $this->find($id, 'update');
 
@@ -193,7 +200,7 @@ class NewsController extends Controller implements HasMiddleware
         ]);
         $attachment->attach($news);
 
-        return response()->json(['url' => url(Storage::url($path))]);
+        return new UrlResource($path);
     }
 
     /**
@@ -202,9 +209,13 @@ class NewsController extends Controller implements HasMiddleware
      * Deletes the specified attachment associated to the given News entity.
      * If both are not related to each other or one is not found, a HTTP 404 error is
      * returned.
+     *
+     * @param  int  $id The news ID
      */
-    public function detach(News $news, Attachment $attachment): Response
+    public function detach($id, Attachment $attachment): Response
     {
+        $news = $this->find($id, 'delete');
+
         $belongs = $news->attachments()->where('id', $attachment->id)->exists();
         if (! $belongs) {
             abort(404, 'No matching attachment could be found!');

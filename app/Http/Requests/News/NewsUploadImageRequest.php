@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Event;
+namespace App\Http\Requests\News;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UploadImageRequest extends FormRequest
+class NewsUploadImageRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,7 +14,7 @@ class UploadImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => 'required|in:content,attachment',
+            'type' => 'required|in:content,header,attachment',
             'file' => 'required|file',
         ];
     }

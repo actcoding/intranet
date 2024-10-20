@@ -4,7 +4,7 @@ import {
     editNewsAction,
     restoreNewsAction,
 } from '@/lib/actions/news'
-import { News } from '@/lib/api/generated'
+import { NewsResource } from '@/lib/api/generated'
 import { Button } from '@/lib/components/common/Button'
 import {
     DropdownMenu,
@@ -31,7 +31,7 @@ import {
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-function CellActions({ row }: { row: Row<News> }) {
+function CellActions({ row }: { row: Row<NewsResource> }) {
     const news = row.original
     const router = useRouter()
     return (
@@ -97,7 +97,7 @@ function CellActions({ row }: { row: Row<News> }) {
     )
 }
 
-export const columns: ColumnDef<News>[] = [
+export const columns: ColumnDef<NewsResource>[] = [
     {
         accessorKey: 'status',
         header: 'Status',
