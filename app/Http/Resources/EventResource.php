@@ -40,6 +40,7 @@ class EventResource extends JsonResource
             'starting_at' => $this->resource->starting_at,
             'ending_at' => $this->resource->ending_at,
 
+            'status' => $this->resource->status,
             'title' => $this->resource->title,
             'content' => $this->resource->content,
 
