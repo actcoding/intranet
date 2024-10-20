@@ -83,6 +83,7 @@ class NewsController extends Controller implements HasMiddleware
          * `NewsResource`
          *
          * @status 201
+         *
          * @body NewsResource
          */
         return (new NewsResource($news))
@@ -96,7 +97,7 @@ class NewsController extends Controller implements HasMiddleware
      * Guests and normal users will only see published news, while a Creator will receive
      * a list of all news.
      *
-     * @param  int  $id The news ID
+     * @param  int  $id  The news ID
      *
      * @unauthenticated
      */
@@ -113,7 +114,7 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id The news ID
+     * @param  int  $id  The news ID
      */
     public function update(NewsUpdateRequest $request, $id): NewsResource
     {
@@ -141,7 +142,7 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Delete the specified resource from storage.
      *
-     * @param  int  $id The news ID
+     * @param  int  $id  The news ID
      */
     public function destroy(Request $request, $id): Response
     {
@@ -161,7 +162,7 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Restore this resource from a deleted state.
      *
-     * @param  int  $id The news ID
+     * @param  int  $id  The news ID
      */
     public function restore($id): Response
     {
@@ -175,7 +176,7 @@ class NewsController extends Controller implements HasMiddleware
     /**
      * Attach a file to the specified resource.
      *
-     * @param  int  $id The news ID
+     * @param  int  $id  The news ID
      */
     public function upload(NewsUploadImageRequest $request, $id): UrlResource
     {
@@ -207,7 +208,7 @@ class NewsController extends Controller implements HasMiddleware
      * If both are not related to each other or one is not found, a HTTP 404 error is
      * returned.
      *
-     * @param  int  $id The news ID
+     * @param  int  $id  The news ID
      */
     public function detach($id, Attachment $attachment): Response
     {
@@ -232,7 +233,7 @@ class NewsController extends Controller implements HasMiddleware
      * - header
      * - content
      *
-     * @param  int  $id The news ID
+     * @param  int  $id  The news ID
      * @return AnonymousResourceCollection<AttachmentResource>
      */
     public function listAttachments(Request $request, $id)

@@ -83,6 +83,7 @@ class EventController extends Controller implements HasMiddleware
          * `EventResource`
          *
          * @status 201
+         *
          * @body EventResource
          */
         return (new EventResource($event))
@@ -96,7 +97,7 @@ class EventController extends Controller implements HasMiddleware
      * Guests and normal users will only see published events, while a Creator will receive
      * a list of all events.
      *
-     * @param  int  $id The event ID
+     * @param  int  $id  The event ID
      *
      * @unauthenticated
      */
@@ -113,7 +114,7 @@ class EventController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id The event ID
+     * @param  int  $id  The event ID
      */
     public function update(EventUpdateRequest $request, $id): EventResource
     {
@@ -141,7 +142,7 @@ class EventController extends Controller implements HasMiddleware
     /**
      * Delete the specified resource from storage.
      *
-     * @param  int  $id The event ID
+     * @param  int  $id  The event ID
      */
     public function destroy(Request $request, $id): Response
     {
@@ -161,7 +162,7 @@ class EventController extends Controller implements HasMiddleware
     /**
      * Restore this resource from a deleted state.
      *
-     * @param  int  $id The event ID
+     * @param  int  $id  The event ID
      */
     public function restore($id): Response
     {
@@ -175,7 +176,7 @@ class EventController extends Controller implements HasMiddleware
     /**
      * Attach a file to the specified resource.
      *
-     * @param  int  $id The event ID
+     * @param  int  $id  The event ID
      */
     public function upload(EventUploadImageRequest $request, $id): UrlResource
     {
@@ -207,7 +208,7 @@ class EventController extends Controller implements HasMiddleware
      * If both are not related to each other or one is not found, a HTTP 404 error is
      * returned.
      *
-     * @param  int  $id The event ID
+     * @param  int  $id  The event ID
      */
     public function detach($id, Attachment $attachment): Response
     {
@@ -231,7 +232,7 @@ class EventController extends Controller implements HasMiddleware
      * - content
      * - attachment
      *
-     * @param  int  $id The event ID
+     * @param  int  $id  The event ID
      * @return AnonymousResourceCollection<AttachmentResource>
      */
     public function listAttachments(Request $request, $id)
