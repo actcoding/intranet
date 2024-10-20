@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Requests\News;
+namespace App\Http\Requests\Event;
 
+use App\Enum\EntityStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class NewsDestroyRequest extends FormRequest
+class EventListRequest extends FormRequest
 {
     /**
      * Get data to be validated from the request.
@@ -24,7 +26,9 @@ class NewsDestroyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'force' => 'boolean',
+            'page' => 'integer|min:1',
+            'perPage' => 'integer|min:1',
+            'status' => Rule::enum(EntityStatus::class),
         ];
     }
 }

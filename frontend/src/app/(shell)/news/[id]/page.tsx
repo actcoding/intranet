@@ -1,6 +1,6 @@
 import { getAppSession } from '@/lib/actions/auth'
 import { newsApi } from '@/lib/api/api'
-import { NewsResource, NewsUploadList200Response } from '@/lib/api/generated'
+import { AttachmentResource, NewsResource } from '@/lib/api/generated'
 import { Avatar, AvatarFallback } from '@/lib/components/common/Avatar'
 import { Button } from '@/lib/components/common/Button'
 import {
@@ -32,7 +32,7 @@ const SingleNewsPage = async (props: Props) => {
     const format = await getFormatter()
 
     let news: NewsResource|undefined
-    let attachments: NewsUploadList200Response|undefined
+    let attachments: AttachmentResource[]|undefined
 
     try {
         // @ts-ignore
@@ -44,7 +44,7 @@ const SingleNewsPage = async (props: Props) => {
         console.error(error)
     }
 
-    const headerImage = attachments?.data.find(a => a.type === 'header')?.data
+    const headerImage = attachments?.find(a => a.type === 'header')?.data
 
     if (news === undefined) {
         return (
@@ -145,10 +145,10 @@ const SingleNewsPage = async (props: Props) => {
                 ]}
             />
             <hr className="my-6" />
-            {(attachments?.data.length ?? 0) > 0 ? (
+            {(attachments?.length ?? 0) > 0 ? (
                 <FileListPreview
                     display='grid'
-                    files={attachments?.data.filter(a => a.type === 'attachment').map(a => a.data) ?? []}
+                    files={attachments?.filter(a => a.type === 'attachment').map(a => a.data) ?? []}
                     download
                 />
             ) : null}

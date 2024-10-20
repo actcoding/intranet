@@ -3,12 +3,12 @@
 import { newsApi } from '@/lib/api/api'
 import {
     FetchError,
-    News,
+    NewsResource,
     NewsStoreRequest,
     NewsUpdateOperationRequest,
-    NewsUpload200Response,
     NewsUploadTypeEnum,
     ResponseError,
+    UrlResource,
 } from '@/lib/api/generated'
 import { deserializeFileData } from '@/lib/utils'
 
@@ -33,7 +33,7 @@ export async function getNewsListAction({
     return newsList.data
 }
 
-export async function createNewsAction(newsStoreRequest: NewsStoreRequest): Promise<ApiResult<News>> {
+export async function createNewsAction(newsStoreRequest: NewsStoreRequest): Promise<ApiResult<NewsResource>> {
     try {
         const data = await newsApi.newsStore({
             newsStoreRequest,
@@ -79,7 +79,7 @@ export async function uploadNewsFileAction(
     id: number,
     type: NewsUploadTypeEnum,
     formData: FormData,
-): Promise<ApiResult<NewsUpload200Response|null>> {
+): Promise<ApiResult<UrlResource|null>> {
     try {
         const fileData = deserializeFileData(formData)
 
@@ -127,9 +127,9 @@ export async function uploadNewsFileAction(
     }
 }
 
-export async function newsDetachFile(news: number, attachment: number) {
+export async function newsDetachFile(id: number, attachment: number) {
     await newsApi.newsUploadDelete({
-        news,
+        id,
         attachment,
     })
 }

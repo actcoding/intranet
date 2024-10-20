@@ -1,10 +1,10 @@
 'use client'
 
-import { News } from '@/lib/api/generated'
+import { NewsResource } from '@/lib/api/generated'
 import { createContext, PropsWithChildren, useContext, useMemo } from 'react'
 
 export type NewsContext = {
-    news: News
+    news: NewsResource
 }
 
 const Context = createContext({} as NewsContext)
@@ -21,7 +21,7 @@ export default function NewsProvider({ news, children }: Props) {
     )
 }
 
-export function useNews(): News {
+export function useNews(): NewsResource {
     const { news } = useContext(Context)
     return news
 }

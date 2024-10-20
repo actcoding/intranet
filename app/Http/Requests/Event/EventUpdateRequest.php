@@ -1,18 +1,12 @@
 <?php
 
-namespace App\Http\Requests\News;
+namespace App\Http\Requests\Event;
 
-use App\Models\News;
 use App\Rules\AppRules;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsStoreRequest extends FormRequest
+class EventUpdateRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return $this->user()->can('create', News::class);
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,8 +16,10 @@ class NewsStoreRequest extends FormRequest
     {
         return [
             'status' => ['nullable', AppRules::entityStatus()],
-            'title' => 'required|string',
-            'content' => 'required|string',
+            'starting_at' => 'date',
+            'ending_at' => 'date',
+            'title' => 'string',
+            'content' => 'string',
         ];
     }
 }

@@ -24,5 +24,9 @@ class DatabaseSeeder extends Seeder
         if (app()->runningUnitTests() || confirm('Run News seeder?', true)) {
             $this->call(NewsSeeder::class);
         }
+
+        if (app()->runningUnitTests() || confirm('Run Event seeder?', true)) {
+            $this->call(EventSeeder::class);
+        }
     }
 }

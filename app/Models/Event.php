@@ -3,17 +3,15 @@
 namespace App\Models;
 
 use App\Enum\EntityStatus;
-use Database\Factories\NewsFactory;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Database\Factories\EventFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
 
-class News extends Model
+class Event extends Model
 {
     use HasFactory,
         SoftDeletes;
@@ -23,25 +21,25 @@ class News extends Model
      */
     protected static function booted(): void
     {
-        static::deleted(function (News $news) {
-            $news->status = EntityStatus::DELETED;
-            $news->published_at = null;
-            $news->save();
+        static::deleted(function (Event $event) {
+            $event->status = EntityStatus::DELETED;
+            $event->published_at = null;
+            $event->save();
         });
 
-        static::restored(function (News $news) {
-            $news->status = EntityStatus::DRAFT;
-            $news->published_at = null;
-            $news->save();
+        static::restored(function (Event $event) {
+            $event->status = EntityStatus::DRAFT;
+            $event->published_at = null;
+            $event->save();
         });
     }
 
     /**
      * Create a new factory instance for the model.
      */
-    protected static function newFactory(): NewsFactory
+    protected static function newFactory(): EventFactory
     {
-        return NewsFactory::new();
+        return EventFactory::new();
     }
 
     /**
@@ -51,10 +49,11 @@ class News extends Model
      */
     protected $fillable = [
         'published_at',
+        'starting_at',
+        'ending_at',
         'status',
         'title',
         'content',
-        'header_image',
     ];
 
     /**
@@ -65,25 +64,6 @@ class News extends Model
     protected $hidden = [
         'author_id',
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'status' => EntityStatus::class,
-        ];
-    }
-
-    protected function headerImage(): Attribute
-    {
-        return Attribute::make(
-            get: fn (?string $value) => $value == null ? null : url(Storage::url($value)),
-        );
-    }
 
     public function author(): BelongsTo
     {
@@ -105,9 +85,9 @@ class News extends Model
         return $this->morphToMany(Attachment::class, 'attachable');
     }
 
-    public function events(): BelongsToMany
+    public function news(): BelongsToMany
     {
-        return $this->belongsToMany(Event::class);
+        return $this->belongsToMany(News::class);
     }
 
     public function toArray(): array
@@ -120,10 +100,11 @@ class News extends Model
             'deleted_at' => $this->deleted_at,
             'published_at' => $this->published_at,
 
-            'status' => $this->status,
+            'starting_at' => $this->starting_at,
+            'ending_at' => $this->ending_at,
+
             'title' => $this->title,
             'content' => $this->content,
-            'header_image' => $this->header_image,
         ];
     }
 }
