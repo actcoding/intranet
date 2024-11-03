@@ -1,9 +1,9 @@
-import { NewsStatus } from '@/lib/api/generated'
+import { EntityStatus } from '@/lib/api/generated'
 import { Badge } from '@/lib/components/common/Badge'
 import { useTranslations } from 'next-intl'
 
 interface EventStatusBadgeProps {
-    status: EventStatus;
+    status: EntityStatus;
 }
 
 const EventStatusBadge = (props: EventStatusBadgeProps) => {

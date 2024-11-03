@@ -1,4 +1,3 @@
-
 import { eventApi } from '@/lib/api/api'
 import { Button } from '@/lib/components/common/Button'
 import { DataTable } from '@/lib/components/common/DataTable'
@@ -11,7 +10,7 @@ import Link from 'next/link'
 interface Props {
     searchParams?: {
         page?: string;
-    }
+    };
 }
 
 const ManageEventPage = async (props: Props) => {
@@ -27,27 +26,27 @@ const ManageEventPage = async (props: Props) => {
     const messages = await getMessages()
     const t = await getTranslations()
 
-    return (<>
-        <div className="mb-4 flex items-center justify-between">
-            <h1 className="text-4xl font-semibold">
-                {t('Index.events')}
-            </h1>
-            <Button asChild>
-                <Link href="/manage/events/create">
-                    <PlusIcon className="me-2" size={20} />
-                    <span>
-                        {t('Event.create')}
-                    </span>
-                </Link>
-            </Button>
-        </div>
-        <NextIntlClientProvider messages={pick(messages, ['Event'])}>
-            <DataTable
-                columns={columns}
-                data={eventList.data}
-                hasNextPage={hasNextPage}
-                totalPages={totalPages}
-            />
-        </NextIntlClientProvider>
-    </>)
+    return (
+        <>
+            <div className="mb-4 flex items-center justify-between">
+                <h1 className="text-4xl font-semibold">{t('Index.events')}</h1>
+                <Button asChild>
+                    <Link href="/manage/events/create">
+                        <PlusIcon className="me-2" size={20} />
+                        <span>{t('Event.create')}</span>
+                    </Link>
+                </Button>
+            </div>
+            <NextIntlClientProvider messages={pick(messages, ['Event'])}>
+                <DataTable
+                    columns={columns}
+                    data={eventList.data}
+                    hasNextPage={hasNextPage}
+                    totalPages={totalPages}
+                />
+            </NextIntlClientProvider>
+        </>
+    )
 }
+
+export default ManageEventPage
