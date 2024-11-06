@@ -137,16 +137,16 @@
         },
         {
             "name": "dedoc/scramble",
-            "version": "v0.11.22",
+            "version": "v0.11.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dedoc/scramble.git",
-                "reference": "dd078f0ab2f47a2ee22015efbab5ba67f6c7ee06"
+                "reference": "9bef930238e37d53e9ac5c459412fef6f0d7e27a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dedoc/scramble/zipball/dd078f0ab2f47a2ee22015efbab5ba67f6c7ee06",
-                "reference": "dd078f0ab2f47a2ee22015efbab5ba67f6c7ee06",
+                "url": "https://api.github.com/repos/dedoc/scramble/zipball/9bef930238e37d53e9ac5c459412fef6f0d7e27a",
+                "reference": "9bef930238e37d53e9ac5c459412fef6f0d7e27a",
                 "shasum": ""
             },
             "require": {
@@ -200,7 +200,7 @@
             ],
             "support": {
                 "issues": "https://github.com/dedoc/scramble/issues",
-                "source": "https://github.com/dedoc/scramble/tree/v0.11.22"
+                "source": "https://github.com/dedoc/scramble/tree/v0.11.25"
             },
             "funding": [
                 {
@@ -208,7 +208,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-19T06:06:22+00:00"
+            "time": "2024-11-06T11:13:17+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -9393,13 +9393,13 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2",
         "ext-pgsql": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
