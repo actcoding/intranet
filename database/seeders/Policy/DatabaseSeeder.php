@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(
             class: [
                 NewsSeeder::class,
+                EventSeeder::class,
             ],
             parameters: [
                 $role,

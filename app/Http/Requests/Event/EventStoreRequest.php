@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Requests\News;
+namespace App\Http\Requests\Event;
 
-use App\Models\News;
+use App\Models\Event;
 use App\Rules\AppRules;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsStoreRequest extends FormRequest
+class EventStoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create', News::class);
+        return $this->user()->can('create', Event::class);
     }
 
     /**
@@ -22,6 +22,8 @@ class NewsStoreRequest extends FormRequest
     {
         return [
             'status' => ['nullable', AppRules::entityStatus()],
+            'starting_at' => 'required|date',
+            'ending_at' => 'required|date',
             'title' => 'required|string',
             'content' => 'required|string',
         ];
