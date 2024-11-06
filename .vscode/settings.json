@@ -16,6 +16,11 @@
         "editor.formatOnSave": true,
     },
 
+    "i18n-ally.localesPaths": [
+        "lang",
+        "frontend/messages"
+    ],
+
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.expand": false,
     "explorer.fileNesting.patterns": {
@@ -26,5 +31,5 @@
         "package.json": "bun.lockb, *.json, eslint.config.js, *.d.ts, *.mjs, *.ts",
         "composer.json": "artisan, composer, composer.lock, *.json, *.code-workspace, *.xml, .actrc, .editorconfig, .codacy.yml, .git*",
         ".env": ".env.example"
-    }
+    },
 }
