@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('news', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->softDeletes();
@@ -23,9 +23,10 @@ return new class extends Migration
 
             $statusEnum = collect(EntityStatus::cases())->map(fn ($case) => $case->value)->toArray();
             $table->enum('status', $statusEnum)->default(EntityStatus::DRAFT);
+            $table->timestamp('starting_at');
+            $table->timestamp('ending_at');
             $table->text('title');
             $table->longText('content');
-            $table->string('header_image')->nullable();
         });
     }
 
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('news');
+        Schema::dropIfExists('events');
     }
 };

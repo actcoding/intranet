@@ -3,7 +3,7 @@
 import {
     editNewsAction,
 } from '@/lib/actions/news'
-import { News } from '@/lib/api/generated'
+import { NewsResource } from '@/lib/api/generated'
 import { Form } from '@/lib/components/common/Form'
 import {
     NewsContentFormField,
@@ -17,7 +17,7 @@ import { useToast } from '../../hooks/use-toast'
 import NewsProvider from '../provider'
 
 interface CreateNewsFormProps {
-    news: News;
+    news: NewsResource;
 }
 
 const CreateNewsForm = (props: CreateNewsFormProps) => {

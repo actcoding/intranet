@@ -6,6 +6,7 @@ use App\Services\JwtGuard;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
@@ -51,6 +52,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Authenticate::redirectUsing(fn () => route('auth.login'));
+
         Scramble::routes(function (Route $route) {
             return true;
         });
