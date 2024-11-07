@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enum\NewsStatus;
+use App\Enum\EntityStatus;
 use App\Models\News;
 use Illuminate\Database\Seeder;
 
@@ -20,7 +20,7 @@ class NewsSeeder extends Seeder
         News::factory()
             ->count(3)
             ->create([
-                'status' => NewsStatus::ACTIVE,
+                'status' => EntityStatus::ACTIVE,
                 'published_at' => now(),
             ]);
     }

@@ -4,18 +4,8 @@ namespace App\Http\Requests\News;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsDestroyRequest extends FormRequest
+class NewsUploadImageRequest extends FormRequest
 {
-    /**
-     * Get data to be validated from the request.
-     *
-     * @return array
-     */
-    public function validationData(): string|array|null
-    {
-        return $this->query();
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +14,8 @@ class NewsDestroyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'force' => 'boolean',
+            'type' => 'required|in:content,header,attachment',
+            'file' => 'required|file',
         ];
     }
 }

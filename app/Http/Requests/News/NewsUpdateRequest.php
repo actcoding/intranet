@@ -15,7 +15,7 @@ class NewsUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['nullable', AppRules::newsStatus()],
+            'status' => ['nullable', AppRules::entityStatus()],
             'title' => 'string',
             'content' => 'string',
         ];

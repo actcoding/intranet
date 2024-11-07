@@ -3,6 +3,7 @@
     "tasks": [
         {
             "label": "Backend",
+            "detail": "Boots the Laravel server",
             "type": "shell",
             "command": "./artisan serve",
             "osx": {
@@ -23,6 +24,7 @@
         },
         {
             "label": "Frontend",
+            "detail": "Boots the Frontend development server",
             "type": "shell",
             "command": "bun run dev",
             "options": {
@@ -41,6 +43,7 @@
         },
         {
             "label": "Scheduler",
+            "detail": "Boots the Laravel scheduler worker",
             "type": "shell",
             "command": "./artisan schedule:work",
             "osx": {
@@ -61,6 +64,7 @@
         },
         {
             "label": "Queue",
+            "detail": "Boots the Laravel Queue worker",
             "type": "shell",
             "command": "./artisan queue:work",
             "osx": {
@@ -80,7 +84,24 @@
             }
         },
         {
+            "label": "Services",
+            "detail": "Boots required 3rd party services using docker compose",
+            "type": "shell",
+            "command": "docker compose up",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "focus": false,
+                "panel": "dedicated"
+            },
+            "group": "none",
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        },
+        {
             "label": "Dev",
+            "detail": "Boots all components of the application",
             "problemMatcher": [],
             "dependsOn": [
                 "Backend",
@@ -128,6 +149,7 @@
         },
         {
             "label": "Migrate",
+            "detail": "Run database migrations",
             "type": "shell",
             "command": "./artisan migrate",
             "osx": {
@@ -142,6 +164,7 @@
         },
         {
             "label": "Reset database",
+            "detail": "Reset and seed the database",
             "type": "shell",
             "command": "./artisan migrate:fresh --seed",
             "osx": {
@@ -157,6 +180,7 @@
         },
         {
             "label": "Clear Cache",
+            "detail": "Clear cached data",
             "type": "shell",
             "command": "./artisan optimize:clear",
             "osx": {
@@ -171,6 +195,7 @@
         },
         {
             "label": "Gen API Client",
+            "detail": "Generate an API client for the Frontend to use",
             "type": "shell",
             "command": "bash gen-api-client.sh",
             "options": {

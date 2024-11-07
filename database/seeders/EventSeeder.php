@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Event;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class EventSeeder extends Seeder
 {
@@ -21,5 +22,10 @@ class EventSeeder extends Seeder
             ->create([
                 'published_at' => now(),
             ]);
+
+        DB::table('event_news')->insert([
+            'event_id' => 1,
+            'news_id' => 1,
+        ]);
     }
 }
