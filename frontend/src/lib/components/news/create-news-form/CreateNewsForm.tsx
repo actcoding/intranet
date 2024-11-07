@@ -59,7 +59,7 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
                     className="space-y-4"
                 >
                     <NewsTitleFormField />
-                    <NewsContentFormField form={form} />
+                    <NewsContentFormField />
                     {/* <Button type="submit" className="float-end">
                         Speichern
                     </Button> */}

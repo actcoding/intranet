@@ -7,19 +7,23 @@ import {
     FormLabel,
     FormMessage,
 } from '@/lib/components/common/Form'
-import { CreateNewsFormValues } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
+import { EventFormValues } from '@/lib/components/events/event-form/EventForm.config'
+import Editor from '@/lib/components/news/create-news-form/components/news-form-fields/news-content-form-field/components/editor/Editor'
 import { useFormContext } from 'react-hook-form'
-import Editor from './components/editor/Editor'
 
-const NewsContentFormField = () => {
-    const form = useFormContext<CreateNewsFormValues>()
+interface EventContentFormField {
+    label: string;
+}
+
+const EventContentFormField = (props: EventContentFormField) => {
+    const form = useFormContext<EventFormValues>()
     return (
         <FormField
             control={form.control}
             name="content"
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel className="sr-only">Content</FormLabel>
+                    <FormLabel className="sr-only">{props.label}</FormLabel>
                     <FormControl>
                         <Editor {...field} />
                     </FormControl>
@@ -29,4 +33,5 @@ const NewsContentFormField = () => {
         />
     )
 }
-export { NewsContentFormField }
+
+export { EventContentFormField }

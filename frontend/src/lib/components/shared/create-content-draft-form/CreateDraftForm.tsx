@@ -1,6 +1,5 @@
 'use client'
 
-import { createEventAction } from '@/lib/actions/events'
 import { createNewsAction } from '@/lib/actions/news'
 import { Button } from '@/lib/components/common/Button'
 import { Form } from '@/lib/components/common/Form'
@@ -13,7 +12,6 @@ import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { ContentTypeFormField } from './components'
-import dayjs from '@/lib/dayjs'
 
 interface CreateContentFormProps {
     onSuccess?: () => void;
@@ -44,15 +42,16 @@ const CreateDraftForm = ({ onSuccess }: CreateContentFormProps) => {
                     })
                     break
                 case 'event':
-                    response = await createEventAction({
-                        title: values.title,
-                        content: 'Hier könnte Ihre Eventbeschreibung stehen.',
-                        startingAt: dayjs().format(),
-                        endingAt: dayjs().add(1, 'day').format(),
-                    })
+                    // response = await createEventAction({
+                    //     title: values.title,
+                    //     content: 'Hier könnte Ihre Eventbeschreibung stehen.',
+                    //     startingAt: dayjs().format(),
+                    //     endingAt: dayjs().add(1, 'day').format(),
+                    // })
+                    console.log('creating event with title', values.title)
                     break
             }
-            const { data, error } = response
+            const { data, error } = response ?? {}
 
             if (error) {
                 toast({
@@ -75,7 +74,7 @@ const CreateDraftForm = ({ onSuccess }: CreateContentFormProps) => {
                     router.push(`/manage/news/${data.id}`)
                     break
                 case 'event':
-                    router.push(`/manage/events/${data.id}`)
+                    router.push('/manage/events/42')
                     break
             }
         },
