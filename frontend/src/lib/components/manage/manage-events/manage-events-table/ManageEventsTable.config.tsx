@@ -1,5 +1,5 @@
+'use client'
 
-import { EntityStatus, Event } from '@/lib/api/generated'
 import EventStatusBadge from '@/lib/components/shared/EventStatusBadge'
 import { ColumnDef, Row } from '@tanstack/react-table'
 import dayjs from '@/lib/dayjs'
@@ -15,10 +15,11 @@ import {
 import { ArchiveRestore, Edit2Icon, EyeIcon, FileUpIcon, MoreHorizontal } from 'lucide-react'
 import { Button } from '@/lib/components/common/Button'
 import Link from 'next/link'
+import { EventResource } from '@/lib/api/generated'
 import { editEventAction, restoreEventAction } from '@/lib/actions/event'
 import { DeleteEventDropdownMenuItem, PublishEventDropdownMenuItem } from '@/lib/components/manage/manage-events/manage-events-table/components'
 
-function CellActions({ row }: {row: Row<Event>}) {
+function CellActions({ row }: {row: Row<EventResource>}) {
     const event = row.original
     const router = useRouter()
     return (
@@ -84,13 +85,13 @@ function CellActions({ row }: {row: Row<Event>}) {
     )
 }
 
-export const columns: ColumnDef<Event>[] = [
+export const columns: ColumnDef<EventResource>[] = [
     {
         accessorKey: 'status',
         header: 'Status',
         cell: ({ row }) => {
             const event = row.original
-            return <EventStatusBadge status={event.status as EntityStatus} />
+            return <EventStatusBadge status={event.status} />
         },
     },
     {

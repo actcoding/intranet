@@ -1,4 +1,4 @@
-'user server'
+'use server'
 
 import { eventApi } from '@/lib/api/api'
 import { EventUpdateOperationRequest } from '@/lib/api/generated'

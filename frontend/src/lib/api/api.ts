@@ -27,7 +27,6 @@ const configuration = new Configuration({
 })
 
 export const newsApi = new NewsApi(configuration)
-export const eventApi = new EventApi(configuration)
 
 export const authApi = new AuthApi(configuration)
 

@@ -1,6 +1,7 @@
 import { eventApi } from '@/lib/api/api'
 import { Button } from '@/lib/components/common/Button'
 import { DataTable } from '@/lib/components/common/DataTable'
+import { columns } from '@/lib/components/manage/manage-events/manage-events-table/ManageEventsTable.config'
 import { pick } from 'lodash'
 import { PlusIcon } from 'lucide-react'
 import { NextIntlClientProvider } from 'next-intl'
