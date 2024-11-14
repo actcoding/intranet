@@ -6,7 +6,7 @@ use App\Enum\EntityStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class NewsControllerTest extends TestCase
+class EventControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -17,7 +17,7 @@ class NewsControllerTest extends TestCase
 
     public function test_require_authentication(): void
     {
-        $response = $this->postJson(route('news.store'), [
+        $response = $this->postJson(route('event.store'), [
             'title' => 'Hello World',
             'content' => [],
         ]);
@@ -32,9 +32,11 @@ class NewsControllerTest extends TestCase
             'password' => 'admin',
         ]);
 
-        $response = $this->postJson(route('news.store'), [
+        $response = $this->postJson(route('event.store'), [
             'title' => 'Hello World',
             'content' => '[]',
+            'starting_at' => now()->toDateTimeString(),
+            'ending_at' => now()->addDay()->toDateTimeString(),
         ], [
             'Authorization' => $type . ' ' . $token,
         ]);
@@ -49,7 +51,7 @@ class NewsControllerTest extends TestCase
             'password' => 'spast',
         ]);
 
-        $response = $this->postJson(route('news.store'), [
+        $response = $this->postJson(route('event.store'), [
             'title' => 'Hello World',
             'content' => '[]',
         ], [
@@ -66,9 +68,11 @@ class NewsControllerTest extends TestCase
             'password' => 'admin',
         ]);
 
-        $responseStore = $this->postJson(route('news.store'), [
+        $responseStore = $this->postJson(route('event.store'), [
             'title' => 'Hello World',
             'content' => '[]',
+            'starting_at' => now()->toDateTimeString(),
+            'ending_at' => now()->addDay()->toDateTimeString(),
         ], [
             'Authorization' => $type . ' ' . $token,
         ]);
@@ -83,7 +87,7 @@ class NewsControllerTest extends TestCase
             'content',
         ]);
 
-        $responseUpdate = $this->putJson(route('news.update', ['news' => $responseStore->json('id')]), [
+        $responseUpdate = $this->putJson(route('event.update', ['event' => $responseStore->json('id')]), [
             'status' => EntityStatus::ACTIVE,
         ], [
             'Authorization' => $type . ' ' . $token,
@@ -91,29 +95,29 @@ class NewsControllerTest extends TestCase
 
         $responseUpdate->assertStatus(200);
 
-        $responseShow = $this->getJson(route('news.show', ['news' => $responseStore->json('id')]));
+        $responseShow = $this->getJson(route('event.show', ['event' => $responseStore->json('id')]));
 
         $responseShow->assertStatus(200);
         $responseShow->assertJsonPath('status', EntityStatus::ACTIVE->value);
 
-        $responseDestroy = $this->deleteJson(route('news.destroy', ['news' => $responseStore->json('id')]), headers: [
+        $responseDestroy = $this->deleteJson(route('event.destroy', ['event' => $responseStore->json('id')]), headers: [
             'Authorization' => $type . ' ' . $token,
         ]);
 
         $responseDestroy->assertStatus(204);
 
-        $responseRestore = $this->patchJson(route('news.restore', ['news' => $responseStore->json('id')]), headers: [
+        $responseRestore = $this->patchJson(route('event.restore', ['event' => $responseStore->json('id')]), headers: [
             'Authorization' => $type . ' ' . $token,
         ]);
 
         $responseRestore->assertStatus(204);
 
-        $responseShow = $this->getJson(route('news.show', ['news' => $responseStore->json('id')]));
+        $responseShow = $this->getJson(route('event.show', ['event' => $responseStore->json('id')]));
 
         $responseShow->assertStatus(200);
         $responseShow->assertJsonPath('status', EntityStatus::DRAFT->value);
 
-        $responseDestroyForce = $this->deleteJson(route('news.destroy', ['news' => $responseStore->json('id')]), [
+        $responseDestroyForce = $this->deleteJson(route('event.destroy', ['event' => $responseStore->json('id')]), [
             'force' => true,
         ], [
             'Authorization' => $type . ' ' . $token,
@@ -121,7 +125,7 @@ class NewsControllerTest extends TestCase
 
         $responseDestroyForce->assertStatus(204);
 
-        $responseShow = $this->getJson(route('news.show', ['news' => $responseStore->json('id')]));
+        $responseShow = $this->getJson(route('event.show', ['event' => $responseStore->json('id')]));
 
         $responseShow->assertStatus(404);
     }

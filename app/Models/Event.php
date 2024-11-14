@@ -51,6 +51,7 @@ class Event extends Model
         'published_at',
         'starting_at',
         'ending_at',
+        'status',
         'title',
         'content',
     ];

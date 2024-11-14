@@ -6,9 +6,10 @@ use App\Enum\EntityStatus;
 use App\Http\Requests\Event\EventListRequest;
 use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
-use App\Http\Requests\Event\UploadImageRequest;
+use App\Http\Requests\Event\EventUploadImageRequest;
 use App\Http\Resources\AttachmentResource;
 use App\Http\Resources\EventResource;
+use App\Http\Resources\UrlResource;
 use App\Models\Attachment;
 use App\Models\Event;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +20,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller implements HasMiddleware
@@ -69,19 +69,26 @@ class EventController extends Controller implements HasMiddleware
      */
     public function store(EventStoreRequest $request): JsonResponse
     {
-        Gate::authorize('create', Event::class);
-
         $event = new Event($request->validated());
         $event->author_id = auth()->user()->id;
 
-        if ($news->status == EntityStatus::ACTIVE) {
-            $news->published_at = now();
+        if ($event->status == EntityStatus::ACTIVE) {
+            $event->published_at = now();
         }
 
         $event->save();
         $event->refresh();
 
-        return response()->json($event, 201);
+        /**
+         * `EventResource`
+         *
+         * @status 201
+         *
+         * @body EventResource
+         */
+        return (new EventResource($event))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -90,11 +97,9 @@ class EventController extends Controller implements HasMiddleware
      * Guests and normal users will only see published events, while a Creator will receive
      * a list of all events.
      *
-     * @param  int  $id
+     * @param  int  $id  The event ID
      *
      * @unauthenticated
-     *
-     * @response EventResource
      */
     public function show($id): EventResource
     {
@@ -109,9 +114,9 @@ class EventController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int  $id  The event ID
      */
-    public function update(EventUpdateRequest $request, $id): JsonResponse
+    public function update(EventUpdateRequest $request, $id): EventResource
     {
         $event = $this->find($id, 'update');
 
@@ -131,13 +136,13 @@ class EventController extends Controller implements HasMiddleware
 
         $event->save();
 
-        return response()->json($event);
+        return new EventResource($event);
     }
 
     /**
      * Delete the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id  The event ID
      */
     public function destroy(Request $request, $id): Response
     {
@@ -157,7 +162,7 @@ class EventController extends Controller implements HasMiddleware
     /**
      * Restore this resource from a deleted state.
      *
-     * @param  int  $id
+     * @param  int  $id  The event ID
      */
     public function restore($id): Response
     {
@@ -171,9 +176,9 @@ class EventController extends Controller implements HasMiddleware
     /**
      * Attach a file to the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id  The event ID
      */
-    public function upload(UploadImageRequest $request, $id): JsonResponse
+    public function upload(EventUploadImageRequest $request, $id): UrlResource
     {
         $event = $this->find($id, 'update');
 
@@ -193,7 +198,7 @@ class EventController extends Controller implements HasMiddleware
         ]);
         $attachment->attach($event);
 
-        return response()->json(['url' => url(Storage::url($path))]);
+        return new UrlResource($path);
     }
 
     /**
@@ -202,12 +207,16 @@ class EventController extends Controller implements HasMiddleware
      * Deletes the specified attachment associated to the given Event entity.
      * If both are not related to each other or one is not found, a HTTP 404 error is
      * returned.
+     *
+     * @param  int  $id  The event ID
      */
-    public function detach(Event $event, Attachment $attachment): Response
+    public function detach($id, Attachment $attachment): Response
     {
+        $event = $this->find($id, 'delete');
+
         $belongs = $event->attachments()->where('id', $attachment->id)->exists();
         if (! $belongs) {
-            abort(404, 'No matching attachment could be found!');
+            abort(404, 'No attachment found!');
         }
 
         $attachment->detach($event);
@@ -223,7 +232,7 @@ class EventController extends Controller implements HasMiddleware
      * - content
      * - attachment
      *
-     * @param  int  $id
+     * @param  int  $id  The event ID
      * @return AnonymousResourceCollection<AttachmentResource>
      */
     public function listAttachments(Request $request, $id)

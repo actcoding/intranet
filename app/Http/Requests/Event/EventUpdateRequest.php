@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Event;
 
+use App\Rules\AppRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventUpdateRequest extends FormRequest
@@ -14,6 +15,7 @@ class EventUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'status' => ['nullable', AppRules::entityStatus()],
             'starting_at' => 'date',
             'ending_at' => 'date',
             'title' => 'string',
