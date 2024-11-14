@@ -65,6 +65,18 @@ class Event extends Model
         'author_id',
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => EntityStatus::class,
+        ];
+    }
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);
