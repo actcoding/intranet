@@ -8,18 +8,15 @@ import {
     FormMessage,
 } from '@/lib/components/common/Form'
 import { Input } from '@/lib/components/common/Input'
-import { CreateNewsForm } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
-import { CreateDraftNewsForm } from '../../../CreateNewsDraftForm'
-import { Control } from 'react-hook-form'
+import { CreateNewsFormValues } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
+import { CreateDraftFormValues } from '@/lib/components/shared/create-content-draft-form/CreateDraftForm.model'
+import { useFormContext } from 'react-hook-form'
 
-interface NewsTitleFormFieldProps {
-    form: CreateNewsForm | CreateDraftNewsForm;
-}
-
-const NewsTitleFormField = ({ form }: NewsTitleFormFieldProps) => {
+const NewsTitleFormField = () => {
+    const form = useFormContext<CreateNewsFormValues | CreateDraftFormValues>()
     return (
         <FormField
-            control={form.control as Control<any>}
+            control={form.control}
             name="title"
             render={({ field }) => (
                 <FormItem>

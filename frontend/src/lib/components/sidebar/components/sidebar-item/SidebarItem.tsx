@@ -1,9 +1,9 @@
-import { SheetClose } from '@/lib/components/common/Sheet'
 import {
     NavigationMenuItem,
     NavigationMenuLink,
     navigationMenuTriggerStyle,
-} from '@/lib/components/sidebar/components/NavigationMenu'
+} from '@/lib/components/common/NavigationMenu'
+import { SheetClose } from '@/lib/components/common/Sheet'
 import { cn } from '@/lib/utils'
 import { NavigationMenuItemProps } from '@radix-ui/react-navigation-menu'
 import { LucideProps } from 'lucide-react'
@@ -15,12 +15,12 @@ interface SidebarItemProps extends NavigationMenuItemProps {
     href: string;
 }
 
-export function SidebarItem({
+const SidebarItem = ({
     icon: Icon,
     className,
     children,
     ...props
-}: SidebarItemProps) {
+}: SidebarItemProps) => {
     return (
         <NavigationMenuItem {...props}>
             <Link href={props.href} legacyBehavior passHref>
@@ -40,10 +40,12 @@ export function SidebarItem({
     )
 }
 
-export function SidebarButtonSheet(props: SidebarItemProps) {
+const SidebarButtonSheet = (props: SidebarItemProps) => {
     return (
         <SheetClose asChild>
             <SidebarItem {...props} />
         </SheetClose>
     )
 }
+
+export { SidebarItem, SidebarButtonSheet }

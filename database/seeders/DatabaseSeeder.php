@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\EventSeeder;
 use Illuminate\Database\Seeder;
 
 use function Laravel\Prompts\confirm;

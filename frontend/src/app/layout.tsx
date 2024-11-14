@@ -1,6 +1,7 @@
 import '@/app/globals.css'
 import { Toaster } from '@/lib/components/common/Toaster'
 import type { Metadata } from 'next'
+import { NextIntlClientProvider } from 'next-intl'
 import { getLocale } from 'next-intl/server'
 import { Inter } from 'next/font/google'
 
@@ -28,9 +29,11 @@ export default async function RootLayout({
     return (
         <html lang={locale}>
             <body className={inter.className}>
-                {children}
+                <NextIntlClientProvider locale={locale}>
+                    {children}
 
-                <Toaster />
+                    <Toaster />
+                </NextIntlClientProvider>
             </body>
         </html>
     )
