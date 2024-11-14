@@ -1,9 +1,11 @@
 import { getAppSession } from '@/lib/actions/auth'
 import { Button } from '@/lib/components/common/Button'
+import LoadMoreNews from '@/lib/components/news/news-list/components/LoadMoreNews'
 import { PlusIcon, Settings2Icon } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import EventList from '@/lib/components/events/event-list/EventList'
 
 const EventsPage = async () => {
     const { sessionData } = await getAppSession()
@@ -32,7 +34,9 @@ const EventsPage = async () => {
                     </div>
                 ) : null}
             </div>
-            <p>Todo: hier kommt noch stuff hin</p>
+            <Suspense fallback={<LoadMoreNews />}>
+                <EventList status='active' />
+            </Suspense>
         </>
     )
 }

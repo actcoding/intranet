@@ -59,7 +59,7 @@ function CellActions({ row }: {row: Row<EventResource>}) {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link href={`/manage/event/${event.id}`}>
+                    <Link href={`/manage/events/${event.id}`}>
                         <Edit2Icon size={16} className="mr-2" />
                         Bearbeiten
                     </Link>
