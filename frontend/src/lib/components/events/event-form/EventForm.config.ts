@@ -5,11 +5,11 @@ export const eventFormSchema = z
     .object({
         title: z.string(),
         content: z.string(),
-        starting_at: z.date(),
-        ending_at: z.date(),
+        startingAt: z.date(),
+        endingAt: z.date(),
         isAllDay: z.boolean(),
     })
-    .refine((data) => isBefore(data.starting_at, data.ending_at), {
+    .refine((data) => isBefore(data.startingAt, data.endingAt), {
         message: 'Ending date must not be earlier than starting date',
         path: ['starting_at', 'ending_at'],
     })

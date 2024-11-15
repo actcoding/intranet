@@ -1,5 +1,6 @@
 'use client'
 
+import { createEventAction } from '@/lib/actions/events'
 import { createNewsAction } from '@/lib/actions/news'
 import { Button } from '@/lib/components/common/Button'
 import { Form } from '@/lib/components/common/Form'
@@ -8,6 +9,7 @@ import { NewsTitleFormField } from '@/lib/components/news/create-news-form/compo
 import { createDraftFormSchema } from '@/lib/components/shared/create-content-draft-form/CreateDraftForm.config'
 import { CreateDraftFormValues } from '@/lib/components/shared/create-content-draft-form/CreateDraftForm.model'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { endOfDay, formatISO, startOfDay } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
@@ -42,21 +44,22 @@ const CreateDraftForm = ({ onSuccess }: CreateContentFormProps) => {
                     })
                     break
                 case 'event':
-                    // response = await createEventAction({
-                    //     title: values.title,
-                    //     content: 'Hier könnte Ihre Eventbeschreibung stehen.',
-                    //     startingAt: dayjs().format(),
-                    //     endingAt: dayjs().add(1, 'day').format(),
-                    // })
-                    console.log('creating event with title', values.title)
+                    response = await createEventAction({
+                        title: values.title,
+                        content: 'Hier könnte Ihre Eventbeschreibung stehen.',
+                        startingAt: formatISO(startOfDay(new Date())),
+                        endingAt: formatISO(endOfDay(new Date())),
+                    })
                     break
+                default:
+                    toast({ title: 'Fehler', description: 'Ungültiger Typ' })
             }
             const { data, error } = response ?? {}
 
-            if (error) {
+            if (error || !data) {
                 toast({
                     title: 'Fehler',
-                    description: error.message as string,
+                    description: error?.message as string,
                     variant: 'destructive',
                 })
                 return
@@ -74,7 +77,7 @@ const CreateDraftForm = ({ onSuccess }: CreateContentFormProps) => {
                     router.push(`/manage/news/${data.id}`)
                     break
                 case 'event':
-                    router.push('/manage/events/42')
+                    router.push(`/manage/events/${data.id}`)
                     break
             }
         },

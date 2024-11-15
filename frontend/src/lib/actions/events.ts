@@ -1,10 +1,17 @@
-import { eventApi, newsApi } from '../api/api'
-import { EventStoreRequest, FetchError, ResponseError } from '../api/generated'
+import { eventApi } from '../api/api'
+import {
+    EventStoreRequest,
+    EventUpdateOperationRequest,
+    FetchError,
+    ResponseError,
+} from '../api/generated'
 
-export const createEventAction = async (eventStoreRequest: EventStoreRequest) => {
+export const createEventAction = async (
+    eventStoreRequest: EventStoreRequest,
+) => {
     try {
         const data = await eventApi.eventStore({
-            eventStoreRequest
+            eventStoreRequest,
         })
 
         return {
@@ -30,4 +37,10 @@ export const createEventAction = async (eventStoreRequest: EventStoreRequest) =>
             },
         }
     }
+}
+
+export const updateEventAction = (
+    eventUpdateOperationRequest: EventUpdateOperationRequest,
+) => {
+    return eventApi.eventUpdate(eventUpdateOperationRequest)
 }

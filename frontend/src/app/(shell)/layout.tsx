@@ -9,7 +9,9 @@ export default async function ShellLayout({
     return (
         <>
             <Sidebar />
-            <main className="mx-5 mt-16 sm:ml-[300px] sm:mt-3">{children}</main>
+            <main className="mx-5 mt-16 h-screen sm:ml-[300px] sm:mt-3">
+                {children}
+            </main>
         </>
     )
 }
