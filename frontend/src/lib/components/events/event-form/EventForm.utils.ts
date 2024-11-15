@@ -1,6 +1,6 @@
 import { EventUpdateOperationRequest } from '@/lib/api/generated'
 import { EventFormValues } from '@/lib/components/events/event-form/EventForm.config'
-import { startOfDay } from 'date-fns'
+import { endOfDay, isEqual, startOfDay } from 'date-fns'
 
 export const buildUpdateEventRequest = (
     id: number,
@@ -21,7 +21,7 @@ export const eventIsAllDay = (
     endingAt: Date | string,
 ) => {
     return (
-        new Date(startingAt) === startOfDay(startingAt) &&
-        new Date(endingAt) === startOfDay(endingAt)
+        isEqual(startingAt, startOfDay(startingAt).setMilliseconds(0)) &&
+        isEqual(endingAt, endOfDay(endingAt).setMilliseconds(0))
     )
 }
