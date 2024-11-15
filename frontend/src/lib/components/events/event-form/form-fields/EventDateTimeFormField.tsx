@@ -23,7 +23,7 @@ const EventDateTimeFormField = (props: EventDateTimeFormFieldProps) => {
     return (
         <FormField
             control={form.control}
-            name={`${props.type}ing_at`}
+            name={`${props.type}ingAt`}
             render={({ field: { value, onChange, ...rest } }) => (
                 <FormItem>
                     <FormLabel>{props.label}</FormLabel>
@@ -34,12 +34,12 @@ const EventDateTimeFormField = (props: EventDateTimeFormFieldProps) => {
                             granularity={isAllDay ? 'day' : 'minute'}
                             min={
                                 props.type === 'end'
-                                    ? form.watch('starting_at')
+                                    ? form.watch('startingAt')
                                     : undefined
                             }
                             max={
                                 props.type === 'start'
-                                    ? form.watch('ending_at')
+                                    ? form.watch('endingAt')
                                     : undefined
                             }
                             {...rest}

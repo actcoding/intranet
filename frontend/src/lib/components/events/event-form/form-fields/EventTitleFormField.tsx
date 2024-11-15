@@ -27,7 +27,7 @@ const EventTitleFormField = (props: EventTitleFormFieldProps) => {
                     <FormControl>
                         <Input
                             placeholder="Titel eingeben..."
-                            className="text-2xl"
+                            className="text-2xl font-bold"
                             variant="borderless"
                             {...field}
                         />

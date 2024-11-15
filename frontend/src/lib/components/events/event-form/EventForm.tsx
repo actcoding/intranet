@@ -1,58 +1,43 @@
-'use client'
-
-import { Form } from '@/lib/components/common/Form'
+import { EventResource } from '@/lib/api/generated'
+import { Button } from '@/lib/components/common/Button'
+import { Separator } from '@/lib/components/common/Separator'
+import { EventFormContext } from '@/lib/components/events/event-form/EventFormContext'
 import {
-    eventFormSchema,
-    EventFormValues,
-} from '@/lib/components/events/event-form/EventForm.config'
-import { useToast } from '@/lib/components/hooks/use-toast'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { endOfDay, startOfDay } from 'date-fns'
-import { useForm } from 'react-hook-form'
+    EventContentFormField,
+    EventDateTimeFormField,
+    EventIsAlldayFormField,
+    EventTitleFormField,
+} from '@/lib/components/events/event-form/form-fields'
 
 interface EventFormProps {
-    event: any; // TODO: get type from OpenAPI
-    className?: string;
-    children?: React.ReactNode;
+    event: EventResource;
 }
 
-const EventForm = (props: EventFormProps) => {
-    const form = useForm<EventFormValues>({
-        resolver: zodResolver(eventFormSchema),
-        defaultValues: {
-            title: props.event?.title ?? '',
-            content: props.event?.content ?? '',
-            starting_at: startOfDay(new Date()),
-            ending_at: endOfDay(new Date()),
-            isAllDay: true,
-        },
-        mode: 'onChange',
-    })
-
-    // const router = useRouter();
-    const { toast } = useToast()
-
-    async function handleSubmit(values: EventFormValues) {
-        try {
-            console.log(values)
-
-            toast({
-                title: 'Gespeichert',
-            })
-        } catch (error) {
-            console.error('Event creation or file upload failed:', error)
-        }
-    }
-
+const EventForm = ({ event }: EventFormProps) => {
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(handleSubmit)}
-                className={props.className}
-            >
-                {props.children}
-            </form>
-        </Form>
+        <EventFormContext event={event}>
+            <div className="h-full md:flex">
+                <div className="flex w-3/4">
+                    <div className="flex-1 space-y-3">
+                        <div className="flex items-start justify-between">
+                            <EventTitleFormField label="Titel" />
+                            <Button>Speichern</Button>
+                        </div>
+                        <EventContentFormField label="Inhalt" />
+                    </div>
+                    <Separator
+                        orientation="vertical hidden md:block"
+                        className="mx-5"
+                    />
+                </div>
+                <Separator className="my-5 md:hidden" />
+                <div className="w-1/4 space-y-3">
+                    <EventDateTimeFormField label="Startdatum" type="start" />
+                    <EventDateTimeFormField label="Enddatum" type="end" />
+                    <EventIsAlldayFormField label="Ganztägig?" />
+                </div>
+            </div>
+        </EventFormContext>
     )
 }
 
