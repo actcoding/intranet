@@ -7,8 +7,6 @@ export const createNewsFormSchema = z.object({
 
 export type CreateNewsFormValues = Zod.infer<typeof createNewsFormSchema>
 
-export const editNewsFormSchema = createNewsFormSchema
-
 export const allowedFileTypes = {
     headerImage: ['png', 'jpeg', 'jpg'],
 }

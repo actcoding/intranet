@@ -19,10 +19,13 @@ const EventForm = ({ event }: EventFormProps) => {
             <div className="h-full md:flex">
                 <div className="flex w-3/4">
                     <div className="flex-1 space-y-3">
-                        <div className="flex items-start justify-between">
-                            <EventTitleFormField label="Titel" />
+                        <div className="flex justify-between">
+                            <p className="text-lg font-bold">
+                                Veranstaltung bearbeiten
+                            </p>
                             <Button>Speichern</Button>
                         </div>
+                        <EventTitleFormField label="Titel" />
                         <EventContentFormField label="Inhalt" />
                     </div>
                     <Separator
@@ -32,6 +35,7 @@ const EventForm = ({ event }: EventFormProps) => {
                 </div>
                 <Separator className="my-5 md:hidden" />
                 <div className="w-1/4 space-y-3">
+                    <p className="text-lg font-bold">Metadaten</p>
                     <EventDateTimeFormField label="Startdatum" type="start" />
                     <EventDateTimeFormField label="Enddatum" type="end" />
                     <EventIsAlldayFormField label="Ganztägig?" />
