@@ -1,11 +1,12 @@
 import { getAppSession } from '@/lib/actions/auth'
 import { Button } from '@/lib/components/common/Button'
+import EventList from '@/lib/components/events/event-list/EventList'
 import LoadMoreNews from '@/lib/components/news/news-list/components/LoadMoreNews'
-import { PlusIcon, Settings2Icon } from 'lucide-react'
+import { CreateDraftDialog } from '@/lib/components/sidebar/components'
+import { Settings2Icon } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import EventList from '@/lib/components/events/event-list/EventList'
 
 const EventsPage = async () => {
     const { sessionData } = await getAppSession()
@@ -19,12 +20,16 @@ const EventsPage = async () => {
                 </h1>
                 {sessionData?.roles.includes('Creator') ? (
                     <div className="space-x-2">
-                        <Button asChild>
-                            <Link href="/manage/events/create">
-                                <PlusIcon className="me-2" size={20} />
-                                {t('Event.create')}
-                            </Link>
-                        </Button>
+                        <CreateDraftDialog
+                            triggerButtonProps={{
+                                triggerButtonVariant: 'default',
+                                triggerButtonLabel: t('Event.create'),
+                            }}
+                            formProps={{
+                                defaultContentType: 'event',
+                                showContentTypePicker: false,
+                            }}
+                        />
                         <Button asChild variant={'secondary'}>
                             <Link href="/manage/events">
                                 <Settings2Icon className="me-2" size={20} />
@@ -35,7 +40,7 @@ const EventsPage = async () => {
                 ) : null}
             </div>
             <Suspense fallback={<LoadMoreNews />}>
-                <EventList status='active' />
+                <EventList status="active" />
             </Suspense>
         </>
     )
