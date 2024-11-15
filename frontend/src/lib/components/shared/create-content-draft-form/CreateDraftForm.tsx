@@ -15,11 +15,17 @@ import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { ContentTypeFormField } from './components'
 
-interface CreateContentFormProps {
+export interface CreateContentFormProps {
     onSuccess?: () => void;
+    defaultContentType?: CreateDraftFormValues['type'];
+    showContentTypePicker?: boolean;
 }
 
-const CreateDraftForm = ({ onSuccess }: CreateContentFormProps) => {
+const CreateDraftForm = ({
+    onSuccess,
+    defaultContentType = 'news',
+    showContentTypePicker = true,
+}: CreateContentFormProps) => {
     const router = useRouter()
     const { toast } = useToast()
 
@@ -27,7 +33,7 @@ const CreateDraftForm = ({ onSuccess }: CreateContentFormProps) => {
         resolver: zodResolver(createDraftFormSchema),
         defaultValues: {
             title: '',
-            type: 'news',
+            type: defaultContentType,
         },
         mode: 'onChange',
     })
@@ -91,7 +97,7 @@ const CreateDraftForm = ({ onSuccess }: CreateContentFormProps) => {
                 className="space-y-4"
             >
                 <NewsTitleFormField />
-                <ContentTypeFormField />
+                {showContentTypePicker ? <ContentTypeFormField /> : null}
                 <div className="flex flex-row justify-end">
                     <Button
                         type="submit"
