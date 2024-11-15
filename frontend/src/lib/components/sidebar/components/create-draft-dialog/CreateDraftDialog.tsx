@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/lib/components/common/Button'
+import { Button, ButtonProps } from '@/lib/components/common/Button'
 import {
     ResponsiveDialog,
     ResponsiveDialogBody,
@@ -10,19 +10,35 @@ import {
     ResponsiveDialogTitle,
     ResponsiveDialogTrigger,
 } from '@/lib/components/common/ResponsiveDialog'
-import CreateDraftForm from '@/lib/components/shared/create-content-draft-form/CreateDraftForm'
+import CreateDraftForm, {
+    CreateContentFormProps,
+} from '@/lib/components/shared/create-content-draft-form/CreateDraftForm'
 import { PlusIcon } from 'lucide-react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
-const CreateDraftDialog = () => {
+interface CreateDraftDialogProps {
+    triggerButtonProps?: {
+        triggerButtonLabel?: string;
+        triggerButtonVariant: ButtonProps['variant'];
+    };
+    formProps?: Omit<CreateContentFormProps, 'onSuccess'>;
+}
+
+const CreateDraftDialog = ({
+    triggerButtonProps = {
+        triggerButtonLabel: 'Inhalt erstellen',
+        triggerButtonVariant: 'outline',
+    },
+    formProps,
+}: CreateDraftDialogProps) => {
     const [open, setOpen] = useState(false)
 
     return (
         <ResponsiveDialog open={open} onOpenChange={setOpen}>
             <ResponsiveDialogTrigger asChild>
-                <Button variant="outline">
+                <Button variant={triggerButtonProps?.triggerButtonVariant}>
                     <PlusIcon size={20} className="mr-2" />
-                    Inhalt erstellen
+                    {triggerButtonProps.triggerButtonLabel}
                 </Button>
             </ResponsiveDialogTrigger>
             <ResponsiveDialogContent>
@@ -37,7 +53,10 @@ const CreateDraftDialog = () => {
                     </ResponsiveDialogDescription>
                 </ResponsiveDialogHeader>
                 <ResponsiveDialogBody>
-                    <CreateDraftForm onSuccess={() => setOpen(false)} />
+                    <CreateDraftForm
+                        onSuccess={() => setOpen(false)}
+                        {...formProps}
+                    />
                 </ResponsiveDialogBody>
             </ResponsiveDialogContent>
         </ResponsiveDialog>
