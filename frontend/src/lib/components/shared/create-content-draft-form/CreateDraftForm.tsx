@@ -5,7 +5,7 @@ import { createNewsAction } from '@/lib/actions/news'
 import { Button } from '@/lib/components/common/Button'
 import { Form } from '@/lib/components/common/Form'
 import { useToast } from '@/lib/components/hooks/use-toast'
-import { NewsTitleFormField } from '@/lib/components/news/create-news-form/components/news-form-fields'
+import { DraftTitleFormField } from '@/lib/components/shared/create-content-draft-form/components/draft-title-form-field/DraftTitleFormField'
 import { createDraftFormSchema } from '@/lib/components/shared/create-content-draft-form/CreateDraftForm.config'
 import { CreateDraftFormValues } from '@/lib/components/shared/create-content-draft-form/CreateDraftForm.model'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -96,7 +96,7 @@ const CreateDraftForm = ({
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="space-y-4"
             >
-                <NewsTitleFormField />
+                <DraftTitleFormField />
                 {showContentTypePicker ? <ContentTypeFormField /> : null}
                 <div className="flex flex-row justify-end">
                     <Button
