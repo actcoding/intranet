@@ -1,5 +1,6 @@
 import { deleteEventAction } from '@/lib/actions/event'
-import { DropdownMenuItem, DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
+import { DropdownMenuItem } from '@/lib/components/common/Dropdown'
+import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import { Trash2Icon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
