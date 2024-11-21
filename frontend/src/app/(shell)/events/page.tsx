@@ -1,9 +1,9 @@
 import { getAppSession } from '@/lib/actions/auth'
 import { Button } from '@/lib/components/common/Button'
+import EventListWidget from '@/lib/components/home/widgets/eventListWidget/EventListWidget'
 import { PlusIcon, Settings2Icon } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
-import { Suspense } from 'react'
 
 const EventsPage = async () => {
     const { sessionData } = await getAppSession()
@@ -33,6 +33,7 @@ const EventsPage = async () => {
                 ) : null}
             </div>
             <p>Todo: hier kommt noch stuff hin</p>
+            <EventListWidget />
         </>
     )
 }
