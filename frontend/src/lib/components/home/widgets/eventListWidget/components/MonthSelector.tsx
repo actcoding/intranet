@@ -12,11 +12,11 @@ interface MonthSelectorProps {
 const MonthSelector = ({currentMonth, goToPreviousMonth, goToNextMonth}: MonthSelectorProps) => {
     return (
         <div className='flex items-center justify-between'>
-            <Button variant='secondary' onClick={goToPreviousMonth}>
+            <Button variant='outline' onClick={goToPreviousMonth}>
                 <ChevronLeft />
             </Button>
-            <p>{currentMonth}</p>
-            <Button variant='secondary' onClick={goToNextMonth}>
+            <p className='font-semibold'>{currentMonth}</p>
+            <Button variant='outline' onClick={goToNextMonth}>
                 <ChevronRight />
             </Button>
         </div>

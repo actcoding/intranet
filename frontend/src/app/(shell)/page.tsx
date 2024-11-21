@@ -1,4 +1,5 @@
 import { Button } from '@/lib/components/common/Button'
+import EventListWidget from '@/lib/components/home/widgets/eventListWidget/EventListWidget'
 import NewsListWidget from '@/lib/components/home/widgets/NewsListWidget'
 import Spinner from '@/lib/components/shared/Spinner'
 import { ChevronRightIcon } from 'lucide-react'
@@ -35,6 +36,10 @@ export default async function Home() {
                     {t('canteen-menu')}
                 </h2>
                 <p>Menu will be displayed here.</p>
+                <h2 className="mb-3 text-2xl font-bold">
+                    Events
+                </h2>
+                <EventListWidget />
             </div>
         </div>
     </>)

@@ -7,6 +7,7 @@ import { getEventListAction } from '@/lib/actions/event'
 import { EventResource } from '@/lib/api/generated'
 import { Ellipsis } from 'lucide-react'
 import { Button } from '@/lib/components/common/Button'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/lib/components/common/Card'
 
 interface EventListWidgetProps {
     className?: string;
@@ -44,25 +45,33 @@ const EventListWidget = (props: EventListWidgetProps) => {
     }, [date])
 
     return (
-        <div className={props.className}>
-            <MonthSelector 
-                currentMonth={format(date, 'MMMM yyyy')}
-                goToPreviousMonth={goToPreviousMonth}
-                goToNextMonth={goToNextMonth}
-            />
-            <div>
-                {isLoading ? (
-                    <p>Loading</p>
-                ): (
-                    events.map((item, index) => (
-                        <p key={index}>{item.title}</p>
-                    ))
-                )}
-                <Button>
+        <Card className='w-full max-w-md flex-col justify-between'>
+            <CardHeader>
+                <MonthSelector 
+                    currentMonth={format(date, 'MMMM yyyy')}
+                    goToPreviousMonth={goToPreviousMonth}
+                    goToNextMonth={goToNextMonth}
+                />
+            </CardHeader>
+            <CardContent>
+                <div className="min-h-[180px]">
+                    <div>
+                        {isLoading ? (
+                            <p>Loading</p>
+                        ): (
+                            events.map((item, index) => (
+                                <p key={index}>{item.title}</p>
+                            ))
+                        )}
+                    </div>
+                </div>
+            </CardContent>
+            <CardFooter className='mt-auto'>
+                <Button className='w-full'>
                     <Ellipsis />
                 </Button>
-            </div>
-        </div>
+            </CardFooter>
+        </Card>
     )
 }
 
