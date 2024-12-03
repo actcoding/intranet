@@ -1,53 +1,24 @@
 'use client'
 
-import MonthSelector from '@/lib/components/home/widgets/eventListWidget/components/MonthSelector'
-import { useEffect, useState } from 'react'
-import {format, addMonths, subMonths} from 'date-fns'
-import { getEventListAction } from '@/lib/actions/event'
-import { EventResource } from '@/lib/api/generated'
-import { Ellipsis } from 'lucide-react'
+import {format} from 'date-fns'
 import { Button } from '@/lib/components/common/Button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/lib/components/common/Card'
+import { Card, CardContent, CardFooter, CardHeader} from '@/lib/components/common/Card'
+import EventWidgetCard from '@/lib/components/home/widgets/eventListWidget/components/EventWidgetCard'
+import Link from 'next/link'
+import { useMonthPicker } from '@/lib/components/hooks/use-month-picker'
+import MonthPicker from '@/lib/components/event/event-list/components/MonthPicker'
+import { useTranslations } from 'next-intl'
 
-interface EventListWidgetProps {
-    className?: string;
-    maxDisplay?: number
-}
 
-const EventListWidget = (props: EventListWidgetProps) => {
-    const [date, setDate] = useState<Date>(new Date())
-    const [events, setEvents] = useState<EventResource[]>([])
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-
-    const goToPreviousMonth = () => {
-        setDate(prevDate => subMonths(prevDate, 1))
-    }
-
-    const goToNextMonth = () => {
-        setDate(prevDate => addMonths(prevDate, 1))
-    }
-
-    useEffect(() => {
-        const getEvents = async () => {
-            setIsLoading(true)
-
-            // Adding artificial delay using a Promise
-            // await new Promise((resolve) => setTimeout(resolve, 2000)) // 2-second delay
-
-            const events = await getEventListAction({
-                page: 1,
-                perPage: 5,
-            })
-            setEvents(events)
-            setIsLoading(false)
-        }
-        getEvents()
-    }, [date])
+const EventListWidget = () => {
+    const [date, events, goToPreviousMonth, goToNextMonth] = useMonthPicker()
+    const limitedEvents = events.slice(0,3)
+    const translate = useTranslations('Event')
 
     return (
         <Card className='w-full max-w-md flex-col justify-between'>
             <CardHeader>
-                <MonthSelector 
+                <MonthPicker
                     currentMonth={format(date, 'MMMM yyyy')}
                     goToPreviousMonth={goToPreviousMonth}
                     goToNextMonth={goToNextMonth}
@@ -55,20 +26,20 @@ const EventListWidget = (props: EventListWidgetProps) => {
             </CardHeader>
             <CardContent>
                 <div className="min-h-[180px]">
-                    <div>
-                        {isLoading ? (
-                            <p>Loading</p>
-                        ): (
-                            events.map((item, index) => (
-                                <p key={index}>{item.title}</p>
-                            ))
-                        )}
+                    <div className='flex flex-col gap-2'>
+                        {limitedEvents.map((item, index) => (
+                            <Link href={`/events/${item.id}`} key={index}>
+                                <EventWidgetCard
+                                    event={item}
+                                />
+                            </Link> 
+                        ))}
                     </div>
                 </div>
             </CardContent>
             <CardFooter className='mt-auto'>
-                <Button className='w-full'>
-                    <Ellipsis />
+                <Button className='w-full' asChild>
+                    <Link href="/events">{translate('overview')}</Link>
                 </Button>
             </CardFooter>
         </Card>

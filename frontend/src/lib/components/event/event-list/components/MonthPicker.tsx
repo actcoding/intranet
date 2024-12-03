@@ -9,7 +9,7 @@ interface MonthSelectorProps {
     goToNextMonth: () => void;
 }
 
-const MonthSelector = ({currentMonth, goToPreviousMonth, goToNextMonth}: MonthSelectorProps) => {
+const MonthPicker = ({currentMonth, goToPreviousMonth, goToNextMonth}: MonthSelectorProps) => {
     return (
         <div className='flex items-center justify-between'>
             <Button variant='outline' onClick={goToPreviousMonth}>
@@ -23,4 +23,4 @@ const MonthSelector = ({currentMonth, goToPreviousMonth, goToNextMonth}: MonthSe
     )
 }
 
-export default MonthSelector
+export default MonthPicker

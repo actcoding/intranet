@@ -50,6 +50,7 @@
         "event-status-draft": "Entwurf",
         "event-status-deleted": "Gelöscht",
         "create": "Erstellen",
-        "manage": "Verwalten"
+        "manage": "Verwalten",
+        "overview": "Übersicht"
     }
 }
