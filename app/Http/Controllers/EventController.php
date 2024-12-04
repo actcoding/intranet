@@ -45,22 +45,27 @@ class EventController extends Controller implements HasMiddleware
      */
     public function index(EventListRequest $request): AnonymousResourceCollection
     {
-        $now = now();
-        $year = $request->integer('year', $now->year);
-        $month = $request->integer('month', $now->month);
+        $year = $request->integer('year');
+        $month = $request->integer('month');
 
         $query = Event::query()
             ->orderByDesc('published_at')
             ->orderByDesc('created_at')
-            ->with('attachments')
-            ->where(function (Builder $query) use ($year) {
-                $query->whereYear('ending_at', $year)
+            ->with('attachments');
+
+        if ($request->has('year') && $request->has('month')) {
+            $year = $request->integer('year');
+            $month = $request->integer('month');
+
+            $query = $query->where(function (Builder $builder) use ($year) {
+                $builder->whereYear('ending_at', $year)
                       ->orWhereYear('starting_at', $year);
             })
-            ->where(function (Builder $query) use ($month) {
-                $query->whereMonth('ending_at', $month)
+            ->where(function (Builder $builder) use ($month) {
+                $builder->whereMonth('ending_at', $month)
                       ->orWhereMonth('starting_at', $month);
             });
+        }
 
         if (Gate::check('event.viewall')) {
             if ($request->has('status')) {
