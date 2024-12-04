@@ -8,6 +8,7 @@ export const eventFormSchema = z
         startingAt: z.date(),
         endingAt: z.date(),
         isAllDay: z.boolean(),
+        headerImage: z.instanceof(File),
     })
     .refine((data) => isBefore(data.startingAt, data.endingAt), {
         message: 'Ending date must not be earlier than starting date',

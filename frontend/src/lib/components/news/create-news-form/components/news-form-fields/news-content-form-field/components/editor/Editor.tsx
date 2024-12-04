@@ -1,11 +1,8 @@
 'use client'
 
-import { uploadNewsFileAction } from '@/lib/actions/news'
 import { Button } from '@/lib/components/common/Button'
 import { inputVariants } from '@/lib/components/common/Input'
 import { Toggle } from '@/lib/components/common/Toggle'
-import { useToast } from '@/lib/components/hooks/use-toast'
-import { useNews } from '@/lib/components/news/provider'
 import { cn } from '@/lib/utils'
 import Image from '@tiptap/extension-image'
 import { EditorContent, useEditor } from '@tiptap/react'
@@ -37,10 +34,10 @@ const CustomImage = Image.extend({
 interface EditorProps {
     value?: string;
     onChange?: (value: string) => void;
+    onImageSelect?: (file: File, editor: any | null) => void;
 }
 
 const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
-    const { toast } = useToast()
     const editor = useEditor({
         extensions: [StarterKit, CustomImage],
         content: props.value,
@@ -56,8 +53,6 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
             },
         },
     })
-
-    const news = useNews()
 
     return (
         <>
@@ -81,31 +76,7 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
                     </Toggle>
                     <SelectImageForm
                         onSubmit={async (formData) => {
-                            const uploadData = new FormData()
-                            uploadData.set('file', formData.image)
-                            const { error, data } = await uploadNewsFileAction(
-                                news.id,
-                                'content',
-                                uploadData,
-                            )
-
-                            if (error) {
-                                toast({
-                                    title: 'Fehler',
-                                    description: error.message,
-                                    variant: 'destructive',
-                                })
-                                return
-                            }
-
-                            editor
-                                ?.chain()
-                                .focus()
-                                .setImage({
-                                    // TODO: Better types
-                                    src: data!.url,
-                                })
-                                .run()
+                            props.onImageSelect?.(formData.image, editor)
                         }}
                     />
                 </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { updateEventAction } from '@/lib/actions/events'
-import { EventResource } from '@/lib/api/generated'
+import { AttachmentResource, EventResource } from '@/lib/api/generated'
 import { Form } from '@/lib/components/common/Form'
 import {
     eventFormSchema,
@@ -14,11 +14,31 @@ import {
 import { useToast } from '@/lib/components/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { endOfDay, startOfDay } from 'date-fns'
-import React from 'react'
+import React, { createContext, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
+interface EventContextProps {
+    event: EventResource & {
+        headerImage?: AttachmentResource;
+        attachments?: AttachmentResource[];
+    };
+}
+
+const EventContext = createContext<EventContextProps | undefined>(undefined)
+
+export const useEvent = () => {
+    const context = useContext(EventContext)
+    if (!context) {
+        throw new Error('useEvent must be used within an EventProvider')
+    }
+    return context
+}
+
 interface EventFormProps {
-    event: EventResource;
+    event: EventResource & {
+        headerImage?: AttachmentResource;
+        attachments?: AttachmentResource[];
+    };
     children?: React.ReactNode;
     className?: string;
 }
@@ -57,11 +77,16 @@ const EventFormContext = (props: EventFormProps) => {
     }
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="h-full">
-                {props.children}
-            </form>
-        </Form>
+        <EventContext.Provider value={{ event: props.event }}>
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(handleSubmit)}
+                    className="h-full"
+                >
+                    {props.children}
+                </form>
+            </Form>
+        </EventContext.Provider>
     )
 }
 

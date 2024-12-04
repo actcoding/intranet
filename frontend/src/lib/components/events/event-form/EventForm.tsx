@@ -1,4 +1,4 @@
-import { EventResource } from '@/lib/api/generated'
+import { AttachmentResource, EventResource } from '@/lib/api/generated'
 import { Button } from '@/lib/components/common/Button'
 import { Separator } from '@/lib/components/common/Separator'
 import { EventFormContext } from '@/lib/components/events/event-form/EventFormContext'
@@ -8,9 +8,14 @@ import {
     EventIsAlldayFormField,
     EventTitleFormField,
 } from '@/lib/components/events/event-form/form-fields'
+import { EventAttachmentsFormField } from '@/lib/components/events/event-form/form-fields/EventAttachmentsFormField'
+import { EventHeaderImageFormField } from '@/lib/components/events/event-form/form-fields/EventHeaderImageFormField'
 
 interface EventFormProps {
-    event: EventResource;
+    event: EventResource & {
+        headerImage?: AttachmentResource;
+        attachments?: AttachmentResource[];
+    };
 }
 
 const EventForm = ({ event }: EventFormProps) => {
@@ -36,9 +41,11 @@ const EventForm = ({ event }: EventFormProps) => {
                 <Separator className="my-5 md:hidden" />
                 <div className="w-1/4 space-y-3">
                     <p className="text-lg font-bold">Metadaten</p>
+                    <EventHeaderImageFormField />
                     <EventDateTimeFormField label="Startdatum" type="start" />
                     <EventDateTimeFormField label="Enddatum" type="end" />
                     <EventIsAlldayFormField label="Ganztägig?" />
+                    <EventAttachmentsFormField />
                 </div>
             </div>
         </EventFormContext>
