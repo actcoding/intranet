@@ -17,9 +17,12 @@ export function useMonthPicker() : [Date, EventResource[], () => void, () => voi
 
     useEffect(() => {
         const getEvents = async () => {
+            const month = date.getMonth() + 1
             const events = await getEventListAction({
                 page: 1,
                 perPage: 5,
+                year: date.getFullYear(),
+                month: month,
             })
             setEvents(events)
         }
