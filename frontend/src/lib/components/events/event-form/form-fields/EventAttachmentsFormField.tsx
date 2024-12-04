@@ -1,6 +1,8 @@
 'use client'
 
 import { uploadEventFileAction } from '@/lib/actions/events'
+import { eventApi } from '@/lib/api/api'
+import { AttachmentResourceData } from '@/lib/api/generated'
 import { Button } from '@/lib/components/common/Button'
 import { useEvent } from '@/lib/components/events/event-form'
 import { useToast } from '@/lib/components/hooks/use-toast'
@@ -45,12 +47,24 @@ export const EventAttachmentsFormField = () => {
         },
         [event.id, router, toast],
     )
-    console.log(event.attachments)
+
+    const onRemove = async (file: File | AttachmentResourceData) => {
+        if (!(file instanceof File)) {
+            await eventApi.eventUploadDelete({
+                id: event.id,
+                attachment: file.id,
+            })
+        }
+        router.refresh()
+    }
 
     return (
         <>
             <FileSelector
-                onPreviewChange={(files) => setFiles(files ?? [])}
+                onPreviewChange={(files) => {
+                    setFiles(files ?? [])
+                    console.log(files)
+                }}
                 onChange={onChange}
                 multiple
             >
@@ -73,6 +87,12 @@ export const EventAttachmentsFormField = () => {
                     <FileSelectorFooter />
                 </FileSelectorContent>
             </FileSelector>
+            <FileListPreview
+                files={event.attachments.map((file) => file.data)}
+                display="list"
+                download
+                onRemove={onRemove}
+            />
         </>
     )
 }
