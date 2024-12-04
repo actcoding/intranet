@@ -45,6 +45,7 @@ export const EventAttachmentsFormField = () => {
         },
         [event.id, router, toast],
     )
+    console.log(event.attachments)
 
     return (
         <>

@@ -9,7 +9,6 @@ import {
     EventTitleFormField,
 } from '@/lib/components/events/event-form/form-fields'
 import { EventAttachmentsFormField } from '@/lib/components/events/event-form/form-fields/EventAttachmentsFormField'
-import { EventHeaderImageFormField } from '@/lib/components/events/event-form/form-fields/EventHeaderImageFormField'
 
 interface EventFormProps {
     event: EventResource & {
@@ -41,7 +40,6 @@ const EventForm = ({ event }: EventFormProps) => {
                 <Separator className="my-5 md:hidden" />
                 <div className="w-1/4 space-y-3">
                     <p className="text-lg font-bold">Metadaten</p>
-                    <EventHeaderImageFormField />
                     <EventDateTimeFormField label="Startdatum" type="start" />
                     <EventDateTimeFormField label="Enddatum" type="end" />
                     <EventIsAlldayFormField label="Ganztägig?" />
