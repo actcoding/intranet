@@ -1,5 +1,5 @@
 import '@/app/globals.css'
-import { Sidebar } from '@/lib/components/sidebar/Sidebar'
+import { Sidebar } from '@/core/layout/Sidebar/Sidebar'
 
 export default async function ShellLayout({
     children,

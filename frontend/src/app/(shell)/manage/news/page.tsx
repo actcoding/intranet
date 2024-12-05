@@ -1,7 +1,7 @@
+import { CreateDraftDialog } from '@/core/layout/Sidebar'
 import { newsApi } from '@/lib/api/api'
 import { DataTable } from '@/lib/components/common/DataTable'
 import { columns } from '@/lib/components/manage/manage-news/manage-news-table/ManageNewsTable.config'
-import { CreateDraftDialog } from '@/lib/components/sidebar/components'
 import { pick } from 'lodash'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations } from 'next-intl/server'

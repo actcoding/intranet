@@ -1,5 +1,5 @@
+import { EventForm } from '@/features/posts/components/EventForm'
 import { eventApi } from '@/lib/api/api'
-import { EventForm } from '@/lib/components/events/event-form'
 
 interface EditEventPageProps {
     params: {

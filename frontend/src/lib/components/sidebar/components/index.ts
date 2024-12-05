@@ -1,7 +1,0 @@
-export * from './sidebar-item/SidebarItem'
-export * from './sidebar-items/SidebarItems'
-export * from './sidebar-footer/SidebarFooter'
-export * from './sidebar-header/SidebarHeader'
-export * from './sidebar-container/SidebarContainer'
-export * from './sidebar-user-details/SidebarUserDetails'
-export * from '@/lib/components/sidebar/components/create-draft-dialog/CreateDraftDialog'
