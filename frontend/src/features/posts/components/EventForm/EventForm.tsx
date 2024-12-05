@@ -31,8 +31,8 @@ const EventForm = ({ event }: EventFormProps) => {
                             <EventContentFormField label="Inhalt" />
                         </div>
                         <Separator
-                            orientation="vertical hidden md:block"
-                            className="mx-5"
+                            orientation="vertical"
+                            className="mx-5 hidden md:block"
                         />
                     </div>
 
