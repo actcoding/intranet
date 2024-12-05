@@ -1,16 +1,16 @@
-import { CreateDraftFormValues } from "@/features/posts/types";
+import { CreateDraftFormValues } from '@/features/posts/types'
 import {
     FormControl,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/lib/components/common/Form";
-import { Input } from "@/lib/components/common/Input";
-import { useFormContext } from "react-hook-form";
+} from '@/lib/components/common/Form'
+import { Input } from '@/lib/components/common/Input'
+import { useFormContext } from 'react-hook-form'
 
 export const DraftTitleFormField = () => {
-    const form = useFormContext<CreateDraftFormValues>();
+    const form = useFormContext<CreateDraftFormValues>()
     return (
         <FormField
             control={form.control}
@@ -25,5 +25,5 @@ export const DraftTitleFormField = () => {
                 </FormItem>
             )}
         />
-    );
-};
+    )
+}
