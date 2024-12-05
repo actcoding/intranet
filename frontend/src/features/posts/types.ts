@@ -8,7 +8,6 @@ import * as z from 'zod'
 export type EventFormValues = z.infer<typeof eventFormSchema>
 
 export type Event = EventResource & {
-    headerImage?: AttachmentResource;
     attachments?: AttachmentResource[];
 }
 

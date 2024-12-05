@@ -9,15 +9,13 @@ interface EditEventPageProps {
 
 const EditEventPage = async ({ params }: EditEventPageProps) => {
     const event = await eventApi.eventShow({ id: params.id })
-    const { data } = await eventApi.eventUploadList({ id: params.id })
-    const headerImage = data.filter((file) => file.type === 'header')[0]
-    const attachments = data.filter((file) => file.type === 'attachment')
+    const files = await eventApi.eventUploadList({ id: params.id })
+    const attachments = files.filter((file) => file.type === 'attachment')
 
     return (
         <EventForm
             event={{
                 ...event,
-                headerImage,
                 attachments,
             }}
         />
