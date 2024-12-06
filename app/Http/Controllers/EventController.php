@@ -59,12 +59,12 @@ class EventController extends Controller implements HasMiddleware
 
             $query = $query->where(function (Builder $builder) use ($year) {
                 $builder->whereYear('ending_at', $year)
-                      ->orWhereYear('starting_at', $year);
+                    ->orWhereYear('starting_at', $year);
             })
-            ->where(function (Builder $builder) use ($month) {
-                $builder->whereMonth('ending_at', $month)
-                      ->orWhereMonth('starting_at', $month);
-            });
+                ->where(function (Builder $builder) use ($month) {
+                    $builder->whereMonth('ending_at', $month)
+                        ->orWhereMonth('starting_at', $month);
+                });
         }
 
         if (Gate::check('event.viewall')) {
