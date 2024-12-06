@@ -9,13 +9,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class EventResource extends JsonResource
 {
     /**
-     * The "data" wrapper that should be applied.
-     *
-     * @var string|null
-     */
-    public static $wrap = null;
-
-    /**
      * The resource instance.
      *
      * @var Event
