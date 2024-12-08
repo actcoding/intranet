@@ -1,21 +1,15 @@
 'use client'
 
-import { uploadNewsFileAction } from '@/lib/actions/news'
 import { Button } from '@/lib/components/common/Button'
+import { inputVariants } from '@/lib/components/common/Input'
 import { Toggle } from '@/lib/components/common/Toggle'
-import { useNews } from '@/lib/components/news/provider'
+import { cn } from '@/lib/utils'
 import Image from '@tiptap/extension-image'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import {
-    BoldIcon,
-    ItalicIcon,
-    Redo2Icon,
-    Undo2Icon,
-} from 'lucide-react'
+import { BoldIcon, ItalicIcon, Redo2Icon, Undo2Icon } from 'lucide-react'
 import React from 'react'
 import SelectImageForm from './SelectImageForm'
-import { useToast } from '@/lib/components/hooks/use-toast'
 
 const CustomImage = Image.extend({
     addAttributes() {
@@ -40,10 +34,10 @@ const CustomImage = Image.extend({
 interface EditorProps {
     value?: string;
     onChange?: (value: string) => void;
+    onImageSelect?: (file: File, editor: any | null) => void;
 }
 
 const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
-    const { toast } = useToast()
     const editor = useEditor({
         extensions: [StarterKit, CustomImage],
         content: props.value,
@@ -52,75 +46,63 @@ const Editor = React.forwardRef((props: EditorProps, ref: React.Ref<any>) => {
         },
         editorProps: {
             attributes: {
-                class: 'focus-visible:outline-none h-[500px] overflow-y-scroll',
+                class: cn(
+                    inputVariants({ variant: 'borderless' }),
+                    'flex h-full min-h-[200px] w-full flex-col',
+                ),
             },
         },
     })
 
-    const news = useNews()
-
     return (
-        <div className="flex min-h-[80px] w-full flex-col rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-            <div className="mb-2 flex gap-2">
-                <Toggle
-                    onClick={() => editor?.chain().focus().toggleBold().run()}
-                    pressed={editor?.isActive('bold')}
-                >
-                    <BoldIcon size={20} />
-                </Toggle>
-                <Toggle
-                    onClick={() => editor?.chain().focus().toggleItalic().run()}
-                    pressed={editor?.isActive('italic')}
-                >
-                    <ItalicIcon size={20} />
-                </Toggle>
-                <Button
-                    onClick={() => editor?.chain().focus().undo().run()}
-                    disabled={!editor?.can().undo()}
-                    size={'icon'}
-                    variant={'ghost'}
-                    type="button"
-                >
-                    <Undo2Icon size={20} />
-                </Button>
-                <Button
-                    onClick={() => editor?.chain().focus().redo().run()}
-                    disabled={!editor?.can().redo()}
-                    size={'icon'}
-                    variant={'ghost'}
-                    type="button"
-                >
-                    <Redo2Icon size={20} />
-                </Button>
-
-                <SelectImageForm
-                    onSubmit={async (formData) => {
-                        const uploadData = new FormData()
-                        uploadData.set('file', formData.image)
-                        const { error, data } = await uploadNewsFileAction(news.id, 'content', uploadData)
-
-                        if (error) {
-                            toast({
-                                title: 'Fehler',
-                                description: error.message,
-                                variant: 'destructive',
-                            })
-                            return
+        <>
+            <div className="sticky top-2 z-50 flex justify-between rounded-lg border border-input bg-background p-1 shadow">
+                <div className="flex">
+                    <Toggle
+                        onClick={() =>
+                            editor?.chain().focus().toggleBold().run()
                         }
-
-                        editor
-                            ?.chain()
-                            .focus()
-                            .setImage({
-                                // TODO: Better types
-                                src: data!.url,
-                            })
-                            .run()
-                    }}
-                />
+                        pressed={editor?.isActive('bold')}
+                    >
+                        <BoldIcon size={20} />
+                    </Toggle>
+                    <Toggle
+                        onClick={() =>
+                            editor?.chain().focus().toggleItalic().run()
+                        }
+                        pressed={editor?.isActive('italic')}
+                    >
+                        <ItalicIcon size={20} />
+                    </Toggle>
+                    <SelectImageForm
+                        onSubmit={async (formData) => {
+                            props.onImageSelect?.(formData.image, editor)
+                        }}
+                    />
+                </div>
+                <div>
+                    <Button
+                        onClick={() => editor?.chain().focus().undo().run()}
+                        disabled={!editor?.can().undo()}
+                        size={'icon'}
+                        variant={'ghost'}
+                        type="button"
+                    >
+                        <Undo2Icon size={20} />
+                    </Button>
+                    <Button
+                        onClick={() => editor?.chain().focus().redo().run()}
+                        disabled={!editor?.can().redo()}
+                        size={'icon'}
+                        variant={'ghost'}
+                        type="button"
+                    >
+                        <Redo2Icon size={20} />
+                    </Button>
+                </div>
             </div>
             <EditorContent editor={editor} ref={ref} />
-        </div>
+        </>
     )
 })
 
