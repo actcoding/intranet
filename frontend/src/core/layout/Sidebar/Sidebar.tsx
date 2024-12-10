@@ -7,11 +7,11 @@ import {
     SidebarItems,
     SidebarUserDetails,
 } from '@/core/layout/Sidebar'
-import { getAppSession } from '@/lib/actions/auth'
-import { isCreator } from '@/lib/utils'
-import { SidebarLink } from '@/types'
-import { HomeIcon, NewspaperIcon, Settings2Icon } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import {getAppSession} from '@/lib/actions/auth'
+import {isCreator} from '@/lib/utils'
+import {SidebarLink} from '@/types'
+import {HomeIcon, NewspaperIcon, Settings2Icon} from 'lucide-react'
+import {getTranslations} from 'next-intl/server'
 import Image from 'next/image'
 
 const Sidebar = async () => {
@@ -38,7 +38,7 @@ const Sidebar = async () => {
                     </h3>
                 </SidebarHeader>
                 <SidebarItems links={sidebarLinks} />
-                <CreateDraftDialog />
+                { isCreator(sessionData) ? <CreateDraftDialog /> : null}
                 <SidebarFooter>
                     <SidebarUserDetails loggedInUser={sessionData?.user} />
                 </SidebarFooter>
