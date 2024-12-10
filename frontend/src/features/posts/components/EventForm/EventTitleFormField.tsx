@@ -1,5 +1,6 @@
 'use client'
 
+import { EventFormValues } from '@/features/posts/types'
 import {
     FormControl,
     FormField,
@@ -8,24 +9,27 @@ import {
     FormMessage,
 } from '@/lib/components/common/Form'
 import { Input } from '@/lib/components/common/Input'
-import { CreateNewsFormValues } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
 import { useFormContext } from 'react-hook-form'
 
-const NewsTitleFormField = () => {
-    const form = useFormContext<CreateNewsFormValues>()
+interface EventTitleFormFieldProps {
+    label: string;
+}
+
+const EventTitleFormField = (props: EventTitleFormFieldProps) => {
+    const form = useFormContext<EventFormValues>()
     return (
         <FormField
             control={form.control}
             name="title"
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel className="sr-only">Titel</FormLabel>
+                    <FormLabel className="sr-only">{props.label}</FormLabel>
                     <FormControl>
                         <Input
-                            {...field}
                             placeholder="Titel eingeben..."
                             className="text-2xl font-bold"
                             variant="borderless"
+                            {...field}
                         />
                     </FormControl>
                     <FormMessage />
@@ -34,4 +38,5 @@ const NewsTitleFormField = () => {
         />
     )
 }
-export { NewsTitleFormField }
+
+export { EventTitleFormField }
