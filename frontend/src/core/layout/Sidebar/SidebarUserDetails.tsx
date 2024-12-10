@@ -47,10 +47,10 @@ const SidebarUserDetails = (props: SidebarUserDetailsProps) => {
                             </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 text-left text-sm">
-                            <span className="inline-block font-semibold">
+                            <span className="block font-semibold">
                                 {props.loggedInUser.name}
                             </span>
-                            <span className="inline-block text-muted-foreground">
+                            <span className="block text-muted-foreground">
                                 {props.loggedInUser.email}
                             </span>
                         </div>
@@ -88,4 +88,4 @@ const SidebarUserDetails = (props: SidebarUserDetailsProps) => {
         )
     }
 }
-export default SidebarUserDetails
+export { SidebarUserDetails }

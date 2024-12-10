@@ -1,6 +1,8 @@
 'use client'
 
-import { uploadNewsFileAction } from '@/lib/actions/news'
+import { uploadEventFile } from '@/features/posts/actions'
+import { useEvent } from '@/features/posts/hooks'
+import { EventFormValues } from '@/features/posts/types'
 import {
     FormControl,
     FormField,
@@ -9,34 +11,34 @@ import {
     FormMessage,
 } from '@/lib/components/common/Form'
 import { useToast } from '@/lib/components/hooks/use-toast'
-import { CreateNewsFormValues } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
-import { useNews } from '@/lib/components/news/provider'
+import Editor from '@/lib/components/news/create-news-form/components/news-form-fields/news-content-form-field/components/editor/Editor'
+import { serializeFileData } from '@/lib/utils'
 import { useFormContext } from 'react-hook-form'
-import Editor from './components/editor/Editor'
 
-const NewsContentFormField = () => {
-    const form = useFormContext<CreateNewsFormValues>()
+interface EventContentFormField {
+    label: string;
+}
+
+const EventContentFormField = (props: EventContentFormField) => {
+    const form = useFormContext<EventFormValues>()
+    const { event } = useEvent()
     const { toast } = useToast()
-    const news = useNews()
     return (
         <FormField
             control={form.control}
             name="content"
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel className="sr-only">Content</FormLabel>
+                    <FormLabel className="sr-only">{props.label}</FormLabel>
                     <FormControl>
                         <Editor
                             {...field}
                             onImageSelect={async (file, editor) => {
-                                const uploadData = new FormData()
-                                uploadData.set('file', file)
-                                const { error, data } =
-                                    await uploadNewsFileAction(
-                                        news.id,
-                                        'content',
-                                        uploadData,
-                                    )
+                                const { error, data } = await uploadEventFile(
+                                    event.id,
+                                    'content',
+                                    serializeFileData(file),
+                                )
 
                                 if (error) {
                                     toast({
@@ -64,4 +66,5 @@ const NewsContentFormField = () => {
         />
     )
 }
-export { NewsContentFormField }
+
+export { EventContentFormField }
