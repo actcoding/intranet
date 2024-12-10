@@ -1,3 +1,5 @@
-export default function Page() {
-    return <p>Hier kommt noch stuff hin</p>
+const Page = () => {
+    return <div>Hello World</div>
 }
+
+export default Page

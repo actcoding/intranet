@@ -1,12 +1,18 @@
 import { getAppSession } from '@/lib/actions/auth'
 import { Button } from '@/lib/components/common/Button'
+import EventList from '@/lib/components/event/event-list/EventList'
+import Spinner from '@/lib/components/shared/Spinner'
+import { pick } from 'lodash'
 import { PlusIcon, Settings2Icon } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages, getTranslations } from 'next-intl/server'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 const EventsPage = async () => {
     const { sessionData } = await getAppSession()
     const t = await getTranslations()
+    const messages = await getMessages()
 
     return (
         <>
@@ -31,7 +37,11 @@ const EventsPage = async () => {
                     </div>
                 ) : null}
             </div>
-            <p>Todo: hier kommt noch stuff hin</p>
+            <Suspense fallback={<Spinner size={40}/>}>
+                <NextIntlClientProvider messages={pick(messages, ['Event'])}>
+                    <EventList />
+                </NextIntlClientProvider>
+            </Suspense>
         </>
     )
 }

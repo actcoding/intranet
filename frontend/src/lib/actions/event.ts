@@ -14,3 +14,18 @@ export async function restoreEventAction(id: number) {
 export async function deleteEventAction(id: number, force: boolean = false) {
     return eventApi.eventDestroy({ id, force })
 }
+
+export async function getEventListAction({
+    page,
+    perPage,
+    year,
+    month,
+}: {
+    page: number;
+    perPage: number;
+    year ?: number;
+    month ?: number;
+}) {
+    const eventList = await eventApi.eventIndex({ page, perPage, status: 'active' , month, year})
+    return eventList.data
+}
