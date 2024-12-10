@@ -3,7 +3,6 @@ import { Button } from '@/lib/components/common/Button'
 import { PlusIcon, Settings2Icon } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
-import { Suspense } from 'react'
 
 const EventsPage = async () => {
     const { sessionData } = await getAppSession()

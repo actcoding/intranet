@@ -34,7 +34,7 @@ const NewsListContent = (props: NewsListContentProps) => {
                 setHasMoreData(false)
             }
         }
-    }, [hasMoreData, page])
+    }, [hasMoreData, page, props.perPage])
 
     useEffect(() => {
         if (isIntersecting) {
