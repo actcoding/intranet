@@ -10,7 +10,7 @@ import {
 import { getAppSession } from '@/lib/actions/auth'
 import { isCreator } from '@/lib/utils'
 import { SidebarLink } from '@/types'
-import { HomeIcon, NewspaperIcon, Settings2Icon } from 'lucide-react'
+import { CalendarDays, HomeIcon, NewspaperIcon, Settings2Icon } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 
@@ -21,6 +21,7 @@ const Sidebar = async () => {
     const sidebarLinks: SidebarLink[] = [
         { label: t('home'), href: '/', icon: <HomeIcon /> },
         { label: t('news'), href: '/news', icon: <NewspaperIcon /> },
+        { label: t('events'), href: '/events', icon: <CalendarDays /> },
         {
             label: t('manage'),
             href: '/manage',
