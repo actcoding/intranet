@@ -101,7 +101,7 @@ class NewsController extends Controller implements HasMiddleware
      *
      * @unauthenticated
      */
-    public function show(string $id): NewsResource
+    public function show($id): NewsResource
     {
         $news = $this->find($id, allowGuest: true);
 
@@ -164,7 +164,7 @@ class NewsController extends Controller implements HasMiddleware
      *
      * @param  int  $id  The news ID
      */
-    public function restore(string $id): Response
+    public function restore($id): Response
     {
         $news = $this->find($id, 'restore');
 
