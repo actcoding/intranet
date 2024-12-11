@@ -1,12 +1,14 @@
 {
     "Index": {
         "news": "News",
+        "events": "Events",
         "show-more-news": "Show more",
         "canteen-menu": "Menu"
     },
     "Sidebar": {
         "home": "Home",
         "news": "News",
+        "events": "Events",
         "manage": "Manage",
         "creator-login": "Creator Login",
         "logout": "Logout",
@@ -39,6 +41,16 @@
     "News": {
         "news-status-published": "Published",
         "news-status-draft": "Draft",
-        "news-status-deleted": "Deleted"
+        "news-status-deleted": "Deleted",
+        "create": "Create",
+        "manage": "Manage"
+    },
+    "Event": {
+        "event-status-published": "Published",
+        "event-status-draft": "Draft",
+        "event-status-deleted": "Deleted",
+        "create": "Create",
+        "manage": "Manage",
+        "overview": "Overview"
     }
 }

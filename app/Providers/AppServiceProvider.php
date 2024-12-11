@@ -10,6 +10,7 @@ use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
@@ -53,6 +54,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Authenticate::redirectUsing(fn () => route('auth.login'));
+
+        JsonResource::withoutWrapping();
 
         Scramble::routes(function (Route $route) {
             return true;

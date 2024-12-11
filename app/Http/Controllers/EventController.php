@@ -12,6 +12,7 @@ use App\Http\Resources\EventResource;
 use App\Http\Resources\UrlResource;
 use App\Models\Attachment;
 use App\Models\Event;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -44,10 +45,27 @@ class EventController extends Controller implements HasMiddleware
      */
     public function index(EventListRequest $request): AnonymousResourceCollection
     {
+        $year = $request->integer('year');
+        $month = $request->integer('month');
+
         $query = Event::query()
             ->orderByDesc('published_at')
             ->orderByDesc('created_at')
             ->with('attachments');
+
+        if ($request->has('year') && $request->has('month')) {
+            $year = $request->integer('year');
+            $month = $request->integer('month');
+
+            $query = $query->where(function (Builder $builder) use ($year) {
+                $builder->whereYear('ending_at', $year)
+                    ->orWhereYear('starting_at', $year);
+            })
+                ->where(function (Builder $builder) use ($month) {
+                    $builder->whereMonth('ending_at', $month)
+                        ->orWhereMonth('starting_at', $month);
+                });
+        }
 
         if (Gate::check('event.viewall')) {
             if ($request->has('status')) {

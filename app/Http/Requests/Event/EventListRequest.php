@@ -29,6 +29,12 @@ class EventListRequest extends FormRequest
             'page' => 'integer|min:1',
             'perPage' => 'integer|min:1',
             'status' => Rule::enum(EntityStatus::class),
+
+            /** The year in which the event starts or ends. */
+            'year' => 'integer',
+
+            /** The month in which the event starts or ends. */
+            'month' => 'integer|min:1|max:12',
         ];
     }
 }

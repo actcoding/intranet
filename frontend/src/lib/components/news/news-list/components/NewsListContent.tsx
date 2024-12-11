@@ -1,18 +1,17 @@
 'use client'
 
+import { getNewsListAction } from '@/lib/actions/news'
+import { NewsResource } from '@/lib/api/generated'
 import LoadMoreNews from '@/lib/components/news/news-list/components/LoadMoreNews'
 import NewsPreviewCard from '@/lib/components/news/news-list/components/NewsPreviewCard'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-
-import { getNewsListAction } from '@/lib/actions/news'
-import { NewsResource } from '@/lib/api/generated'
 import { useCallback, useEffect, useState } from 'react'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 interface NewsListContentProps {
     initialNews: NewsResource[];
-    perPage: number
+    perPage: number;
 }
 
 const NewsListContent = (props: NewsListContentProps) => {
@@ -34,7 +33,7 @@ const NewsListContent = (props: NewsListContentProps) => {
                 setHasMoreData(false)
             }
         }
-    }, [hasMoreData, page])
+    }, [hasMoreData, page, props.perPage])
 
     useEffect(() => {
         if (isIntersecting) {
@@ -43,28 +42,26 @@ const NewsListContent = (props: NewsListContentProps) => {
     }, [isIntersecting, loadMoreNews])
 
     if (news.length === 0) {
-        return (
-            <p>
-                Es gibt noch keine Neuigkeiten.
-            </p>
-        )
+        return <p>Es gibt noch keine Neuigkeiten.</p>
     }
 
-    return (<>
-        <div className="mb-4 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
-            {news.map((news, index) => (
-                <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                >
-                    <Link href={`/news/${news.id}`}>
-                        <NewsPreviewCard news={news} className="h-full" />
-                    </Link>
-                </motion.div>
-            ))}
-        </div>
-        {hasMoreData ? <LoadMoreNews ref={ref} className="pb-60" /> : null}
-    </>)
+    return (
+        <>
+            <div className="mb-4 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
+                {news.map((news, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                    >
+                        <Link href={`/news/${news.id}`}>
+                            <NewsPreviewCard news={news} className="h-full" />
+                        </Link>
+                    </motion.div>
+                ))}
+            </div>
+            {hasMoreData ? <LoadMoreNews ref={ref} className="pb-60" /> : null}
+        </>
+    )
 }
 export default NewsListContent
