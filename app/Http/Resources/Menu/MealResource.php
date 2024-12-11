@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Http\Resources\Menu;
+
+use App\Http\Resources\ConditionalResourceAccess;
+use App\Models\Menu\Meal;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class MealResource extends JsonResource
+{
+    use ConditionalResourceAccess;
+
+    /**
+     * The resource instance.
+     *
+     * @var Meal
+     */
+    public $resource;
+
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->conditionalId('event.viewall'),
+            'name' => $this->resource->name,
+            'summary' => $this->resource->summary,
+
+            'ingredients' => $this->whenLoaded('ingredients', fn () => IngredientResource::collection($this->resource->ingredients)),
+        ];
+    }
+}

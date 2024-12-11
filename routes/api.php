@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\UserController;
@@ -65,3 +66,7 @@ Route::delete('/event/{event}/upload/{attachment}', [EventController::class, 'de
     ->name('event.upload.delete')
     ->whereNumber('event')
     ->whereNumber('attachment');
+
+Route::prefix('/menu')->group(function () {
+    Route::get('/list', [MenuController::class, 'listMenus']);
+});
