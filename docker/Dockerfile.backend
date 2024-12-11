@@ -20,7 +20,8 @@ USER intranet
 WORKDIR /app
 
 RUN wget https://github.com/composer/composer/releases/download/2.7.6/composer.phar -O composer && \
-    php composer install --no-dev && \
+    php composer install --no-dev --no-scripts && \
+    php composer run-script post-autoload-dump && \
     php artisan storage:link && \
     rm composer
 
