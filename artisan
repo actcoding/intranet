@@ -1,4 +1,4 @@
-#!/usr/bin/env php8.3
+#!./php
 <?php
 
 use Symfony\Component\Console\Input\ArgvInput;
