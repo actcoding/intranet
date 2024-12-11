@@ -1,11 +1,14 @@
 'use server'
 
 import { isProduction } from '@/lib/utils'
-import { ApiResponse, AppSession, AppSessionData } from '@/types'
+import { ApiResponse, AppSession, AppJwtPayload } from '@/types'
 import { getIronSession, IronSession } from 'iron-session'
 import { decodeJwt } from 'jose'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { authApi } from '../api/api'
+import { ResponseError } from '../api/generated'
+import { ApiResult } from './news'
 
 export async function getAppSession(): Promise<IronSession<AppSession>> {
     return getIronSession<AppSession>(cookies(), {
@@ -19,42 +22,55 @@ export async function getAppSession(): Promise<IronSession<AppSession>> {
     })
 }
 
-const apiUrl = process.env.API_URL as string
-
-export async function handleLogin(credentials: {
-    email: string;
-    password: string;
-}): Promise<ApiResponse | undefined> {
-    const res = await fetch(`${apiUrl}/auth/login`, {
-        method: 'POST',
-        body: JSON.stringify(credentials),
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-    })
-
-    if (!res.ok) {
-        const data = await res.json()
-        return {
-            status: res.status,
-            ...data,
-        }
-    }
-
-    const { access_token } = await res.json()
-    const decoded = decodeJwt<AppSessionData>(access_token)
+export async function setAppSession(
+    accessToken: string,
+    refreshToken: string,
+) {
+    const decoded = decodeJwt<AppJwtPayload>(accessToken)
 
     const session = await getAppSession()
 
-    session.access_token = access_token
+    session.accessToken = accessToken
+    session.refreshToken = refreshToken
     session.sessionData = decoded
     await session.save()
 
-    if (session.sessionData.user.status === 'must_reset_password') {
-        redirect('/auth/welcome')
-    } else {
-        redirect('/')
+    return session
+}
+
+const apiUrl = process.env.API_URL as string
+
+export async function handleLogin(loginRequest: {
+    email: string;
+    password: string;
+}): Promise<ApiResult<null>> {
+    try {
+        const { accessToken, refreshToken } = await authApi.authLogin({ loginRequest })
+        const { sessionData } = await setAppSession(accessToken, refreshToken)
+
+        if (sessionData?.user.status === 'must_reset_password') {
+            redirect('/auth/welcome')
+        } else {
+            redirect('/')
+        }
+    } catch (error) {
+        if (error instanceof ResponseError) {
+            const data = await error.response.json()
+            return {
+                data: null,
+                error: {
+                    message: data.message,
+                },
+            }
+        }
+
+        return {
+            data: null,
+            error: {
+                //@ts-expect-error error is unknown
+                message: error.message,
+            },
+        }
     }
 }
 
@@ -82,7 +98,7 @@ export async function resetPassword(
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
-            Authorization: 'Bearer ' + session.access_token,
+            Authorization: 'Bearer ' + session.accessToken,
         },
     })
 

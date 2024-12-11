@@ -7,7 +7,6 @@ import LoginFormSubmitButton from '@/lib/components/auth/login-form/components/L
 import { Alert, AlertDescription } from '@/lib/components/common/Alert'
 import { Form } from '@/lib/components/common/Form'
 import { useToast } from '@/lib/components/hooks/use-toast'
-import { setLaravelFormErrors } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useCallback } from 'react'
@@ -39,15 +38,6 @@ const LoginForm = () => {
             if (res === undefined) {
                 toast({
                     title: t('success-title'),
-                })
-            } else if (res.status === 422) {
-                setLaravelFormErrors(form, res.errors, (key, value) => {
-                    switch (value) {
-                        case 'validation.email':
-                            return t('error-email')
-                        default:
-                            return value
-                    }
                 })
             } else {
                 form.setError('root', { message: t('error-login') })
