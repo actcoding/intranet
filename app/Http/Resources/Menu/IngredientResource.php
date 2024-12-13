@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Menu;
 
-use App\Http\Resources\ConditionalResourceAccess;
+use App\Http\Resources\Traits\ConditionalResourceAccess;
 use App\Models\Menu\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

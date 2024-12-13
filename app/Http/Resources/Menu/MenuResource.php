@@ -2,14 +2,16 @@
 
 namespace App\Http\Resources\Menu;
 
-use App\Http\Resources\ConditionalResourceAccess;
+use App\Http\Resources\Traits\ConditionalResourceAccess;
+use App\Http\Resources\Traits\HasHiddenAttributes;
 use App\Models\Menu\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class MenuResource extends JsonResource
 {
-    use ConditionalResourceAccess;
+    use ConditionalResourceAccess,
+        HasHiddenAttributes;
 
     /**
      * The resource instance.
@@ -31,7 +33,7 @@ class MenuResource extends JsonResource
             'kind' => $this->resource->kind,
             'name' => $this->resource->name,
             'summary' => $this->resource->summary,
-            'default_price' => $this->resource->default_price,
+            'default_price' => $this->whenVisible('default_price'),
 
             'meals' => $this->whenLoaded('meals', fn () => MealResource::collection($this->resource->meals)),
         ];

@@ -69,4 +69,5 @@ Route::delete('/event/{event}/upload/{attachment}', [EventController::class, 'de
 
 Route::prefix('/menu')->group(function () {
     Route::get('/list', [MenuController::class, 'listMenus']);
+    Route::get('/week', [MenuController::class, 'listForWeek']);
 });

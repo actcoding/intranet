@@ -3,26 +3,43 @@
 namespace App\Http\Controllers\Menu;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Menu\GetWeekRequest;
+use App\Http\Resources\Menu\MenuPlanResource;
 use App\Http\Resources\Menu\MenuResource;
 use App\Models\Menu\Menu;
+use App\Models\Menu\MenuPlan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MenuController extends Controller
 {
     /**
-     * Speiseplan
-     *
-     * Zeigt eine Liste von Menüs auf dem Speiseplan an.
-     *
-     * @return AnonymousResourceCollection<MenuResource>
+     * @return AnonymousResourceCollection<LengthAwarePaginator<MenuResource>>
      */
     public function listMenus(Request $request)
     {
-        $data = Menu::query()
-            ->with(['meals', 'meals.ingredients'])
+        $query = Menu::query()
+            ->with(['meals', 'meals.ingredients']);
+
+        return MenuResource::collection(
+            $query->paginate($request->query('perPage', 10))
+        );
+    }
+
+    /**
+     * @return AnonymousResourceCollection<MenuPlanResource>
+     */
+    public function listForWeek(GetWeekRequest $request)
+    {
+        $data = MenuPlan::query()
+            ->whereDate('served_at', '>=', $request->date('starting_at'))
+            ->whereDate('served_at', '<=', $request->date('ending_at'))
+            ->with(['menu', 'menu.meals', 'menu.meals.ingredients'])
             ->get();
 
-        return MenuResource::collection($data);
+        return MenuPlanResource::collection($data);
     }
 }

@@ -3,18 +3,18 @@
 namespace App\Http\Resources\Menu;
 
 use App\Http\Resources\Traits\ConditionalResourceAccess;
-use App\Models\Menu\Meal;
+use App\Models\Menu\MenuPlan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MealResource extends JsonResource
+class MenuPlanResource extends JsonResource
 {
     use ConditionalResourceAccess;
 
     /**
      * The resource instance.
      *
-     * @var Meal
+     * @var MenuPlan
      */
     public $resource;
 
@@ -27,10 +27,10 @@ class MealResource extends JsonResource
     {
         return [
             'id' => $this->conditionalId('event.viewall'),
-            'name' => $this->resource->name,
-            'summary' => $this->resource->summary,
+            'served_at' => date_format($this->resource->served_at, 'Y-m-d'),
+            'price' => $this->resource->price,
 
-            'ingredients' => $this->whenLoaded('ingredients', fn () => IngredientResource::collection($this->resource->ingredients)),
+            'menu' => MenuResource::make($this->resource->menu)->withHidden('default_price'),
         ];
     }
 }
