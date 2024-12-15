@@ -26,7 +26,7 @@ class DatabaseUtils
     /**
      * Create multiple permissions for an entity.
      *
-     * @param array<string> $names
+     * @param  array<string>  $names
      */
     public static function createPermissions(string $entity, array $names): void
     {
@@ -39,7 +39,7 @@ class DatabaseUtils
 
         foreach ($names as $name) {
             Permission::create([
-                'name' => "{$entity}.{$name}"
+                'name' => "{$entity}.{$name}",
             ]);
         }
 
@@ -51,7 +51,7 @@ class DatabaseUtils
     /**
      * Delete multiple permissions for an entity.
      *
-     * @param array<string> $names
+     * @param  array<string>  $names
      */
     public static function deletePermissions(string $entity, array $names): void
     {
