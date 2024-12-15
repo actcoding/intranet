@@ -15,8 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(
             class: [
-                Policy\DatabaseSeeder::class,
-
                 UserSeeder::class,
             ],
         );
