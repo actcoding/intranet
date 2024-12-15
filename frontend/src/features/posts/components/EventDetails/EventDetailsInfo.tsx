@@ -1,3 +1,4 @@
+import {eventDateTimeRangeConfig} from '@/features/posts/constants'
 import {Event} from '@/features/posts/types'
 import {Avatar, AvatarFallback} from '@/lib/components/common/Avatar'
 import {Card, CardContent, CardHeader, CardTitle} from '@/lib/components/common/Card'
@@ -24,13 +25,7 @@ const EventDetailsInfo = ({event}: EventDetailsInfoProps) => {
                     </div>
                     <span>Zeitraum</span>
                     <span className="text-sm text-muted-foreground">
-                        {format.dateTimeRange(Date.parse(event.startingAt), Date.parse(event.endingAt), {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                        })}
+                        {format.dateTimeRange(Date.parse(event.startingAt), Date.parse(event.endingAt), eventDateTimeRangeConfig)}
                     </span>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-2 p-4">

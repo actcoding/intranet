@@ -1,10 +1,12 @@
-import { EventResource } from '@/lib/api/generated'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/lib/components/common/Card'
+import {EventPreviewTile} from '@/features/posts/components/EventPreviewTile'
+import {eventDateTimeRangeConfig} from '@/features/posts/constants'
+import {EventResource} from '@/lib/api/generated'
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/lib/components/common/Card'
 import SanitizedHTMLContent from '@/lib/components/shared/SanitizedHTMLContent'
-import { cn } from '@/lib/utils'
-import { cva } from 'class-variance-authority'
-import { CalendarDays } from 'lucide-react'
-import { useFormatter } from 'next-intl'
+import {cn} from '@/lib/utils'
+import {cva} from 'class-variance-authority'
+import {CalendarDays} from 'lucide-react'
+import {useFormatter} from 'next-intl'
 import Image from 'next/image'
 
 interface EventPreviewCardProps {
@@ -29,10 +31,11 @@ const EventPreviewCard = ({
                 className,
             )}
         >
-            <EventPreviewCardImage 
+            <EventPreviewCardImage
                 src={event.attachments.find(a => a.type === 'header')?.data.url}
                 alt={event.title || 'Event'}
                 position={headerImagePosition}
+                date={new Date(event.startingAt)}
             />
             <div className='flex grow flex-col'>
                 <CardHeader>
@@ -43,22 +46,12 @@ const EventPreviewCard = ({
                         content={event.content}
                         className="line-clamp-3"
                     />
-                    
+
                 </CardContent>
                 <CardFooter className="mb-0 mt-auto">
                     <CalendarDays className="mr-1 size-4" aria-hidden="true" />
                     <time className="text-muted-foreground">
-                        {cn(
-                            format.dateTime(Date.parse(event.startingAt), {
-                                dateStyle: 'full', 
-                                timeStyle: 'short',
-                            }),
-                            ' - ',
-                            format.dateTime(Date.parse(event.endingAt),{
-                                dateStyle: 'full', 
-                                timeStyle: 'short',
-                            }),
-                        )}
+                        {format.dateTimeRange(Date.parse(event.startingAt), Date.parse(event.endingAt), eventDateTimeRangeConfig)}
                     </time>
                 </CardFooter>
             </div>
@@ -70,9 +63,10 @@ interface EventPreviewCardImageProps {
     src: string | undefined | null;
     alt: string;
     position?: 'top' | 'left'
+    date: Date;
 }
 
-const EventPreviewCardImage = ({ src, alt, position }: EventPreviewCardImageProps) => {
+const EventPreviewCardImage = ({ src, alt, position, date }: EventPreviewCardImageProps) => {
     const headerImageVariants = cva('relative shrink-0', {
         variants: {
             position: {
@@ -99,14 +93,10 @@ const EventPreviewCardImage = ({ src, alt, position }: EventPreviewCardImageProp
         )
     } else {
         return (
-            <div
-                className={cn(
-                    headerImageVariants({ position }),
-                    'bg-primary/15 flex items-center justify-center',
-                )}
-            >
-                <CalendarDays className="text-primary" size={50} />
-            </div>
+            <EventPreviewTile date={date} className={cn(
+                headerImageVariants({ position }),
+                'bg-primary/15 flex items-center justify-center',
+            )} />
         )
     }
 }

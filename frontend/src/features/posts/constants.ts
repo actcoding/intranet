@@ -1,4 +1,5 @@
-import { isBefore } from 'date-fns'
+import {isBefore} from 'date-fns'
+import {DateTimeFormatOptions} from 'use-intl'
 import * as z from 'zod'
 
 export const eventFormSchema = z
@@ -22,3 +23,11 @@ export const createDraftFormSchema = z.object({
     title: z.string().min(1),
     type: z.enum(['news', 'event']),
 })
+
+export const eventDateTimeRangeConfig: DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+}
