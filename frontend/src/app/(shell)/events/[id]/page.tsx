@@ -4,7 +4,7 @@ import {Alert, AlertTitle} from '@/lib/components/common/Alert'
 
 interface EventDetailPageProps {
     params: {
-        id: string
+        id: number
     }
 }
 const EventDetailPage = async ({params}: EventDetailPageProps) => {
