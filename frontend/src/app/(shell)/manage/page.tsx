@@ -1,4 +1,4 @@
-import {ManageOverview} from '@/features/posts/components/ManageOverview/ManageOverview'
+import {ManageOverview} from '@/features/posts/components/ManageOverview'
 
 const ManagePage = () => {
     return <ManageOverview />
