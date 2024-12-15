@@ -16,9 +16,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->string('nutrition');
-            $table->string('kind');
             $table->string('name');
-            $table->string('summary');
             $table->double('default_price')->nullable();
         });
     }

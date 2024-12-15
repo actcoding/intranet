@@ -30,9 +30,7 @@ class MenuResource extends JsonResource
         return [
             'id' => $this->conditionalId('event.viewall'),
             'nutrition' => $this->resource->nutrition,
-            'kind' => $this->resource->kind,
             'name' => $this->resource->name,
-            'summary' => $this->resource->summary,
             'default_price' => $this->whenVisible('default_price'),
 
             'meals' => $this->whenLoaded('meals', fn () => MealResource::collection($this->resource->meals)),

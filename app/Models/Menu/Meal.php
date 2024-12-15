@@ -22,6 +22,7 @@ class Meal extends Model
     protected $fillable = [
         'name',
         'summary',
+        'type',
     ];
 
     public function ingredients(): BelongsToMany

@@ -11,8 +11,6 @@ use App\Models\Menu\MenuPlan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class MenuController extends Controller
 {
@@ -25,6 +23,18 @@ class MenuController extends Controller
             ->with(['meals', 'meals.ingredients']);
 
         return MenuResource::collection(
+            $query->paginate($request->query('perPage', 10))
+        );
+    }
+    /**
+     * @return AnonymousResourceCollection<LengthAwarePaginator<MenuPlanResource>>
+     */
+    public function listPlans(Request $request)
+    {
+        $query = MenuPlan::query()
+            ->with(['menu', 'menu.meals', 'menu.meals.ingredients']);
+
+        return MenuPlanResource::collection(
             $query->paginate($request->query('perPage', 10))
         );
     }

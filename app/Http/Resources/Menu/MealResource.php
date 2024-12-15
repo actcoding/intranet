@@ -29,8 +29,9 @@ class MealResource extends JsonResource
             'id' => $this->conditionalId('event.viewall'),
             'name' => $this->resource->name,
             'summary' => $this->resource->summary,
+            'type' => $this->resource->type,
 
-            'ingredients' => $this->whenLoaded('ingredients', fn () => IngredientResource::collection($this->resource->ingredients)),
+            'notes' => $this->whenLoaded('ingredients', fn () => IngredientResource::collection($this->resource->ingredients)),
         ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models\Menu;
 
-use App\Enum\Menu\MenuKind;
+use App\Enum\Menu\MealType;
 use App\Enum\Menu\MenuNutrition;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,9 +17,7 @@ class Menu extends Model
      */
     protected $fillable = [
         'nutrition',
-        'kind',
         'name',
-        'summary',
         'default_price',
     ];
 
@@ -32,7 +30,7 @@ class Menu extends Model
     {
         return [
             'nutrition' => MenuNutrition::class,
-            'kind' => MenuKind::class,
+            'kind' => MealType::class,
             'default_price' => 'double',
         ];
     }

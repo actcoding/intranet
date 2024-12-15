@@ -2,7 +2,7 @@
 
 namespace App\Enum\Menu;
 
-enum MenuKind: string
+enum MealType: string
 {
     case MAIN = 'main';
     case DESSERT = 'dessert';
