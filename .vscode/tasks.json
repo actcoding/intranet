@@ -6,9 +6,6 @@
             "detail": "Boots the Laravel server",
             "type": "shell",
             "command": "./artisan serve",
-            "osx": {
-                "command": "php artisan serve"
-            },
             "problemMatcher": [],
             "presentation": {
                 "reveal": "silent",
@@ -46,9 +43,6 @@
             "detail": "Boots the Laravel scheduler worker",
             "type": "shell",
             "command": "./artisan schedule:work",
-            "osx": {
-                "command": "php artisan schedule:work"
-            },
             "problemMatcher": [],
             "presentation": {
                 "reveal": "silent",
@@ -67,9 +61,6 @@
             "detail": "Boots the Laravel Queue worker",
             "type": "shell",
             "command": "./artisan queue:work",
-            "osx": {
-                "command": "php artisan queue:work"
-            },
             "problemMatcher": [],
             "presentation": {
                 "reveal": "silent",
@@ -152,9 +143,6 @@
             "detail": "Run database migrations",
             "type": "shell",
             "command": "./artisan migrate",
-            "osx": {
-                "command": "php artisan migrate"
-            },
             "problemMatcher": [],
             "group": "none",
             "presentation": {
@@ -167,9 +155,6 @@
             "detail": "Reset and seed the database",
             "type": "shell",
             "command": "./artisan migrate:fresh --seed",
-            "osx": {
-                "command": "php artisan migrate:fresh --seed"
-            },
             "problemMatcher": [],
             "group": "none",
             "presentation": {
@@ -183,9 +168,6 @@
             "detail": "Clear cached data",
             "type": "shell",
             "command": "./artisan optimize:clear",
-            "osx": {
-                "command": "php artisan optimize:clear"
-            },
             "problemMatcher": [],
             "group": "none",
             "presentation": {

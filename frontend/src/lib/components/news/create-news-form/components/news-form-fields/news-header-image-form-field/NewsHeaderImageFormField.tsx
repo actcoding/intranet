@@ -19,6 +19,7 @@ import {
     FileSelectorTrigger,
 } from '@/lib/components/shared/FileSelector'
 import { serializeFileData } from '@/lib/utils'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 
@@ -73,7 +74,7 @@ const NewsHeaderImageFormField = ({ id, current }: Props) => {
 
                     {file === undefined ?
                         current === undefined ? null : (
-                            <img
+                            <Image
                                 src={current.url}
                                 alt={current.name}
                                 className="rounded-lg"
