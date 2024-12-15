@@ -32,7 +32,7 @@ class AttachmentResource extends JsonResource
                 'type' => $this->resource->type,
                 'url' => $this->resource->path,
             ],
-            'uploader' => $this->whenLoaded('uploader', fn() => $this->resource->uploader),
+            'uploader' => $this->whenLoaded('uploader', fn () => $this->resource->uploader),
         ];
     }
 }

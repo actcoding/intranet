@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 return new class extends Migration
 {
     private string $entity = 'event';
+
     private array $names = [
         'viewall',
         'create',
