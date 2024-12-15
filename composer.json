@@ -46,7 +46,7 @@
             "@php artisan package:discover --ansi"
         ],
         "post-install-cmd": [
-            "@php ./vendor/bin/whisky update"
+            "./scripts/php-opt ./vendor/bin/whisky update"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
