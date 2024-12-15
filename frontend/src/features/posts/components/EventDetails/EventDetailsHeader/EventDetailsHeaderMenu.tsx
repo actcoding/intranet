@@ -11,7 +11,7 @@ import {
 } from '@/lib/components/common/Dropdown'
 import {ToastAction} from '@/lib/components/common/Toast'
 import {useToast} from '@/lib/components/hooks/use-toast'
-import {MoreHorizontalIcon, PenIcon} from 'lucide-react'
+import {EyeIcon, EyeOffIcon, MoreHorizontalIcon, PenIcon, Trash2Icon, UndoIcon} from 'lucide-react'
 import Link from 'next/link'
 import {useRouter} from 'next/navigation'
 
@@ -31,6 +31,7 @@ export const EventDetailsHeaderMenu = ({event}: EventDetailsHeaderMenuProps) => 
                 <ToastAction altText="Löschen rückgängig machen" onClick={handleRestore}>Rückgängig</ToastAction>
             )})
         } catch (e) {
+            toaster.toast({title: 'Fehler beim Löschen', variant: 'destructive'})
             console.error(e)
         }
     }
@@ -41,6 +42,7 @@ export const EventDetailsHeaderMenu = ({event}: EventDetailsHeaderMenuProps) => 
             router.refresh()
             toaster.toast({title: 'Löschen rückgängig gemacht'})
         } catch (e) {
+            toaster.toast({title: 'Fehler beim Wiederherstellen', variant: 'destructive'})
             console.error(e)
         }
     }
@@ -53,6 +55,7 @@ export const EventDetailsHeaderMenu = ({event}: EventDetailsHeaderMenuProps) => 
                 <ToastAction altText="Veröffentlichung rückgängig machen" onClick={handleUnpublish}>Rückgängig</ToastAction>
             )})
         } catch (e) {
+            toaster.toast({title: 'Fehler beim Veröffentlichen', variant: 'destructive'})
             console.error(e)
         }
     }
@@ -63,6 +66,7 @@ export const EventDetailsHeaderMenu = ({event}: EventDetailsHeaderMenuProps) => 
             router.refresh()
             toaster.toast({title: 'Veröffentlichung rückgängig gemacht'})
         } catch (e) {
+            toaster.toast({title: 'Fehler beim Zurückziehen der Veröffentlichung', variant: 'destructive'})
             console.error(e)
         }
     }
@@ -75,19 +79,42 @@ export const EventDetailsHeaderMenu = ({event}: EventDetailsHeaderMenuProps) => 
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <Link href={`/manage/events/${event.id}`}>
-                    <DropdownMenuItem>
-                        <PenIcon size={16} className="mr-2" />
-                        Bearbeiten
-                    </DropdownMenuItem>
-                </Link>
-                {event.status === 'deleted' ? null : <DropdownMenuItem onClick={() => event.status === 'draft' ? handlePublish() : handleUnpublish()}>
-                    {event.status === 'active' ? 'Veröffentlichung zurückziehen' : 'Veröffentlichen'}
-                </DropdownMenuItem>}
+                {event.status === 'deleted' ? null :
+                    <>
+                        <Link href={`/manage/events/${event.id}`}>
+                            <DropdownMenuItem>
+                                <PenIcon size={16} className="mr-2" />
+                                Bearbeiten
+                            </DropdownMenuItem>
+                        </Link><DropdownMenuItem
+                            onClick={() => event.status === 'draft' ? handlePublish() : handleUnpublish()}>
+                            {event.status === 'active' ?
+                                <>
+                                    <EyeOffIcon size={16} className="mr-2" />
+                                    <span>Veröffentlichung aufheben</span>
+                                </>
+                                :
+                                <>
+                                    <EyeIcon size={16} className="mr-2" />
+                                    <span>Veröffentlichen</span>
+                                </>}
+                        </DropdownMenuItem>
+                    </>
+                }
                 <DropdownMenuItem
                     onClick={() => event.status === 'deleted' ? handleRestore() : handleDelete()}
                 >
-                    {event.status === 'deleted' ? 'Löschen rückgängig machen' : 'Löschen'}
+                    {event.status === 'deleted' ?
+                        <>
+                            <UndoIcon size={16} className="mr-2"/>
+                            <span>Wiederherstellen</span>
+                        </>
+                        :
+                        <>
+                            <Trash2Icon size={16} className="mr-2"/>
+                            <span>Löschen</span>
+                        </>
+                    }
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
