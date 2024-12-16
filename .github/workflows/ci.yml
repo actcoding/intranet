@@ -213,6 +213,9 @@ jobs:
         component:
           - backend
           - frontend
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.ref }}
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
