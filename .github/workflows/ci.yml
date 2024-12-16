@@ -215,7 +215,7 @@ jobs:
           - frontend
     concurrency:
       cancel-in-progress: true
-      group: ${{ github.ref }}
+      group: ${{ github.ref }}-docker-${{ matrix.component }}
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
