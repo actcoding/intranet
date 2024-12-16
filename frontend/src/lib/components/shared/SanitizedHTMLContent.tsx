@@ -9,7 +9,7 @@ interface SanitizedHTMLContentProps {
 }
 
 const SanitizedHTMLContent = (props: SanitizedHTMLContentProps) => {
-    var content = props.content
+    let content = props.content
     // Replace paragraphs with whitespace if they are not allowed
     if (!props.allowedTags?.includes('p')) {
         content = content.replace(/<p>/g, ' ').replace(/<\/p>/g, ' ')

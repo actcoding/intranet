@@ -1,7 +1,7 @@
+import {cn} from '@/lib/utils'
+import {cva, type VariantProps} from 'class-variance-authority'
+import {CircleAlertIcon} from 'lucide-react'
 import * as React from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
-
-import { cn } from '@/lib/utils'
 
 const alertVariants = cva(
     'relative w-full rounded-lg border p-4 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7',
@@ -28,7 +28,10 @@ const Alert = React.forwardRef<
         role="alert"
         className={cn(alertVariants({ variant }), className)}
         {...props}
-    />
+    >
+        {variant === 'destructive' ? (<CircleAlertIcon className="size-4" />) : null}
+        {props.children}
+    </div>
 ))
 Alert.displayName = 'Alert'
 
