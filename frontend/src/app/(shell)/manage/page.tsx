@@ -1,4 +1,6 @@
+import {ManageOverview} from '@/features/posts/components/ManageOverview'
+
 const ManagePage = () => {
-    return <div>ManagePage</div>
+    return <ManageOverview />
 }
 export default ManagePage

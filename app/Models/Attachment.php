@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -30,6 +31,7 @@ class Attachment extends Model
         'name',
         'type',
         'path',
+        'uploader_id',
         'metadata',
     ];
 
@@ -61,6 +63,11 @@ class Attachment extends Model
         return Attribute::make(
             get: fn (?string $value) => $value == null ? null : url(Storage::url($value)),
         );
+    }
+
+    public function uploader(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'uploader_id');
     }
 
     public function attach(Model $model): void
