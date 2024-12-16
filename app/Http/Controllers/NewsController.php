@@ -192,6 +192,7 @@ class NewsController extends Controller implements HasMiddleware
             'name' => $file->getClientOriginalName(),
             'type' => $file->getMimeType(),
             'path' => $path,
+            'uploader_id' => $request->user()->id,
             'metadata' => [
                 'type' => $type,
             ],

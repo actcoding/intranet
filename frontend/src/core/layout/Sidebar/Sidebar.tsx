@@ -39,7 +39,7 @@ const Sidebar = async () => {
                     </h3>
                 </SidebarHeader>
                 <SidebarItems links={sidebarLinks} />
-                <CreateDraftDialog />
+                { isCreator(sessionData) ? <CreateDraftDialog /> : null}
                 <SidebarFooter>
                     <SidebarUserDetails loggedInUser={sessionData?.user} />
                 </SidebarFooter>
