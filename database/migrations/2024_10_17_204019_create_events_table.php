@@ -19,7 +19,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamp('published_at')->nullable();
 
-            $table->foreignIdFor(User::class, 'author_id');
+            $table->foreignIdFor(User::class, 'author_id')->constrained()->restrictOnDelete();
 
             $statusEnum = collect(EntityStatus::cases())->map(fn ($case) => $case->value)->toArray();
             $table->enum('status', $statusEnum)->default(EntityStatus::DRAFT);

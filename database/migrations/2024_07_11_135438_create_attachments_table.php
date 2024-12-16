@@ -23,10 +23,7 @@ return new class extends Migration
         });
 
         Schema::create('attachables', function (Blueprint $table) {
-            $table->foreignIdFor(Attachment::class)
-                ->references('id')
-                ->on('attachments')
-                ->cascadeOnDelete();
+            $table->foreignIdFor(Attachment::class)->constrained()->cascadeOnDelete();
             $table->bigInteger('attachable_id');
             $table->string('attachable_type');
         });
