@@ -15,9 +15,12 @@ return new class extends Migration
     {
         Schema::create('event_news', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
 
-            $table->foreignIdFor(News::class);
-            $table->foreignIdFor(Event::class);
+            $table->foreignIdFor(News::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Event::class)->constrained()->cascadeOnDelete();
+
+            $table->unique(['news_id', 'event_id']);
         });
     }
 

@@ -19,6 +19,7 @@ use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
@@ -107,6 +108,7 @@ class NewsController extends Controller implements HasMiddleware
 
         $news->load('attachments');
         $news->load('author');
+        $news->load('events');
 
         return new NewsResource($news);
     }
@@ -252,7 +254,10 @@ class NewsController extends Controller implements HasMiddleware
         $query = News::query()
             ->where('id', $id);
 
-        if (Gate::check('news.viewall')) {
+        if (Auth::guest()) {
+            $query = $query->whereStatus(EntityStatus::ACTIVE);
+        }
+        else if (Gate::check('news.viewall')) {
             $query = $query->withTrashed();
         }
 
