@@ -98,7 +98,7 @@ jobs:
           path: vendor
           key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
 
-      - uses: hoverkraft-tech/compose-action@v2.0.1
+      - uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           up-flags: -d
           services: |
