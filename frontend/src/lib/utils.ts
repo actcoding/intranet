@@ -1,4 +1,4 @@
-import { ApiErrors, AppSessionData } from '@/types'
+import { ApiErrors, AppJwtPayload } from '@/types'
 import { type ClassValue, clsx } from 'clsx'
 import { FieldValues, UseFormReturn } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
@@ -47,7 +47,7 @@ export async function urlToFile(url: string, filename: string): Promise<File> {
     return new File([blob], filename, { type })
 }
 
-export function isCreator(sessionData?: AppSessionData): boolean {
+export function isCreator(sessionData?: AppJwtPayload): boolean {
     return sessionData?.roles.includes('Creator') ?? false
 }
 

@@ -33,7 +33,7 @@ class KeyGenerate extends Command
         // APP_KEY
         $this->call('key:generate', ['--show' => $this->option('show')]);
 
-        // JWT_SECRET
+        // JWT_KEY
         $key = bin2hex(Encrypter::generateKey($this->laravel['config']['app.cipher']));
 
         if ($this->option('show')) {
@@ -44,14 +44,14 @@ class KeyGenerate extends Command
             return;
         }
 
-        $this->laravel['config']['jwt.secret'] = $key;
+        $this->laravel['config']['jwt.key'] = $key;
 
-        $this->components->info('JWT secret set successfully.');
+        $this->components->info('JWT key set successfully.');
     }
 
     protected function setKeyInEnvironmentFile($key)
     {
-        $currentKey = $this->laravel['config']['jwt.secret'];
+        $currentKey = $this->laravel['config']['jwt.key'];
 
         if (strlen($currentKey) !== 0 && (! $this->confirmToProceed())) {
             return false;
@@ -68,12 +68,12 @@ class KeyGenerate extends Command
     {
         $replaced = preg_replace(
             $this->keyReplacementPattern(),
-            'JWT_SECRET=' . $key,
+            'JWT_KEY=' . $key,
             $input = file_get_contents($this->laravel->environmentFilePath())
         );
 
         if ($replaced === $input || $replaced === null) {
-            $this->error('Unable to set application key. No JWT_SECRET variable was found in the .env file.');
+            $this->error('Unable to set application key. No JWT_KEY variable was found in the .env file.');
 
             return false;
         }
@@ -85,8 +85,8 @@ class KeyGenerate extends Command
 
     protected function keyReplacementPattern()
     {
-        $escaped = preg_quote('=' . $this->laravel['config']['jwt.secret'], '/');
+        $escaped = preg_quote('=' . $this->laravel['config']['jwt.key'], '/');
 
-        return "/^JWT_SECRET{$escaped}/m";
+        return "/^JWT_KEY{$escaped}/m";
     }
 }
