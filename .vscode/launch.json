@@ -5,7 +5,7 @@
             "name": "Next.js Debug",
             "type": "node",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/frontend",
             "runtimeExecutable": "npm",
             "runtimeArgs": ["run", "dev"],
             "skipFiles": ["<node_internals>/**"]
