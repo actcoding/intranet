@@ -10,6 +10,11 @@ if [ $? = 7 ]; then
     INPUT="./api.json"
 fi
 
+if [ ! -f "$INPUT" ]; then
+    echo " >> No input found. Skipping api client generation!"
+    exit 0
+fi
+
 echo " >> Using input \"$INPUT\" …"
 
 bunx openapi-generator-cli generate \
