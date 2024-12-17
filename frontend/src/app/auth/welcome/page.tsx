@@ -7,9 +7,9 @@ import Image from 'next/image'
 import { redirect } from 'next/navigation'
 
 const PageWelcome = async () => {
-    const { sessionData, access_token } = await getAppSession()
+    const { sessionData, accessToken } = await getAppSession()
 
-    if (!access_token) {
+    if (!accessToken) {
         return redirect('/auth/login')
     }
 

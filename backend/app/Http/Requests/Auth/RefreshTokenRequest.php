@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
+use App\Rules\Jwt;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class RefreshTokenRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,8 +15,11 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required',
+            'refresh_token' => [
+                'required',
+                'string',
+                new Jwt,
+            ],
         ];
     }
 }

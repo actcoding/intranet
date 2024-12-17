@@ -1,4 +1,5 @@
 import { handleLogout } from '@/lib/actions/auth'
+import { UserResource } from '@/lib/api/generated'
 import {
     Avatar,
     AvatarFallback,
@@ -13,13 +14,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/lib/components/common/Dropdown'
-import { User } from '@/types'
 import { LogInIcon, LogOutIcon, MoreVerticalIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 interface SidebarUserDetailsProps {
-    loggedInUser?: User;
+    loggedInUser?: UserResource;
 }
 
 const SidebarUserDetails = (props: SidebarUserDetailsProps) => {
@@ -36,7 +36,7 @@ const SidebarUserDetails = (props: SidebarUserDetailsProps) => {
                     <DropdownMenuTrigger>
                         <Avatar>
                             <AvatarImage
-                                src={props.loggedInUser.avatar_url ?? ''}
+                                src={props.loggedInUser.avatarUrl ?? ''}
                                 alt={props.loggedInUser.email}
                             />
                             <AvatarFallback>
