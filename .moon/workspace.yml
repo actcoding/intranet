@@ -13,4 +13,3 @@ vcs:
   hooks:
     pre-commit:
       - 'moon run :lint --affected'
-

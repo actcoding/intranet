@@ -15,6 +15,10 @@ fileGroups:
     - tests/**/*.php
 
 tasks:
+  install:
+    command: ./composer install
+    inputs:
+      - ./vendor
   lint:
     command: ./composer run-script lint
     inputs:

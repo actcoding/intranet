@@ -10,6 +10,10 @@ fileGroups:
     - src/**/*.tsx
 
 tasks:
+  install:
+    command: bun install
+    inputs:
+      - ./node_modules
   lint:
     command: bun run lint
     inputs:
