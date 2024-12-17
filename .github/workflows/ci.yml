@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-backend
-          path: backend/coverage.xml
+          path: backend/coverage-backend.xml
 
   openapi:
     name: Generate OpenAPI spec
@@ -182,14 +182,13 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: coverage-backend
-          run-id:
 
       - name: Upload reports
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: |
-            backend/coverage.xml
+            coverage-backend.xml
 
   build-docker-images:
     name: Build Docker image

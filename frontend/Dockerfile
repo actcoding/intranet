@@ -1,6 +1,6 @@
 FROM oven/bun:slim AS builder
 
-COPY frontend/ /app/
+COPY . /app
 
 WORKDIR /app
 
@@ -9,7 +9,7 @@ RUN apt-get update && \
         curl \
         openjdk-17-jre-headless \
     && \
-    bun install --frozen-lockfile && \
+    bun install --frozen-lockfile --ignore-scripts && \
     bun run build && \
     cp -R public/ .next/standalone/ && \
     cp -R .next/static/ .next/standalone/.next/
