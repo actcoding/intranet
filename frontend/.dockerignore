@@ -5,6 +5,7 @@
 !src/
 
 !api.json
+!gen-api-client.sh
 !global.d.ts
 !next-env.d.ts
 !next.config.mjs

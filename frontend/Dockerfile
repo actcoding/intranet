@@ -9,7 +9,7 @@ RUN apt-get update && \
         curl \
         openjdk-17-jre-headless \
     && \
-    bun install --frozen-lockfile --ignore-scripts && \
+    bun install --frozen-lockfile && \
     bun run build && \
     cp -R public/ .next/standalone/ && \
     cp -R .next/static/ .next/standalone/.next/
