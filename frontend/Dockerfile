@@ -1,7 +1,6 @@
 FROM oven/bun:slim AS builder
 
 COPY frontend/ /app/
-COPY LICENSE /app
 
 WORKDIR /app
 
