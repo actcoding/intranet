@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://moonrepo.dev/schemas/project.json
+
+type: application
+language: php
+stack: backend
+
+fileGroups:
+  src:
+    - app/**/*.php
+    - bootstrap/**/*.php
+    - config/**/*.php
+    - database/**/*.php
+    - lang/**/*.php
+    - routes/**/*.php
+    - tests/**/*.php
+
+tasks:
+  lint:
+    command: ./composer run-script lint
+    inputs:
+      - '@group(src)'
+

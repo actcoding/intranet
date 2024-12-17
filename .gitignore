@@ -60,3 +60,4 @@ Temporary Items
 # moon
 .moon/cache
 .moon/docker
+.moon/hooks
