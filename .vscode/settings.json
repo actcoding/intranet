@@ -28,4 +28,11 @@
         "package.json": "bun.lockb, components.json, *.js, *.mjs, *.ts, *.sh, *.json",
         "Dockerfile": ".dockerignore"
     },
+
+    "tailwindCSS.emmetCompletions": true,
+    "tailwindCSS.experimental.configFile": {
+        "frontend/tailwind.config.ts": [
+            "frontend/src/**/*.tsx"
+        ]
+    },
 }
