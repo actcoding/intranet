@@ -4,6 +4,7 @@
 !public/
 !src/
 
+!api.json
 !global.d.ts
 !next-env.d.ts
 !next.config.mjs
