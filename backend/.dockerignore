@@ -6,6 +6,7 @@
 !database/
 !lang/
 !public/
+!resources/
 !routes/
 !scripts/
 !storage/
@@ -13,4 +14,4 @@
 !artisan
 !composer.json
 !composer.lock
-!LICENSE
+!docker-entrypoint.sh
