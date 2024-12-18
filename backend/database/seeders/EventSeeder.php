@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enum\EntityStatus;
 use App\Models\Event;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,7 @@ class EventSeeder extends Seeder
         Event::factory()
             ->count(3)
             ->create([
+                'status' => EntityStatus::ACTIVE,
                 'published_at' => now(),
             ]);
 
