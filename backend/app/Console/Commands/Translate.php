@@ -159,7 +159,7 @@ class Translate extends Command
         $targetLanguage = $this->argument('language');
 
         $data = collect(
-            json_decode(file_get_contents(base_path('frontend/messages/en.json')), true)
+            json_decode(file_get_contents(base_path('../frontend/messages/en.json')), true)
         )
             ->dot()
             ->filter(fn (string $value, string $key) => $this->skip->doesntContain($key));
@@ -185,7 +185,7 @@ class Translate extends Command
             ->undot();
 
         $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE;
-        file_put_contents(base_path('frontend/messages/' . $targetLanguage . '.json'), $translated->toJson($options));
+        file_put_contents(base_path('../frontend/messages/' . $targetLanguage . '.json'), $translated->toJson($options));
 
         $this->info("Successfully translated {$count} strings.");
         $this->comment('Note that the content has been machine-translated. Make sure to manually review the translations.');
