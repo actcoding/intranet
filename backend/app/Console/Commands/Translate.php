@@ -25,6 +25,7 @@ class Translate extends Command
     protected $signature = 'app:translate
                             {language : The target language code. See <https://cloud.google.com/translate/docs/languages> for reference}
                             {--force : Force the operation to run}
+                            {--ignore-existing : Ignore string that have already been translated.}
                             {--only= : Limit translation to a single component.}';
 
     /**
@@ -95,7 +96,7 @@ class Translate extends Command
         $targetLanguage = $this->argument('language');
 
         $existingKeys = collect();
-        if (is_dir(lang_path($targetLanguage))) {
+        if (! $this->option('ignore-existing') && is_dir(lang_path($targetLanguage))) {
             $filesTarget = array_diff(scandir(lang_path($targetLanguage)), ['..', '.']);
             /** @var Collection<string, string> */
             $existingKeys = collect($filesTarget)
