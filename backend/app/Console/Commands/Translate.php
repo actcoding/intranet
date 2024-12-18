@@ -115,7 +115,7 @@ class Translate extends Command
 
         $count = $data->count();
         if ($count == 0) {
-            $this->info('There is nothing to translate :)');
+            $this->info('There is nothing to translate 🤌');
 
             return;
         }
