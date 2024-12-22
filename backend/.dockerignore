@@ -1,0 +1,17 @@
+*
+
+!app/
+!bootstrap/
+!config/
+!database/
+!lang/
+!public/
+!resources/
+!routes/
+!scripts/
+!storage/
+
+!artisan
+!composer.json
+!composer.lock
+!docker-entrypoint.sh

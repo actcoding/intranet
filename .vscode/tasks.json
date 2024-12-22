@@ -14,6 +14,7 @@
             },
             "group": "none",
             "options": {
+                "cwd": "${workspaceFolder}/backend",
                 "statusbar": {
                     "hide": true
                 }
@@ -25,7 +26,7 @@
             "type": "shell",
             "command": "bun run dev",
             "options": {
-                "cwd": "frontend",
+                "cwd": "${workspaceFolder}/frontend",
                 "statusbar": {
                     "hide": true
                 }
@@ -51,6 +52,7 @@
             },
             "group": "none",
             "options": {
+                "cwd": "${workspaceFolder}/backend",
                 "statusbar": {
                     "hide": true
                 }
@@ -69,6 +71,7 @@
             },
             "group": "none",
             "options": {
+                "cwd": "${workspaceFolder}/backend",
                 "statusbar": {
                     "hide": true
                 }
@@ -148,7 +151,10 @@
             "presentation": {
                 "reveal": "always",
                 "panel": "shared",
-            }
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/backend",
+            },
         },
         {
             "label": "Reset database",
@@ -162,6 +168,9 @@
                 "panel": "shared",
                 "focus": true,
             },
+            "options": {
+                "cwd": "${workspaceFolder}/backend",
+            },
         },
         {
             "label": "Clear Cache",
@@ -173,7 +182,10 @@
             "presentation": {
                 "reveal": "silent",
                 "panel": "shared",
-            }
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/backend",
+            },
         },
         {
             "label": "Gen API Client",

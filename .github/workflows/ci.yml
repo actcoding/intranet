@@ -31,37 +31,33 @@ jobs:
           coverage: xdebug
 
       - name: Install Composer
+        working-directory: backend
         run: |
           wget https://github.com/composer/composer/releases/latest/download/composer.phar -O ./composer
           chmod +x ./composer
 
-      - uses: actions/cache/restore@v4
-        id: cache
+      - uses: actions/cache@v4
         with:
-          path: vendor
+          path: backend/vendor
           key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        working-directory: backend
         run: ./composer install
 
-      - uses: actions/cache/save@v4
-        if: steps.cache.outputs.cache-hit != 'true'
-        with:
-          path: vendor
-          key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
-
       - name: Check code style
+        working-directory: backend
         run: php ./vendor/bin/pint --bail
 
       - name: Run tests
+        working-directory: backend
         run: ./composer run-script test
 
       - name: Save coverage report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-backend
-          path: coverage-backend.xml
+          path: backend/coverage-backend.xml
 
   openapi:
     name: Generate OpenAPI spec
@@ -78,25 +74,19 @@ jobs:
           coverage: xdebug
 
       - name: Install Composer
+        working-directory: backend
         run: |
           wget https://github.com/composer/composer/releases/latest/download/composer.phar -O ./composer
           chmod +x ./composer
 
-      - uses: actions/cache/restore@v4
-        id: cache
+      - uses: actions/cache@v4
         with:
           path: vendor
           key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        working-directory: backend
         run: ./composer install
-
-      - uses: actions/cache/save@v4
-        if: steps.cache.outputs.cache-hit != 'true'
-        with:
-          path: vendor
-          key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
 
       - uses: hoverkraft-tech/compose-action@v2.0.1
         with:
@@ -106,6 +96,7 @@ jobs:
             redis
 
       - name: Create .env file
+        working-directory: backend
         run: |
           tee .env <<EOL
           APP_KEY=
@@ -115,19 +106,22 @@ jobs:
           EOL
 
       - name: Set keys
+        working-directory: backend
         run: ./artisan app:key-generate
 
       - name: Migrate
+        working-directory: backend
         run: ./artisan migrate --force --seed
 
       - name: Export OpenAPI spec
+        working-directory: backend
         run: ./artisan scramble:export
 
       - name: Save coverage report
         uses: actions/upload-artifact@v4
         with:
           name: openapi
-          path: api.json
+          path: backend/api.json
 
   build-frontend:
     name: Build Next.js app
@@ -137,7 +131,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v1
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
@@ -166,16 +160,16 @@ jobs:
           path: ./frontend
 
       - name: Generate API client
-        run: bash gen-api-client.sh
         working-directory: frontend
+        run: bash gen-api-client.sh
 
       - name: Lint
-        run: bun run lint
         working-directory: frontend
+        run: bun run lint
 
       - name: Build
-        run: bun run build
         working-directory: frontend
+        run: bun run build
 
   upload-coverage:
     name: Upload coverage reports to Codacy
@@ -188,7 +182,6 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: coverage-backend
-          run-id:
 
       - name: Upload reports
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
@@ -213,6 +206,9 @@ jobs:
         component:
           - backend
           - frontend
+    concurrency:
+      cancel-in-progress: true
+      group: ${{ github.ref }}-docker-${{ matrix.component }}
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -245,11 +241,11 @@ jobs:
             org.opencontainers.image.vendor="act coding GbR"
 
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         id: push
         with:
-          context: .
-          file: docker/Dockerfile.${{ matrix.component }}
+          context: ${{ matrix.component }}
+          file: ${{ matrix.component }}/Dockerfile
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.component }}
           labels: ${{ steps.meta.outputs.labels }}
           push: ${{ github.event_name != 'pull_request' }}
@@ -257,7 +253,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         if: github.event_name != 'pull_request'
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.component }}

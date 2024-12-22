@@ -8,6 +8,11 @@ rm -rf "$TARGET_DIRECTORY"
 curl -sf "$INPUT" > /dev/null
 if [ $? = 7 ]; then
     INPUT="./api.json"
+
+    if [ ! -f "$INPUT" ]; then
+        echo " >> No input found. Skipping api client generation!"
+        exit 0
+    fi
 fi
 
 echo " >> Using input \"$INPUT\" …"

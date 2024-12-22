@@ -1,4 +1,5 @@
 import {isBefore} from 'date-fns'
+import {DateTimeFormatOptions} from 'use-intl'
 import * as z from 'zod'
 
 export const eventFormSchema = z
@@ -26,3 +27,11 @@ export const createDraftFormSchema = z.object({
 export const linkPostFormSchema = z.object({
     postId: z.string(),
 })
+
+export const eventDateTimeRangeConfig: DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+}

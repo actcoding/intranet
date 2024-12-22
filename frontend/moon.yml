@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://moonrepo.dev/schemas/project.json
+
+type: application
+language: typescript
+stack: frontend
+
+fileGroups:
+  src:
+    - src/**/*.ts
+    - src/**/*.tsx
+
+tasks:
+  install:
+    command: bun install
+    inputs:
+      - node_modules/
+      - package.json
+      - bun.lockb
+  lint:
+    command: bun run lint
+    inputs:
+      - '@group(src)'

@@ -29,6 +29,8 @@ services:
         target: /run/secrets/password.txt
       - source: servers.json
         target: /pgadmin4/servers.json
+    volumes:
+      - db_admin_data:/var/lib/pgadmin
 
   redis:
     image: redis:7-alpine
@@ -63,6 +65,7 @@ services:
 
 volumes:
   db_data:
+  db_admin_data:
   meili_data:
 
 configs:

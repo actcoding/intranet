@@ -1,0 +1,109 @@
+name: intranet_prod
+
+services:
+  db:
+    image: postgres:17.2-alpine
+    env_file:
+      - db.env
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - infra
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  redis:
+    image: redis:7.4-alpine
+    environment:
+      - TZ=Europe/Berlin
+    networks:
+      - infra
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  migrator:
+    image: ghcr.io/actcoding/intranet/backend:${INTRANET_VERSION}
+    env_file:
+      - backend.env
+    depends_on:
+      - db
+    networks:
+      - infra
+    restart: on-failure:3
+    command: php artisan migrate --force
+
+  scheduler:
+    image: ghcr.io/actcoding/intranet/backend:${INTRANET_VERSION}
+    env_file:
+      - backend.env
+    depends_on:
+      - backend
+    networks:
+      - infra
+    command: php artisan schedule:work
+
+  queue:
+    image: ghcr.io/actcoding/intranet/backend:${INTRANET_VERSION}
+    env_file:
+      - backend.env
+    depends_on:
+      - backend
+    networks:
+      - infra
+    command: php artisan queue:work
+
+  backend:
+    image: ghcr.io/actcoding/intranet/backend:${INTRANET_VERSION}
+    env_file:
+      - backend.env
+    depends_on:
+      - db
+      - redis
+      - migrator
+    volumes:
+      - backend_data:/app/storage
+    networks:
+      - infra
+      - backend
+    ports:
+      - 8000:8000
+
+  frontend:
+    image: ghcr.io/actcoding/intranet/frontend:${INTRANET_VERSION}
+    env_file:
+      - frontend.env
+    depends_on:
+      - backend
+    networks:
+      - backend
+      - frontend
+
+  nginx:
+    image: nginxinc/nginx-unprivileged:1.27-alpine
+    depends_on:
+      - frontend
+    networks:
+      - frontend
+    ports:
+      - 80:8080
+      - 443:8443
+    restart: on-failure:3
+
+volumes:
+  db_data:
+  backend_data:
+
+networks:
+  infra:
+  backend:
+  frontend:
