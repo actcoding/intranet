@@ -5,10 +5,10 @@ import {
     EventIsAlldayFormField,
     EventTitleFormField,
 } from '@/features/posts/components/EventForm'
-import { EventFormProvider, EventProvider } from '@/features/posts/contexts'
-import { Event } from '@/features/posts/types'
-import { FormSubmitButton } from '@/shared/components/FormSubmitButton'
-import { Separator } from '@/shared/components/Separator'
+import {EventFormProvider, PostProvider} from '@/features/posts/contexts'
+import {Event} from '@/features/posts/types'
+import {FormSubmitButton} from '@/shared/components/FormSubmitButton'
+import {Separator} from '@/shared/components/Separator'
 
 interface EventFormProps {
     event: Event;
@@ -16,7 +16,7 @@ interface EventFormProps {
 
 const EventForm = ({ event }: EventFormProps) => {
     return (
-        <EventProvider event={event}>
+        <PostProvider post={event}>
             <EventFormProvider event={event}>
                 <div className="h-full md:flex">
                     <div className="flex w-3/4">
@@ -49,7 +49,7 @@ const EventForm = ({ event }: EventFormProps) => {
                     </div>
                 </div>
             </EventFormProvider>
-        </EventProvider>
+        </PostProvider>
     )
 }
 

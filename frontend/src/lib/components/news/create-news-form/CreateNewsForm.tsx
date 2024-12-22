@@ -1,21 +1,16 @@
 'use client'
 
-import {
-    editNewsAction,
-} from '@/lib/actions/news'
-import { NewsResource } from '@/lib/api/generated'
-import { Form } from '@/lib/components/common/Form'
+import {editNewsAction} from '@/lib/actions/news'
+import {NewsResource} from '@/lib/api/generated'
+import {Form} from '@/lib/components/common/Form'
 import {
     NewsContentFormField,
     NewsTitleFormField,
 } from '@/lib/components/news/create-news-form/components/news-form-fields'
-import {
-    createNewsFormSchema,
-    CreateNewsFormValues,
-} from '@/lib/components/news/create-news-form/CreateNewsForm.config'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { useToast } from '../../hooks/use-toast'
+import {createNewsFormSchema, CreateNewsFormValues} from '@/lib/components/news/create-news-form/CreateNewsForm.config'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {useForm} from 'react-hook-form'
+import {useToast} from '../../hooks/use-toast'
 import NewsProvider from '../provider'
 
 interface CreateNewsFormProps {
