@@ -30,7 +30,7 @@ const EventDetails = async ({event}: EventDetailsProps) => {
             {(event.attachments?.length ?? 0) > 0 ? (
                 <FileListPreview
                     display='grid'
-                    files={event.attachments.map((file) => file.data) ?? []}
+                    files={event.attachments?.map((file) => file.data) ?? []}
                     download
                 />
             ) : null}

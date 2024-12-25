@@ -46,7 +46,7 @@ const LinkedEventCard = ({event, showUnlink}: LinkedEventCardProps) => {
     return (
         <Card className="flex flex-row items-center p-3">
             <span className="line-clamp-1 flex-1">{event.title}</span>
-            <div className="flex gap-1">
+            <div className="ms-1 flex gap-1">
                 <Button size="icon" variant="outline">
                     <Link href={`/events/${event.id}`} target="_blank">
                         <ExternalLinkIcon size={16} />
