@@ -1,7 +1,7 @@
 'use client'
 
 import {linkNewsAndEvent, unlinkNewsAndEvent} from '@/features/posts/actions'
-import {EditLinkedNewsDialog} from '@/features/posts/components/EditEvent/EditLinkedNews/EditLinkedNewsDialog'
+import {EditLinkedNewsDialog} from '@/features/posts/components/EditEvent'
 import {EditLinkedPostsItem} from '@/features/posts/components/EditLinkedPosts'
 import {usePost} from '@/features/posts/hooks'
 import {Event, Post} from '@/features/posts/types'

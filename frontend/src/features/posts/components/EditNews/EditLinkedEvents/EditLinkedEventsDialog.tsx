@@ -1,9 +1,7 @@
 'use client'
 
 import {linkNewsAndEvent, searchEvent} from '@/features/posts/actions'
-import {
-    EditLinkedPostsDialog,
-} from '@/features/posts/components/EditLinkedPosts/EditLinkedPostsDialog/EditLinkedPostsDialog'
+import {EditLinkedPostsDialog} from '@/features/posts/components/EditLinkedPosts'
 import {usePost} from '@/features/posts/hooks'
 import {LinkPostFormValues, News} from '@/features/posts/types'
 import {useRouter} from 'next/navigation'

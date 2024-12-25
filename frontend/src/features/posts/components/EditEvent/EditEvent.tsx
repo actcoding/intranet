@@ -1,11 +1,11 @@
 import {
+    EditLinkedNews,
     EventAttachmentsFormField,
     EventContentFormField,
     EventDateTimeFormField,
     EventIsAlldayFormField,
     EventTitleFormField,
 } from '@/features/posts/components/EditEvent'
-import {EditLinkedNews} from '@/features/posts/components/EditEvent/EditLinkedNews'
 import {EventFormProvider, PostProvider} from '@/features/posts/contexts'
 import {Event} from '@/features/posts/types'
 import {FormSubmitButton} from '@/shared/components/FormSubmitButton'

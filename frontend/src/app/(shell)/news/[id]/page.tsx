@@ -1,4 +1,4 @@
-import {NewsDetails} from '@/features/posts/components/NewsDetails/NewsDetails'
+import {NewsDetails} from '@/features/posts/components/NewsDetails'
 import {newsApi} from '@/lib/api/api'
 import {AttachmentResource, NewsResource} from '@/lib/api/generated'
 

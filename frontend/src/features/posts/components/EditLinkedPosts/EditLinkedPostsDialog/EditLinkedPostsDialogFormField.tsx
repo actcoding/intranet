@@ -1,8 +1,6 @@
 'use client'
 
-import {
-    EditLinkedPostsDialogRadioItem,
-} from '@/features/posts/components/EditLinkedPosts/EditLinkedPostsDialog/EditLinkedPostsDialogRadioItem'
+import {EditLinkedPostsDialogRadioItem} from '@/features/posts/components/EditLinkedPosts'
 import {usePost} from '@/features/posts/hooks'
 import {LinkPostFormValues, Post} from '@/features/posts/types'
 import {FormControl, FormField, FormItem, FormLabel} from '@/lib/components/common/Form'
