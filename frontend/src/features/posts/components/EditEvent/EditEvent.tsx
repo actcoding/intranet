@@ -4,17 +4,18 @@ import {
     EventDateTimeFormField,
     EventIsAlldayFormField,
     EventTitleFormField,
-} from '@/features/posts/components/EventForm'
+} from '@/features/posts/components/EditEvent'
+import {EditLinkedNews} from '@/features/posts/components/EditEvent/EditLinkedNews'
 import {EventFormProvider, PostProvider} from '@/features/posts/contexts'
 import {Event} from '@/features/posts/types'
 import {FormSubmitButton} from '@/shared/components/FormSubmitButton'
 import {Separator} from '@/shared/components/Separator'
 
-interface EventFormProps {
+interface EditEventProps {
     event: Event;
 }
 
-const EventForm = ({ event }: EventFormProps) => {
+const EditEvent = ({ event }: EditEventProps) => {
     return (
         <PostProvider post={event}>
             <EventFormProvider event={event}>
@@ -46,6 +47,7 @@ const EventForm = ({ event }: EventFormProps) => {
                         <EventDateTimeFormField label="Enddatum" type="end" />
                         <EventIsAlldayFormField label="Ganztägig?" />
                         <EventAttachmentsFormField />
+                        <EditLinkedNews />
                     </div>
                 </div>
             </EventFormProvider>
@@ -53,4 +55,4 @@ const EventForm = ({ event }: EventFormProps) => {
     )
 }
 
-export { EventForm }
+export { EditEvent }

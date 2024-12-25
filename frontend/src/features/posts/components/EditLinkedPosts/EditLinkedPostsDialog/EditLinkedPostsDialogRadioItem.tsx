@@ -3,10 +3,10 @@ import {Label} from '@/lib/components/common/Label'
 import {RadioGroupItem} from '@/shared/components/RadioGroup'
 import {RadioGroupItemProps} from '@radix-ui/react-radio-group'
 
-interface LinkDialogItemProps extends RadioGroupItemProps {
+interface EditLinkedPostsDialogRadioItemProps extends RadioGroupItemProps {
     post: Post;
 }
-export const LinkPostDialogRadioItem = ({post, ...props}: LinkDialogItemProps) => {
+const EditLinkedPostsDialogRadioItem = ({post, ...props}: EditLinkedPostsDialogRadioItemProps) => {
     return (
         <div>
             <RadioGroupItem className="peer sr-only" {...props} />
@@ -19,3 +19,5 @@ export const LinkPostDialogRadioItem = ({post, ...props}: LinkDialogItemProps) =
         </div>
     )
 }
+
+export { EditLinkedPostsDialogRadioItem }

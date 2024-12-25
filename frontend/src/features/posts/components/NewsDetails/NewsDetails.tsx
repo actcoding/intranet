@@ -1,4 +1,5 @@
 import {EventPreviewTile} from '@/features/posts/components/EventPreviewTile'
+import {PostProvider} from '@/features/posts/contexts'
 import {News} from '@/features/posts/types'
 import {getAppSession} from '@/lib/actions/auth'
 import {Avatar, AvatarFallback} from '@/lib/components/common/Avatar'
@@ -31,7 +32,7 @@ const NewsDetails = async ({news}: NewsDetailsProps) => {
     const {sessionData} = await getAppSession()
     const format = await getFormatter()
 
-    return (<>
+    return (<PostProvider post={news}>
         {isCreator(sessionData) ? (
             <div className="flex w-full justify-end">
                 <DropdownMenu>
@@ -158,7 +159,7 @@ const NewsDetails = async ({news}: NewsDetailsProps) => {
                         download /></>
             ) : null}
         </div>
-    </>)
+    </PostProvider>)
 }
 
 export {NewsDetails}

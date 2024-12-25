@@ -1,4 +1,4 @@
-export * from './EventForm'
+export * from './EditEvent'
 export * from './EventTitleFormField'
 export * from './EventContentFormField'
 export * from './EventAttachmentsFormField'

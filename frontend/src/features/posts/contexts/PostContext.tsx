@@ -1,24 +1,26 @@
 'use client'
 
-import {Post} from '@/features/posts/types'
 import React, {createContext} from 'react'
 
-interface PostContextProps {
-    post: Post;
+export interface PostContextProps<T> {
+    post: T;
 }
 
-export const PostContext = createContext<PostContextProps | undefined>(
+export const PostContext = createContext<PostContextProps<any> | undefined>(
     undefined,
 )
 
-interface PostProviderProps {
-    post: Post;
+interface PostProviderProps<T> {
+    post: T;
     children: React.ReactNode;
 }
-export const PostProvider = ({ post, children }: PostProviderProps) => {
+
+const PostProvider = <T,>({ post, children }: PostProviderProps<T>) => {
     return (
         <PostContext.Provider value={{ post }}>
             {children}
         </PostContext.Provider>
     )
 }
+
+export { PostProvider }

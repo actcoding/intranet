@@ -1,10 +1,10 @@
-import {PostContext} from '@/features/posts/contexts/PostContext'
+import {PostContext, PostContextProps} from '@/features/posts/contexts'
 import {useContext} from 'react'
 
-export const usePost = () => {
+export function usePost<T>() {
     const context = useContext(PostContext)
     if (!context) {
-        throw new Error('usePost must be used within an EventProvider')
+        throw new Error('usePost must be used within a PostProvider')
     }
-    return context
+    return context as PostContextProps<T>
 }

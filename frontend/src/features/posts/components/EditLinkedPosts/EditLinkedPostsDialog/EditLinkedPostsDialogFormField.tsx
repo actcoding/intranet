@@ -1,18 +1,22 @@
-import {LinkPostDialogRadioItem} from '@/features/posts/components/LinkPostDialog/LinkPostDialogRadioItem'
+'use client'
+
+import {
+    EditLinkedPostsDialogRadioItem,
+} from '@/features/posts/components/EditLinkedPosts/EditLinkedPostsDialog/EditLinkedPostsDialogRadioItem'
 import {usePost} from '@/features/posts/hooks'
 import {LinkPostFormValues, Post} from '@/features/posts/types'
 import {FormControl, FormField, FormItem, FormLabel} from '@/lib/components/common/Form'
 import {RadioGroup} from '@/shared/components/RadioGroup'
 import {useFormContext} from 'react-hook-form'
 
-interface SelectPostFormFieldProps {
+interface EditLinkedPostsDialogFormFieldProps {
     items: Post[];
 }
 
-export const SelectPostFormField = ({items}: SelectPostFormFieldProps) => {
+const EditLinkedPostsDialogFormField = ({items}: EditLinkedPostsDialogFormFieldProps) => {
     const form = useFormContext<LinkPostFormValues>()
-    const {post} = usePost()
-    const alreadyLinked = 'linkedEvents' in post ? post.linkedEvents : 'linkedNews' in post ? post.linkedNews : undefined
+    const {post} = usePost<Post>()
+    const alreadyLinked = 'linkedEvents' in post ? post.linkedEvents : 'linkedNews' in post ? post.linkedNews : []
     const alreadyLinkedSet = new Set(alreadyLinked?.map((item) => item.id))
 
     return (
@@ -30,7 +34,7 @@ export const SelectPostFormField = ({items}: SelectPostFormFieldProps) => {
                                 defaultValue={field.value}
                             >
                                 {items.map((item) => (
-                                    <LinkPostDialogRadioItem id={item.id.toString()} key={item.id} value={item.id.toString()} disabled={alreadyLinkedSet.has(item.id)} post={item}/>
+                                    <EditLinkedPostsDialogRadioItem id={item.id.toString()} key={item.id} value={item.id.toString()} disabled={alreadyLinkedSet.has(item.id)} post={item}/>
                                 ))}
                             </RadioGroup>
                         </FormControl>
@@ -40,3 +44,5 @@ export const SelectPostFormField = ({items}: SelectPostFormFieldProps) => {
         />
     )
 }
+
+export { EditLinkedPostsDialogFormField }

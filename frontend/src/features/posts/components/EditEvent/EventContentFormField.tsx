@@ -2,7 +2,7 @@
 
 import {uploadEventFile} from '@/features/posts/actions'
 import {usePost} from '@/features/posts/hooks'
-import {EventFormValues} from '@/features/posts/types'
+import {Event, EventFormValues} from '@/features/posts/types'
 import {FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/lib/components/common/Form'
 import {useToast} from '@/lib/components/hooks/use-toast'
 import Editor
@@ -16,7 +16,7 @@ interface EventContentFormField {
 
 const EventContentFormField = (props: EventContentFormField) => {
     const form = useFormContext<EventFormValues>()
-    const { post } = usePost()
+    const { post } = usePost<Event>()
     const { toast } = useToast()
     return (
         <FormField

@@ -2,6 +2,7 @@
 
 import {uploadEventFile} from '@/features/posts/actions'
 import {usePost} from '@/features/posts/hooks'
+import {Event} from '@/features/posts/types'
 import {eventApi} from '@/lib/api/api'
 import {AttachmentResourceData} from '@/lib/api/generated'
 import {Button} from '@/lib/components/common/Button'
@@ -26,7 +27,7 @@ export const EventAttachmentsFormField = () => {
     const [files, setFiles] = useState<File[]>([])
     const { toast } = useToast()
     const router = useRouter()
-    const { post } = usePost()
+    const { post } = usePost<Event>()
 
     const onChange = useCallback(
         async (files: File[]) => {
