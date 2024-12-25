@@ -1,4 +1,4 @@
-import {EventDetailsHeader, EventDetailsInfo} from '@/features/posts/components/EventDetails'
+import {EventDetailsHeader, EventDetailsInfo, LinkedNews} from '@/features/posts/components/EventDetails'
 import {Event} from '@/features/posts/types'
 import FileListPreview from '@/lib/components/shared/FileListPreview'
 import SanitizedHTMLContent from '@/lib/components/shared/SanitizedHTMLContent'
@@ -12,6 +12,12 @@ const EventDetails = async ({event}: EventDetailsProps) => {
         <div className="mx-auto h-full max-w-[800px]">
             <EventDetailsHeader event={event} />
             <EventDetailsInfo event={event} />
+            {event.linkedNews && event.linkedNews?.length > 0 ? (
+                <>
+                    <LinkedNews news={event.linkedNews} />
+                    <hr className="my-6" />
+                </>
+            ) : null}
             <SanitizedHTMLContent
                 content={event.content}
                 allowedTags={[
