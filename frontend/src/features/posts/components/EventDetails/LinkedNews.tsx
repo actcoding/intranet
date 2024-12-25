@@ -1,6 +1,5 @@
 import {NewsResource} from '@/lib/api/generated'
-import {Card, CardContent, CardHeader, CardTitle} from '@/lib/components/common/Card'
-import SanitizedHTMLContent from '@/lib/components/shared/SanitizedHTMLContent'
+import NewsPreviewCard from '@/lib/components/news/news-list/components/NewsPreviewCard'
 import {NewspaperIcon} from 'lucide-react'
 import Link from 'next/link'
 
@@ -20,16 +19,7 @@ const LinkedNews = ({news}: LinkedNewsProps) => {
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                 {news.map((news) => (
                     <Link key={news.id} href={`/news/${news.id}`}>
-                        <Card className="flex flex-row overflow-hidden">
-                            <div>
-                                <CardHeader>
-                                    <CardTitle className="line-clamp-1">{news.title}</CardTitle>
-                                </CardHeader>
-                                <CardContent className="text-muted-foreground">
-                                    <SanitizedHTMLContent content={news.content} className="line-clamp-3" />
-                                </CardContent>
-                            </div>
-                        </Card>
+                        <NewsPreviewCard news={news} headerImagePosition="left" />
                     </Link>
                 ))}
             </div>

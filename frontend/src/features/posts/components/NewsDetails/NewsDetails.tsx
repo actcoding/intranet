@@ -108,12 +108,6 @@ const NewsDetails = async ({news}: NewsDetailsProps) => {
                         </div>
                     </div>
                 </div>
-                {news.linkedEvents && news.linkedEvents?.length > 0 ? (
-                    <>
-                        <LinkedEvents events={news.linkedEvents} />
-                        <hr className="my-6" />
-                    </>
-                ) : null}
                 <SanitizedHTMLContent
                     content={news.content}
                     allowedTags={[
@@ -127,6 +121,12 @@ const NewsDetails = async ({news}: NewsDetailsProps) => {
                         'img',
                     ]}
                 />
+                {news.linkedEvents && news.linkedEvents?.length > 0 ? (
+                    <>
+                        <hr className="my-6" />
+                        <LinkedEvents events={news.linkedEvents} />
+                    </>
+                ) : null}
                 {(news.attachments?.length ?? 0) > 0 ? (
                     <>
                         <hr className="my-6" />

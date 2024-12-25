@@ -30,7 +30,7 @@ interface EditLinkedPostsDialogProps {
     triggerButtonLabel?: string;
 }
 
-const EditLinkedPostsDialog = ({post, onSearch, onSubmit, open, onOpenChange, triggerButtonLabel}: EditLinkedPostsDialogProps) => {
+const EditLinkedPostsDialog = ({onSearch, onSubmit, open, onOpenChange, triggerButtonLabel}: EditLinkedPostsDialogProps) => {
     const [searchResults, setSearchResults] = useState<Post[] | undefined>(undefined)
 
     const handleSearchInputChange =
@@ -49,7 +49,7 @@ const EditLinkedPostsDialog = ({post, onSearch, onSubmit, open, onOpenChange, tr
                 </Button>
             </ResponsiveDialogTrigger>
             <ResponsiveDialogContent>
-                <EditLinkedPostsFormProvider post={post} onSubmit={onSubmit}>
+                <EditLinkedPostsFormProvider onSubmit={onSubmit}>
                     <ResponsiveDialogHeader>
                         <ResponsiveDialogTitle>Post auswählen</ResponsiveDialogTitle>
                     </ResponsiveDialogHeader>
