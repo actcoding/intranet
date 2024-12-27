@@ -47,10 +47,10 @@ export const Sidebar = async () => {
                 {
                     title: 'Speiseplan',
                     items: [
-                        {title: 'Tage', url: '/manage/menus/days'},
-                        {title: 'Menüs', url: '/manage/menus'},
-                        {title: 'Allergene/Inhaltsstoffe', url: '/manage/menus/notices'},
-                        {title: 'Preise', url: '/manage/menus/prices'},
+                        {title: 'Tage', url: '/manage/canteen/plan'},
+                        {title: 'Menüs', url: '/manage/canteen/menus'},
+                        {title: 'Allergene/Inhaltsstoffe', url: '/manage/canteen/notes'},
+                        {title: 'Preise', url: '/manage/canteen/prices'},
                     ],
                 },
             ],
