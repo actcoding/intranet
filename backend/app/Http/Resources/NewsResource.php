@@ -38,8 +38,8 @@ class NewsResource extends JsonResource
                 'name' => $this->resource->author->name,
             ],
 
-            'attachments' => $this->whenLoaded('attachments', fn() => AttachmentResource::collection($this->resource->attachments)),
-            'linked_events' => $this->whenLoaded('events', fn() => EventResource::collection($this->resource->events)),
+            'attachments' => $this->whenLoaded('attachments', fn () => AttachmentResource::collection($this->resource->attachments)),
+            'linked_events' => $this->whenLoaded('events', fn () => EventResource::collection($this->resource->events)),
         ];
     }
 }

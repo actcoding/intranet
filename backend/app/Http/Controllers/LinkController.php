@@ -26,8 +26,8 @@ class LinkController extends Controller
      *
      * Unlinks two previously linked entities.
      *
-     * @param int $news The ID of an attached News entity.
-     * @param int $event The ID of an attached Event entity.
+     * @param  int  $news  The ID of an attached News entity.
+     * @param  int  $event  The ID of an attached Event entity.
      */
     public function detach(int $news, int $event): Response
     {

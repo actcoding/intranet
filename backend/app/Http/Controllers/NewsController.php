@@ -257,8 +257,7 @@ class NewsController extends Controller implements HasMiddleware
 
         if (Auth::guest()) {
             $query = $query->whereStatus(EntityStatus::ACTIVE);
-        }
-        else if (Gate::check('news.viewall')) {
+        } elseif (Gate::check('news.viewall')) {
             $query = $query->withTrashed();
         }
 

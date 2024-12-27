@@ -274,8 +274,7 @@ class EventController extends Controller implements HasMiddleware
 
         if (Auth::guest()) {
             $query = $query->whereStatus(EntityStatus::ACTIVE);
-        }
-        else if (Gate::check('event.viewall')) {
+        } elseif (Gate::check('event.viewall')) {
             $query = $query->withTrashed();
         }
 
