@@ -17,7 +17,7 @@ const EditLinkedPostsItem = ({post, onUnlink, href}: EditLinkedPostsItemProps) =
         <Card className="flex flex-row items-center p-3">
             <span className="line-clamp-1 flex-1">{post.title}</span>
             <div className="ms-1 flex gap-1">
-                <Button size="icon" variant="outline">
+                <Button size="icon" variant="outline" asChild>
                     <Link href={href} target="_blank">
                         <ExternalLinkIcon size={16} />
                     </Link>
