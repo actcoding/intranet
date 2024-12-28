@@ -27,6 +27,13 @@ class MenuUpdateRequest extends FormRequest
             'name' => 'string|unique:App\Models\Menu\Menu,name',
             'nutrition' => [Rule::in($nuts)],
             'default_price' => 'decimal:0,2',
+
+            /**
+             * A list of dish IDs to associate
+             *
+             * @var int[]
+             */
+            'dishes' => 'array|exists:App\Models\Menu\Dish,id',
         ];
     }
 }
