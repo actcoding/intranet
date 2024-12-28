@@ -1,23 +1,18 @@
 'use client'
 
-import { uploadNewsFileAction } from '@/lib/actions/news'
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/lib/components/common/Form'
-import { useToast } from '@/lib/components/hooks/use-toast'
-import { CreateNewsFormValues } from '@/lib/components/news/create-news-form/CreateNewsForm.config'
-import { useNews } from '@/lib/components/news/provider'
-import { useFormContext } from 'react-hook-form'
+import {usePost} from '@/features/posts/hooks'
+import {News} from '@/features/posts/types'
+import {uploadNewsFileAction} from '@/lib/actions/news'
+import {FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/lib/components/common/Form'
+import {useToast} from '@/lib/components/hooks/use-toast'
+import {CreateNewsFormValues} from '@/lib/components/news/create-news-form/CreateNewsForm.config'
+import {useFormContext} from 'react-hook-form'
 import Editor from './components/editor/Editor'
 
 const NewsContentFormField = () => {
     const form = useFormContext<CreateNewsFormValues>()
     const { toast } = useToast()
-    const news = useNews()
+    const { post: news } = usePost<News>()
     return (
         <FormField
             control={form.control}

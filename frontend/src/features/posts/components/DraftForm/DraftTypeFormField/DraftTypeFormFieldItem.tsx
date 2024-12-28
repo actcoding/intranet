@@ -1,9 +1,10 @@
-import { Label } from '@/lib/components/common/Label'
-import { RadioGroupItem } from '@/shared/components/RadioGroup'
-import { RadioGroupItemProps } from '@radix-ui/react-radio-group'
+import {Label} from '@/lib/components/common/Label'
+import {RadioGroupItem} from '@/shared/components/RadioGroup'
+import {RadioGroupItemProps} from '@radix-ui/react-radio-group'
+import {ReactNode} from 'react'
 
 interface ContentTypeFormFieldItemProps extends RadioGroupItemProps {
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 const DraftTypeFormFieldItem = ({

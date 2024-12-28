@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\LinkController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\UserController;
@@ -65,3 +66,11 @@ Route::delete('/event/{event}/upload/{attachment}', [EventController::class, 'de
     ->name('event.upload.delete')
     ->whereNumber('event')
     ->whereNumber('attachment');
+
+Route::prefix('/link')
+    ->middleware('auth:api')
+    ->group(function () {
+        Route::post('/attach', [LinkController::class, 'attach']);
+        Route::delete('/detach/{news}/{event}', [LinkController::class, 'detach'])
+            ->whereNumber(['news', 'event']);
+    });
