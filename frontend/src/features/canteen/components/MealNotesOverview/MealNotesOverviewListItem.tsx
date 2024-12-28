@@ -9,8 +9,8 @@ interface MealNotesOverviewListItemProps {
 export const MealNotesOverviewListItem = ({note}: MealNotesOverviewListItemProps) => {
     return (
         <Card className="flex">
-            <div className="flex-1">
-                <CardHeader>
+            <div className="flex flex-1 flex-col">
+                <CardHeader className="flex-1">
                     <CardTitle>{note.name}</CardTitle>
                 </CardHeader>
                 <CardContent>
