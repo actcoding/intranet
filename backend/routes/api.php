@@ -5,6 +5,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\Menu\DishController;
 use App\Http\Controllers\Menu\IngredientController;
 use App\Http\Controllers\Menu\MenuController;
+use App\Http\Controllers\LinkController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\UserController;
@@ -78,4 +79,12 @@ Route::prefix('/menu')
         ], [
             'middleware' => 'auth:api',
         ]);
+    });
+
+Route::prefix('/link')
+    ->middleware('auth:api')
+    ->group(function () {
+        Route::post('/attach', [LinkController::class, 'attach']);
+        Route::delete('/detach/{news}/{event}', [LinkController::class, 'detach'])
+            ->whereNumber(['news', 'event']);
     });

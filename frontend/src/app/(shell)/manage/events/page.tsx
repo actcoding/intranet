@@ -1,12 +1,10 @@
-import { eventApi } from '@/lib/api/api'
-import { Button } from '@/lib/components/common/Button'
-import { DataTable } from '@/lib/components/common/DataTable'
-import { columns } from '@/lib/components/manage/manage-events/manage-events-table/ManageEventsTable.config' 
-import { pick } from 'lodash'
-import { PlusIcon } from 'lucide-react'
-import { NextIntlClientProvider } from 'next-intl'
-import { getMessages, getTranslations } from 'next-intl/server'
-import Link from 'next/link'
+import {CreateDraftDialog} from '@/features/posts/components/CreateDraftDialog'
+import {eventApi} from '@/lib/api/api'
+import {DataTable} from '@/lib/components/common/DataTable'
+import {columns} from '@/lib/components/manage/manage-events/manage-events-table/ManageEventsTable.config'
+import {pick} from 'lodash'
+import {NextIntlClientProvider} from 'next-intl'
+import {getMessages, getTranslations} from 'next-intl/server'
 
 interface Props {
     searchParams?: {
@@ -31,12 +29,15 @@ const ManageEventPage = async (props: Props) => {
         <>
             <div className="mb-4 flex items-center justify-between">
                 <h1 className="text-4xl font-semibold">{t('Index.events')}</h1>
-                <Button asChild>
-                    <Link href="/manage/events/create">
-                        <PlusIcon className="me-2" size={20} />
-                        <span>{t('Event.create')}</span>
-                    </Link>
-                </Button>
+                <CreateDraftDialog
+                    triggerButtonProps={{
+                        triggerButtonVariant: 'default',
+                        triggerButtonLabel: t('Event.create'),
+                    }}
+                    formProps={{
+                        defaultContentType: 'event',
+                        showContentTypePicker: false,
+                    }} />
             </div>
             <NextIntlClientProvider messages={pick(messages, ['Event'])}>
                 <DataTable

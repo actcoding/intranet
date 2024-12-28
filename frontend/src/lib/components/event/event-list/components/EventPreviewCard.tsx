@@ -32,7 +32,7 @@ const EventPreviewCard = ({
             )}
         >
             <EventPreviewCardImage
-                src={event.attachments.find(a => a.type === 'header')?.data.url}
+                src={event.attachments?.find(a => a.type === 'header')?.data.url}
                 alt={event.title || 'Event'}
                 position={headerImagePosition}
                 date={new Date(event.startingAt)}
