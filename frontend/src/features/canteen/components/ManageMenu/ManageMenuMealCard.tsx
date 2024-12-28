@@ -1,14 +1,38 @@
+'use client'
+
+import {unlinkMealAndMenu} from '@/features/canteen/actions'
 import {Badge} from '@/lib/components/common/Badge'
 import {Button} from '@/lib/components/common/Button'
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/lib/components/common/Card'
+import {useToast} from '@/lib/components/hooks/use-toast'
 import {CircleMinusIcon, PencilIcon} from 'lucide-react'
 import Link from 'next/link'
+import {useRouter} from 'next/navigation'
 
-interface MealCardProps {
+interface ManageMenuMealCardProps {
     meal: any;
+    menu: any;
 }
 
-const MealCard = ({meal}: MealCardProps) => {
+const ManageMenuMealCard = ({meal, menu}: ManageMenuMealCardProps) => {
+    // TODO: maybe provide menu via context hook in the future
+
+    const {refresh} = useRouter()
+    const {toast} = useToast()
+
+    const handleUnlink = () => {
+        try {
+            unlinkMealAndMenu({mealId: meal.id, menuId: menu.id})
+            toast({
+                title: 'Gericht entfernt',
+                description: `Das Gericht "${meal.name}" wurde erfolgreich entfernt`,
+            })
+            refresh()
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
     return (
         <Card className="flex">
             <div className="flex flex-1 flex-col">
@@ -29,7 +53,7 @@ const MealCard = ({meal}: MealCardProps) => {
                             Bearbeiten
                         </Link>
                     </Button>
-                    <Button variant="destructive" size="icon">
+                    <Button variant="destructive" size="icon" onClick={() => handleUnlink()}>
                         <CircleMinusIcon size={16}/>
                     </Button>
                 </CardFooter>
@@ -38,4 +62,4 @@ const MealCard = ({meal}: MealCardProps) => {
     )
 }
 
-export { MealCard }
+export { ManageMenuMealCard }

@@ -1,6 +1,7 @@
 import {Button} from '@/lib/components/common/Button'
 import {
     ResponsiveDialog,
+    ResponsiveDialogBody,
     ResponsiveDialogContent,
     ResponsiveDialogFooter,
     ResponsiveDialogHeader,
@@ -21,15 +22,18 @@ const LinkMealDialog = ({menu}: LinkMealDialogProps) => {
             <ResponsiveDialogTrigger asChild>
                 <Button className="size-full" variant="outline">
                     <PlusCircleIcon className="mr-2" />
-                    Speise hinzufügen
+                    Gericht hinzufügen
                 </Button>
             </ResponsiveDialogTrigger>
             <ResponsiveDialogContent>
                 <ResponsiveDialogHeader>
                     <ResponsiveDialogTitle>
-                        Speise hinzufügen
+                        Gericht hinzufügen
                     </ResponsiveDialogTitle>
                 </ResponsiveDialogHeader>
+                <ResponsiveDialogBody>
+                    TODO
+                </ResponsiveDialogBody>
                 <ResponsiveDialogFooter>
                     <Button>Bestätigen</Button>
                 </ResponsiveDialogFooter>
