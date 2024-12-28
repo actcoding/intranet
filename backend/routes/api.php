@@ -71,15 +71,11 @@ Route::delete('/event/{event}/upload/{attachment}', [EventController::class, 'de
 
 Route::prefix('/menu')
     ->group(function () {
-        Route::get('/list', [MenuController::class, 'listMenus']);
-        Route::get('/plan', [MenuController::class, 'listPlans']);
-        Route::get('/week', [MenuController::class, 'listForWeek']);
-
-        Route::resource('/ingredient', IngredientController::class)
-            ->middleware('auth:api')
-            ->except(['create', 'edit']);
-
-        Route::resource('/dish', DishController::class)
-            ->middleware('auth:api')
-            ->except(['create', 'edit']);
+        Route::apiResources([
+            '/ingredient' => IngredientController::class,
+            '/dish' => DishController::class,
+            '/menu' => MenuController::class,
+        ], [
+            'middleware' => 'auth:api',
+        ]);
     });

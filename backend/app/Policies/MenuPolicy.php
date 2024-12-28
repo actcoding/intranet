@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Menu\Ingredient;
+use App\Models\Menu\Menu;
 use App\Models\User;
 
-class IngredientPolicy
+class MenuPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -18,9 +18,9 @@ class IngredientPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Ingredient $ingredient): bool
+    public function view(User $user, Menu $menu): bool
     {
-        return $user->can('menu.ingredient.viewall');
+        return $user->can('menu.menu.viewall');
     }
 
     /**
@@ -28,22 +28,22 @@ class IngredientPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('menu.ingredient.create');
+        return $user->can('menu.menu.create');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Ingredient $ingredient): bool
+    public function update(User $user, Menu $menu): bool
     {
-        return $user->can('menu.ingredient.update', $ingredient);
+        return $user->can('menu.menu.update', $menu);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Ingredient $ingredient): bool
+    public function delete(User $user, Menu $menu): bool
     {
-        return $user->can('menu.ingredient.delete', $ingredient);
+        return $user->can('menu.menu.delete', $menu);
     }
 }

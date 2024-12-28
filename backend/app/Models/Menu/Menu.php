@@ -2,7 +2,6 @@
 
 namespace App\Models\Menu;
 
-use App\Enum\Menu\MealType;
 use App\Enum\Menu\MenuNutrition;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,8 +14,8 @@ class Menu extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'nutrition',
         'name',
+        'nutrition',
         'default_price',
     ];
 
@@ -29,13 +28,12 @@ class Menu extends Model
     {
         return [
             'nutrition' => MenuNutrition::class,
-            'kind' => MealType::class,
             'default_price' => 'double',
         ];
     }
 
-    public function meals(): BelongsToMany
+    public function dishes(): BelongsToMany
     {
-        return $this->belongsToMany(Meal::class, 'menu_to_meal');
+        return $this->belongsToMany(Dish::class, 'menu_to_dish');
     }
 }

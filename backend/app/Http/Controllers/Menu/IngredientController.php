@@ -10,18 +10,17 @@ use App\Models\Menu\Ingredient;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class IngredientController extends Controller
 {
     /**
-     * Display a paginated list of ingredients.
+     * Display a list of ingredients.
      *
-     * @return AnonymousResourceCollection<LengthAwarePaginator<IngredientResource>>
+     * @return AnonymousResourceCollection<IngredientResource>
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $query = Ingredient::query()->paginate($request->query('perPage', 10));
+        $query = Ingredient::all();
 
         return IngredientResource::collection($query);
     }
@@ -29,11 +28,11 @@ class IngredientController extends Controller
     /**
      * Display the specified ingredient.
      *
-     * @param  int  $id  The news ID
+     * @param  $ingredient  The ingredient ID
      */
-    public function show(Ingredient $id): IngredientResource
+    public function show(Ingredient $ingredient): IngredientResource
     {
-        return IngredientResource::make($id);
+        return IngredientResource::make($ingredient);
     }
 
     /**
@@ -49,29 +48,25 @@ class IngredientController extends Controller
     /**
      * Update an existing ingredient.
      *
-     * @param  int  $id  The ingredient ID
+     * @param  $ingredient  The ingredient ID
      */
-    public function update(IngredientUpdateRequest $request, $id): IngredientResource
+    public function update(IngredientUpdateRequest $request, Ingredient $ingredient): IngredientResource
     {
-        $entity = Ingredient::findOrFail($id);
+        $ingredient->fill($request->validated());
 
-        $entity->fill($request->validated());
+        $ingredient->save();
 
-        $entity->save();
-
-        return IngredientResource::make($entity);
+        return IngredientResource::make($ingredient);
     }
 
     /**
      * Delete an ingredient.
      *
-     * @param  int  $id  The ingredient ID
+     * @param  $ingredient  The ingredient ID
      */
-    public function destroy(Request $request, $id): Response
+    public function destroy(Request $request, Ingredient $ingredient): Response
     {
-        $entity = Ingredient::findOrFail($id);
-
-        $entity->delete();
+        $ingredient->delete();
 
         return response()->noContent();
     }

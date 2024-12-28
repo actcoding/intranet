@@ -3,54 +3,87 @@
 namespace App\Http\Controllers\Menu;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Menu\GetWeekRequest;
-use App\Http\Resources\Menu\MenuPlanResource;
+use App\Http\Requests\Menu\MenuStoreRequest;
+use App\Http\Requests\Menu\MenuUpdateRequest;
 use App\Http\Resources\Menu\MenuResource;
 use App\Models\Menu\Menu;
-use App\Models\Menu\MenuPlan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class MenuController extends Controller
 {
     /**
+     * Display a paginated list of menus.
+     *
      * @return AnonymousResourceCollection<LengthAwarePaginator<MenuResource>>
      */
-    public function listMenus(Request $request)
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $query = Menu::query()
-            ->with(['meals', 'meals.ingredients']);
+        $query = Menu::query()->paginate($request->query('perPage', 10));
 
-        return MenuResource::collection(
-            $query->paginate($request->query('perPage', 10))
-        );
+        return MenuResource::collection($query);
     }
 
     /**
-     * @return AnonymousResourceCollection<LengthAwarePaginator<MenuPlanResource>>
+     * Display the specified menu.
+     *
+     * @param  $menu  The menu ID
      */
-    public function listPlans(Request $request)
+    public function show(Menu $menu): MenuResource
     {
-        $query = MenuPlan::query()
-            ->with(['menu', 'menu.meals', 'menu.meals.ingredients']);
+        $menu->load(['dishes', 'dishes.ingredients']);
 
-        return MenuPlanResource::collection(
-            $query->paginate($request->query('perPage', 10))
-        );
+        return MenuResource::make($menu);
     }
 
     /**
-     * @return AnonymousResourceCollection<MenuPlanResource>
+     * Create a new menu.
      */
-    public function listForWeek(GetWeekRequest $request)
+    public function store(MenuStoreRequest $request): MenuResource
     {
-        $data = MenuPlan::query()
-            ->whereDate('served_at', '>=', $request->date('starting_at'))
-            ->whereDate('served_at', '<=', $request->date('ending_at'))
-            ->with(['menu', 'menu.meals', 'menu.meals.ingredients'])
-            ->get();
+        /** @var Menu */
+        $entity = Menu::create($request->validated());
 
-        return MenuPlanResource::collection($data);
+        if ($request->has('dishes')) {
+            $entity->dishes()->sync($request->input('dishes'));
+        }
+
+        $entity->load('dishes');
+
+        return MenuResource::make($entity);
+    }
+
+    /**
+     * Update an existing menu.
+     *
+     * @param  $menu  The menu ID
+     */
+    public function update(MenuUpdateRequest $request, Menu $menu): MenuResource
+    {
+        $menu->fill($request->validated());
+
+        if ($request->has('dishes')) {
+            $menu->dishes()->sync($request->input('dishes'));
+        }
+
+        $menu->save();
+
+        $menu->load('dishes');
+
+        return MenuResource::make($menu);
+    }
+
+    /**
+     * Delete a menu.
+     *
+     * @param  $menu  The menu ID
+     */
+    public function destroy(Request $request, Menu $menu): Response
+    {
+        $menu->delete();
+
+        return response()->noContent();
     }
 }

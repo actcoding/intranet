@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Enum\Menu\DishType;
 use App\Enum\Menu\IngredientType;
-use App\Enum\Menu\MealType;
 use App\Enum\Menu\MenuNutrition;
+use App\Models\Menu\Dish;
 use App\Models\Menu\Ingredient;
-use App\Models\Menu\Meal;
 use App\Models\Menu\Menu;
 use App\Models\Menu\MenuPlan;
 use Illuminate\Database\Seeder;
@@ -32,16 +32,16 @@ class MenuSeeder extends Seeder
             'type' => IngredientType::ADDITIVE,
         ]);
 
-        $meal1 = Meal::create([
+        $dish1 = Dish::create([
             'name' => 'Schnitzel ungarische Art',
             'summary' => 'Schnitzel mit pikanter Tomatensauce, dazu Pommes und Salat',
-            'type' => MealType::MAIN,
+            'type' => DishType::MAIN,
         ]);
 
-        $meal2 = Meal::create([
+        $dish2 = Dish::create([
             'name' => 'Himbeerdpudding',
             'summary' => 'Lockerer Himbeer-Sahne-Pudding',
-            'type' => MealType::DESSERT,
+            'type' => DishType::DESSERT,
         ]);
 
         $menu = Menu::create([
@@ -56,25 +56,25 @@ class MenuSeeder extends Seeder
             'price' => 5.99,
         ]);
 
-        DB::table('meal_to_ingredient')->insert([
-            'meal_id' => $meal1->id,
+        DB::table('dish_to_ingredient')->insert([
+            'dish_id' => $dish1->id,
             'ingredient_id' => $allergen1->id,
         ]);
-        DB::table('meal_to_ingredient')->insert([
-            'meal_id' => $meal2->id,
+        DB::table('dish_to_ingredient')->insert([
+            'dish_id' => $dish2->id,
             'ingredient_id' => $allergen2->id,
         ]);
-        DB::table('meal_to_ingredient')->insert([
-            'meal_id' => $meal2->id,
+        DB::table('dish_to_ingredient')->insert([
+            'dish_id' => $dish2->id,
             'ingredient_id' => $allergen3->id,
         ]);
 
-        DB::table('menu_to_meal')->insert([
-            'meal_id' => $meal1->id,
+        DB::table('menu_to_dish')->insert([
+            'dish_id' => $dish1->id,
             'menu_id' => $menu->id,
         ]);
-        DB::table('menu_to_meal')->insert([
-            'meal_id' => $meal2->id,
+        DB::table('menu_to_dish')->insert([
+            'dish_id' => $dish2->id,
             'menu_id' => $menu->id,
         ]);
     }

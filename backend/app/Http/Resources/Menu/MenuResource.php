@@ -33,7 +33,7 @@ class MenuResource extends JsonResource
             'name' => $this->resource->name,
             'default_price' => $this->whenVisible('default_price'),
 
-            'meals' => $this->whenLoaded('meals', fn () => MealResource::collection($this->resource->meals)),
+            'dishes' => $this->whenLoaded('dishes', fn () => DishResource::collection($this->resource->dishes)),
         ];
     }
 }

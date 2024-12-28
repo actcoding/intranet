@@ -37,8 +37,8 @@ class Ingredient extends Model
         ];
     }
 
-    public function meals(): BelongsToMany
+    public function dishes(): BelongsToMany
     {
-        return $this->belongsToMany(Meal::class, 'meal_to_ingredient');
+        return $this->belongsToMany(Dish::class, 'dish_to_ingredient');
     }
 }

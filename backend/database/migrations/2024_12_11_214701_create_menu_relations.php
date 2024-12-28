@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\Menu\Dish;
 use App\Models\Menu\Ingredient;
-use App\Models\Menu\Meal;
 use App\Models\Menu\Menu;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,16 +14,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('meal_to_ingredient', function (Blueprint $table) {
+        Schema::create('dish_to_ingredient', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Meal::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Dish::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Ingredient::class)->constrained()->cascadeOnDelete();
         });
 
-        Schema::create('menu_to_meal', function (Blueprint $table) {
+        Schema::create('menu_to_dish', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Menu::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Meal::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Dish::class)->constrained()->cascadeOnDelete();
         });
     }
 
@@ -32,7 +32,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menu_to_meal');
-        Schema::dropIfExists('meal_to_ingredient');
+        Schema::dropIfExists('menu_to_dish');
+        Schema::dropIfExists('dish_to_ingredient');
     }
 };

@@ -19,8 +19,6 @@ return new class extends Migration
         'create',
         'update',
         'delete',
-        'restore',
-        'forceDelete',
     ];
 
     /**

@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Menu;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Menu\DishStoreRequest;
 use App\Http\Requests\Menu\DishUpdateRequest;
-use App\Http\Resources\Menu\MealResource;
-use App\Models\Menu\Meal;
+use App\Http\Resources\Menu\DishResource;
+use App\Models\Menu\Dish;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class DishController extends Controller
@@ -16,61 +17,72 @@ class DishController extends Controller
     /**
      * Display a paginated list of dishes.
      *
-     * @return AnonymousResourceCollection<LengthAwarePaginator<MealResource>>
+     * @return AnonymousResourceCollection<LengthAwarePaginator<DishResource>>
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $query = Meal::query()->paginate($request->query('perPage', 10));
+        $query = Dish::query()->paginate($request->query('perPage', 10));
 
-        return MealResource::collection($query);
+        return DishResource::collection($query);
     }
 
     /**
      * Display the specified dish.
      *
-     * @param  int  $id  The dish ID
+     * @param  $dish  The dish ID
      */
-    public function show(Meal $id): MealResource
+    public function show(Dish $dish): DishResource
     {
-        return MealResource::make($id);
+        $dish->load('ingredients');
+
+        return DishResource::make($dish);
     }
 
     /**
      * Create a new dish.
      */
-    public function store(DishStoreRequest $request): MealResource
+    public function store(DishStoreRequest $request): DishResource
     {
-        $entity = Meal::create($request->validated());
+        /** @var Dish */
+        $entity = Dish::create($request->validated());
 
-        return MealResource::make($entity);
+        if ($request->has('ingredients')) {
+            $entity->ingredients()->sync($request->input('ingredients'));
+        }
+
+        $entity->load('ingredients');
+
+        return DishResource::make($entity);
     }
 
     /**
-     * Update an existing ingredient.
+     * Update an existing dish.
      *
-     * @param  int  $id  The ingredient ID
+     * @param  $dish  The dish ID
      */
-    public function update(DishUpdateRequest $request, $id): MealResource
+    public function update(DishUpdateRequest $request, Dish $dish): DishResource
     {
-        $entity = Meal::findOrFail($id);
+        $dish->fill($request->validated());
 
-        $entity->fill($request->validated());
+        if ($request->has('ingredients')) {
+            $dish->ingredients()->sync($request->input('ingredients'));
+        }
 
-        $entity->save();
+        $dish->save();
 
-        return IngredientResource::make($entity);
+        $dish->load('ingredients');
+
+        return DishResource::make($dish);
     }
 
     /**
-     * Delete an ingredient.
+     * Delete a dish.
      *
-     * @param  int  $id  The ingredient ID
+     * @param  $dish  The dish ID
      */
-    public function destroy(Request $request, $id): Response
+    public function destroy(Request $request, Dish $dish): Response
     {
-        $entity = Meal::findOrFail($id);
-
-        $entity->delete();
+        $dish->delete();
 
         return response()->noContent();
     }
