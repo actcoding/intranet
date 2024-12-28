@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\LinkController;
 use App\Http\Controllers\Menu\DishController;
 use App\Http\Controllers\Menu\IngredientController;
 use App\Http\Controllers\Menu\MenuController;
-use App\Http\Controllers\LinkController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\UserController;
