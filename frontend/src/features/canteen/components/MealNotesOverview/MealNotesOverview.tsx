@@ -1,4 +1,4 @@
-import {CreateOrEditMealNoteDialog, MealNotesOverviewListItem} from '@/features/canteen/components/MealNotesOverview'
+import {CreateMealNoteDialog, MealNotesOverviewListItem} from '@/features/canteen/components/MealNotesOverview'
 
 interface MealNotesOverviewProps {
     notes: any[];
@@ -9,7 +9,7 @@ export const MealNotesOverview = ({notes}: MealNotesOverviewProps) => {
         <>
             <div className="flex justify-between gap-3">
                 <h1 className="mb-4 text-4xl font-semibold">Hinweise</h1>
-                <CreateOrEditMealNoteDialog />
+                <CreateMealNoteDialog />
             </div>
             <div className="grid gap-3 md:grid-cols-3">
                 {notes.map((note, index) => <MealNotesOverviewListItem key={index} note={note} />)}

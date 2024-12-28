@@ -51,12 +51,12 @@ const DeleteMealNoteDialog = ({note}: DeleteMealNoteDialogProps) => {
                 </ResponsiveDialogHeader>
                 <ResponsiveDialogBody>{`Soll der Hinweis "${note.name}" wirklich gelöscht werden?`}</ResponsiveDialogBody>
                 <ResponsiveDialogFooter>
-                    <ResponsiveDialogClose>
+                    <Button variant="destructive" onClick={() => handleDelete(note)}>Löschen</Button>
+                    <ResponsiveDialogClose asChild>
                         <Button variant="outline">
                             Abbrechen
                         </Button>
                     </ResponsiveDialogClose>
-                    <Button variant="destructive" onClick={() => handleDelete(note)}>Löschen</Button>
                 </ResponsiveDialogFooter>
             </ResponsiveDialogContent>
         </ResponsiveDialog>

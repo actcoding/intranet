@@ -1,5 +1,6 @@
 export * from './MealNotesOverview'
-export * from './CreateOrEditMealNoteDialog'
+export * from './CreateMealNoteDialog'
+export * from './EditMealNoteDialog'
 export * from './DeleteMealNoteDialog'
 export * from './MealNoteTitleFormField'
 export * from './MealNoteTypeFormField'
