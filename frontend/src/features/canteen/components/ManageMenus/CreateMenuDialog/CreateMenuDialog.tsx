@@ -52,13 +52,13 @@ const CreateMenuDialog = () => {
                 </Button>
             </ResponsiveDialogTrigger>
             <ResponsiveDialogContent>
-                <MenuFormProvider onSubmit={handleSubmit}>
+                <MenuFormProvider onSubmit={handleSubmit} defaultValues={{name: '', nutrition: '', defaultPrice: 0}}>
                     <ResponsiveDialogHeader>
                         <ResponsiveDialogTitle>Menü erstellen</ResponsiveDialogTitle>
                     </ResponsiveDialogHeader>
-                    <ResponsiveDialogBody>
+                    <ResponsiveDialogBody className="space-y-3">
                         <MenuNameFormField />
-                        TODO: Add fields
+                        TODO: Add more fields
                     </ResponsiveDialogBody>
                     <ResponsiveDialogFooter>
                         <FormSubmitButton>Erstellen</FormSubmitButton>

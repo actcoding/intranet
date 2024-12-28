@@ -1,7 +1,9 @@
 'use client'
 
+import {menuFormSchema} from '@/features/canteen/constants'
 import {MenuFormValues} from '@/features/canteen/types'
 import {Form} from '@/lib/components/common/Form'
+import {zodResolver} from '@hookform/resolvers/zod'
 import {ReactNode} from 'react'
 import {useForm} from 'react-hook-form'
 
@@ -15,6 +17,7 @@ export const MenuFormProvider = ({onSubmit, defaultValues, children}: MenuFormPr
     const form = useForm<MenuFormValues>({
         mode: 'onChange',
         defaultValues,
+        resolver: zodResolver(menuFormSchema),
     })
     return (
         <Form {...form}>
