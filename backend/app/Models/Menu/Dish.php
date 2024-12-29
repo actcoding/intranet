@@ -34,6 +34,13 @@ class Dish extends Model
     ];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['ingredients'];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

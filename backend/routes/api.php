@@ -6,6 +6,7 @@ use App\Http\Controllers\LinkController;
 use App\Http\Controllers\Menu\DishController;
 use App\Http\Controllers\Menu\IngredientController;
 use App\Http\Controllers\Menu\MenuController;
+use App\Http\Controllers\Menu\PlanController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\UserController;
@@ -79,6 +80,10 @@ Route::prefix('/menu')
         ], [
             'middleware' => 'auth:api',
         ]);
+
+        Route::get('/plan', [PlanController::class, 'list']);
+        Route::post('/serve', [PlanController::class, 'serve']);
+        Route::delete('/unserve', [PlanController::class, 'unserve']);
     });
 
 Route::prefix('/link')

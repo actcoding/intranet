@@ -16,9 +16,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignIdFor(Menu::class);
+            $table->foreignIdFor(Menu::class)->constrained()->cascadeOnDelete();
             $table->date('served_at');
             $table->double('price');
+
+            $table->unique(['menu_id', 'served_at']);
         });
     }
 

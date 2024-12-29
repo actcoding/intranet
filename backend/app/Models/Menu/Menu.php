@@ -5,6 +5,7 @@ namespace App\Models\Menu;
 use App\Enum\Menu\MenuNutrition;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Menu extends Model
 {
@@ -32,8 +33,20 @@ class Menu extends Model
         ];
     }
 
+    /**
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = ['plans'];
+
     public function dishes(): BelongsToMany
     {
         return $this->belongsToMany(Dish::class, 'menu_to_dish');
+    }
+
+    public function plans(): HasMany
+    {
+        return $this->hasMany(MenuPlan::class);
     }
 }

@@ -27,6 +27,7 @@ class MenuPlanResource extends JsonResource
     {
         return [
             'id' => $this->conditionalId('menu.plan.viewall'),
+            'updated_at' => $this->resource->updated_at,
             'served_at' => date_format($this->resource->served_at, 'Y-m-d'),
             'price' => $this->resource->price,
 
