@@ -25,6 +25,7 @@ class Translate extends Command
     protected $signature = 'app:translate
                             {language : The target language code. See <https://cloud.google.com/translate/docs/languages> for reference}
                             {--force : Force the operation to run}
+                            {--ignore-existing : Ignore string that have already been translated.}
                             {--only= : Limit translation to a single component.}';
 
     /**
@@ -95,7 +96,7 @@ class Translate extends Command
         $targetLanguage = $this->argument('language');
 
         $existingKeys = collect();
-        if (is_dir(lang_path($targetLanguage))) {
+        if (! $this->option('ignore-existing') && is_dir(lang_path($targetLanguage))) {
             $filesTarget = array_diff(scandir(lang_path($targetLanguage)), ['..', '.']);
             /** @var Collection<string, string> */
             $existingKeys = collect($filesTarget)
@@ -115,7 +116,7 @@ class Translate extends Command
 
         $count = $data->count();
         if ($count == 0) {
-            $this->info('There is nothing to translate :)');
+            $this->info('There is nothing to translate 🤌');
 
             return;
         }
@@ -158,7 +159,7 @@ class Translate extends Command
         $targetLanguage = $this->argument('language');
 
         $data = collect(
-            json_decode(file_get_contents(base_path('frontend/messages/en.json')), true)
+            json_decode(file_get_contents(base_path('../frontend/messages/en.json')), true)
         )
             ->dot()
             ->filter(fn (string $value, string $key) => $this->skip->doesntContain($key));
@@ -184,7 +185,7 @@ class Translate extends Command
             ->undot();
 
         $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE;
-        file_put_contents(base_path('frontend/messages/' . $targetLanguage . '.json'), $translated->toJson($options));
+        file_put_contents(base_path('../frontend/messages/' . $targetLanguage . '.json'), $translated->toJson($options));
 
         $this->info("Successfully translated {$count} strings.");
         $this->comment('Note that the content has been machine-translated. Make sure to manually review the translations.');

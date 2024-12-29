@@ -1,10 +1,9 @@
-import {
-    DraftTitleFormField,
-    DraftTypeFormField,
-} from '@/features/posts/components/DraftForm'
-import { DraftFormProvider } from '@/features/posts/contexts/DraftFormContext'
-import { CreateDraftFormValues } from '@/features/posts/types'
-import { FormSubmitButton } from '@/shared/components/FormSubmitButton'
+'use client'
+
+import {DraftTitleFormField, DraftTypeFormField} from '@/features/posts/components/DraftForm'
+import {DraftFormProvider} from '@/features/posts/contexts/DraftFormContext'
+import {CreateDraftFormValues} from '@/features/posts/types'
+import {FormSubmitButton} from '@/shared/components/FormSubmitButton'
 
 export interface DraftFormProps {
     onSuccess?: () => void;

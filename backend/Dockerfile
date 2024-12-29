@@ -2,6 +2,7 @@ FROM dunglas/frankenphp:php8.3-alpine
 
 RUN install-php-extensions \
         pgsql \
+        pdo_pgsql \
         redis \
         opcache \
         pcntl \
@@ -29,4 +30,4 @@ VOLUME [ "/app/storage" ]
 
 EXPOSE 8000
 
-CMD [ "php", "artisan", "octane:start", "--host=0.0.0.0", "--port=8000" ]
+CMD [ "/app/docker-entrypoint.sh" ]

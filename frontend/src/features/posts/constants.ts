@@ -24,6 +24,10 @@ export const createDraftFormSchema = z.object({
     type: z.enum(['news', 'event']),
 })
 
+export const linkPostFormSchema = z.object({
+    postId: z.string(),
+})
+
 export const eventDateTimeRangeConfig: DateTimeFormatOptions = {
     year: 'numeric',
     month: 'short',

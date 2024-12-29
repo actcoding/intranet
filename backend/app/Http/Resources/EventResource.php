@@ -41,7 +41,8 @@ class EventResource extends JsonResource
                 'name' => $this->resource->author->name,
             ],
 
-            'attachments' => AttachmentResource::collection($this->resource->attachments),
+            'attachments' => $this->whenLoaded('attachments', fn () => AttachmentResource::collection($this->resource->attachments)),
+            'linked_news' => $this->whenLoaded('news', fn () => NewsResource::collection($this->resource->news)),
         ];
     }
 }

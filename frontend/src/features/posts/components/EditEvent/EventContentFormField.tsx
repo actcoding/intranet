@@ -1,19 +1,14 @@
 'use client'
 
-import { uploadEventFile } from '@/features/posts/actions'
-import { useEvent } from '@/features/posts/hooks'
-import { EventFormValues } from '@/features/posts/types'
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/lib/components/common/Form'
-import { useToast } from '@/lib/components/hooks/use-toast'
-import Editor from '@/lib/components/news/create-news-form/components/news-form-fields/news-content-form-field/components/editor/Editor'
-import { serializeFileData } from '@/lib/utils'
-import { useFormContext } from 'react-hook-form'
+import {uploadEventFile} from '@/features/posts/actions'
+import {usePost} from '@/features/posts/hooks'
+import {Event, EventFormValues} from '@/features/posts/types'
+import {FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/lib/components/common/Form'
+import {useToast} from '@/lib/components/hooks/use-toast'
+import Editor
+    from '@/lib/components/news/create-news-form/components/news-form-fields/news-content-form-field/components/editor/Editor'
+import {serializeFileData} from '@/lib/utils'
+import {useFormContext} from 'react-hook-form'
 
 interface EventContentFormField {
     label: string;
@@ -21,7 +16,7 @@ interface EventContentFormField {
 
 const EventContentFormField = (props: EventContentFormField) => {
     const form = useFormContext<EventFormValues>()
-    const { event } = useEvent()
+    const { post } = usePost<Event>()
     const { toast } = useToast()
     return (
         <FormField
@@ -35,7 +30,7 @@ const EventContentFormField = (props: EventContentFormField) => {
                             {...field}
                             onImageSelect={async (file, editor) => {
                                 const { error, data } = await uploadEventFile(
-                                    event.id,
+                                    post.id,
                                     'content',
                                     serializeFileData(file),
                                 )

@@ -1,9 +1,9 @@
 'use client'
 
-import { AttachmentResourceData } from '@/lib/api/generated'
-import { Button } from '@/lib/components/common/Button'
-import { ResponsiveDialogTrigger } from '@/lib/components/common/ResponsiveDialog'
-import { UploadIcon } from 'lucide-react'
+import {AttachmentResourceData} from '@/lib/api/generated'
+import {Button} from '@/lib/components/common/Button'
+import {ResponsiveDialogTrigger} from '@/lib/components/common/ResponsiveDialog'
+import {UploadIcon} from 'lucide-react'
 import Image from 'next/image'
 
 interface Props {
@@ -19,6 +19,8 @@ export function NewsHeaderImageUploadButton({ file }: Props) {
                         src={file.url}
                         alt={file.name}
                         className="h-full rounded-lg object-cover opacity-65"
+                        width={200}
+                        height={100}
                     />
                     <span className='z-10 bg-white/75 py-2 text-black'>
                         Bild ändern

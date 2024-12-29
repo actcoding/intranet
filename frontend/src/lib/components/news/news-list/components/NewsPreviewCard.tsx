@@ -1,17 +1,11 @@
-import { NewsResource } from '@/lib/api/generated'
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from '@/lib/components/common/Card'
+import {NewsResource} from '@/lib/api/generated'
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/lib/components/common/Card'
 import NewsStatusBadge from '@/lib/components/shared/NewsStatusBadge'
 import SanitizedHTMLContent from '@/lib/components/shared/SanitizedHTMLContent'
-import { cn } from '@/lib/utils'
-import { cva } from 'class-variance-authority'
-import { NewspaperIcon } from 'lucide-react'
-import { useFormatter } from 'next-intl'
+import {cn} from '@/lib/utils'
+import {cva} from 'class-variance-authority'
+import {NewspaperIcon} from 'lucide-react'
+import {useFormatter} from 'next-intl'
 import Image from 'next/image'
 
 interface NewsPreviewCardProps {
@@ -37,7 +31,7 @@ const NewsPreviewCard = ({
             )}
         >
             <NewsPreviewCardHeaderImage
-                src={news.attachments.find(a => a.type === 'header')?.data.url}
+                src={news.attachments?.find(a => a.type === 'header')?.data.url}
                 alt={news.title || 'News'}
                 position={headerImagePosition}
             />

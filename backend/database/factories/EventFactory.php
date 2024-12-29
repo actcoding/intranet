@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Event;
-use DateInterval;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,12 +24,12 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
-        $start = $this->faker->dateTime();
+        $start = now();
 
         return [
             'author_id' => 1,
             'starting_at' => $start,
-            'ending_at' => $start->add(new DateInterval('P1D')),
+            'ending_at' => $start->addDay(),
             'title' => $this->faker->sentence(5),
             'content' => '<p>' . $this->faker->sentence(50) . '</p>',
         ];

@@ -1,10 +1,10 @@
-import { CreateDraftDialog } from '@/core/layout/Sidebar'
-import { newsApi } from '@/lib/api/api'
-import { DataTable } from '@/lib/components/common/DataTable'
-import { columns } from '@/lib/components/manage/manage-news/manage-news-table/ManageNewsTable.config'
-import { pick } from 'lodash'
-import { NextIntlClientProvider } from 'next-intl'
-import { getMessages, getTranslations } from 'next-intl/server'
+import {CreateDraftDialog} from '@/features/posts/components/CreateDraftDialog'
+import {newsApi} from '@/lib/api/api'
+import {DataTable} from '@/lib/components/common/DataTable'
+import {columns} from '@/lib/components/manage/manage-news/manage-news-table/ManageNewsTable.config'
+import {pick} from 'lodash'
+import {NextIntlClientProvider} from 'next-intl'
+import {getMessages, getTranslations} from 'next-intl/server'
 
 interface Props {
     searchParams?: {

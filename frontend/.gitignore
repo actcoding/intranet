@@ -41,3 +41,4 @@ next-env.d.ts
 
 .env
 src/lib/api/generated
+api.json
