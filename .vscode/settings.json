@@ -1,4 +1,7 @@
 {
+    "commitlint.config.file": "workspace/commitlint.config.ts",
+    "commitlint.log.enabled": true,
+
     "editor.foldingImportsByDefault": true,
     "editor.defaultFormatter": null,
     "editor.linkedEditing": true,

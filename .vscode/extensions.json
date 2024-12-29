@@ -11,8 +11,8 @@
         "herrmannplatz.npm-dependency-links",
         "bradlc.vscode-tailwindcss",
         "GitHub.vscode-github-actions",
-        "GitHub.vscode-pull-request-github",
-        "yoavbls.pretty-ts-errors"
+        "yoavbls.pretty-ts-errors",
+        "joshbolduc.commitlint"
     ],
     "unwantedRecommendations": [
         "esbenp.prettier-vscode"
