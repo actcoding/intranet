@@ -12,11 +12,9 @@ Route::get('/storage/{path}', StorageController::class)
     ->where('path', '.*');
 
 Route::prefix('/auth')
-    ->middleware('auth:api')
     ->group(function () {
         Route::post('/login', [AuthController::class, 'login'])
-            ->name('auth.login')
-            ->withoutMiddleware('auth:api');
+            ->name('auth.login');
 
         Route::post('/logout', [AuthController::class, 'logout'])
             ->name('auth.logout');
@@ -26,6 +24,9 @@ Route::prefix('/auth')
 
         Route::post('/reset-password', [AuthController::class, 'resetPassword'])
             ->name('auth.reset');
+
+        Route::get('/whoami', [AuthController::class, 'whoami'])
+            ->name('auth.whoami');
     });
 
 Route::prefix('/user')
