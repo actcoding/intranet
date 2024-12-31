@@ -28,7 +28,7 @@ const DeleteMealNoteDialog = ({note}: DeleteMealNoteDialogProps) => {
 
     const handleDelete = async (note: any) => {
         try {
-            deleteMealNote(note.id)
+            await deleteMealNote({ingredient: note.id})
             setIsOpen(false)
             toast({title: 'Hinweis gelöscht', description: `Der Hinweis "${note.name}" wurde erfolgreich gelöscht.`})
             refresh()

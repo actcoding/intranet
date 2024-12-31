@@ -25,9 +25,9 @@ const CreateMealNoteDialog = () => {
     const { refresh } = useRouter()
     const { toast } = useToast()
 
-    const handleSubmit = (values: MealNoteFormValues) => {
+    const handleSubmit = async (values: MealNoteFormValues) => {
         try {
-            createMealNote(values)
+            await createMealNote({ingredientStoreRequest: values})
             setIsOpen(false)
             toast({title: 'Hinweis erstellt', description: `Der Hinweis "${values.name}" wurde erfolgreich erstellt.`})
             refresh()

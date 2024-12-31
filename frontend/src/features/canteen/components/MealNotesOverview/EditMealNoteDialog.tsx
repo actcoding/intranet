@@ -30,9 +30,9 @@ const EditMealNoteDialog = ({note}: EditMealNoteDialogProps) => {
     const { refresh } = useRouter()
     const { toast } = useToast()
 
-    const handleSubmit = (values: MealNoteFormValues) => {
+    const handleSubmit = async (values: MealNoteFormValues) => {
         try {
-            updateMealNote({noteId: note.id, values})
+            await updateMealNote({ingredient: note.id, ingredientUpdateRequest: values})
             setIsOpen(false)
             toast({title: 'Hinweis aktualisiert', description: `Der Hinweis "${values.name}" wurde erfolgreich aktualisiert.`})
             refresh()
