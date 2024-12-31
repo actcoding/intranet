@@ -12,6 +12,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+/**
+ * @tags Canteen
+ */
 class MenuController extends Controller
 {
     /**
