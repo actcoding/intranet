@@ -3,6 +3,7 @@
 projects:
   - backend
   - frontend
+  - workspace
 
 vcs:
   manager: git
@@ -13,3 +14,5 @@ vcs:
   hooks:
     pre-commit:
       - 'moon run :lint --affected'
+    commit-msg:
+      - 'moon run -u workspace:check-commit-message -- "$1"'
