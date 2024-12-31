@@ -1,0 +1,7 @@
+services:
+  devcontainer:
+    image: ghcr.io/actcoding/intranet/devcontainer
+    # build: .
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity

@@ -1,0 +1,78 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/php
+{
+    "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+    "name": "@actcoding/intranet",
+    "remoteUser": "vscode",
+    "dockerComposeFile": [
+        "./docker-compose.yml",
+        "../docker-compose.yml"
+    ],
+    "service": "devcontainer",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+    "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers-extra/features/act:1": {},
+        "ghcr.io/eitsupi/devcontainer-features/jq-likes:2": {},
+        "ghcr.io/michidk/devcontainers-features/bun:1": {},
+        "ghcr.io/actcoding/devcontainer-features/moonrepo:1": {},
+        "ghcr.io/actcoding/devcontainer-features/phpactor:1": {}
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "actboy168.tasks",
+                "axelrindle.duplicate-file",
+                "axelrindle.task-explorer",
+                "bradlc.vscode-tailwindcss",
+                "christian-kohler.path-intellisense",
+                "ctf0.php-class-imports-folding",
+                "dbaeumer.vscode-eslint",
+                "DEVSENSE.composer-php-vscode",
+                "EditorConfig.EditorConfig",
+                "GitHub.vscode-github-actions",
+                "GitHub.vscode-pull-request-github",
+                "herrmannplatz.npm-dependency-links",
+                "joshbolduc.commitlint",
+                "lokalise.i18n-ally",
+                "mikestead.dotenv",
+                "onecentlin.laravel-blade",
+                "oven.bun-vscode",
+                "phpactor.vscode-phpactor",
+                "redhat.vscode-yaml",
+                "Wiensss.region-highlighter",
+                "YoavBls.pretty-ts-errors"
+            ],
+            "settings": {
+                "phpactor.executablePath": "/usr/local/bin/php",
+                "phpactor.path": "/opt/phpactor/bin/phpactor"
+            }
+        }
+    },
+
+    "forwardPorts": [
+        8000,
+        3000
+    ],
+    "portsAttributes": {
+        "8000": {
+            "label": "Backend",
+            "onAutoForward": "silent",
+            "protocol": "http"
+        },
+        "3000": {
+            "label": "Frontend",
+            "protocol": "http",
+            "onAutoForward": "openBrowser"
+        }
+    },
+
+    "onCreateCommand": {
+        "completions": "echo 'autoload -Uz compinit; compinit' >> $HOME/.zshrc",
+        "starship": "echo 'eval \"$(starship init zsh)\"' >> $HOME/.zshrc"
+    },
+    "postStartCommand": "moon run :install"
+}
