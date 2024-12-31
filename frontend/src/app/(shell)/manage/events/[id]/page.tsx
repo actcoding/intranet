@@ -1,5 +1,5 @@
-import { EventForm } from '@/features/posts/components/EventForm'
-import { eventApi } from '@/lib/api/api'
+import {EditEvent} from '@/features/posts/components/EditEvent'
+import {eventApi} from '@/lib/api/api'
 
 interface EditEventPageProps {
     params: {
@@ -13,7 +13,7 @@ const EditEventPage = async ({ params }: EditEventPageProps) => {
     const attachments = files.filter((file) => file.type === 'attachment')
 
     return (
-        <EventForm
+        <EditEvent
             event={{
                 ...event,
                 attachments,
