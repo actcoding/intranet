@@ -3,6 +3,10 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LinkController;
+use App\Http\Controllers\Menu\DishController;
+use App\Http\Controllers\Menu\IngredientController;
+use App\Http\Controllers\Menu\MenuController;
+use App\Http\Controllers\Menu\PlanController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\UserController;
@@ -66,6 +70,21 @@ Route::delete('/event/{event}/upload/{attachment}', [EventController::class, 'de
     ->name('event.upload.delete')
     ->whereNumber('event')
     ->whereNumber('attachment');
+
+Route::prefix('/menu')
+    ->group(function () {
+        Route::apiResources([
+            '/ingredient' => IngredientController::class,
+            '/dish' => DishController::class,
+            '/menu' => MenuController::class,
+        ], [
+            'middleware' => 'auth:api',
+        ]);
+
+        Route::get('/plan', [PlanController::class, 'list']);
+        Route::post('/serve', [PlanController::class, 'serve']);
+        Route::delete('/unserve', [PlanController::class, 'unserve']);
+    });
 
 Route::prefix('/link')
     ->middleware('auth:api')
