@@ -1,23 +1,8 @@
 import {MealNotesOverview} from '@/features/canteen/components/MealNotesOverview'
+import { canteenApi } from '@/lib/api/api'
 
-const MealNotesOverviewPage = () => {
-    const notes = [
-        {
-            id: 1,
-            name: 'Enthält Nüsse',
-            type: 'allergen',
-        },
-        {
-            id: 2,
-            name: 'Enthält Gluten',
-            type: 'allergen',
-        },
-        {
-            id: 3,
-            name: 'Enthält Geschmacksverstärker',
-            type: 'additive',
-        },
-    ]
+const MealNotesOverviewPage = async () => {
+    const notes = await canteenApi.ingredientIndex()
 
     return (
         <MealNotesOverview notes={notes} />
