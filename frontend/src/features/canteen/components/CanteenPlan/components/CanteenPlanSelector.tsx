@@ -2,11 +2,11 @@
 
 import { Button } from '@/lib/components/common/Button'
 import { Card } from '@/lib/components/common/Card'
-import { addWeeks, endOfWeek, format, getDay, setDay, startOfWeek, subWeeks } from 'date-fns'
-import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
+import { addWeeks, endOfWeek, format, getDay, isWithinInterval, setDay, startOfWeek, subWeeks } from 'date-fns'
+import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface CanteenPlanSelectorProps {
-    selected: Date,
+    selectedDate: Date,
     onSelect: (date: Date) => void,
 }
 
@@ -18,22 +18,35 @@ const dayOptions = [
     { value: 5, label: 'Fr' },
 ]
 
-const CanteenPlanSelector = ({ selected, onSelect } : CanteenPlanSelectorProps) => {
-    const weekStartsOn = 1 //start on Monday
+const CanteenPlanSelector = ({ selectedDate, onSelect } : CanteenPlanSelectorProps) => {
+    const weekStartsOn = 1 
+
+    const currentDate = new Date() 
+  
+    const startCurrentWeek = startOfWeek(currentDate, { weekStartsOn: 1 }) 
+    const endCurrentWeek = endOfWeek(currentDate, { weekStartsOn: 1 })
+  
+    const startNextWeek = addWeeks(startCurrentWeek, 1)
+    const endNextWeek = addWeeks(endCurrentWeek, 1)
+
+    const isSameWeek = isWithinInterval(selectedDate, { start: startCurrentWeek, end: endCurrentWeek })
+    const isNextWeek = isWithinInterval(selectedDate, { start: startNextWeek, end: endNextWeek })
+
+    const startSelectedWeek = format(startOfWeek(selectedDate, { weekStartsOn }), 'dd.MM.yyyy')
+    const endSelectedWeek = format(endOfWeek(selectedDate, { weekStartsOn }), 'dd.MM.yyyy')
 
     const goToPreviousWeek = () => {
-        const updatedDate = subWeeks(selected, 1)
+        const updatedDate = subWeeks(selectedDate, 1)
         onSelect(updatedDate)
     }
 
     const goToNextWeek = () => {
-        const updatedDate = addWeeks(selected, 1)
+        const updatedDate = addWeeks(selectedDate, 1)
         onSelect(updatedDate)
     }
 
-    // weekdays from 0=Sunday to 6=Saturday
     const selectDay = (selectedWeekday: number) => {
-        const updatedDate = setDay(selected, selectedWeekday)
+        const updatedDate = setDay(selectedDate, selectedWeekday)
         onSelect(updatedDate)
     }
 
@@ -42,11 +55,19 @@ const CanteenPlanSelector = ({ selected, onSelect } : CanteenPlanSelectorProps) 
             <Card className='w-full max-w-lg py-4 shadow-lg'>
                 {/* Week Selector */}
                 <div className='mb-4 flex items-center justify-center gap-6'>
-                    <Button variant='outline' onClick={goToPreviousWeek}>
+                    <Button 
+                        variant='ghost' 
+                        onClick={goToPreviousWeek}
+                        disabled={isSameWeek}
+                    >
                         <ChevronLeft />
                     </Button>
-                    <p className='font-semibold'>{format(startOfWeek(selected, { weekStartsOn }), 'dd.MM.yyyy') + ' - ' + format(endOfWeek(selected, { weekStartsOn }), 'dd.MM.yyyy')}</p>
-                    <Button variant='outline' onClick={goToNextWeek}>
+                    <p className='font-semibold'>{startSelectedWeek + ' - ' + endSelectedWeek}</p>
+                    <Button 
+                        variant='ghost' 
+                        onClick={goToNextWeek}
+                        disabled={isNextWeek}
+                    >
                         <ChevronRight />
                     </Button>
                 </div>
@@ -56,7 +77,7 @@ const CanteenPlanSelector = ({ selected, onSelect } : CanteenPlanSelectorProps) 
                         <Button
                             key={day.value}
                             onClick={() => selectDay(day.value)}
-                            variant={getDay(selected) === day.value ? 'default' : 'outline'}
+                            variant={getDay(selectedDate) === day.value ? 'default' : 'outline'}
                             className="w-16"
                         >
                             {day.label}
@@ -64,8 +85,8 @@ const CanteenPlanSelector = ({ selected, onSelect } : CanteenPlanSelectorProps) 
                     ))}
                 </div>
                 <div className='flex flex-row justify-center gap-2'>
-                    <Calendar />
-                    <p>{format(selected, 'dd.MM.yyyy')}</p>
+                    <CalendarDays />
+                    <p>{format(selectedDate, 'dd.MM.yyyy')}</p>
                 </div>
             </Card>
         </div>

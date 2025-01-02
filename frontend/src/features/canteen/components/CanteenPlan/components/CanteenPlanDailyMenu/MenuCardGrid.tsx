@@ -1,12 +1,12 @@
 import MenuCard from './components/MenuCard'
 import { MenuPlanResource } from '@/lib/api/generated'
 
-interface CanteenPlanDailyMenuProps {
+interface MenuCardGridProps {
     menuList: MenuPlanResource[]
     className?: string
 }
 
-const CanteenPlanDailyMenu = ({menuList, className} : CanteenPlanDailyMenuProps) => {
+const MenuCardGrid = ({menuList, className} : MenuCardGridProps) => {
     return <div className={className}>
         {menuList.length === 0 ? 
             <h1 className='flex justify-center'>Für diesen Tag wurden noch keine Menüs festgelegt</h1>
@@ -20,4 +20,4 @@ const CanteenPlanDailyMenu = ({menuList, className} : CanteenPlanDailyMenuProps)
     </div>
 }
 
-export default CanteenPlanDailyMenu
+export default MenuCardGrid

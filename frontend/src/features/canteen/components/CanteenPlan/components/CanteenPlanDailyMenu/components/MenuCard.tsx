@@ -1,7 +1,7 @@
 import { DishResource, MenuPlanResource } from '@/lib/api/generated'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/lib/components/common/Card'
 import { Dessert, UtensilsCrossedIcon } from 'lucide-react'
-import IngredientBadges from './NoteBadges'
+import IngredientBadges from './IngredientBadges'
 
 interface MenuCardProps {
     menuPlan: MenuPlanResource
@@ -27,8 +27,9 @@ const MenuCard = ({menuPlan}: MenuCardProps) => {
                         <div key={dish.id} className="my-4 border-t pt-2">
                             <div className="mt-2 flex items-start">
                                 {dish.type === 'dessert' ?
-                                    <Dessert className="mr-2" />
-                                    : <UtensilsCrossedIcon className="mr-2" />
+                                    <Dessert className="mr-2"/>
+                                    : 
+                                    <UtensilsCrossedIcon className="mr-2"/>
                                 }
                                 <div>
                                     <p className="font-semibold">{dish.name}</p>
