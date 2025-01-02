@@ -88,10 +88,7 @@
                 "focus": false,
                 "panel": "dedicated"
             },
-            "group": "none",
-            "runOptions": {
-                "runOn": "folderOpen"
-            }
+            "group": "none"
         },
         {
             "label": "Dev",
