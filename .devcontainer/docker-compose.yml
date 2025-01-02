@@ -1,6 +1,9 @@
+name: intranet
+
 services:
   devcontainer:
     image: ghcr.io/actcoding/intranet/devcontainer
+    pull_policy: always
     # build: .
     volumes:
       - ../..:/workspaces:cached
