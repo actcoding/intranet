@@ -2,7 +2,7 @@
 
 import { Button } from '@/lib/components/common/Button'
 import { Card } from '@/lib/components/common/Card'
-import { addWeeks, endOfWeek, format, getDay, isWithinInterval, setDay, startOfWeek, subWeeks } from 'date-fns'
+import { addWeeks, endOfWeek, format, getDay, getISOWeek, setDay, startOfWeek, subWeeks } from 'date-fns'
 import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface CanteenPlanSelectorProps {
@@ -19,21 +19,15 @@ const dayOptions = [
 ]
 
 const CanteenPlanSelector = ({ selectedDate, onSelect } : CanteenPlanSelectorProps) => {
-    const weekStartsOn = 1 
-
     const currentDate = new Date() 
-  
-    const startCurrentWeek = startOfWeek(currentDate, { weekStartsOn: 1 }) 
-    const endCurrentWeek = endOfWeek(currentDate, { weekStartsOn: 1 })
-  
-    const startNextWeek = addWeeks(startCurrentWeek, 1)
-    const endNextWeek = addWeeks(endCurrentWeek, 1)
+    const currentWeek = getISOWeek(currentDate)
+    const selectedWeek = getISOWeek(selectedDate)
 
-    const isSameWeek = isWithinInterval(selectedDate, { start: startCurrentWeek, end: endCurrentWeek })
-    const isNextWeek = isWithinInterval(selectedDate, { start: startNextWeek, end: endNextWeek })
+    const isSameWeek = currentWeek === selectedWeek
+    const isNextWeek = currentWeek < selectedWeek
 
-    const startSelectedWeek = format(startOfWeek(selectedDate, { weekStartsOn }), 'dd.MM.yyyy')
-    const endSelectedWeek = format(endOfWeek(selectedDate, { weekStartsOn }), 'dd.MM.yyyy')
+    const startSelectedWeek = format(startOfWeek(selectedDate, { weekStartsOn: 1 }), 'dd.MM.yyyy')
+    const endSelectedWeek = format(endOfWeek(selectedDate, { weekStartsOn: 1 }), 'dd.MM.yyyy')
 
     const goToPreviousWeek = () => {
         const updatedDate = subWeeks(selectedDate, 1)
