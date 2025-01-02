@@ -4,9 +4,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PhpinfoController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/phpinfo', PhpinfoController::class);
 
 Route::get('/storage/{path}', StorageController::class)
     ->where('path', '.*');
