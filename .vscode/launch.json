@@ -2,6 +2,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Laravel Debug",
+            "type": "php",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/backend",
+            "env": {
+                "XDEBUG_MODE": "develop,debug",
+                "XDEBUG_SESSION": "1",
+            },
+            "program": "${workspaceFolder}/backend/artisan",
+            "args": [
+                "serve"
+            ]
+        },
+        {
             "name": "Next.js Debug",
             "type": "node",
             "request": "launch",
