@@ -14,6 +14,7 @@ RUN apt-get update && \
         zsh \
     && \
     install-php-extensions \
+        xdebug \
         pgsql \
         pdo_pgsql \
         redis \
