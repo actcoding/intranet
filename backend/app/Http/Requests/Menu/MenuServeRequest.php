@@ -26,7 +26,7 @@ class MenuServeRequest extends FormRequest
             'menu_id' => 'required|exists:App\Models\Menu\Menu,id',
 
             'served_at' => 'required|date_format:Y-m-d',
-            'price' => 'decimal:2',
+            'price' => 'decimal:0,2',
         ];
     }
 }
