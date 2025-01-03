@@ -31,6 +31,7 @@ class Dish extends Model
         'name',
         'summary',
         'type',
+        'low_carb',
     ];
 
     /**
@@ -49,6 +50,7 @@ class Dish extends Model
     {
         return [
             'type' => DishType::class,
+            'low_carb' => 'boolean',
         ];
     }
 
