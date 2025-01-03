@@ -7,7 +7,6 @@ use App\Models\User;
 
 class MenuPlanPolicy
 {
-
     /**
      * Determine whether the user can view any models.
      */
