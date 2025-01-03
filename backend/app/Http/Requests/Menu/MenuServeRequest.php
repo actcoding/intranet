@@ -2,16 +2,14 @@
 
 namespace App\Http\Requests\Menu;
 
+use App\Models\Menu\MenuPlan;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MenuServeRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('create', MenuPlan::class);
     }
 
     /**
