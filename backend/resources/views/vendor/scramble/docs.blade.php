@@ -1,3 +1,8 @@
+@php
+    $scalarVersion = '1.25.80';
+    $scalarUrl = "https://cdn.jsdelivr.net/npm/@scalar/api-reference@{$scalarVersion}";
+@endphp
+
 <!doctype html>
 <html lang="en">
 
@@ -11,6 +16,8 @@
     />
 
     <link rel="shortcut icon" href="{{ url('logo.png') }}" type="image/x-icon">
+
+    <link rel="stylesheet" href="{{ $scalarUrl }}/dist/style.min.css">
 
     <style>
         :root {
@@ -75,7 +82,7 @@
             JSON.stringify(configuration)
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+    <script src="{{ $scalarUrl }}/dist/browser/standalone.min.js"></script>
 
 </body>
 
