@@ -11,12 +11,6 @@ const MenuList = ({menuPlanList}: MenuListProps) => {
             {menuPlanList.map((menuPlan) => (
                 <MenuItem key={menuPlan.id} menuPlan={menuPlan} />
             ))}
-            {menuPlanList.map((menuPlan) => (
-                <MenuItem key={menuPlan.id} menuPlan={menuPlan} />
-            ))}
-            {menuPlanList.map((menuPlan) => (
-                <MenuItem key={menuPlan.id} menuPlan={menuPlan} />
-            ))}
         </div>
     )
 }
