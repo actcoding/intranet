@@ -30,6 +30,11 @@ class DishResource extends JsonResource
             'name' => $this->resource->name,
             'summary' => $this->resource->summary,
             'type' => $this->resource->type,
+
+            /**
+             * @var bool
+             * @example false
+             */
             'low_carb' => $this->resource->low_carb,
 
             'notes' => $this->whenLoaded('ingredients', fn () => IngredientResource::collection($this->resource->ingredients)),
