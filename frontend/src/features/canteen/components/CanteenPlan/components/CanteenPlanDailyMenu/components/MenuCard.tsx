@@ -1,7 +1,7 @@
 import { DishResource, MenuPlanResource } from '@/lib/api/generated'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/lib/components/common/Card'
 import { Dessert, UtensilsCrossedIcon } from 'lucide-react'
-import IngredientBadges from './IngredientBadges'
+import IngredientBadges from '@/shared/components/IngredientBadges' 
 import { Badge } from '@/lib/components/common/Badge'
 
 interface MenuCardProps {
