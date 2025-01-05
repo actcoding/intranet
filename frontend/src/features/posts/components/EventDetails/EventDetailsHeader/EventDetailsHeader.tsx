@@ -14,7 +14,7 @@ const EventDetailsHeader = async ({event}: EventDetailsHeaderProps) => {
 
     return (
         <div className="mb-6 flex flex-row gap-6">
-            <EventPreviewTile date={new Date(event.startingAt)} className="h-28 w-20 rounded-lg" />
+            <EventPreviewTile date={new Date(event.startingAt)} className="h-28 w-20 shrink-0 rounded-lg" />
             <div className="flex flex-col items-start justify-center gap-3">
                 {event.status !== 'active' ? (
                     <NewsStatusBadge status={event.status} />

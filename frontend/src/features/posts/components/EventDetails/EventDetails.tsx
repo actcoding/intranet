@@ -1,4 +1,4 @@
-import {EventDetailsHeader, EventDetailsInfo} from '@/features/posts/components/EventDetails'
+import {EventDetailsHeader, EventDetailsInfo, LinkedNews} from '@/features/posts/components/EventDetails'
 import {Event} from '@/features/posts/types'
 import FileListPreview from '@/lib/components/shared/FileListPreview'
 import SanitizedHTMLContent from '@/lib/components/shared/SanitizedHTMLContent'
@@ -25,14 +25,19 @@ const EventDetails = async ({event}: EventDetailsProps) => {
                     'img',
                 ]}
             />
-
-            <hr className="my-6" />
+            {event.linkedNews && event.linkedNews?.length > 0 ? (
+                <>
+                    <hr className="my-6" />
+                    <LinkedNews news={event.linkedNews} />
+                </>
+            ) : null}
             {(event.attachments?.length ?? 0) > 0 ? (
-                <FileListPreview
-                    display='grid'
-                    files={event.attachments.map((file) => file.data) ?? []}
-                    download
-                />
+                <>
+                    <hr className="my-6" />
+                    <FileListPreview
+                        display='grid'
+                        files={event.attachments?.map((file) => file.data) ?? []}
+                        download /></>
             ) : null}
         </div>
     )
