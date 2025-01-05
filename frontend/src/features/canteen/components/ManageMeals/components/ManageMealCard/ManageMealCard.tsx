@@ -3,10 +3,11 @@
 import { DishResource } from '@/lib/api/generated'
 import { Badge } from '@/lib/components/common/Badge'
 import { Button } from '@/lib/components/common/Button'
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/lib/components/common/Card'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/lib/components/common/Card'
 import { PencilIcon} from 'lucide-react'
 import Link from 'next/link'
 import MealDeleteButton from './components/MealDeleteButton'
+import IngredientBadges from '@/shared/components/IngredientBadges'
 
 interface ManageMealCardProps {
     dish: DishResource
@@ -14,7 +15,7 @@ interface ManageMealCardProps {
 
 const ManageMealCard = ({dish} : ManageMealCardProps) => {
     return (
-        <Card>
+        <Card className="flex h-full flex-col">
             <CardHeader>
                 <CardTitle>
                     <div className='flex flex-row justify-between'>
@@ -25,9 +26,12 @@ const ManageMealCard = ({dish} : ManageMealCardProps) => {
                 </CardTitle>
                 <CardDescription>{dish.summary}</CardDescription>
             </CardHeader>
-            <CardFooter className="gap-2">
+            <CardContent className='grow'>
+                <IngredientBadges ingredients={dish.notes ?? []}/>
+            </CardContent>
+            <CardFooter className="mt-auto gap-2">
                 <Button className="flex-1" variant="outline" asChild>
-                    <Link href={`/manage/canteen/menus/${dish.id}`}>
+                    <Link href={`/manage/canteen/meals/${dish.id}`}>
                         <PencilIcon size={16} className="mr-2"/>
                         Bearbeiten
                     </Link>

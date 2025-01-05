@@ -1,5 +1,6 @@
 'use client'
 
+import { deleteDishAction } from '@/lib/actions/canteen'
 import { Button } from '@/lib/components/common/Button'
 import { Trash2Icon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -16,6 +17,7 @@ const MealDeleteButton = ({dishId}: MealDeleteButtonProps) => {
             size="icon"
             onClick={() => {
                 console.log('test:' + dishId)
+                // deleteDishAction(dishId)
                 router.refresh()
             }
             }
