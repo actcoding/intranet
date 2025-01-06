@@ -11,7 +11,7 @@ const ManageMealPage = async (props: Props) => {
     const meal = await canteenApi.dishShow({dish: parseInt(props.params.id)})
     
     return (
-        <ManageMeal dish={meal}/>
+        <ManageMeal meal={meal}/>
     )
 }
 
