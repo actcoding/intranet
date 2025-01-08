@@ -1,10 +1,11 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
 format = '''
-[┌───────────────────>](bold green) $sudo$username
-[│](bold green) $directory$package$git_branch$git_status$git_state
-[└─>](bold green) '''
+$directory$package$git_branch$git_status$git_state
+\$ '''
 
 [directory]
-truncate_to_repo = false
+truncate_to_repo = true
 
 [username]
 show_always = true

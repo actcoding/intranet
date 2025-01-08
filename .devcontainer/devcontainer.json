@@ -71,9 +71,5 @@
         }
     },
 
-    "onCreateCommand": {
-        "completions": "echo 'autoload -Uz compinit; compinit' >> $HOME/.zshrc",
-        "starship": "echo 'eval \"$(starship init zsh)\"' >> $HOME/.zshrc"
-    },
     "postStartCommand": "moon run :install"
 }

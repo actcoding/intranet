@@ -2,8 +2,6 @@
 autoload -Uz compinit
 compinit
 
-eval "$(starship init zsh)"
-
 # completions
 INCLUDE_DIR=~/.zsh/completions
 
@@ -19,3 +17,8 @@ if [ -d "$INCLUDE_DIR" ]; then
     fi
   done
 fi
+
+export PATH="${HOME}/bin:${PATH}"
+
+eval "$(starship init zsh)"
+eval "$(atuin init zsh)"
