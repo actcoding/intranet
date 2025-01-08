@@ -20,7 +20,7 @@ const ManageMealCard = ({dish} : ManageMealCardProps) => {
                 <CardTitle>
                     <div className='flex flex-row justify-between'>
                         <p>{dish.name}</p>
-                        {!dish.lowCarb ? <Badge variant="secondary">Low Carb</Badge> : null}
+                        {dish.lowCarb ? <Badge variant="secondary">Low Carb</Badge> : null}
                     </div>
                                 
                 </CardTitle>
