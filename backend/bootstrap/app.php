@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnforceJsonResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,11 +16,15 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->api(
+            prepend: [
+                EnforceJsonResponse::class,
+            ],
             append: [
                 HandleCors::class,
                 \Orkhanahmadov\LaravelAcceptLanguageMiddleware\Middleware::class,
             ]
         );
+
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
