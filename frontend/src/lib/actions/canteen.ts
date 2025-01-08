@@ -1,6 +1,6 @@
 'use server'
 import { canteenApi } from '../api/api'
-import { DishUpdateOperationRequest } from '../api/generated'
+import { DishStoreOperationRequest, DishUpdateOperationRequest } from '../api/generated'
 
 export async function deleteDishAction(id: number) {
     return canteenApi.dishDestroy({ dish:id })
@@ -8,4 +8,8 @@ export async function deleteDishAction(id: number) {
 
 export async function updateDishAction(request: DishUpdateOperationRequest) {
     return canteenApi.dishUpdate(request)
+}
+
+export async function createDishAction(request: DishStoreOperationRequest) {
+    return canteenApi.dishStore(request)
 }

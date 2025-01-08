@@ -9,6 +9,7 @@ import { Input } from '@/lib/components/common/Input'
 import { Button } from '@/lib/components/common/Button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/lib/components/common/Select'
 import { updateDishAction } from '@/lib/actions/canteen'
+import { Textarea } from '@/lib/components/common/Textarea'
 
 
 interface ManageMealFormProps {
@@ -63,7 +64,10 @@ const ManageMealForm = ({meal}: ManageMealFormProps) => {
                         <FormItem>
                             <FormLabel>Beschreibung</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Textarea 
+                                    className="resize-none"
+                                    {...field} 
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

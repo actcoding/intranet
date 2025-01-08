@@ -1,6 +1,6 @@
 import { DishResource } from '@/lib/api/generated'
 import ManageMealCard from './components/ManageMealCard/ManageMealCard'
-import { CreateMealDialog } from './components/CreateMealDialog'
+import { CreateMealDialog } from './components/CreateMealDialog/CreateMealDialog'
 
 interface ManageMealsProps {
     dishes: DishResource[]
