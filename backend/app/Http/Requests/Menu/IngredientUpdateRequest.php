@@ -22,7 +22,7 @@ class IngredientUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|unique:App\Models\Menu\Ingredient,name',
+            'name' => 'string',
             'type' => [Rule::in([IngredientType::ALLERGEN, IngredientType::ADDITIVE])],
         ];
     }
