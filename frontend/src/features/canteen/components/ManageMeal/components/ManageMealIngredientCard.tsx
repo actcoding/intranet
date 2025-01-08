@@ -15,11 +15,9 @@ const ManageMealIngredientCard = ({ingredient}: ManageMealIngredientCardProps) =
         <Card>
             <CardContent className="p-4">
                 <div className="flex items-start justify-between">
-                    <div>
-                        <h3 className="mb-1 truncate text-lg font-semibold leading-none">
-                            {ingredient.name}
-                        </h3>
-                    </div>
+                    <h3 className="mb-1 text-ellipsis text-lg font-semibold leading-none">
+                        {ingredient.name}
+                    </h3>
                     <Button
                         variant="ghost"
                         size="icon"
