@@ -10,6 +10,8 @@ import { Button } from '@/lib/components/common/Button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/lib/components/common/Select'
 import { updateDishAction } from '@/lib/actions/canteen'
 import { Textarea } from '@/lib/components/common/Textarea'
+import { useToast } from '@/lib/components/hooks/use-toast'
+import { useRouter } from 'next/navigation'
 
 
 interface ManageMealFormProps {
@@ -17,6 +19,9 @@ interface ManageMealFormProps {
 }
 
 const ManageMealForm = ({meal}: ManageMealFormProps) => {
+    const {refresh} = useRouter()
+    const {toast} = useToast()
+    
     const form = useForm<MealFormValues>({
         resolver: zodResolver(mealFormSchema),
         defaultValues: {
@@ -36,8 +41,18 @@ const ManageMealForm = ({meal}: ManageMealFormProps) => {
                     type: values.type,
                 },
             })
+            toast({
+                title: 'Gericht erstellt',
+                description: `Das Gericht "${values.name}" wurde erfolgreich aktualsiert`,
+            })
+            refresh()
         } catch (error) {
             console.error('Dish update failed:', error)
+            toast({
+                title: 'Fehler',
+                description: 'Es ist ein Fehler beim Aktualisieren des Gerichts aufgetreten',
+                variant: 'destructive',
+            })
         }
     }
 
@@ -95,7 +110,7 @@ const ManageMealForm = ({meal}: ManageMealFormProps) => {
                     )}
                 />
                 <Button type="submit">
-                    Speichern
+                    Aktualisieren
                 </Button>
             </form>
         </Form>
