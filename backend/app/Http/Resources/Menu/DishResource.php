@@ -33,6 +33,7 @@ class DishResource extends JsonResource
 
             /**
              * @var bool
+             *
              * @example false
              */
             'low_carb' => $this->resource->low_carb,

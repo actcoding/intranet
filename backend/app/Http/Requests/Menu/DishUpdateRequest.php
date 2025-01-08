@@ -22,7 +22,7 @@ class DishUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|unique:App\Models\Menu\Dish,name',
+            'name' => 'string',
             'summary' => 'string',
             'type' => [Rule::in([DishType::MAIN, DishType::DESSERT])],
 
