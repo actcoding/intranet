@@ -26,6 +26,7 @@ class DishResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            /** @var int */
             'id' => $this->conditionalId('menu.dish.viewall'),
             'name' => $this->resource->name,
             'summary' => $this->resource->summary,
