@@ -8,12 +8,17 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 export async function getAppSession(): Promise<IronSession<AppSession>> {
+    let secure = isProduction()
+    if (process.env.SESSION_SECURE !== undefined) {
+        secure = process.env.SESSION_SECURE === 'true'
+    }
+
     return getIronSession<AppSession>(cookies(), {
         password: process.env.APP_SECRET as string,
         cookieName: 'intranet_session',
         cookieOptions: {
-            secure: isProduction(),
             sameSite: 'strict',
+            secure,
         },
         ttl: 60 * 60 * 24 * 7,
     })
