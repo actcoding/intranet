@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class News extends Model
@@ -107,7 +108,13 @@ class News extends Model
 
     public function events(): BelongsToMany
     {
-        return $this->belongsToMany(Event::class);
+        $query = $this->belongsToMany(Event::class, 'event_news');
+
+        if (Auth::guest()) {
+            return $query->where('status', EntityStatus::ACTIVE);
+        }
+
+        return $query;
     }
 
     public function toArray(): array

@@ -1,12 +1,12 @@
 'use client'
 
-import { newsDetachFile, uploadNewsFileAction } from '@/lib/actions/news'
-import { AttachmentResourceData } from '@/lib/api/generated'
-import { useToast } from '@/lib/components/hooks/use-toast'
-import { NewsHeaderImageUploadButton } from '@/lib/components/news/create-news-form/components/news-form-fields/news-header-image-form-field/components'
+import {newsDetachFile, uploadNewsFileAction} from '@/lib/actions/news'
+import {AttachmentResourceData} from '@/lib/api/generated'
+import {useToast} from '@/lib/components/hooks/use-toast'
 import {
-    allowedFileTypes,
-} from '@/lib/components/news/create-news-form/CreateNewsForm.config'
+    NewsHeaderImageUploadButton,
+} from '@/lib/components/news/create-news-form/components/news-form-fields/news-header-image-form-field/components'
+import {allowedFileTypes} from '@/lib/components/news/create-news-form/CreateNewsForm.config'
 import FileImagePreview from '@/lib/components/shared/FileImagePreview'
 import {
     FileSelector,
@@ -18,10 +18,10 @@ import {
     FileSelectorTitle,
     FileSelectorTrigger,
 } from '@/lib/components/shared/FileSelector'
-import { serializeFileData } from '@/lib/utils'
+import {serializeFileData} from '@/lib/utils'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import {useRouter} from 'next/navigation'
+import {useCallback, useState} from 'react'
 
 interface Props {
     id: number
@@ -78,6 +78,8 @@ const NewsHeaderImageFormField = ({ id, current }: Props) => {
                                 src={current.url}
                                 alt={current.name}
                                 className="rounded-lg"
+                                width={200}
+                                height={100}
                             />
                         ) : (
                             <FileImagePreview image={file} />

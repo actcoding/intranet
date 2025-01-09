@@ -20,6 +20,7 @@ use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
@@ -125,6 +126,7 @@ class EventController extends Controller implements HasMiddleware
 
         $event->load('attachments');
         $event->load('author');
+        $event->load('news');
 
         return new EventResource($event);
     }
@@ -270,7 +272,9 @@ class EventController extends Controller implements HasMiddleware
         $query = Event::query()
             ->where('id', $id);
 
-        if (Gate::check('event.viewall')) {
+        if (Auth::guest()) {
+            $query = $query->whereStatus(EntityStatus::ACTIVE);
+        } elseif (Gate::check('event.viewall')) {
             $query = $query->withTrashed();
         }
 
