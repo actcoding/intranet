@@ -1,8 +1,9 @@
 import { DishResource, MenuPlanResource } from '@/lib/api/generated'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/lib/components/common/Card'
-import { Dessert, UtensilsCrossedIcon } from 'lucide-react'
+import { Dessert, OctagonAlertIcon, UtensilsCrossedIcon } from 'lucide-react'
 import IngredientBadges from '@/shared/components/IngredientBadges' 
 import { Badge } from '@/lib/components/common/Badge'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/components/Tooltip'
 
 interface MenuCardProps {
     menuPlan: MenuPlanResource
@@ -11,6 +12,12 @@ interface MenuCardProps {
 const MenuCard = ({menuPlan}: MenuCardProps) => {
     const menu = menuPlan.menu 
     const dishes = menu.dishes ?? []
+
+    const updatedAtDate  = new Date(menuPlan.updatedAt)
+    const servedAtDate = new Date(`${menuPlan.servedAt}T00:00:00Z`)
+    const timeDifferenceMs = updatedAtDate.getTime() - servedAtDate.getTime()
+    const timeDifferenceHours =  timeDifferenceMs / (1000 * 60 * 60)
+
     return (
         <Card>
             <CardHeader>
@@ -18,9 +25,25 @@ const MenuCard = ({menuPlan}: MenuCardProps) => {
                     <p className="text-xl">{menu.name}</p>
                     <p className="text-xl">{menuPlan.price + ' €'}</p>
                 </CardTitle>
-                <CardDescription className='text-lg'>
-                    {menu.nutrition}
-                </CardDescription>
+                <div className='flex'>
+                    <CardDescription className='flex-1 text-lg'>
+                        {menu.nutrition}
+                    </CardDescription>
+                    {(timeDifferenceHours < 24 && timeDifferenceHours >= 0) ? 
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <OctagonAlertIcon color='red' className='mr-1'/> 
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>aktuelles Update</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                        
+                        : null
+                    }
+                </div>
             </CardHeader>
             <CardContent>
                 {dishes.map((dish: DishResource) => {
