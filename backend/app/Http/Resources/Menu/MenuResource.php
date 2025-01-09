@@ -28,6 +28,7 @@ class MenuResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            /** @var int */
             'id' => $this->conditionalId('menu.menu.viewall'),
             'nutrition' => $this->resource->nutrition,
             'name' => $this->resource->name,
