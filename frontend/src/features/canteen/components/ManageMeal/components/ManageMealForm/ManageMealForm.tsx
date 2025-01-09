@@ -1,6 +1,6 @@
 'use client'
 
-import { DishResource, DishUpdateOperationRequest, DishUpdateRequestTypeEnum } from '@/lib/api/generated'
+import { DishResource, DishUpdateRequestTypeEnum } from '@/lib/api/generated'
 import { useForm } from 'react-hook-form'
 import { mealFormSchema, MealFormValues } from './ManageMealForm.config'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,9 +16,10 @@ import { useRouter } from 'next/navigation'
 
 interface ManageMealFormProps {
     meal: DishResource
+    handleSubmit: (meal: MealFormValues) => void
 }
 
-const ManageMealForm = ({meal}: ManageMealFormProps) => {
+const ManageMealForm = ({meal, handleSubmit}: ManageMealFormProps) => {
     const {refresh} = useRouter()
     const {toast} = useToast()
     
@@ -32,28 +33,7 @@ const ManageMealForm = ({meal}: ManageMealFormProps) => {
     })
 
     const onSubmit = async (values: MealFormValues) => {
-        try { 
-            await updateDishAction({
-                dish: meal.id,
-                dishUpdateRequest: {
-                    name: values.name,
-                    summary: values.summary,
-                    type: values.type,
-                },
-            })
-            toast({
-                title: 'Gericht erstellt',
-                description: `Das Gericht "${values.name}" wurde erfolgreich aktualsiert`,
-            })
-            refresh()
-        } catch (error) {
-            console.error('Dish update failed:', error)
-            toast({
-                title: 'Fehler',
-                description: 'Es ist ein Fehler beim Aktualisieren des Gerichts aufgetreten',
-                variant: 'destructive',
-            })
-        }
+        handleSubmit(values)
     }
 
     return (

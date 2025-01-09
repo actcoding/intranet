@@ -1,4 +1,4 @@
-import ManageMeal from '@/features/canteen/components/ManageMeal/ManageMeal'
+import MealEditor from '@/features/canteen/components/ManageMeal/MealEditor'
 import { canteenApi } from '@/lib/api/api'
 
 interface Props {
@@ -11,7 +11,7 @@ const ManageMealPage = async (props: Props) => {
     const meal = await canteenApi.dishShow({dish: parseInt(props.params.id)})
     
     return (
-        <ManageMeal meal={meal}/>
+        <MealEditor meal={meal}/>
     )
 }
 

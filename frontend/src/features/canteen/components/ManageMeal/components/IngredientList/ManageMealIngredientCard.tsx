@@ -7,9 +7,10 @@ import { X } from 'lucide-react'
 
 interface ManageMealIngredientCardProps {
     ingredient: IngredientResource
+    handleDelete: (ingredientId: number) => void 
 }
 
-const ManageMealIngredientCard = ({ingredient}: ManageMealIngredientCardProps) => {
+const ManageMealIngredientCard = ({ingredient, handleDelete}: ManageMealIngredientCardProps) => {
 
     return (
         <Card>
@@ -22,7 +23,7 @@ const ManageMealIngredientCard = ({ingredient}: ManageMealIngredientCardProps) =
                         variant="ghost"
                         size="icon"
                         className="size-6"
-                        onClick={() => console.log('Delink Ingredient:', ingredient.id)}
+                        onClick={() => handleDelete(ingredient.id ?? -1)}
                         aria-label={`Remove ${ingredient.name}`}
                     >
                         <X className="size-4" />
