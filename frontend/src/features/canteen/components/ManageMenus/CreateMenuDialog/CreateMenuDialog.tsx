@@ -2,6 +2,12 @@
 
 import {createMenu} from '@/features/canteen/actions'
 import {MenuNameFormField} from '@/features/canteen/components/ManageMenus'
+import {
+    MenuDefaultPriceFormField,
+} from '@/features/canteen/components/ManageMenus/CreateMenuDialog/MenuDefaultPriceFormField'
+import {
+    MenuNutritionFormField,
+} from '@/features/canteen/components/ManageMenus/CreateMenuDialog/MenuNutritionFormField'
 import {MenuFormProvider} from '@/features/canteen/contexts'
 import {MenuFormValues} from '@/features/canteen/types'
 import {Button} from '@/lib/components/common/Button'
@@ -52,13 +58,14 @@ const CreateMenuDialog = () => {
                 </Button>
             </ResponsiveDialogTrigger>
             <ResponsiveDialogContent>
-                <MenuFormProvider onSubmit={handleSubmit} defaultValues={{name: '', nutrition: '', defaultPrice: 0}}>
+                <MenuFormProvider onSubmit={handleSubmit}>
                     <ResponsiveDialogHeader>
                         <ResponsiveDialogTitle>Menü erstellen</ResponsiveDialogTitle>
                     </ResponsiveDialogHeader>
-                    <ResponsiveDialogBody className="space-y-3">
+                    <ResponsiveDialogBody className="my-3 space-y-3">
                         <MenuNameFormField />
-                        TODO: Add more fields
+                        <MenuNutritionFormField />
+                        <MenuDefaultPriceFormField />
                     </ResponsiveDialogBody>
                     <ResponsiveDialogFooter>
                         <FormSubmitButton>Erstellen</FormSubmitButton>
