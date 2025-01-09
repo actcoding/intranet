@@ -23,6 +23,6 @@ tasks:
       - vendor/
   lint:
     command: composer run-script lint
-    inputs:
-      - '@group(src)'
+    options:
+      cache: false
 
