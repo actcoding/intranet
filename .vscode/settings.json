@@ -10,6 +10,13 @@
         "frontend/.next": true,
     },
 
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#7303c0",
+        "titleBar.activeForeground": "#fdeff9",
+        "statusBarItem.remoteBackground": "#ec38bc",
+        "statusBarItem.remoteForeground": "#fdeff9"
+    },
+
     "editor.foldingImportsByDefault": true,
     "editor.defaultFormatter": null,
     "editor.linkedEditing": true,
