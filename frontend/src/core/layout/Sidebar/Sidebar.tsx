@@ -49,6 +49,7 @@ export const Sidebar = async () => {
                     items: [
                         {title: 'Tage', url: '/manage/canteen/plan'},
                         {title: 'Menüs', url: '/manage/canteen/menus'},
+                        {title: 'Gerichte', url: '/manage/canteen/meals'},
                         {title: 'Allergene/Inhaltsstoffe', url: '/manage/canteen/notes'},
                         {title: 'Preise', url: '/manage/canteen/prices'},
                     ],

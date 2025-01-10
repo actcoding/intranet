@@ -24,6 +24,7 @@ class DishUpdateRequest extends FormRequest
         return [
             'name' => 'string',
             'summary' => 'string',
+            'low_carb' => 'boolean',
             'type' => [Rule::in([DishType::MAIN, DishType::DESSERT])],
 
             /**
