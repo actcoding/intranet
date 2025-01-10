@@ -1,31 +1,39 @@
 'use client'
 
-import { MealFormProvider } from '@/features/canteen/contexts/MealFormContext'
-import { Button } from '@/lib/components/common/Button'
-import { ResponsiveDialog, ResponsiveDialogBody, ResponsiveDialogContent, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle, ResponsiveDialogTrigger } from '@/lib/components/common/ResponsiveDialog'
-import { useToast } from '@/lib/components/hooks/use-toast'
-import { Plus } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { MealFormValues } from '../../../ManageMeal/components/ManageMealForm/ManageMealForm.config'
-import { FormSubmitButton } from '@/shared/components/FormSubmitButton'
-import { MealNameFormField } from './MealNameFormField'
-import { MealSummaryFormField } from './MealSummaryFormField'
-import { MealTypeFormField } from './MealTypeFormField'
-import { createDishAction } from '@/lib/actions/canteen'
+import {MealFormProvider} from '@/features/canteen/contexts/MealFormContext'
+import {createDishAction} from '@/lib/actions/canteen'
+import {Button} from '@/lib/components/common/Button'
+import {
+    ResponsiveDialog,
+    ResponsiveDialogBody,
+    ResponsiveDialogContent,
+    ResponsiveDialogFooter,
+    ResponsiveDialogHeader,
+    ResponsiveDialogTitle,
+    ResponsiveDialogTrigger,
+} from '@/lib/components/common/ResponsiveDialog'
+import {useToast} from '@/lib/components/hooks/use-toast'
+import {FormSubmitButton} from '@/shared/components/FormSubmitButton'
+import {Plus} from 'lucide-react'
+import {useRouter} from 'next/navigation'
+import {useState} from 'react'
+import {MealFormValues} from '../../../ManageMeal/components/ManageMealForm/ManageMealForm.config'
+import {MealNameFormField} from './MealNameFormField'
+import {MealSummaryFormField} from './MealSummaryFormField'
+import {MealTypeFormField} from './MealTypeFormField'
 
 const CreateMealDialog = () => {
     const [isOpen, setIsOpen] = useState(false)
     const {refresh} = useRouter()
     const {toast} = useToast()
-    
+
     const defaultValues: MealFormValues = {
         name: '',
         summary: '',
         type: 'main',
     }
 
-    const handleSubmit = async (values: MealFormValues) => { 
+    const handleSubmit = async (values: MealFormValues) => {
         try {
             await createDishAction({
                 dishStoreRequest: {
@@ -49,7 +57,6 @@ const CreateMealDialog = () => {
                 variant: 'destructive',
             })
         }
-        
     }
 
     return (

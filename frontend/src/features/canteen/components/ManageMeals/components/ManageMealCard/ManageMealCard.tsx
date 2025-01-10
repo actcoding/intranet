@@ -1,13 +1,13 @@
 'use client'
 
-import { DishResource } from '@/lib/api/generated'
-import { Badge } from '@/lib/components/common/Badge'
-import { Button } from '@/lib/components/common/Button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/lib/components/common/Card'
-import { PencilIcon} from 'lucide-react'
+import IngredientBadges from '@/features/canteen/components/ManageMeals/components/IngredientBadges'
+import {DishResource} from '@/lib/api/generated'
+import {Badge} from '@/lib/components/common/Badge'
+import {Button} from '@/lib/components/common/Button'
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/lib/components/common/Card'
+import {PencilIcon} from 'lucide-react'
 import Link from 'next/link'
 import MealDeleteButton from './components/MealDeleteButton'
-import IngredientBadges from '@/shared/components/IngredientBadges'
 
 interface ManageMealCardProps {
     dish: DishResource
@@ -22,7 +22,7 @@ const ManageMealCard = ({dish} : ManageMealCardProps) => {
                         <p>{dish.name}</p>
                         {dish.lowCarb ? <Badge variant="secondary">Low Carb</Badge> : null}
                     </div>
-                                
+
                 </CardTitle>
                 <CardDescription>{dish.summary}</CardDescription>
             </CardHeader>

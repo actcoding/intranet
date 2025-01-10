@@ -1,13 +1,13 @@
 'use client'
 
-import { DishResource, IngredientResource } from '@/lib/api/generated'
-import ManageMealForm from './components/ManageMealForm/ManageMealForm'
+import {updateDishAction} from '@/lib/actions/canteen'
+import {DishResource, IngredientResource} from '@/lib/api/generated'
+import {useToast} from '@/lib/components/hooks/use-toast'
+import {useRouter} from 'next/navigation'
+import {useState} from 'react'
 import IngredientList from './components/IngredientList/IngredientList'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation' 
-import { useToast } from '@/lib/components/hooks/use-toast'
-import { updateDishAction } from '@/lib/actions/canteen'
-import { MealFormValues } from './components/ManageMealForm/ManageMealForm.config'
+import ManageMealForm from './components/ManageMealForm/ManageMealForm'
+import {MealFormValues} from './components/ManageMealForm/ManageMealForm.config'
 
 
 interface MealEditorProps {
@@ -15,10 +15,10 @@ interface MealEditorProps {
 }
 
 const MealEditor = ({meal}: MealEditorProps) => {
-    
+
     const {refresh} = useRouter()
     const {toast} = useToast()
-    
+
     const [ingredients, setIngredients] = useState<IngredientResource[]>(meal.notes ?? [])
 
 
@@ -35,7 +35,7 @@ const MealEditor = ({meal}: MealEditorProps) => {
     }
 
     const onSubmit = async (values: MealFormValues) => {
-        try { 
+        try {
             const ingredientIds = ingredients.map((ingredient) => ingredient.id)
             await updateDishAction({
                 dish: meal.id ?? -1,
@@ -64,16 +64,16 @@ const MealEditor = ({meal}: MealEditorProps) => {
     return (
         <>
             <h1 className="mb-4 text-4xl font-semibold">{`${meal.name} bearbeiten`}</h1>
-            <div className='grid grid-cols-1 items-start gap-3 md:grid-cols-5'>
+            <div className='grid grid-cols-1 items-start gap-5 md:grid-cols-5'>
                 <div className='col-span-2'>
-                    <ManageMealForm 
+                    <ManageMealForm
                         meal={meal}
                         handleSubmit={onSubmit}
                     />
                 </div>
                 <div className='col-span-3'>
-                    <IngredientList 
-                        ingredients={ingredients} 
+                    <IngredientList
+                        ingredients={ingredients}
                         addIngredient={addIngredient}
                         deleteIngredient={deleteIngredient}
                     />

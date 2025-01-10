@@ -1,13 +1,8 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Check, ChevronsUpDown } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
-import { cn } from '@/lib/utils'
-import { useToast } from '@/lib/components/hooks/use-toast'
-import { Button } from '@/lib/components/common/Button' 
+import {canteenApi} from '@/lib/api/api'
+import {IngredientResource} from '@/lib/api/generated'
+import {Button} from '@/lib/components/common/Button'
 import {
     Command,
     CommandEmpty,
@@ -16,22 +11,16 @@ import {
     CommandItem,
     CommandList,
 } from '@/lib/components/common/Command'
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
-} from '@/lib/components/common/Form'
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/lib/components/common/Form'
 
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/lib/components/common/Popover'
-import { useEffect, useState } from 'react'
-import { canteenApi } from '@/lib/api/api'
-import { IngredientResource } from '@/lib/api/generated'
+import {Popover, PopoverContent, PopoverTrigger} from '@/lib/components/common/Popover'
+
+import {cn} from '@/lib/utils'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {Check, ChevronsUpDown} from 'lucide-react'
+import {useEffect, useState} from 'react'
+import {useForm} from 'react-hook-form'
+import {z} from 'zod'
 
 const FormSchema = z.object({
     id: z.number({
@@ -45,7 +34,7 @@ interface ComboBoxFormProps {
 
 export function ComboboxForm({handleSubmit}: ComboBoxFormProps) {
     const [ingredients, setIngredients] = useState<IngredientResource[]>([])
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -78,6 +67,7 @@ export function ComboboxForm({handleSubmit}: ComboBoxFormProps) {
                     name="id"
                     render={({ field }) => (
                         <FormItem className="flex flex-col">
+                            <FormLabel>Hinweise bearbeiten</FormLabel>
                             <div className="flex space-x-2">
                                 <Popover>
                                     <PopoverTrigger asChild>
