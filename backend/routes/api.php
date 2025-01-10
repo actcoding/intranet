@@ -8,9 +8,12 @@ use App\Http\Controllers\Menu\IngredientController;
 use App\Http\Controllers\Menu\MenuController;
 use App\Http\Controllers\Menu\PlanController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PhpinfoController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/phpinfo', PhpinfoController::class);
 
 Route::get('/storage/{path}', StorageController::class)
     ->where('path', '.*');

@@ -6,6 +6,8 @@ stack: frontend
 
 fileGroups:
   src:
+    - messages/
+    - public/
     - src/**/*.ts
     - src/**/*.tsx
 
@@ -18,5 +20,5 @@ tasks:
       - bun.lockb
   lint:
     command: bun run lint
-    inputs:
-      - '@group(src)'
+    options:
+      cache: false

@@ -1,0 +1,16 @@
+name: intranet
+
+services:
+  devcontainer:
+    image: ghcr.io/actcoding/intranet/devcontainer
+    pull_policy: always
+    # build: .
+    volumes:
+      - ../..:/workspaces:cached
+      - dev_home_cache:/home/vscode/.cache
+      - dev_home_local:/home/vscode/.local
+    command: sleep infinity
+
+volumes:
+  dev_home_local:
+  dev_home_cache:
