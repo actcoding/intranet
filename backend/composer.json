@@ -59,7 +59,7 @@
             "@putenv XDEBUG_MODE=coverage",
             "@php ./vendor/bin/phpunit -c phpunit.xml"
         ],
-        "lint": "pint"
+        "lint": "pint --repair"
     },
     "extra": {
         "laravel": {
