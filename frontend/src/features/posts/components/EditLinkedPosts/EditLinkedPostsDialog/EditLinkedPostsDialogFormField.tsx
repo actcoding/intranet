@@ -3,13 +3,12 @@
 import {EditLinkedPostsDialogRadioItem} from '@/features/posts/components/EditLinkedPosts'
 import {usePost} from '@/features/posts/hooks'
 import {LinkPostFormValues, Post} from '@/features/posts/types'
-import {DishResource} from '@/lib/api/generated'
 import {FormControl, FormField, FormItem, FormLabel} from '@/lib/components/common/Form'
 import {RadioGroup} from '@/shared/components/RadioGroup'
 import {useFormContext} from 'react-hook-form'
 
 interface EditLinkedPostsDialogFormFieldProps {
-    items: DishResource[];
+    items: Post[];
 }
 
 const EditLinkedPostsDialogFormField = ({items}: EditLinkedPostsDialogFormFieldProps) => {
