@@ -1,3 +1,6 @@
+export * from './createMealNote'
+export * from './updateMealNote'
+export * from './deleteMealNote'
 export * from './updateMenu'
 export * from './createMenu'
 export * from './searchDishes'
