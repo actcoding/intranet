@@ -27,7 +27,7 @@ class DishResource extends JsonResource
     {
         return [
             /** @var int */
-            'id' => $this->conditionalId('menu.dish.viewall'),
+            'id' => $this->resource->id,
             'name' => $this->resource->name,
             'summary' => $this->resource->summary,
             'type' => $this->resource->type,

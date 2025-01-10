@@ -29,7 +29,7 @@ class MenuResource extends JsonResource
     {
         return [
             /** @var int */
-            'id' => $this->conditionalId('menu.menu.viewall'),
+            'id' => $this->resource->id,
             'nutrition' => $this->resource->nutrition,
             'name' => $this->resource->name,
             'default_price' => $this->whenVisible('default_price'),
