@@ -11,6 +11,7 @@ on:
       - main
     paths:
       - .devcontainer
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
