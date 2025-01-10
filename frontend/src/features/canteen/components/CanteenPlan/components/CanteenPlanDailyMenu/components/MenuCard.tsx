@@ -1,16 +1,16 @@
-import { DishResource, MenuPlanResource } from '@/lib/api/generated'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/lib/components/common/Card'
-import { Dessert, OctagonAlertIcon, UtensilsCrossedIcon } from 'lucide-react'
-import IngredientBadges from '@/shared/components/IngredientBadges' 
-import { Badge } from '@/lib/components/common/Badge'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/components/Tooltip'
+import {DishResource, MenuPlanResource} from '@/lib/api/generated'
+import {Badge} from '@/lib/components/common/Badge'
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/lib/components/common/Card'
+import IngredientBadges from '@/shared/components/IngredientBadges'
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from '@/shared/components/Tooltip'
+import {Dessert, OctagonAlertIcon, UtensilsCrossedIcon} from 'lucide-react'
 
 interface MenuCardProps {
     menuPlan: MenuPlanResource
 }
 
 const MenuCard = ({menuPlan}: MenuCardProps) => {
-    const menu = menuPlan.menu 
+    const menu = menuPlan.menu
     const dishes = menu.dishes ?? []
 
     const updatedAtDate  = new Date(menuPlan.updatedAt)
@@ -27,20 +27,20 @@ const MenuCard = ({menuPlan}: MenuCardProps) => {
                 </CardTitle>
                 <div className='flex'>
                     <CardDescription className='flex-1 text-lg'>
-                        {menu.nutrition}
+                        {menu.nutrition === 'omnivorous' ? 'Mit Fleisch' : menu.nutrition === 'vegetarian' ? 'Vegetarisch' : 'Vegan'}
                     </CardDescription>
-                    {(timeDifferenceHours < 24 && timeDifferenceHours >= 0) ? 
+                    {(timeDifferenceHours < 24 && timeDifferenceHours >= 0) ?
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <OctagonAlertIcon color='red' className='mr-1'/> 
+                                    <OctagonAlertIcon color='red' className='mr-1'/>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>aktuelles Update</p>
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>
-                        
+
                         : null
                     }
                 </div>
@@ -52,7 +52,7 @@ const MenuCard = ({menuPlan}: MenuCardProps) => {
                             <div className="mt-2 flex">
                                 {dish.type === 'dessert' ?
                                     <Dessert className="mr-2"/>
-                                    : 
+                                    :
                                     <UtensilsCrossedIcon className="mr-2"/>
                                 }
                                 <div className='flex-1'>
@@ -61,8 +61,8 @@ const MenuCard = ({menuPlan}: MenuCardProps) => {
                                         {dish.lowCarb ? <Badge variant="secondary">Low Carb</Badge> : null}
                                     </div>
                                     <p className='text-muted-foreground'>{dish.summary}</p>
-                                    
-                                    <IngredientBadges 
+
+                                    <IngredientBadges
                                         className="mt-4"
                                         ingredients={dish.notes ?? []}
                                     />
@@ -74,6 +74,6 @@ const MenuCard = ({menuPlan}: MenuCardProps) => {
             </CardContent>
         </Card>
     )
-} 
+}
 
 export default MenuCard
