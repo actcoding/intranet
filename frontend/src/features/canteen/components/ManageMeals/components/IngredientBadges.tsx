@@ -13,8 +13,8 @@ const IngredientBadges = ({ ingredients, className }: IngredientBadgesProps) => 
             {ingredients.length > 0 ? (
                 <div className='mb-2 space-x-1 space-y-1'>
                     {ingredients.map((note) => (
-                        <Badge key={note.id}>
-                            {note.type === 'allergen' ? <WheatIcon className="mr-1" size={16} /> : <PlusIcon className="mr-1" size={16} />}
+                        <Badge key={note.id} variant="outline">
+                            {note.type === 'allergen' ? <WheatIcon className="mr-1" size={12} /> : <PlusIcon className="mr-1" size={12} />}
                             {note.name}
                         </Badge>
                     ))}

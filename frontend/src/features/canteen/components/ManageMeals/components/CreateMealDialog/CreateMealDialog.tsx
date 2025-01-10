@@ -63,7 +63,7 @@ const CreateMealDialog = () => {
         <ResponsiveDialog open={isOpen} onOpenChange={setIsOpen}>
             <ResponsiveDialogTrigger asChild>
                 <Button>
-                    <Plus className='mr-2'/>
+                    <Plus className='mr-2' size={16} />
                     Gericht erstellen
                 </Button>
             </ResponsiveDialogTrigger>
@@ -75,7 +75,7 @@ const CreateMealDialog = () => {
                     <ResponsiveDialogHeader>
                         <ResponsiveDialogTitle>Gericht erstellen</ResponsiveDialogTitle>
                     </ResponsiveDialogHeader>
-                    <ResponsiveDialogBody className='py-3'>
+                    <ResponsiveDialogBody className='space-y-2 py-3'>
                         <MealNameFormField />
                         <MealSummaryFormField />
                         <MealTypeFormField />

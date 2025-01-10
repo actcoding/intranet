@@ -51,8 +51,9 @@ const CreateMenuDialog = () => {
     return (
         <ResponsiveDialog open={isOpen} onOpenChange={setIsOpen}>
             <ResponsiveDialogTrigger asChild>
-                <Button size="icon">
-                    <PlusIcon size={16} />
+                <Button>
+                    <PlusIcon size={16} className="mr-2" />
+                    Menü erstellen
                 </Button>
             </ResponsiveDialogTrigger>
             <ResponsiveDialogContent>

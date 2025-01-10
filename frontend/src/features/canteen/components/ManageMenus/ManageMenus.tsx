@@ -17,7 +17,7 @@ const ManageMenus = ({menus}: ManageMenusProps) => {
                 <Button asChild variant="outline">
                     <Link href={'/manage/canteen/meals'}>
                         <UtensilsIcon size={16} className="mr-2"/>
-                        Gerichte ansehen
+                        Gerichte verwalten
                     </Link>
                 </Button>
             </div>

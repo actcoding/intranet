@@ -22,7 +22,9 @@ const ManageMealCard = ({dish} : ManageMealCardProps) => {
                         <p>{dish.name}</p>
                         {dish.lowCarb ? <Badge variant="secondary">Low Carb</Badge> : null}
                     </div>
-
+                    <Badge className="mt-2 self-start">
+                        {dish.type === 'main' ? 'Hauptgericht' : 'Dessert'}
+                    </Badge>
                 </CardTitle>
                 <CardDescription>{dish.summary}</CardDescription>
             </CardHeader>

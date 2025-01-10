@@ -6,7 +6,7 @@ import {Badge} from '@/lib/components/common/Badge'
 import {Button} from '@/lib/components/common/Button'
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/lib/components/common/Card'
 import {useToast} from '@/lib/components/hooks/use-toast'
-import {CircleMinusIcon, PencilIcon} from 'lucide-react'
+import {CircleMinusIcon, PencilIcon, PlusIcon, WheatIcon} from 'lucide-react'
 import Link from 'next/link'
 import {useRouter} from 'next/navigation'
 
@@ -40,12 +40,17 @@ const ManageMenuMealCard = ({meal, menu}: ManageMenuMealCardProps) => {
             <div className="flex flex-1 flex-col">
                 <CardHeader className="flex-1">
                     <CardTitle>{meal.name}</CardTitle>
-                    <Badge className="self-start">{meal.type}</Badge>
+                    <Badge className="self-start">
+                        {meal.type === 'main' ? 'Hauptgericht' : 'Dessert'}
+                    </Badge>
                     <CardDescription>{meal.summary}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-x-1 space-y-2">
                     {meal.notes?.map((note: any, index: number) => (
-                        <Badge key={index} variant="outline">{note.name}</Badge>
+                        <Badge key={index} variant="outline">
+                            {note.type === 'allergen' ? <WheatIcon className="mr-1" size={12} /> : <PlusIcon className="mr-1" size={12} />}
+                            {note.name}
+                        </Badge>
                     ))}
                 </CardContent>
                 <CardFooter className="gap-2">
