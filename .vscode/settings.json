@@ -1,6 +1,14 @@
 {
-    "commitlint.config.file": "workspace/commitlint.config.ts",
-    "commitlint.log.enabled": true,
+    "search.exclude": {
+        "backend/vendor": true,
+        "frontend/node_modules": true,
+        "frontend/.next": true,
+    },
+    "explorer.autoRevealExclude": {
+        "backend/vendor": true,
+        "frontend/node_modules": true,
+        "frontend/.next": true,
+    },
 
     "editor.foldingImportsByDefault": true,
     "editor.defaultFormatter": null,
@@ -18,6 +26,10 @@
         "editor.defaultFormatter": "dbaeumer.vscode-eslint",
         "editor.formatOnSave": true,
     },
+
+    "emmet.excludeLanguages": [
+        "php"
+    ],
 
     "i18n-ally.localesPaths": [
         "backend/lang",
@@ -38,4 +50,6 @@
             "frontend/src/**/*.tsx"
         ]
     },
+  
+    "commitlint.config.file": "workspace/commitlint.config.ts"
 }

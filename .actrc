@@ -1,2 +1,2 @@
---artifact-server-path ./github/act/artifacts
---cache-server-path ./github/act/cache
+--artifact-server-path ./.act/artifacts
+--cache-server-path ./.act/cache

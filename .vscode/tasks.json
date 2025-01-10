@@ -78,22 +78,6 @@
             }
         },
         {
-            "label": "Services",
-            "detail": "Boots required 3rd party services using docker compose",
-            "type": "shell",
-            "command": "docker compose up",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "silent",
-                "focus": false,
-                "panel": "dedicated"
-            },
-            "group": "none",
-            "runOptions": {
-                "runOn": "folderOpen"
-            }
-        },
-        {
             "label": "Dev",
             "detail": "Boots all components of the application",
             "problemMatcher": [],
