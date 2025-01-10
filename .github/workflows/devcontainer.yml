@@ -14,20 +14,16 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  PLATFORM: linux/amd64,linux/arm64
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        arch:
-          - arm64
-          - amd64
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
-          platforms: linux/${{ matrix.arch }}
+          platforms: ${{ env.PLATFORM }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -46,4 +42,4 @@ jobs:
           imageName: ghcr.io/${{ github.repository }}/devcontainer
           cacheFrom: ghcr.io/${{ github.repository }}/devcontainer
           push: ${{ github.event_name != 'pull_request' && 'always' || 'never' }}
-          platform: ${{ matrix.arch }}
+          platform: ${{ env.PLATFORM }}
