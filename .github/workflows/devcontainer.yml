@@ -37,10 +37,14 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Pre-build dev container image
-        uses: devcontainers/ci@v0.3
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        id: push
         with:
-          imageName: ghcr.io/${{ github.repository }}/devcontainer
-          cacheFrom: ghcr.io/${{ github.repository }}/devcontainer
-          push: ${{ github.event_name != 'pull_request' && 'always' || 'never' }}
-          platform: ${{ env.PLATFORM }}
+          context: .devcontainer
+          file: .devcontainer/Dockerfile
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
+          push: ${{ github.event_name != 'pull_request' }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: ${{ env.PLATFORM }}
