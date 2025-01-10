@@ -31,6 +31,7 @@ const CreateMenuDialog = () => {
 
     const handleSubmit = async (values: MenuFormValues) => {
         try {
+            // @ts-expect-error wrong api type
             const res = await createMenu({menuStoreRequest: values})
             setIsOpen(false)
             toast({
