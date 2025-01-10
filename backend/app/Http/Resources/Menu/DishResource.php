@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Menu;
 
+use App\Enum\Menu\DishType;
 use App\Http\Resources\Traits\ConditionalResourceAccess;
 use App\Models\Menu\Meal;
 use Illuminate\Http\Request;
@@ -27,9 +28,10 @@ class DishResource extends JsonResource
     {
         return [
             /** @var int */
-            'id' => $this->conditionalId('menu.dish.viewall'),
+            'id' => $this->resource->id,
             'name' => $this->resource->name,
             'summary' => $this->resource->summary,
+            /** @var DishType */
             'type' => $this->resource->type,
 
             /**

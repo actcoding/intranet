@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Menu;
 
+use App\Enum\Menu\MenuNutrition;
 use App\Http\Resources\Traits\ConditionalResourceAccess;
 use App\Http\Resources\Traits\HasHiddenAttributes;
 use App\Models\Menu\Menu;
@@ -29,9 +30,11 @@ class MenuResource extends JsonResource
     {
         return [
             /** @var int */
-            'id' => $this->conditionalId('menu.menu.viewall'),
+            'id' => $this->resource->id,
+            /** @var MenuNutrition */
             'nutrition' => $this->resource->nutrition,
             'name' => $this->resource->name,
+            /** @var int */
             'default_price' => $this->whenVisible('default_price'),
 
             'dishes' => $this->whenLoaded('dishes', fn () => DishResource::collection($this->resource->dishes)),
