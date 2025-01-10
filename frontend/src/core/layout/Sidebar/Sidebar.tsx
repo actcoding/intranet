@@ -18,7 +18,7 @@ import {SidebarMenuGroup} from '@/core/types'
 import {getAppSession} from '@/lib/actions/auth'
 import {isCreator} from '@/lib/utils'
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from '@/shared/components/Collapsible'
-import {CalendarDays, HomeIcon, NewspaperIcon} from 'lucide-react'
+import {CalendarDays, HomeIcon, NewspaperIcon, Utensils} from 'lucide-react'
 import {getTranslations} from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -36,6 +36,7 @@ export const Sidebar = async () => {
                 { title: t('home'), url: '/', icon: HomeIcon },
                 { title: t('news'), url: '/news', icon: NewspaperIcon },
                 { title: t('events'), url: '/events', icon: CalendarDays },
+                { title: t('canteen'), url: '/canteen', icon: Utensils },
             ],
         },
         {

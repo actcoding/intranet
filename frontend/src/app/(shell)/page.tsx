@@ -1,4 +1,5 @@
 import { Button } from '@/lib/components/common/Button'
+import CanteenWidget from '@/lib/components/home/widgets/CanteenWidget.tsx/CanteenWidget'
 import EventListWidget from '@/lib/components/home/widgets/eventListWidget/EventListWidget'
 import NewsListWidget from '@/lib/components/home/widgets/NewsListWidget'
 import Spinner from '@/lib/components/shared/Spinner'
@@ -38,7 +39,7 @@ export default async function Home() {
                 <h2 className="mb-3 text-2xl font-bold">
                     {t('canteen-menu')}
                 </h2>
-                <p>Menu will be displayed here.</p>
+                <CanteenWidget />
                 <h2 className="mb-3 text-2xl font-bold">
                     {t('events')}
                 </h2>
