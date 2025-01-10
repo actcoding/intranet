@@ -2,16 +2,14 @@
 
 namespace App\Http\Requests\Menu;
 
+use App\Models\Menu\MenuPlan;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MenuServeRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('create', MenuPlan::class);
     }
 
     /**
@@ -26,7 +24,7 @@ class MenuServeRequest extends FormRequest
             'menu_id' => 'required|exists:App\Models\Menu\Menu,id',
 
             'served_at' => 'required|date_format:Y-m-d',
-            'price' => 'decimal:2',
+            'price' => 'decimal:0,2',
         ];
     }
 }

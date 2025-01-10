@@ -22,8 +22,9 @@ class DishUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|unique:App\Models\Menu\Dish,name',
+            'name' => 'string',
             'summary' => 'string',
+            'low_carb' => 'boolean',
             'type' => [Rule::in([DishType::MAIN, DishType::DESSERT])],
 
             /**

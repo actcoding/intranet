@@ -7,6 +7,7 @@ use App\Http\Requests\Menu\MenuPlanRequest;
 use App\Http\Requests\Menu\MenuServeRequest;
 use App\Http\Requests\Menu\MenuUnserveRequest;
 use App\Http\Resources\Menu\MenuPlanResource;
+use App\Models\Menu\Menu;
 use App\Models\Menu\MenuPlan;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -47,9 +48,13 @@ class PlanController extends Controller implements HasMiddleware
     {
         $payload = $request->validated();
 
+        if (! $request->has('price')) {
+            $payload['price'] = Menu::find($payload['menu_id'])->default_price;
+        }
+
         /** @var int */
         $result = MenuPlan::upsert([
-            $request->validated(),
+            $payload,
         ], uniqueBy: ['served_at', 'menu_id'], update: ['price']);
 
         return response()->json(['changed' => $result]);

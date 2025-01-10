@@ -1,4 +1,15 @@
 {
+    "search.exclude": {
+        "backend/vendor": true,
+        "frontend/node_modules": true,
+        "frontend/.next": true,
+    },
+    "explorer.autoRevealExclude": {
+        "backend/vendor": true,
+        "frontend/node_modules": true,
+        "frontend/.next": true,
+    },
+
     "editor.foldingImportsByDefault": true,
     "editor.defaultFormatter": null,
     "editor.linkedEditing": true,
@@ -15,6 +26,10 @@
         "editor.defaultFormatter": "dbaeumer.vscode-eslint",
         "editor.formatOnSave": true,
     },
+
+    "emmet.excludeLanguages": [
+        "php"
+    ],
 
     "i18n-ally.localesPaths": [
         "backend/lang",

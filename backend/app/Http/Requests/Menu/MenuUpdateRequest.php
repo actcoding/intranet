@@ -24,7 +24,7 @@ class MenuUpdateRequest extends FormRequest
         $nuts = collect(MenuNutrition::cases())->map(fn (MenuNutrition $nut) => $nut->value);
 
         return [
-            'name' => 'string|unique:App\Models\Menu\Menu,name',
+            'name' => 'string',
             'nutrition' => [Rule::in($nuts)],
             'default_price' => 'decimal:0,2',
 

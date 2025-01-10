@@ -26,7 +26,8 @@ class MenuPlanResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->conditionalId('menu.plan.viewall'),
+            /** @var int */
+            'id' => $this->resource->id,
             'updated_at' => $this->resource->updated_at,
             'served_at' => date_format($this->resource->served_at, 'Y-m-d'),
             'price' => $this->resource->price,

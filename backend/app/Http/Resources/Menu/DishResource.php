@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Menu;
 
+use App\Enum\Menu\DishType;
 use App\Http\Resources\Traits\ConditionalResourceAccess;
 use App\Models\Menu\Meal;
 use Illuminate\Http\Request;
@@ -26,10 +27,19 @@ class DishResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->conditionalId('menu.dish.viewall'),
+            /** @var int */
+            'id' => $this->resource->id,
             'name' => $this->resource->name,
             'summary' => $this->resource->summary,
+            /** @var DishType */
             'type' => $this->resource->type,
+
+            /**
+             * @var bool
+             *
+             * @example false
+             */
+            'low_carb' => $this->resource->low_carb,
 
             'notes' => $this->whenLoaded('ingredients', fn () => IngredientResource::collection($this->resource->ingredients)),
         ];

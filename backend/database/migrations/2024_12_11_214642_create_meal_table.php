@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('summary')->nullable()->default(null);
             $table->string('type');
+            $table->boolean('low_carb')->default(false);
         });
     }
 

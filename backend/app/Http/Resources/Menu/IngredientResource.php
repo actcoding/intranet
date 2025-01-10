@@ -26,7 +26,8 @@ class IngredientResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->conditionalId('menu.ingredient.viewall'),
+            /** @var int */
+            'id' => $this->resource->id,
             'name' => $this->resource->name,
             'type' => $this->resource->type,
         ];
