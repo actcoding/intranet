@@ -3,7 +3,7 @@ import {canteenApi} from '@/lib/api/api'
 
 interface ManageMenuPageProps {
     params: {
-        id: string;
+        id: number;
     }
 }
 
