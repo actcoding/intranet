@@ -27,7 +27,7 @@ class IngredientResource extends JsonResource
     {
         return [
             /** @var int */
-            'id' => $this->conditionalId('menu.ingredient.viewall'),
+            'id' => $this->resource->id,
             'name' => $this->resource->name,
             'type' => $this->resource->type,
         ];
