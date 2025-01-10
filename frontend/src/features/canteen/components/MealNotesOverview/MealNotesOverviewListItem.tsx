@@ -14,7 +14,7 @@ export const MealNotesOverviewListItem = ({note}: MealNotesOverviewListItemProps
             </CardHeader>
             <CardContent>
                 <Badge variant="secondary">
-                    {note.type /* TODO: Handle translation via next intl */}
+                    {note.type === 'allergen' ? 'Allergen' : 'Zusatzstoff'}
                 </Badge>
             </CardContent>
             <CardFooter className="gap-2">

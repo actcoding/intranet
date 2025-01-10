@@ -56,7 +56,7 @@ const EditMealNoteDialog = ({note}: EditMealNoteDialogProps) => {
                         <ResponsiveDialogTitle>Hinweis bearbeiten</ResponsiveDialogTitle>
                     </ResponsiveDialogHeader>
                     <ResponsiveDialogBody>
-                        <div className="mb-3 space-y-3">
+                        <div className="my-3 space-y-3">
                             <MealNoteTitleFormField />
                             <MealNoteTypeFormField />
                         </div>
