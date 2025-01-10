@@ -1,3 +1,4 @@
 export * from './ManageMenu'
-export * from './LinkMealDialog'
+export * from './EditLinkedDishesDialog'
 export * from './ManageMenuMealCard'
+export * from './ManageMenuDetails'

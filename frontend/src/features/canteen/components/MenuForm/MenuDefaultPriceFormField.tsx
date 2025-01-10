@@ -11,9 +11,9 @@ export const MenuDefaultPriceFormField = () => {
             name="defaultPrice"
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Standardpreis</FormLabel>
+                    <FormLabel>Standardpreis in €</FormLabel>
                     <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="number" step={0.01} {...field} />
                     </FormControl>
                     <FormMessage />
                 </FormItem>

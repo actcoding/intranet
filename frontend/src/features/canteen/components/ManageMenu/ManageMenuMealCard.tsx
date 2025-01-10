@@ -1,6 +1,7 @@
 'use client'
 
-import {unlinkMealAndMenu} from '@/features/canteen/actions'
+import {updateMenu} from '@/features/canteen/actions'
+import {DishResource, MenuResource} from '@/lib/api/generated'
 import {Badge} from '@/lib/components/common/Badge'
 import {Button} from '@/lib/components/common/Button'
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from '@/lib/components/common/Card'
@@ -10,8 +11,8 @@ import Link from 'next/link'
 import {useRouter} from 'next/navigation'
 
 interface ManageMenuMealCardProps {
-    meal: any;
-    menu: any;
+    meal: DishResource;
+    menu: MenuResource;
 }
 
 const ManageMenuMealCard = ({meal, menu}: ManageMenuMealCardProps) => {
@@ -20,9 +21,10 @@ const ManageMenuMealCard = ({meal, menu}: ManageMenuMealCardProps) => {
     const {refresh} = useRouter()
     const {toast} = useToast()
 
-    const handleUnlink = () => {
+    const handleUnlink = async () => {
         try {
-            unlinkMealAndMenu({mealId: meal.id, menuId: menu.id})
+            const remainingDishIds = menu.dishes?.filter(dish => dish.id !== meal.id).map(dish => dish.id)
+            await updateMenu({menu: menu.id, menuUpdateRequest: {dishes: remainingDishIds}})
             toast({
                 title: 'Gericht entfernt',
                 description: `Das Gericht "${meal.name}" wurde erfolgreich entfernt`,
@@ -42,7 +44,7 @@ const ManageMenuMealCard = ({meal, menu}: ManageMenuMealCardProps) => {
                     <CardDescription>{meal.summary}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-x-1 space-y-2">
-                    {meal.notes.map((note: any, index: number) => (
+                    {meal.notes?.map((note: any, index: number) => (
                         <Badge key={index} variant="outline">{note.name}</Badge>
                     ))}
                 </CardContent>

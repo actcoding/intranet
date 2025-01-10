@@ -2,6 +2,10 @@ import * as z from 'zod'
 
 export const menuFormSchema = z.object({
     name: z.string().min(1),
-    nutrition: z.enum(['omnivorous', 'vegetarian', 'vegan']),
+    nutrition: z.string().min(1),
     defaultPrice: z.coerce.number().min(0),
+})
+
+export const linkDishFormSchema = z.object({
+    dishId: z.coerce.number(),
 })

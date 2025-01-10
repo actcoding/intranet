@@ -1,13 +1,11 @@
 'use client'
 
 import {createMenu} from '@/features/canteen/actions'
-import {MenuNameFormField} from '@/features/canteen/components/ManageMenus'
 import {
     MenuDefaultPriceFormField,
-} from '@/features/canteen/components/ManageMenus/CreateMenuDialog/MenuDefaultPriceFormField'
-import {
+    MenuNameFormField,
     MenuNutritionFormField,
-} from '@/features/canteen/components/ManageMenus/CreateMenuDialog/MenuNutritionFormField'
+} from '@/features/canteen/components/MenuForm'
 import {MenuFormProvider} from '@/features/canteen/contexts'
 import {MenuFormValues} from '@/features/canteen/types'
 import {Button} from '@/lib/components/common/Button'
@@ -28,18 +26,18 @@ import {useState} from 'react'
 
 const CreateMenuDialog = () => {
     const [isOpen, setIsOpen] = useState(false)
-    const {refresh} = useRouter()
+    const {push} = useRouter()
     const {toast} = useToast()
 
-    const handleSubmit = (values: MenuFormValues) => {
+    const handleSubmit = async (values: MenuFormValues) => {
         try {
-            createMenu(values)
+            const res = await createMenu({menuStoreRequest: values})
             setIsOpen(false)
             toast({
                 title: 'Menü erstellt',
                 description: `Das Menü "${values.name}" wurde erfolgreich erstellt`,
             })
-            refresh()
+            push(`/manage/canteen/menus/${res.id}`)
         } catch (e) {
             console.error(e)
             toast({

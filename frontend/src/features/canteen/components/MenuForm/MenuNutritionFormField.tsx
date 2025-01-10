@@ -11,7 +11,7 @@ export const MenuNutritionFormField = () => {
             name="nutrition"
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Standardpreis</FormLabel>
+                    <FormLabel>Ernährungsform</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value?.toString()}>
                         <FormControl>
                             <SelectTrigger>
