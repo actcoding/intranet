@@ -20,6 +20,7 @@ tasks:
     inputs:
       - composer.json
       - composer.lock
+    outputs:
       - vendor/
   lint:
     command: composer run-script lint
