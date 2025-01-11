@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Dedoc\Scramble\Attributes\ExcludeAllRoutesFromDocs;
 use Illuminate\Http\Request;
 
+#[ExcludeAllRoutesFromDocs]
 class PhpinfoController extends Controller
 {
     /**
