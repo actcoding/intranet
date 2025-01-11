@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale } from 'next-intl/server'
 import { Inter } from 'next/font/google'
+import NextTopLoader from 'nextjs-toploader'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,6 +34,12 @@ export default async function RootLayout({
                     {children}
 
                     <Toaster />
+
+                    <NextTopLoader
+                        color='hsl(var(--primary))'
+                        showForHashAnchor={false}
+                        height={4}
+                    />
                 </NextIntlClientProvider>
             </body>
         </html>

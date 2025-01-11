@@ -20,4 +20,5 @@ echo " >> Using input \"$INPUT\" …"
 bunx openapi-generator-cli generate \
     -i "$INPUT" \
     -o "$TARGET_DIRECTORY" \
-    -g typescript-fetch
+    -g typescript-fetch \
+    -p "importFileExtension=.ts"

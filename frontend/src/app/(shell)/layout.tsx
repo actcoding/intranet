@@ -8,7 +8,7 @@ export default async function ShellLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const defaultOpen = cookieStore.get('sidebar:state')?.value === 'true'
 
     return (

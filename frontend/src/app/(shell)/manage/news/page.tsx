@@ -7,13 +7,14 @@ import {NextIntlClientProvider} from 'next-intl'
 import {getMessages, getTranslations} from 'next-intl/server'
 
 interface Props {
-    searchParams?: {
+    searchParams?: Promise<{
         page?: string;
-    };
+    }>;
 }
 
 const ManageNewsPage = async (props: Props) => {
-    const currentPage = Number(props.searchParams?.page) || 1
+    const search = await props.searchParams
+    const currentPage = Number(search?.page) || 1
 
     const newsList = await newsApi.newsIndex({
         page: currentPage,

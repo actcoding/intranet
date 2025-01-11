@@ -13,7 +13,7 @@ export async function getAppSession(): Promise<IronSession<AppSession>> {
         secure = process.env.SESSION_SECURE === 'true'
     }
 
-    return getIronSession<AppSession>(cookies(), {
+    return getIronSession<AppSession>(await cookies(), {
         password: process.env.APP_SECRET as string,
         cookieName: 'intranet_session',
         cookieOptions: {

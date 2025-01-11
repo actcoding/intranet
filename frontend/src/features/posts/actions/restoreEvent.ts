@@ -3,6 +3,6 @@
 import {eventApi} from '@/lib/api/api'
 import {EventRestoreRequest} from '@/lib/api/generated'
 
-export const restoreEvent = (request: EventRestoreRequest) => {
+export const restoreEvent = async (request: EventRestoreRequest) => {
     return eventApi.eventRestore(request)
 }
