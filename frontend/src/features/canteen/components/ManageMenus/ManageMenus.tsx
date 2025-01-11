@@ -15,7 +15,7 @@ const ManageMenus = ({menus}: ManageMenusProps) => {
                 <h1 className="mb-4 flex-1 text-4xl font-semibold">Menüs</h1>
                 <CreateMenuDialog />
                 <Button asChild variant="outline">
-                    <Link href={'/manage/canteen/meals'}>
+                    <Link href={'/manage/canteen/dishes'}>
                         <UtensilsIcon size={16} className="mr-2"/>
                         Gerichte verwalten
                     </Link>

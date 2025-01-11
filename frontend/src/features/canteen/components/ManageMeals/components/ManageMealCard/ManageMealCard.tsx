@@ -33,7 +33,7 @@ const ManageMealCard = ({dish} : ManageMealCardProps) => {
             </CardContent>
             <CardFooter className="mt-auto gap-2">
                 <Button className="flex-1" variant="outline" asChild>
-                    <Link href={`/manage/canteen/meals/${dish.id}`}>
+                    <Link href={`/manage/canteen/dishes/${dish.id}`}>
                         <PencilIcon size={16} className="mr-2"/>
                         Bearbeiten
                     </Link>
