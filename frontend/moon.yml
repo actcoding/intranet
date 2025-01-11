@@ -15,9 +15,10 @@ tasks:
   install:
     command: bun install
     inputs:
-      - node_modules/
       - package.json
       - bun.lockb
+    outputs:
+      - node_modules/
   lint:
     command: bun run lint
     options:
