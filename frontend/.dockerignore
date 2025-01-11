@@ -4,6 +4,9 @@
 !public/
 !src/
 
+!buildSrc/
+!scripts/
+
 !api.json
 !gen-api-client.sh
 !global.d.ts
