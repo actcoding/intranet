@@ -57,4 +57,6 @@
             "frontend/src/**/*.tsx"
         ]
     },
+  
+    "commitlint.config.file": "workspace/commitlint.config.ts"
 }
