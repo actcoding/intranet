@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attachment;
+use Dedoc\Scramble\Attributes\ExcludeAllRoutesFromDocs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+#[ExcludeAllRoutesFromDocs]
 class StorageController extends Controller
 {
     /**
