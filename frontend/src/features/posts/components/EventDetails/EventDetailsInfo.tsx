@@ -20,7 +20,7 @@ const EventDetailsInfo = ({event}: EventDetailsInfoProps) => {
             </CardHeader>
             <CardContent className="grid justify-center gap-6 md:grid-cols-2">
                 <div className="flex flex-col items-center justify-center gap-2">
-                    <div className="rounded-full bg-primary/10 p-3 text-primary">
+                    <div className="rounded-full bg-primary/15 p-3 text-primary">
                         <CalendarIcon size={32} />
                     </div>
                     <span>Zeitraum</span>
@@ -29,7 +29,7 @@ const EventDetailsInfo = ({event}: EventDetailsInfoProps) => {
                     </span>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-2 p-4">
-                    <div className="rounded-full bg-primary/10 p-3 text-primary">
+                    <div className="rounded-full bg-primary/15 p-3 text-primary">
                         <UserIcon size={32} />
                     </div>
                     <span>Organisator*in</span>
