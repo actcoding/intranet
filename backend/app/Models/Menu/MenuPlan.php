@@ -26,7 +26,7 @@ class MenuPlan extends Model
     protected function casts(): array
     {
         return [
-            'price' => 'double',
+            'price' => 'decimal:2',
             'served_at' => 'datetime:Y-m-d',
         ];
     }

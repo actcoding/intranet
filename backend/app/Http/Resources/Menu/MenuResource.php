@@ -34,7 +34,7 @@ class MenuResource extends JsonResource
             /** @var MenuNutrition */
             'nutrition' => $this->resource->nutrition,
             'name' => $this->resource->name,
-            /** @var int */
+            /** @var float */
             'default_price' => $this->whenVisible('default_price'),
 
             'dishes' => $this->whenLoaded('dishes', fn () => DishResource::collection($this->resource->dishes)),

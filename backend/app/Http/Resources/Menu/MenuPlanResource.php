@@ -30,6 +30,7 @@ class MenuPlanResource extends JsonResource
             'id' => $this->resource->id,
             'updated_at' => $this->resource->updated_at,
             'served_at' => date_format($this->resource->served_at, 'Y-m-d'),
+            /** @var float */
             'price' => $this->resource->price,
 
             'menu' => MenuResource::make($this->resource->menu)->withHidden('default_price'),

@@ -13,7 +13,6 @@ const nextConfig = {
                 port: '8000',
                 pathname: '/storage/**',
             },
-
         ],
     },
 }

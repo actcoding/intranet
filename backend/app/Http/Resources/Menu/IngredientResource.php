@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Menu;
 
+use App\Enum\Menu\IngredientType;
 use App\Http\Resources\Traits\ConditionalResourceAccess;
 use App\Models\Menu\Menu;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ class IngredientResource extends JsonResource
             /** @var int */
             'id' => $this->resource->id,
             'name' => $this->resource->name,
+            /** @var IngredientType */
             'type' => $this->resource->type,
         ];
     }

@@ -29,7 +29,7 @@ class Menu extends Model
     {
         return [
             'nutrition' => MenuNutrition::class,
-            'default_price' => 'double',
+            'default_price' => 'decimal:2',
         ];
     }
 
