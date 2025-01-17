@@ -34,7 +34,6 @@ export const ManageMenuDetails = ({menu}: ManageMenuDetailsProps) => {
 
     return (
         <>
-            {/* @ts-expect-error wrong api type */}
             <MenuFormProvider onSubmit={handleSubmit} defaultValues={menu}>
                 <div className="my-3 space-y-3">
                     <MenuNameFormField />
