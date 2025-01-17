@@ -26,7 +26,7 @@ class MenuStoreRequest extends FormRequest
         return [
             'name' => 'required|string|unique:App\Models\Menu\Menu,name',
             'nutrition' => ['required', Rule::in($nuts)],
-            'default_price' => 'required|decimal:0,2',
+            'default_price' => 'decimal:0,2',
 
             /**
              * A list of dish IDs to associate
