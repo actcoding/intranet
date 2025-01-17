@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enum\EntityStatus;
+use App\Enum\UploadType;
 use App\Http\Requests\News\NewsListRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
@@ -186,6 +187,13 @@ class NewsController extends Controller implements HasMiddleware
 
         $type = $request->input('type');
         $file = $request->file('file');
+
+        // delete old headers
+        if ($type == UploadType::HEADER->value) {
+            $news->attachments()
+                ->whereJsonContains('metadata->type', UploadType::HEADER->value)
+                ->delete();
+        }
 
         $path = $file->store('news/' . $id . '/' . $type, 'public');
 
