@@ -23,7 +23,6 @@ export const ManageMenuDetails = ({menu}: ManageMenuDetailsProps) => {
 
     const handleSubmit = async (values: MenuFormValues) => {
         try {
-            // @ts-expect-error wrong api type
             await canteenApi.menuUpdate({menu: menu.id, menuUpdateRequest: values})
             toast({title: 'Menü gespeichert', description: `Das Menü "${values.name}" wurde erfolgreich aktualisiert`})
             refresh()
