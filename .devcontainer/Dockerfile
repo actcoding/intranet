@@ -14,8 +14,11 @@ RUN apt-get update && \
         openjdk-17-jre \
         sudo \
         zsh \
+        locales \
     && \
-    install-php-extensions \
+    locale-gen
+
+RUN install-php-extensions \
         xdebug \
         pgsql \
         pdo_pgsql \
@@ -24,9 +27,8 @@ RUN apt-get update && \
         pcntl \
         zip \
     && \
-    mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
-
-RUN curl -sSL https://getcomposer.org/installer | php && \
+    mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" && \
+    curl -sSL https://getcomposer.org/installer | php && \
     chmod +x composer.phar && \
     mv composer.phar /usr/local/bin/composer
 
