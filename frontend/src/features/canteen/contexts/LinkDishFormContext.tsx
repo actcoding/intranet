@@ -1,3 +1,5 @@
+'use client'
+
 import {linkDishFormSchema} from '@/features/canteen/constants'
 import {LinkDishFormValues} from '@/features/canteen/types'
 import {Form} from '@/lib/components/common/Form'
