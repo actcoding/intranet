@@ -75,7 +75,7 @@ export const ManageMenuPlanItem = ({item, isEntryEditable}: ManageMenuPlanItemPr
             <CardFooter className={'justify-end gap-2'}>
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <Button variant={'outline'} size={'icon'}>
+                        <Button variant={'outline'} size={'icon'} asChild>
                             <Link href={`/manage/canteen/menus/${item.menu.id}`}>
                                 <UtensilsIcon size={16} />
                             </Link>
@@ -86,13 +86,13 @@ export const ManageMenuPlanItem = ({item, isEntryEditable}: ManageMenuPlanItemPr
                 <ResponsiveDialog open={isOpen} onOpenChange={setIsOpen}>
                     <Tooltip>
                         <ResponsiveDialogTrigger asChild>
-                            <TooltipTrigger asChild>
+                            <TooltipTrigger asChild ignoreDisabledChild>
                                 <Button variant={'outline'} size={'icon'} disabled={!isEntryEditable}>
                                     <EuroIcon size={16} />
                                 </Button>
                             </TooltipTrigger>
                         </ResponsiveDialogTrigger>
-                        <TooltipContent>Tagespreis bearbeiten</TooltipContent>
+                        <TooltipContent>{isEntryEditable ? 'Tagespreis bearbeiten' : 'Du kannst den Tagespreis nicht mehr bearbeiten.'}</TooltipContent>
                     </Tooltip>
                     <ResponsiveDialogContent>
                         <EditPriceFormProvider onSubmit={handleEditPriceSubmit} defaultValues={{ price: item.price}}>
@@ -111,12 +111,12 @@ export const ManageMenuPlanItem = ({item, isEntryEditable}: ManageMenuPlanItemPr
                     </ResponsiveDialogContent>
                 </ResponsiveDialog>
                 <Tooltip>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger asChild ignoreDisabledChild>
                         <Button variant={'outline-destructive'} size={'icon'} onClick={handleUnlink} disabled={!isEntryEditable}>
                             <CircleMinusIcon size={16} />
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent>Menü vom Plan entfernen</TooltipContent>
+                    <TooltipContent>{isEntryEditable ? 'Menü vom Plan entfernen' : 'Du kannst das Menü nicht mehr vom Plan entfernen.'}</TooltipContent>
                 </Tooltip>
             </CardFooter>
         </Card>
