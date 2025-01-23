@@ -1,5 +1,6 @@
+import {MenuPlanResource} from '@/lib/api/generated'
+import {SlideUpAnimation} from '@/shared/components/SlideUpAnimation'
 import MenuCard from './components/MenuCard'
-import { MenuPlanResource } from '@/lib/api/generated'
 
 interface MenuCardGridProps {
     menuList: MenuPlanResource[]
@@ -8,13 +9,15 @@ interface MenuCardGridProps {
 
 const MenuCardGrid = ({menuList, className} : MenuCardGridProps) => {
     return <div className={className}>
-        {menuList.length === 0 ? 
+        {menuList.length === 0 ?
             <h1 className='flex justify-center'>Für diesen Tag wurden noch keine Menüs festgelegt</h1>
             : <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {menuList.map((plan: MenuPlanResource) =>
-                    <MenuCard key={plan.id} 
-                        menuPlan={plan}
-                    />,
+                    <SlideUpAnimation key={plan.id}>
+                        <MenuCard
+                            menuPlan={plan}
+                        />
+                    </SlideUpAnimation>,
                 )}
             </div>}
     </div>
