@@ -50,7 +50,6 @@ export const ManageMenuPlanItem = ({item, isEntryEditable}: ManageMenuPlanItemPr
 
     const handleEditPriceSubmit = async (values: EditPriceFormValues) => {
         try {
-            //@ts-expect-error Wrong API type
             await addMenuToPlan({menuServeRequest: {menuId: item.menu.id, price: values.price, servedAt: item.servedAt}})
             toast({title: 'Preis aktualisiert', description: 'Der Preis wurde erfolgreich aktualisiert'})
             setIsOpen(false)
