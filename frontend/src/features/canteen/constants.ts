@@ -15,3 +15,14 @@ export const menuFormSchema = z.object({
 export const linkDishFormSchema = z.object({
     dishId: z.coerce.number(),
 })
+
+export const linkMenuFormSchema = z.object({
+    menuId: z.coerce.number(),
+    price: z.coerce.number().min(0),
+})
+
+export const editPriceFormSchema = z.object({
+    price: z.coerce.number().min(0),
+})
+
+export const servedAtDateFormat = 'yyyy-MM-dd'

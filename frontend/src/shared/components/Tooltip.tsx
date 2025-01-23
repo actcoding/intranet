@@ -8,7 +8,20 @@ const TooltipProvider = TooltipPrimitive.Provider
 
 const Tooltip = TooltipPrimitive.Root
 
-const TooltipTrigger = TooltipPrimitive.Trigger
+const TooltipTrigger = React.forwardRef<
+    React.ElementRef<typeof TooltipPrimitive.Trigger>,
+    React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Trigger> & { ignoreDisabledChild?: boolean }
+>(({ className, ignoreDisabledChild, ...props }, ref) => (
+    <TooltipPrimitive.Trigger
+        ref={ref}
+        className={cn(
+            ignoreDisabledChild && '!pointer-events-auto',
+            className,
+        )}
+        {...props}
+    />
+))
+TooltipTrigger.displayName = TooltipPrimitive.Trigger.displayName
 
 const TooltipContent = React.forwardRef<
     React.ElementRef<typeof TooltipPrimitive.Content>,
