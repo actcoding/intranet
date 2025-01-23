@@ -9,6 +9,7 @@ import {Textarea} from '@/lib/components/common/Textarea'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {mealFormSchema, MealFormValues} from './ManageMealForm.config'
+import { Checkbox } from '@/lib/components/common/Checkbox'
 
 
 interface ManageMealFormProps {
@@ -24,6 +25,7 @@ const ManageMealForm = ({meal, handleSubmit}: ManageMealFormProps) => {
             name: meal.name,
             summary: meal.summary,
             type: meal.type as DishUpdateRequestTypeEnum,
+            lowCarb: meal.lowCarb,
         },
     })
 
@@ -60,6 +62,25 @@ const ManageMealForm = ({meal, handleSubmit}: ManageMealFormProps) => {
                                 />
                             </FormControl>
                             <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="lowCarb"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
+                            <FormControl>
+                                <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                                <FormLabel>
+                                    low Carb
+                                </FormLabel>
+                            </div>
                         </FormItem>
                     )}
                 />
