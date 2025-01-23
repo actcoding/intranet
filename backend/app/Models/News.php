@@ -76,6 +76,7 @@ class News extends Model
     {
         return [
             'status' => EntityStatus::class,
+            'published_at' => 'datetime',
         ];
     }
 
