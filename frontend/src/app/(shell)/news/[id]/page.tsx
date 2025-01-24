@@ -1,6 +1,9 @@
 import {NewsDetails} from '@/features/posts/components/NewsDetails'
 import {newsApi} from '@/lib/api/api'
 import {AttachmentResource, NewsResource} from '@/lib/api/generated'
+import { Button } from '@/lib/components/common/Button'
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 
 interface Props {
     params: {
@@ -33,9 +36,25 @@ const SingleNewsPage = async (props: Props) => {
         )
     }
 
-    return (
-        <NewsDetails news={{...news, headerImage, attachments}} />
-    )
+    return (<>
+        <div className='mx-auto h-full max-w-[800px]'>
+            <Button
+                asChild
+                size="sm"
+                variant="link"
+                className='mb-4'
+            >
+                <Link href="/news">
+                    <ArrowLeft />
+                    <span className="ml-1">
+                        Zurück zu allen Neuigkeiten
+                    </span>
+                </Link>
+            </Button>
+
+            <NewsDetails news={{...news, headerImage, attachments}} />
+        </div>
+    </>)
 }
 
 export default SingleNewsPage
