@@ -43,6 +43,7 @@ export const Sidebar = async () => {
             label: t('manage'),
             hidden: !isCreator(sessionData),
             items: [
+                { title: 'Übersicht', url: '/manage' },
                 { title: 'Neuigkeiten', url: '/manage/news' },
                 { title: 'Veranstaltungen', url: '/manage/events' },
                 {
