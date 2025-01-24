@@ -69,7 +69,7 @@ const ManageMealForm = ({meal, handleSubmit}: ManageMealFormProps) => {
                     control={form.control}
                     name="lowCarb"
                     render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 pl-2">
                             <FormControl>
                                 <Checkbox
                                     checked={field.value}
@@ -78,7 +78,7 @@ const ManageMealForm = ({meal, handleSubmit}: ManageMealFormProps) => {
                             </FormControl>
                             <div className="space-y-1 leading-none">
                                 <FormLabel>
-                                    low Carb
+                                    wenig Kohlenhydrate
                                 </FormLabel>
                             </div>
                         </FormItem>
