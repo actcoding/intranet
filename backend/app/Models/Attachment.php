@@ -61,7 +61,7 @@ class Attachment extends Model
     protected function path(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value) => $value == null ? null : url(Storage::url($value)),
+            get: fn (?string $value) => $value == null ? null : url(Storage::disk('public')->url($value)),
         );
     }
 
