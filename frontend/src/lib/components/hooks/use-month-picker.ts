@@ -24,7 +24,8 @@ export function useMonthPicker() : [Date, EventResource[], () => void, () => voi
                 year: date.getFullYear(),
                 month: month,
             })
-            setEvents(events)
+            const orderedEvents = events.sort((a,b) => new Date(a.startingAt).getTime() - new Date(b.startingAt).getTime())
+            setEvents(orderedEvents)
         }
         getEvents()
     }, [date])
