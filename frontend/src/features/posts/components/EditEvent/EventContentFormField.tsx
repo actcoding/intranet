@@ -48,8 +48,8 @@ const EventContentFormField = (props: EventContentFormField) => {
                                     ?.chain()
                                     .focus()
                                     .setImage({
-                                        // TODO: Better types
                                         src: data!.url,
+                                        alt: file.name,
                                     })
                                     .run()
                             }}

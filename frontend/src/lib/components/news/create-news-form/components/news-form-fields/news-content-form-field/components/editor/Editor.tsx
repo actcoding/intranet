@@ -5,13 +5,32 @@ import { inputVariants } from '@/lib/components/common/Input'
 import { Toggle } from '@/lib/components/common/Toggle'
 import { cn } from '@/lib/utils'
 import Image from '@tiptap/extension-image'
-import { EditorContent, useEditor } from '@tiptap/react'
+import NextImage from 'next/image'
+import { EditorContent, useEditor, ReactNodeViewRenderer, NodeViewWrapper } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { BoldIcon, ItalicIcon, Redo2Icon, Undo2Icon } from 'lucide-react'
 import React from 'react'
 import SelectImageForm from './SelectImageForm'
+import { Node } from '@tiptap/pm/model'
+
+const NextImageWrapper = (props: { node: Node }) => {
+    return (
+        <NodeViewWrapper>
+            <NextImage
+                src="/"
+                alt='an image'
+                width={720}
+                height={720}
+                {...props.node.attrs}
+            />
+        </NodeViewWrapper>
+    )
+}
 
 const CustomImage = Image.extend({
+    addNodeView() {
+        return ReactNodeViewRenderer(NextImageWrapper)
+    },
     addAttributes() {
         return {
             ...this.parent?.(),
