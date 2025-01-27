@@ -78,7 +78,7 @@ const ManageMealForm = ({meal, handleSubmit}: ManageMealFormProps) => {
                             </FormControl>
                             <div className="space-y-1 leading-none">
                                 <FormLabel>
-                                    wenig Kohlenhydrate
+                                    Kohlenhydratarm
                                 </FormLabel>
                             </div>
                         </FormItem>
