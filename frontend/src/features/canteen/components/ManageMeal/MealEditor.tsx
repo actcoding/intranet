@@ -44,6 +44,7 @@ const MealEditor = ({meal}: MealEditorProps) => {
                     summary: values.summary,
                     type: values.type,
                     ingredients: ingredientIds,
+                    lowCarb: values.lowCarb,
                 },
             })
             toast({
