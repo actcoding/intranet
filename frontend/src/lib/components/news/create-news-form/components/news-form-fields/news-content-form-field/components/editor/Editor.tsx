@@ -4,8 +4,8 @@ import { Button } from '@/lib/components/common/Button'
 import { inputVariants } from '@/lib/components/common/Input'
 import { Toggle } from '@/lib/components/common/Toggle'
 import { cn } from '@/lib/utils'
-import Image from '@tiptap/extension-image'
-import NextImage from 'next/image'
+import TiptapImage from '@tiptap/extension-image'
+import Image from 'next/image'
 import { EditorContent, useEditor, ReactNodeViewRenderer, NodeViewWrapper } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { BoldIcon, ItalicIcon, Redo2Icon, Undo2Icon } from 'lucide-react'
@@ -16,7 +16,7 @@ import { Node } from '@tiptap/pm/model'
 const NextImageWrapper = (props: { node: Node }) => {
     return (
         <NodeViewWrapper>
-            <NextImage
+            <Image
                 src="/"
                 alt='an image'
                 width={720}
@@ -27,7 +27,7 @@ const NextImageWrapper = (props: { node: Node }) => {
     )
 }
 
-const CustomImage = Image.extend({
+const CustomImage = TiptapImage.extend({
     addNodeView() {
         return ReactNodeViewRenderer(NextImageWrapper)
     },
