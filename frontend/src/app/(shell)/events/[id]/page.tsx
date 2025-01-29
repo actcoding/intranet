@@ -1,6 +1,9 @@
 import {EventDetails} from '@/features/posts/components/EventDetails'
 import {eventApi} from '@/lib/api/api'
 import {Alert, AlertTitle} from '@/lib/components/common/Alert'
+import { Button } from '@/lib/components/common/Button'
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 
 interface EventDetailPageProps {
     params: {
@@ -12,7 +15,23 @@ const EventDetailPage = async ({params}: EventDetailPageProps) => {
         const event = await eventApi.eventShow({id: params.id})
         const attachments = await eventApi.eventUploadList({id: event.id, type: 'attachment'})
         return (
-            <EventDetails event={{...event, attachments}} />
+            <div className='mx-auto h-full max-w-[800px]'>
+                <Button
+                    asChild
+                    size="sm"
+                    variant="link"
+                    className='mb-4'
+                >
+                    <Link href="/news">
+                        <ArrowLeft />
+                        <span className="ml-1">
+                            Zurück zu allen Veranstaltungen
+                        </span>
+                    </Link>
+                </Button>
+
+                <EventDetails event={{...event, attachments}} />
+            </div>
         )
     } catch (error) {
         console.error(error)
