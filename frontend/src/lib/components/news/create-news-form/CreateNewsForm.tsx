@@ -11,6 +11,7 @@ import {createNewsFormSchema, CreateNewsFormValues} from '@/lib/components/news/
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import {useToast} from '../../hooks/use-toast'
+import { useRouter } from 'next/navigation'
 
 interface CreateNewsFormProps {
     news: NewsResource;
@@ -25,7 +26,7 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
         },
     })
 
-    // const router = useRouter();
+    const router = useRouter()
     const { toast } = useToast()
 
     async function handleSubmit(values: CreateNewsFormValues) {
@@ -38,6 +39,7 @@ const CreateNewsForm = (props: CreateNewsFormProps) => {
                 },
             })
 
+            router.push('/manage/news')
             toast({
                 title: 'Gespeichert',
             })
