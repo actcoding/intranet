@@ -8,11 +8,11 @@ import Link from 'next/link'
 import { useMonthPicker } from '@/lib/components/hooks/use-month-picker'
 import MonthPicker from '@/lib/components/event/event-list/components/MonthPicker'
 import { useTranslations } from 'next-intl'
+import { ScrollArea } from '@/shared/components/ScrollArea'
 
 
 const EventListWidget = () => {
     const [date, events, goToPreviousMonth, goToNextMonth] = useMonthPicker()
-    const limitedEvents = events.slice(0,3)
     const translate = useTranslations('Event')
 
     return (
@@ -25,9 +25,9 @@ const EventListWidget = () => {
                 />
             </CardHeader>
             <CardContent>
-                <div className="min-h-[210px]">
+                <ScrollArea className='h-72 w-full rounded-md'>
                     <div className='flex flex-col gap-2'>
-                        {limitedEvents.map((item, index) => (
+                        {events.map((item, index) => (
                             <Link href={`/events/${item.id}`} key={index}>
                                 <EventWidgetCard
                                     event={item}
@@ -35,7 +35,7 @@ const EventListWidget = () => {
                             </Link>
                         ))}
                     </div>
-                </div>
+                </ScrollArea>
             </CardContent>
             <CardFooter className='mt-auto'>
                 <Button className='w-full' asChild>
