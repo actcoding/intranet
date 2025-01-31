@@ -1,15 +1,12 @@
 'use client'
 
-import { buttonVariants } from '@/lib/components/common/Button'
-import { cn } from '@/lib/utils'
-import {
-    ChevronDownIcon,
-    ChevronLeftIcon,
-    ChevronRightIcon,
-    ChevronUpIcon,
-} from 'lucide-react'
+import {buttonVariants} from '@/lib/components/common/Button'
+import {cn} from '@/lib/utils'
+import {toDayPickerLocale} from '@/shared/utils'
+import {ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon} from 'lucide-react'
+import {useLocale} from 'next-intl'
 import * as React from 'react'
-import { DayFlag, DayPicker, SelectionState, UI } from 'react-day-picker'
+import {DayFlag, DayPicker, SelectionState, UI} from 'react-day-picker'
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
@@ -19,6 +16,8 @@ export const Calendar = ({
     showOutsideDays = true,
     ...props
 }: CalendarProps) => {
+    const locale = useLocale()
+
     return (
         <DayPicker
             showOutsideDays={showOutsideDays}
@@ -62,6 +61,7 @@ export const Calendar = ({
             components={{
                 Chevron: ({ ...props }) => <Chevron {...props} />,
             }}
+            locale={toDayPickerLocale(locale)}
             {...props}
         />
     )
