@@ -4,7 +4,6 @@ import {Button} from '@/lib/components/common/Button'
 import {Popover, PopoverContent, PopoverTrigger} from '@/lib/components/common/Popover'
 import {cn} from '@/lib/utils'
 import {Calendar} from '@/shared/components/Calendar'
-import {isAfter, isBefore} from 'date-fns'
 import {CalendarIcon} from 'lucide-react'
 import {useFormatter} from 'next-intl'
 import {useState} from 'react'
@@ -61,15 +60,7 @@ export function DatePicker({
                     mode="single"
                     selected={date}
                     onSelect={handleSelect}
-                    disabled={(day) => {
-                        const minWithoutTime = min && new Date(min).setHours(0, 0, 0, 0)
-                        const maxWithoutTime = max && new Date(max).setHours(0, 0, 0, 0)
-                        const dayWithoutTime = day.setHours(0, 0, 0, 0)
-                        if (minWithoutTime && maxWithoutTime) return isBefore(dayWithoutTime, minWithoutTime) || isAfter(dayWithoutTime, maxWithoutTime)
-                        if (minWithoutTime) return isBefore(dayWithoutTime, minWithoutTime)
-                        if (maxWithoutTime) return isAfter(dayWithoutTime, maxWithoutTime)
-                        return false
-                    }}
+                    disabled={{before: min, after: max}}
                     autoFocus
                 />
             </PopoverContent>
