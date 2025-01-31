@@ -4,7 +4,6 @@ import NewsStatusBadge from '@/lib/components/shared/NewsStatusBadge'
 import SanitizedHTMLContent from '@/lib/components/shared/SanitizedHTMLContent'
 import {cn} from '@/lib/utils'
 import {cva} from 'class-variance-authority'
-import {NewspaperIcon} from 'lucide-react'
 import {useFormatter} from 'next-intl'
 import Image from 'next/image'
 
@@ -98,7 +97,7 @@ const NewsPreviewCardHeaderImage = ({ src, alt, position }: NewsPreviewCardHeade
                     'bg-primary/15 flex items-center justify-center',
                 )}
             >
-                <NewspaperIcon className="text-primary" size={50} />
+                <Image src={'/newspaper.png'} className={'mb-2'} height={70} width={70} alt=""/>
             </div>
         )
     }

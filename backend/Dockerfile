@@ -22,7 +22,6 @@ WORKDIR /app
 
 RUN wget https://github.com/composer/composer/releases/download/2.7.6/composer.phar -O composer && \
     php composer install --no-dev && \
-    php artisan storage:link && \
     rm composer
 
 VOLUME [ "/app/storage" ]

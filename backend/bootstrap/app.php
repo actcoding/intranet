@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AccepLanguage;
 use App\Http\Middleware\EnforceJsonResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -21,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ],
             append: [
                 HandleCors::class,
-                \Orkhanahmadov\LaravelAcceptLanguageMiddleware\Middleware::class,
+                AccepLanguage::class,
             ]
         );
 

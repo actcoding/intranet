@@ -25,14 +25,14 @@ const EventListWidget = () => {
                 />
             </CardHeader>
             <CardContent>
-                <div className="min-h-[180px]">
+                <div className="min-h-[210px]">
                     <div className='flex flex-col gap-2'>
                         {limitedEvents.map((item, index) => (
                             <Link href={`/events/${item.id}`} key={index}>
                                 <EventWidgetCard
                                     event={item}
                                 />
-                            </Link> 
+                            </Link>
                         ))}
                     </div>
                 </div>

@@ -13,7 +13,6 @@
         "laravel/octane": "^2.4",
         "laravel/prompts": "^0.1.24",
         "laravel/tinker": "^2.9",
-        "orkhanahmadov/laravel-accept-language-middleware": "^2.3",
         "predis/predis": "^2.2",
         "spatie/laravel-permission": "^6.7",
         "tymon/jwt-auth": "^2.1"

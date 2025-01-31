@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10d9c07ee2b8bc917ea629fbf4487ce1",
+    "content-hash": "cc6a9e0275a003f1edceae776310608b",
     "packages": [
         {
             "name": "brick/math",
@@ -2959,67 +2959,6 @@
                 }
             ],
             "time": "2024-11-21T10:39:51+00:00"
-        },
-        {
-            "name": "orkhanahmadov/laravel-accept-language-middleware",
-            "version": "2.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/orkhanahmadov/laravel-accept-language-middleware.git",
-                "reference": "8988d5fd6031eb178d2d289e6aaa373bfba2db9f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/orkhanahmadov/laravel-accept-language-middleware/zipball/8988d5fd6031eb178d2d289e6aaa373bfba2db9f",
-                "reference": "8988d5fd6031eb178d2d289e6aaa373bfba2db9f",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0",
-                "illuminate/http": "^8.0|^9.0|^10.0|^11.0",
-                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
-                "php": "^8.0.2"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
-                "phpunit/phpunit": "^9.0|^10.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Orkhanahmadov\\LaravelAcceptLanguageMiddleware\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Orkhan Ahmadov",
-                    "email": "ahmadov90@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Laravel middleware for setting application locale based on HTTP Accept-Language header",
-            "homepage": "https://github.com/orkhanahmadov/laravel-accept-language-middleware",
-            "keywords": [
-                "accept-language",
-                "laravel",
-                "laravel middleware",
-                "orkhanahmadov"
-            ],
-            "support": {
-                "issues": "https://github.com/orkhanahmadov/laravel-accept-language-middleware/issues",
-                "source": "https://github.com/orkhanahmadov/laravel-accept-language-middleware/tree/2.3.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/orkhanahmadov",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-03-27T10:42:22+00:00"
         },
         {
             "name": "phpoption/phpoption",
