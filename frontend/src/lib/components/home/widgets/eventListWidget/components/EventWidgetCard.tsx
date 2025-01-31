@@ -10,7 +10,7 @@ interface EventWidgetCardProps {
 
 const EventWidgetCard = ({ event } : EventWidgetCardProps) => {
     const format = useFormatter()
-    
+
     return (
         <Card className="w-full max-w-sm">
             <CardContent className="flex items-center justify-between p-4">
@@ -21,8 +21,8 @@ const EventWidgetCard = ({ event } : EventWidgetCardProps) => {
                 </div>
                 <div className="ml-4 flex items-center text-sm text-muted-foreground">
                     <CalendarDays className="mr-1 size-4" aria-hidden="true" />
-                    <time dateTime={event.startingAt}>
-                        {format.dateTime(Date.parse(event.startingAt))}
+                    <time dateTime={format.dateTime(event.startingAt)}>
+                        {format.dateTime(event.startingAt)}
                     </time>
                 </div>
             </CardContent>

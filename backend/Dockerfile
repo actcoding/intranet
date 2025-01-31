@@ -1,6 +1,9 @@
 FROM dunglas/frankenphp:php8.3-alpine
 
-RUN install-php-extensions \
+RUN apk add --no-cache \
+        git \
+    && \
+    install-php-extensions \
         pgsql \
         pdo_pgsql \
         redis \

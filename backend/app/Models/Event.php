@@ -75,6 +75,9 @@ class Event extends Model
     {
         return [
             'status' => EntityStatus::class,
+            'published_at' => 'datetime',
+            'starting_at' => 'datetime',
+            'ending_at' => 'datetime',
         ];
     }
 

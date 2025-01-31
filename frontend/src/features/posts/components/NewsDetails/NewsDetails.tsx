@@ -100,9 +100,7 @@ const NewsDetails = async ({news}: NewsDetailsProps) => {
                             <span>{news.author.name}</span>
                             {news.publishedAt === null ? null : (
                                 <span className="opacity-70">
-                                    {format.relativeTime(
-                                        Date.parse(news.publishedAt),
-                                    )}
+                                    {format.relativeTime(news.publishedAt)}
                                 </span>
                             )}
                         </div>

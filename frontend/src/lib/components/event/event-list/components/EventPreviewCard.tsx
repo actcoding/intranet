@@ -51,7 +51,7 @@ const EventPreviewCard = ({
                 <CardFooter className="mb-0 mt-auto">
                     <CalendarDays className="mr-1 size-4" aria-hidden="true" />
                     <time className="text-muted-foreground">
-                        {format.dateTimeRange(Date.parse(event.startingAt), Date.parse(event.endingAt), eventDateTimeRangeConfig)}
+                        {format.dateTimeRange(event.startingAt, event.endingAt, eventDateTimeRangeConfig)}
                     </time>
                 </CardFooter>
             </div>
