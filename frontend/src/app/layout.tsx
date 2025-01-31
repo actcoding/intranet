@@ -1,4 +1,5 @@
 import '@/app/globals.css'
+import TimezoneSetter from '@/core/layout/TimeZoneSetter'
 import { Toaster } from '@/lib/components/common/Toaster'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
@@ -32,6 +33,7 @@ export default async function RootLayout({
                 <NextIntlClientProvider locale={locale}>
                     {children}
 
+                    <TimezoneSetter />
                     <Toaster />
                 </NextIntlClientProvider>
             </body>
