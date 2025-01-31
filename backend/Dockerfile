@@ -1,6 +1,9 @@
 FROM dunglas/frankenphp:php8.3-alpine
 
-RUN install-php-extensions \
+RUN apk add --no-cache \
+        git \
+    && \
+    install-php-extensions \
         pgsql \
         pdo_pgsql \
         redis \
@@ -20,11 +23,9 @@ USER intranet
 
 WORKDIR /app
 
-RUN apk add --no-cache git && \
-    wget https://github.com/composer/composer/releases/download/2.7.6/composer.phar -O composer && \
+RUN wget https://github.com/composer/composer/releases/download/2.7.6/composer.phar -O composer && \
     php composer install --no-dev && \
-    rm composer && \
-    apk del git
+    rm composer
 
 VOLUME [ "/app/storage" ]
 
