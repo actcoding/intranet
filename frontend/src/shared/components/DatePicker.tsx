@@ -1,16 +1,13 @@
 'use client'
 
-import { Button } from '@/lib/components/common/Button'
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/lib/components/common/Popover'
-import { cn } from '@/lib/utils'
-import { Calendar } from '@/shared/components/Calendar'
-import { CalendarIcon } from 'lucide-react'
-import { useFormatter } from 'next-intl'
-import { useState } from 'react'
+import {Button} from '@/lib/components/common/Button'
+import {Popover, PopoverContent, PopoverTrigger} from '@/lib/components/common/Popover'
+import {cn} from '@/lib/utils'
+import {Calendar} from '@/shared/components/Calendar'
+import {isAfter, isBefore} from 'date-fns'
+import {CalendarIcon} from 'lucide-react'
+import {useFormatter} from 'next-intl'
+import {useState} from 'react'
 
 export interface DatePickerProps {
     selected?: Date;
@@ -54,7 +51,7 @@ export function DatePicker({
                             })}
                         </span>
                     ) : (
-                        <span>Pick a date</span>
+                        <span>Wähle ein Datum</span>
                     )}
                 </Button>
             </PopoverTrigger>
@@ -65,9 +62,12 @@ export function DatePicker({
                     selected={date}
                     onSelect={handleSelect}
                     disabled={(day) => {
-                        if (min && max) return day < min || day > max
-                        if (min) return day < min
-                        if (max) return day > max
+                        const minWithoutTime = min && new Date(min).setHours(0, 0, 0, 0)
+                        const maxWithoutTime = max && new Date(max).setHours(0, 0, 0, 0)
+                        const dayWithoutTime = day.setHours(0, 0, 0, 0)
+                        if (minWithoutTime && maxWithoutTime) return isBefore(dayWithoutTime, minWithoutTime) || isAfter(dayWithoutTime, maxWithoutTime)
+                        if (minWithoutTime) return isBefore(dayWithoutTime, minWithoutTime)
+                        if (maxWithoutTime) return isAfter(dayWithoutTime, maxWithoutTime)
                         return false
                     }}
                     autoFocus

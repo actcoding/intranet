@@ -1,8 +1,8 @@
 'use client'
 
-import { Input } from '@/lib/components/common/Input'
-import { DatePicker, DatePickerProps } from '@/shared/components/DatePicker'
-import { useState } from 'react'
+import {Input} from '@/lib/components/common/Input'
+import {DatePicker, DatePickerProps} from '@/shared/components/DatePicker'
+import {useState} from 'react'
 
 interface DateTimePickerProps extends DatePickerProps {
     selected?: Date;
@@ -25,6 +25,7 @@ export const DateTimePicker = ({
         if (!date) return
         const newDate = new Date(selectedDate)
         newDate.setDate(date.getDate())
+        newDate.setMonth(date.getMonth())
         setSelectedDate(newDate)
         onDateTimeSelect?.(newDate)
     }
