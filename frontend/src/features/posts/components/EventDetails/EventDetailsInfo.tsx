@@ -25,7 +25,7 @@ const EventDetailsInfo = ({event}: EventDetailsInfoProps) => {
                     </div>
                     <span>Zeitraum</span>
                     <span className="text-sm text-muted-foreground">
-                        {format.dateTimeRange(Date.parse(event.startingAt), Date.parse(event.endingAt), eventDateTimeRangeConfig)}
+                        {format.dateTimeRange(event.startingAt, event.endingAt, eventDateTimeRangeConfig)}
                     </span>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-2 p-4">
