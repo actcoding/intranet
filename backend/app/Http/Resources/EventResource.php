@@ -30,10 +30,7 @@ class EventResource extends JsonResource
             'deleted_at' => $this->resource->deleted_at,
             'published_at' => $this->resource->published_at,
 
-            // TODO: dedoc/scramble#695 needs to fix this
-            /** @var string */
             'starting_at' => $this->resource->starting_at,
-            /** @var string */
             'ending_at' => $this->resource->ending_at,
 
             'status' => $this->resource->status,

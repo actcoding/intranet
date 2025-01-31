@@ -8,7 +8,7 @@
     "require": {
         "php": "^8.3",
         "ext-pgsql": "*",
-        "dedoc/scramble": "^0.11.4",
+        "dedoc/scramble": "dev-fix/gh-695-2",
         "laravel/framework": "^11.9",
         "laravel/octane": "^2.4",
         "laravel/prompts": "^0.1.24",
@@ -27,6 +27,13 @@
         "nunomaduro/collision": "^8.0",
         "phpunit/phpunit": "^11.0.1"
     },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/axelrindle/scramble",
+            "branch": "fix/gh-695-2"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "app/",
@@ -75,6 +82,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }
