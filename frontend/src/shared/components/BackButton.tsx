@@ -12,10 +12,8 @@ export const BackButton = ({href, children}: BackButtonProps) => {
     return (
         <Button asChild variant={'ghost'} size={'sm'} className={'h-6'}>
             <Link href={href}>
-                <ChevronLeftIcon />
-                <span className="ml-1">
-                    {children}
-                </span>
+                <ChevronLeftIcon className={'mr-1'} />
+                {children}
             </Link>
         </Button>
     )
