@@ -22,7 +22,7 @@ const EditLinkedPostsItem = ({post, onUnlink, href}: EditLinkedPostsItemProps) =
                         <ExternalLinkIcon size={16} />
                     </Link>
                 </Button>
-                {onUnlink ? <Button onClick={() => onUnlink(post)} size="icon" variant="destructive">
+                {onUnlink ? <Button onClick={() => onUnlink(post)} size="icon" variant="destructive" type={'button'}>
                     <UnlinkIcon size={16} />
                     <span className="sr-only">Verknüpfung aufheben</span>
                 </Button> : null}
