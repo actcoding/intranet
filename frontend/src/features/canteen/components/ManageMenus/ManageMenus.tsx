@@ -11,8 +11,7 @@ interface ManageMenusProps {
 const ManageMenus = ({menus}: ManageMenusProps) => {
     return (
         <>
-            <div className="flex gap-3">
-                <h1 className="mb-4 flex-1 text-4xl font-semibold">Menüs</h1>
+            <div className="float-end space-x-2">
                 <CreateMenuDialog />
                 <Button asChild variant="outline">
                     <Link href={'/manage/canteen/dishes'}>
@@ -21,6 +20,7 @@ const ManageMenus = ({menus}: ManageMenusProps) => {
                     </Link>
                 </Button>
             </div>
+            <h1 className="mb-4 flex-1 text-4xl font-semibold">Menüs</h1>
             <div className="grid gap-3 md:grid-cols-3">
                 {menus.map((menu, index) => (
                     <ManageMenuCard menu={menu} key={index} />
