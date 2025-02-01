@@ -13,7 +13,7 @@ const ManageMenuPage = async ({params}: ManageMenuPageProps) => {
 
     return (
         <>
-            <BackButton href={'/manage/canteen/menus'}>Zur Menü-Übersicht</BackButton>
+            <BackButton href={'/manage/canteen/menus'}>Zur Menüs-Übersicht</BackButton>
             <ManageMenu menu={menu} />
         </>
     )

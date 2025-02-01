@@ -13,7 +13,7 @@ const ManageMealPage = async (props: Props) => {
 
     return (
         <>
-            <BackButton href={'/manage/canteen/dishes'}>Zur Gerichteübersicht</BackButton>
+            <BackButton href={'/manage/canteen/dishes'}>Zur Gerichte-Übersicht</BackButton>
             <MealEditor meal={meal} />
         </>
     )
