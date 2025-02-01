@@ -13,6 +13,7 @@ export interface DatePickerProps {
     onDaySelect?: (date: Date) => void;
     min?: Date;
     max?: Date;
+    className?: string;
 }
 
 export function DatePicker({
@@ -20,6 +21,7 @@ export function DatePicker({
     onDaySelect,
     min,
     max,
+    className,
 }: DatePickerProps) {
     const [date, setDate] = useState<Date | undefined>(selected || new Date())
     const formatter = useFormatter()
@@ -36,8 +38,9 @@ export function DatePicker({
                 <Button
                     variant={'outline'}
                     className={cn(
-                        'w-[280px] justify-start text-left font-normal',
+                        'justify-start text-left font-normal',
                         !date && 'text-muted-foreground',
+                        className,
                     )}
                 >
                     <CalendarIcon className="mr-2 size-4" />

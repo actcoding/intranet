@@ -11,11 +11,11 @@ export const eventFormSchema = z
         isAllDay: z.boolean(),
     })
     .refine((data) => isBefore(data.startingAt, data.endingAt), {
-        message: 'Startdatum muss vor dem Enddatum liegen',
+        message: 'Das Startdatum muss vor dem Enddatum liegen',
         path: ['startingAt'],
     })
     .refine((data) => isBefore(data.startingAt, data.endingAt), {
-        message: 'Enddatum muss nach dem Startdatum liegen',
+        message: 'Das Enddatum muss nach dem Startdatum liegen',
         path: ['endingAt'],
     })
 
