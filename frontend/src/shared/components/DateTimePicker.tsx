@@ -2,7 +2,7 @@
 
 import {Input} from '@/lib/components/common/Input'
 import {DatePicker, DatePickerProps} from '@/shared/components/DatePicker'
-import {useState} from 'react'
+import React, {useState} from 'react'
 
 interface DateTimePickerProps extends DatePickerProps {
     selected?: Date;
@@ -10,13 +10,13 @@ interface DateTimePickerProps extends DatePickerProps {
     granularity?: 'day' | 'minute';
 }
 
-export const DateTimePicker = ({
+export const DateTimePicker =  React.forwardRef<HTMLDivElement, DateTimePickerProps>(({
     selected,
     onDateTimeSelect,
     granularity = 'minute',
     min,
     max,
-}: DateTimePickerProps) => {
+}: DateTimePickerProps, ref) => {
     const [selectedDate, setSelectedDate] = useState<Date>(
         selected || new Date(),
     )
@@ -41,7 +41,7 @@ export const DateTimePicker = ({
     }
 
     return (
-        <div className="flex w-full gap-2">
+        <div className="flex w-full gap-2" ref={ref}>
             <DatePicker
                 selected={selectedDate}
                 onDaySelect={handleDateSelect}
@@ -58,4 +58,6 @@ export const DateTimePicker = ({
             ) : null}
         </div>
     )
-}
+})
+
+DateTimePicker.displayName = 'DateTimePicker'
