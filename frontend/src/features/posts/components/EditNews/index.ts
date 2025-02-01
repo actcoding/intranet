@@ -1,2 +1,3 @@
 export * from './EditNews'
-export * from './EditLinkedEvents'
+export * from './LinkedEventsList'
+export * from './AddLinkedEventDialog'

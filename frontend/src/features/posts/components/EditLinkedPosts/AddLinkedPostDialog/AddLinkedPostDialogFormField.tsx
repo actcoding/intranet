@@ -1,6 +1,6 @@
 'use client'
 
-import {EditLinkedPostsDialogRadioItem} from '@/features/posts/components/EditLinkedPosts'
+import {AddLinkedPostDialogRadioItem} from '@/features/posts/components/EditLinkedPosts'
 import {usePost} from '@/features/posts/hooks'
 import {LinkPostFormValues, Post} from '@/features/posts/types'
 import {FormControl, FormField, FormItem, FormLabel} from '@/lib/components/common/Form'
@@ -11,7 +11,7 @@ interface EditLinkedPostsDialogFormFieldProps {
     items: Post[];
 }
 
-const EditLinkedPostsDialogFormField = ({items}: EditLinkedPostsDialogFormFieldProps) => {
+const AddLinkedPostDialogFormField = ({items}: EditLinkedPostsDialogFormFieldProps) => {
     const form = useFormContext<LinkPostFormValues>()
     const {post} = usePost<Post>()
     const alreadyLinked = 'linkedEvents' in post ? post.linkedEvents : 'linkedNews' in post ? post.linkedNews : []
@@ -32,7 +32,7 @@ const EditLinkedPostsDialogFormField = ({items}: EditLinkedPostsDialogFormFieldP
                                 defaultValue={field.value}
                             >
                                 {items.map((item) => (
-                                    <EditLinkedPostsDialogRadioItem id={item.id.toString()} key={item.id} value={item.id.toString()} disabled={alreadyLinkedSet.has(item.id)} post={item}/>
+                                    <AddLinkedPostDialogRadioItem id={item.id.toString()} key={item.id} value={item.id.toString()} disabled={alreadyLinkedSet.has(item.id)} post={item}/>
                                 ))}
                             </RadioGroup>
                         </FormControl>
@@ -43,4 +43,4 @@ const EditLinkedPostsDialogFormField = ({items}: EditLinkedPostsDialogFormFieldP
     )
 }
 
-export { EditLinkedPostsDialogFormField }
+export { AddLinkedPostDialogFormField }

@@ -1,4 +1,4 @@
-import {EditLinkedEvents} from '@/features/posts/components/EditNews'
+import {AddLinkedEventDialog, LinkedEventsList} from '@/features/posts/components/EditNews'
 import {PostProvider} from '@/features/posts/contexts'
 import {News} from '@/features/posts/types'
 import {Button} from '@/lib/components/common/Button'
@@ -45,7 +45,8 @@ const EditNews = ({news}: EditNewsProps) => {
                             attachments={news.attachments}
                         />
                     ) : null}
-                    <EditLinkedEvents />
+                    <AddLinkedEventDialog />
+                    <LinkedEventsList />
                 </div>
             </PostProvider>
         </div>

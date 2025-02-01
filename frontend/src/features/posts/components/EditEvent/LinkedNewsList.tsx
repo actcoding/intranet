@@ -2,19 +2,18 @@
 
 import {linkNewsAndEvent, unlinkNewsAndEvent} from '@/features/posts/actions'
 import {EditLinkedPostsItem} from '@/features/posts/components/EditLinkedPosts'
-import {EditLinkedEventsDialog} from '@/features/posts/components/EditNews'
 import {usePost} from '@/features/posts/hooks'
-import {News, Post} from '@/features/posts/types'
+import {Event, Post} from '@/features/posts/types'
 import {ToastAction} from '@/lib/components/common/Toast'
 import {useToast} from '@/lib/components/hooks/use-toast'
 import {useRouter} from 'next/navigation'
 
-const EditLinkedEvents = () => {
-    const { post: news } = usePost<News>()
+const LinkedNewsList = () => {
+    const { post: event } = usePost<Event>()
     const {toast} = useToast()
     const {refresh} = useRouter()
 
-    const handleUnlink = async (event: Post) => {
+    const handleUnlink = async (news: Post) => {
         try {
             await unlinkNewsAndEvent({news: news.id, event: event.id})
             toast({description: `Verknüpfung mit "${event.title}" aufgehoben`, action: <ToastAction altText={'Verknüpfung aufheben'} onClick={() => handleLink(event)}>Rückgängig</ToastAction>})
@@ -25,7 +24,7 @@ const EditLinkedEvents = () => {
         }
     }
 
-    const handleLink = async (event: Post) => {
+    const handleLink = async (news: Post) => {
         try {
             await linkNewsAndEvent({attachRequest: {newsId: news.id, eventId: event.id}})
             toast({description: 'Verknüpfung wiederhergestellt'})
@@ -37,13 +36,10 @@ const EditLinkedEvents = () => {
     }
 
     return (
-        <>
-            <EditLinkedEventsDialog />
-            {news.linkedEvents?.map((event) => (
-                <EditLinkedPostsItem key={event.id} post={event} href={`/events/${event.id}`} onUnlink={(event) => handleUnlink(event)} />
-            ))}
-        </>
+        event.linkedNews?.map((news) => (
+            <EditLinkedPostsItem key={news.id} post={news} href={`/news/${news.id}`} onUnlink={(news) => handleUnlink(news)} />
+        ))
     )
 }
 
-export { EditLinkedEvents }
+export { LinkedNewsList }

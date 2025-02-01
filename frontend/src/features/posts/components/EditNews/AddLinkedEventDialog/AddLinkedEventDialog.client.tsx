@@ -1,13 +1,17 @@
 'use client'
 
 import {linkNewsAndEvent, searchEvent} from '@/features/posts/actions'
-import {EditLinkedPostsDialog} from '@/features/posts/components/EditLinkedPosts'
+import {AddLinkedPostDialog} from '@/features/posts/components/EditLinkedPosts'
 import {usePost} from '@/features/posts/hooks'
-import {LinkPostFormValues, News} from '@/features/posts/types'
+import {Event, LinkPostFormValues, News} from '@/features/posts/types'
 import {useRouter} from 'next/navigation'
 import {useState} from 'react'
 
-const EditLinkedEventsDialog = () => {
+interface AddLinkedEventDialogClientProps {
+    initialSearchResults?: Event[];
+}
+
+const AddLinkedEventDialogClient = ({initialSearchResults}: AddLinkedEventDialogClientProps) => {
     const {refresh} = useRouter()
     const [isOpen, setIsOpen] = useState(false)
     const {post: news} = usePost<News>()
@@ -27,8 +31,8 @@ const EditLinkedEventsDialog = () => {
     }
 
     return (
-        <EditLinkedPostsDialog post={news} onSearch={handleSearch} onSubmit={handleSubmit} open={isOpen} onOpenChange={setIsOpen} triggerButtonLabel={'Veranstaltung verknüpfen'}/>
+        <AddLinkedPostDialog post={news} onSearch={handleSearch} onSubmit={handleSubmit} open={isOpen} onOpenChange={setIsOpen} triggerButtonLabel={'Veranstaltung verknüpfen'} initialSearchResults={initialSearchResults}/>
     )
 }
 
-export { EditLinkedEventsDialog }
+export { AddLinkedEventDialogClient }

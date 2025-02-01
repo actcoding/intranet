@@ -1,10 +1,10 @@
 'use client'
 
 import {searchDishes, updateMenu} from '@/features/canteen/actions'
-import {EditLinkedDishesDialogFormField} from '@/features/canteen/components/ManageMenu'
+import {AddLinkedDishDialogFormField, AddLinkedDishDialogProps} from '@/features/canteen/components/ManageMenu'
 import {LinkDishFormProvider} from '@/features/canteen/contexts'
 import {LinkDishFormValues} from '@/features/canteen/types'
-import {DishResource, MenuResource} from '@/lib/api/generated'
+import {DishResource} from '@/lib/api/generated'
 import {Alert} from '@/lib/components/common/Alert'
 import {Button} from '@/lib/components/common/Button'
 import {Input} from '@/lib/components/common/Input'
@@ -25,12 +25,12 @@ import {useRouter} from 'next/navigation'
 import React, {ChangeEvent, useState} from 'react'
 import {useDebounceCallback} from 'usehooks-ts'
 
-interface EditLinkedDishesDialogProps {
-    menu: MenuResource;
+interface AddLinkedDishDialogClientProps extends AddLinkedDishDialogProps {
+    initialSearchResults?: DishResource[];
 }
 
-const EditLinkedDishesDialog = ({menu}: EditLinkedDishesDialogProps) => {
-    const [searchResults, setSearchResults] = useState<DishResource[] | undefined>(undefined)
+const AddLinkedDishDialogClient = ({menu, initialSearchResults}: AddLinkedDishDialogClientProps) => {
+    const [searchResults, setSearchResults] = useState<DishResource[] | undefined>(initialSearchResults)
     const [open, setOpen] = useState(false)
     const {refresh} = useRouter()
     const {toast} = useToast()
@@ -78,7 +78,7 @@ const EditLinkedDishesDialog = ({menu}: EditLinkedDishesDialogProps) => {
                         </div>
                         {!searchResults ? <Alert>Tippen, um mit der Suche zu beginnen</Alert> : searchResults.length === 0 ? <Alert>Keine Ergebnisse</Alert> :
                             <ScrollArea className="h-[500px]">
-                                <EditLinkedDishesDialogFormField items={searchResults} menu={menu} />
+                                <AddLinkedDishDialogFormField items={searchResults} menu={menu} />
                             </ScrollArea>}
                     </ResponsiveDialogBody>
                     <ResponsiveDialogFooter>
@@ -93,4 +93,4 @@ const EditLinkedDishesDialog = ({menu}: EditLinkedDishesDialogProps) => {
     )
 }
 
-export { EditLinkedDishesDialog }
+export { AddLinkedDishDialogClient }

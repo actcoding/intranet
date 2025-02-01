@@ -1,2 +1,2 @@
-export * from './EditLinkedPostsDialog'
+export * from './AddLinkedPostDialog'
 export * from './EditLinkedPostsItem'

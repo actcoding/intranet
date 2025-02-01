@@ -1,10 +1,11 @@
 import {
-    EditLinkedNews,
+    AddLinkedNewsDialog,
     EventAttachmentsFormField,
     EventContentFormField,
     EventDateTimeFormField,
     EventIsAlldayFormField,
     EventTitleFormField,
+    LinkedNewsList,
 } from '@/features/posts/components/EditEvent'
 import {EventFormProvider, PostProvider} from '@/features/posts/contexts'
 import {Event} from '@/features/posts/types'
@@ -47,7 +48,8 @@ const EditEvent = ({ event }: EditEventProps) => {
                         <EventDateTimeFormField label="Enddatum" type="end" />
                         <EventIsAlldayFormField label="Ganztägig?" />
                         <EventAttachmentsFormField />
-                        <EditLinkedNews />
+                        <AddLinkedNewsDialog />
+                        <LinkedNewsList />
                     </div>
                 </div>
             </EventFormProvider>

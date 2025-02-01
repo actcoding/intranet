@@ -5,12 +5,12 @@ import {DishResource, MenuResource} from '@/lib/api/generated'
 import {FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/lib/components/common/Form'
 import {RadioGroup, RadioGroupItemCard} from '@/shared/components/RadioGroup'
 
-interface EditLinkedDishesDialogFormFieldProps {
+interface AddLinkedDishDialogFormFieldProps {
     menu: MenuResource;
     items: DishResource[];
 }
 
-const EditLinkedDishesDialogFormField = ({menu, items}: EditLinkedDishesDialogFormFieldProps) => {
+const AddLinkedDishDialogFormField = ({menu, items}: AddLinkedDishDialogFormFieldProps) => {
     const form = useLinkDishForm()
     const alreadyLinked = menu.dishes ?? []
     const alreadyLinkedSet = new Set(alreadyLinked?.map((item) => item.id))
@@ -43,4 +43,4 @@ const EditLinkedDishesDialogFormField = ({menu, items}: EditLinkedDishesDialogFo
     )
 }
 
-export { EditLinkedDishesDialogFormField }
+export { AddLinkedDishDialogFormField }

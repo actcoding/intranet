@@ -1,6 +1,6 @@
 'use client'
 
-import {EditLinkedPostsDialogFormField} from '@/features/posts/components/EditLinkedPosts'
+import {AddLinkedPostDialogFormField} from '@/features/posts/components/EditLinkedPosts'
 import {EditLinkedPostsFormProvider} from '@/features/posts/contexts'
 import {LinkPostFormValues, Post} from '@/features/posts/types'
 import {Alert} from '@/lib/components/common/Alert'
@@ -21,17 +21,18 @@ import {Link2Icon, LinkIcon, SearchIcon} from 'lucide-react'
 import React, {ChangeEvent, useState} from 'react'
 import {useDebounceCallback} from 'usehooks-ts'
 
-interface EditLinkedPostsDialogProps {
+interface AddLinkedPostDialogProps {
     post: Post;
     onSearch: (query: string) => Promise<Post[]>;
+    initialSearchResults?: Post[];
     onSubmit: (values: LinkPostFormValues) => void;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     triggerButtonLabel?: string;
 }
 
-const EditLinkedPostsDialog = ({onSearch, onSubmit, open, onOpenChange, triggerButtonLabel}: EditLinkedPostsDialogProps) => {
-    const [searchResults, setSearchResults] = useState<Post[] | undefined>(undefined)
+const AddLinkedPostDialog = ({onSearch, onSubmit, open, onOpenChange, triggerButtonLabel, initialSearchResults}: AddLinkedPostDialogProps) => {
+    const [searchResults, setSearchResults] = useState<Post[] | undefined>(initialSearchResults)
 
     const handleSearchInputChange =
         useDebounceCallback(async (event: ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +62,7 @@ const EditLinkedPostsDialog = ({onSearch, onSubmit, open, onOpenChange, triggerB
                         </div>
                         {!searchResults ? <Alert>Tippen, um mit der Suche zu beginnen</Alert> : searchResults.length === 0 ? <Alert>Keine Ergebnisse</Alert> :
                             <ScrollArea className="h-[500px]">
-                                <EditLinkedPostsDialogFormField items={searchResults} />
+                                <AddLinkedPostDialogFormField items={searchResults} />
                             </ScrollArea>}
                     </ResponsiveDialogBody>
                     <ResponsiveDialogFooter>
@@ -76,4 +77,4 @@ const EditLinkedPostsDialog = ({onSearch, onSubmit, open, onOpenChange, triggerB
     )
 }
 
-export { EditLinkedPostsDialog }
+export { AddLinkedPostDialog }
