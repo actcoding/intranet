@@ -63,7 +63,7 @@ export function DatePicker({
                     mode="single"
                     selected={date}
                     onSelect={handleSelect}
-                    disabled={{before: min, after: max}}
+                    disabled={min && max ? {before: min, after: max} : min ? {before: min} : max ? {after: max} : undefined}
                     autoFocus
                 />
             </PopoverContent>
