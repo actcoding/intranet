@@ -38,16 +38,26 @@ const EditEvent = ({ event }: EditEventProps) => {
                     </div>
 
                     <Separator className="my-5 md:hidden" />
-                    <div className="w-1/4 space-y-3">
-                        <p className="text-lg font-bold">Details</p>
-                        <EventDateTimeFormField
-                            label="Startdatum"
-                            type="start"
-                        />
-                        <EventDateTimeFormField label="Enddatum" type="end" />
-                        <EventIsAlldayFormField label="Ganztägig?" />
-                        <EventAttachmentsFormField />
-                        <EditLinkedNews />
+                    <div className="w-1/4">
+                        <div className={'space-y-3'}>
+                            <p className="text-lg font-bold">Details</p>
+                            <EventDateTimeFormField
+                                label="Startdatum"
+                                type="start"
+                            />
+                            <EventDateTimeFormField label="Enddatum" type="end" />
+                            <EventIsAlldayFormField label="Ganztägig?" />
+                        </div>
+                        <Separator className={'my-4'} />
+                        <div className={'flex flex-col space-y-3'}>
+                            <p className="text-lg font-bold">Anhänge</p>
+                            <EventAttachmentsFormField />
+                        </div>
+                        <Separator className={'my-4'} />
+                        <div className={'flex flex-col space-y-3'}>
+                            <p className="text-lg font-bold">Verknüpfungen</p>
+                            <EditLinkedNews />
+                        </div>
                     </div>
                 </div>
             </EventFormProvider>
