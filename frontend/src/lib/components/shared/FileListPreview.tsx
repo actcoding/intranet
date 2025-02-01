@@ -49,7 +49,7 @@ const FileListPreview = ({
                             </span>
                             {(download && !(file instanceof File)) ? (
                                 <DownloadIcon
-                                    onClick={() => window.open(file.url, '_blank')}
+                                    onClick={() => window.open(`/api?url=${encodeURIComponent(file.url)}`, '_blank')}
                                     className='cursor-pointer'
                                 />
                             ) : null}

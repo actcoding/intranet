@@ -47,7 +47,7 @@ const NewsPreviewCard = ({
                 <CardFooter className="mb-0 mt-auto">
                     {news.publishedAt ? (
                         <p className="text-muted-foreground">
-                            {format.relativeTime(Date.parse(news.publishedAt))}
+                            {format.relativeTime(news.publishedAt)}
                         </p>
                     ) : (
                         <NewsStatusBadge status={news.status} />
