@@ -1,8 +1,6 @@
 import {EditNews} from '@/features/posts/components/EditNews'
 import {newsApi} from '@/lib/api/api'
-import { Button } from '@/lib/components/common/Button'
-import { ArrowLeft } from 'lucide-react'
-import Link from 'next/link'
+import {BackButton} from '@/shared/components/BackButton'
 
 interface EditNewsPageProps {
     params: {
@@ -17,19 +15,7 @@ const EditNewsPage = async (props: EditNewsPageProps) => {
     const attachments = files.filter((file) => file.type === 'attachment')
 
     return (<>
-        <Button
-            asChild
-            size="sm"
-            variant="link"
-        >
-            <Link href="/manage/news">
-                <ArrowLeft />
-                <span className="ml-1">
-                    Zurück zu allen Neuigkeiten
-                </span>
-            </Link>
-        </Button>
-
+        <BackButton href={'/manage/news'}>Zur Neuigkeiten-Übersicht</BackButton>
         <EditNews news={{...news, headerImage, attachments}} />
     </>)
 }
