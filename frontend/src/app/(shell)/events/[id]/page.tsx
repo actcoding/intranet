@@ -15,9 +15,7 @@ const EventDetailPage = async ({params}: EventDetailPageProps) => {
         return (
             <>
                 <BackButton href={'/events'}>Zur Veranstaltungen-Übersicht</BackButton>
-                <div className='mx-auto h-full max-w-[800px]'>
-                    <EventDetails event={{...event, attachments}} />
-                </div>
+                <EventDetails event={{...event, attachments}} />
             </>
         )
     } catch (error) {
