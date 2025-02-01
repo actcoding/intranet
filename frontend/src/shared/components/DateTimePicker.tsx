@@ -5,7 +5,7 @@ import {DatePicker, DatePickerProps} from '@/shared/components/DatePicker'
 import {Tooltip, TooltipContent, TooltipTrigger} from '@/shared/components/Tooltip'
 import {InfoIcon} from 'lucide-react'
 import {useTimeZone} from 'next-intl'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 interface DateTimePickerProps extends DatePickerProps {
     selected?: Date;
@@ -14,7 +14,7 @@ interface DateTimePickerProps extends DatePickerProps {
 }
 
 export const DateTimePicker =  React.forwardRef<HTMLDivElement, DateTimePickerProps>(({
-    selected,
+    selected: controlledSelectedDate,
     onDateTimeSelect,
     granularity = 'minute',
     min,
@@ -23,15 +23,21 @@ export const DateTimePicker =  React.forwardRef<HTMLDivElement, DateTimePickerPr
     const timeZone = useTimeZone()
 
     const [selectedDate, setSelectedDate] = useState<Date>(
-        selected || new Date(),
+        controlledSelectedDate ?? new Date(),
     )
+    const isControlled = controlledSelectedDate !== undefined
+
+    useEffect(() => {
+        if (isControlled) setSelectedDate(controlledSelectedDate)
+    }, [isControlled, controlledSelectedDate])
 
     const handleDateSelect = (date?: Date) => {
         if (!date) return
         const newDate = new Date(selectedDate)
+        newDate.setFullYear(date.getFullYear())
         newDate.setDate(date.getDate())
         newDate.setMonth(date.getMonth())
-        setSelectedDate(newDate)
+        if(!isControlled) setSelectedDate(newDate)
         onDateTimeSelect?.(newDate)
     }
 
@@ -41,7 +47,7 @@ export const DateTimePicker =  React.forwardRef<HTMLDivElement, DateTimePickerPr
         const newDate = new Date(selectedDate)
         newDate.setHours(hours)
         newDate.setMinutes(minutes)
-        setSelectedDate(newDate)
+        if(!isControlled) setSelectedDate(newDate)
         onDateTimeSelect?.(newDate)
     }
 

@@ -6,7 +6,7 @@ import {cn} from '@/lib/utils'
 import {Calendar} from '@/shared/components/Calendar'
 import {CalendarIcon} from 'lucide-react'
 import {useFormatter} from 'next-intl'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 export interface DatePickerProps {
     selected?: Date;
@@ -17,18 +17,23 @@ export interface DatePickerProps {
 }
 
 export function DatePicker({
-    selected,
+    selected: controlledSelectedDate,
     onDaySelect,
     min,
     max,
     className,
 }: DatePickerProps) {
-    const [date, setDate] = useState<Date | undefined>(selected || new Date())
+    const [date, setDate] = useState<Date | undefined>(controlledSelectedDate ?? new Date())
+    const isControlled = controlledSelectedDate !== undefined
     const formatter = useFormatter()
+
+    useEffect(() => {
+        if (isControlled) setDate(controlledSelectedDate)
+    }, [isControlled, controlledSelectedDate])
 
     const handleSelect = (date?: Date) => {
         if (!date) return
-        setDate(date)
+        if(!isControlled) setDate(date)
         onDaySelect?.(date)
     }
 
