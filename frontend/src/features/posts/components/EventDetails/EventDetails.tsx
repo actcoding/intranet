@@ -9,7 +9,7 @@ interface EventDetailsProps {
 
 const EventDetails = async ({event}: EventDetailsProps) => {
     return (
-        <div className='mx-auto h-full max-w-[800px]'>
+        <div className="mx-auto h-full max-w-[800px]">
             <EventDetailsHeader event={event} />
             <EventDetailsInfo event={event} />
             <SanitizedHTMLContent
@@ -39,7 +39,8 @@ const EventDetails = async ({event}: EventDetailsProps) => {
                         files={event.attachments?.map((file) => file.data) ?? []}
                         download /></>
             ) : null}
-        </div>)
+        </div>
+    )
 }
 
 export { EventDetails }
