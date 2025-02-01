@@ -1,5 +1,6 @@
 import {ManageMenu} from '@/features/canteen/components/ManageMenu'
 import {canteenApi} from '@/lib/api/api'
+import {BackButton} from '@/shared/components/BackButton'
 
 interface ManageMenuPageProps {
     params: {
@@ -11,7 +12,10 @@ const ManageMenuPage = async ({params}: ManageMenuPageProps) => {
     const menu = await canteenApi.menuShow({menu: params.id})
 
     return (
-        <ManageMenu menu={menu} />
+        <>
+            <BackButton href={'/manage/canteen/menus'}>Zur Menüs-Übersicht</BackButton>
+            <ManageMenu menu={menu} />
+        </>
     )
 }
 

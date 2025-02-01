@@ -1,5 +1,6 @@
 import {EditEvent} from '@/features/posts/components/EditEvent'
 import {eventApi} from '@/lib/api/api'
+import {BackButton} from '@/shared/components/BackButton'
 
 interface EditEventPageProps {
     params: {
@@ -13,12 +14,17 @@ const EditEventPage = async ({ params }: EditEventPageProps) => {
     const attachments = files.filter((file) => file.type === 'attachment')
 
     return (
-        <EditEvent
-            event={{
-                ...event,
-                attachments,
-            }}
-        />
+        <>
+            <BackButton href={'/manage/events'}>
+                Zur Veranstaltungen-Übersicht
+            </BackButton>
+            <EditEvent
+                event={{
+                    ...event,
+                    attachments,
+                }}
+            />
+        </>
     )
 }
 

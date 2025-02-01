@@ -1,6 +1,7 @@
 import {EventDetails} from '@/features/posts/components/EventDetails'
 import {eventApi} from '@/lib/api/api'
 import {Alert, AlertTitle} from '@/lib/components/common/Alert'
+import {BackButton} from '@/shared/components/BackButton'
 
 interface EventDetailPageProps {
     params: {
@@ -12,7 +13,10 @@ const EventDetailPage = async ({params}: EventDetailPageProps) => {
         const event = await eventApi.eventShow({id: params.id})
         const attachments = await eventApi.eventUploadList({id: event.id, type: 'attachment'})
         return (
-            <EventDetails event={{...event, attachments}} />
+            <>
+                <BackButton href={'/events'}>Zur Veranstaltungen-Übersicht</BackButton>
+                <EventDetails event={{...event, attachments}} />
+            </>
         )
     } catch (error) {
         console.error(error)

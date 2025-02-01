@@ -1,6 +1,7 @@
 import {NewsDetails} from '@/features/posts/components/NewsDetails'
 import {newsApi} from '@/lib/api/api'
 import {AttachmentResource, NewsResource} from '@/lib/api/generated'
+import {BackButton} from '@/shared/components/BackButton'
 
 interface Props {
     params: {
@@ -34,7 +35,12 @@ const SingleNewsPage = async (props: Props) => {
     }
 
     return (
-        <NewsDetails news={{...news, headerImage, attachments}} />
+        <>
+            <BackButton href={'/news'}>Zur Neuigkeiten-Übersicht</BackButton>
+            <div className='mx-auto h-full max-w-[800px]'>
+                <NewsDetails news={{...news, headerImage, attachments}} />
+            </div>
+        </>
     )
 }
 

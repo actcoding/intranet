@@ -1,5 +1,6 @@
 import MealEditor from '@/features/canteen/components/ManageMeal/MealEditor'
-import { canteenApi } from '@/lib/api/api'
+import {canteenApi} from '@/lib/api/api'
+import {BackButton} from '@/shared/components/BackButton'
 
 interface Props {
     params: {
@@ -9,9 +10,12 @@ interface Props {
 
 const ManageMealPage = async (props: Props) => {
     const meal = await canteenApi.dishShow({dish: parseInt(props.params.id)})
-    
+
     return (
-        <MealEditor meal={meal}/>
+        <>
+            <BackButton href={'/manage/canteen/dishes'}>Zur Gerichte-Übersicht</BackButton>
+            <MealEditor meal={meal} />
+        </>
     )
 }
 
