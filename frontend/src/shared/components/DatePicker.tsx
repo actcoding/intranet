@@ -1,12 +1,12 @@
 'use client'
 
+import {useControllableState} from '@/core/hooks'
 import {Button} from '@/lib/components/common/Button'
 import {Popover, PopoverContent, PopoverTrigger} from '@/lib/components/common/Popover'
 import {cn} from '@/lib/utils'
 import {Calendar} from '@/shared/components/Calendar'
 import {CalendarIcon} from 'lucide-react'
 import {useFormatter} from 'next-intl'
-import {useEffect, useState} from 'react'
 
 export interface DatePickerProps {
     selected?: Date;
@@ -23,17 +23,12 @@ export function DatePicker({
     max,
     className,
 }: DatePickerProps) {
-    const [date, setDate] = useState<Date | undefined>(controlledSelectedDate ?? new Date())
-    const isControlled = controlledSelectedDate !== undefined
+    const [date, setDate] = useControllableState<Date | undefined>(controlledSelectedDate, new Date())
     const formatter = useFormatter()
-
-    useEffect(() => {
-        if (isControlled) setDate(controlledSelectedDate)
-    }, [isControlled, controlledSelectedDate])
 
     const handleSelect = (date?: Date) => {
         if (!date) return
-        if(!isControlled) setDate(date)
+        setDate(date)
         onDaySelect?.(date)
     }
 
