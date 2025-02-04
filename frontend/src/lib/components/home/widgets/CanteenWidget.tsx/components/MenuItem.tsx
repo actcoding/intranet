@@ -82,7 +82,7 @@ const MenuItem = ({menuPlan}: MenuItemProps) => {
                                 }
                                 <div className='flex-1'>{dish.name}</div>
                             </div>
-                            {dish.lowCarb ? <Badge variant="secondary">Low Carb</Badge> : null}
+                            {dish.lowCarb ? <Badge variant="secondary">Kolenhydratarm</Badge> : null}
                         </div>
                     )
                 })}
