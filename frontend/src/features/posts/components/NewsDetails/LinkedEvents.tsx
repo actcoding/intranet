@@ -18,12 +18,12 @@ const LinkedEvents = ({events}: LinkedEventsProps) => {
                 </div>
                 <h2 className="text-xl">{`Verknüpfte ${events?.length === 1 ? 'Veranstaltung' : 'Veranstaltungen'}`}</h2>
             </div>
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div className="flex flex-col gap-3">
                 {events.map((event) => (
                     <Link key={event.id} href={`/events/${event.id}`}>
                         <Card className="flex flex-row overflow-hidden">
                             <EventPreviewTile date={new Date(event.startingAt)}
-                                className="w-[100px] shrink-0" />
+                                className="w-[120px] shrink-0" />
                             <div>
                                 <CardHeader>
                                     <CardTitle className="line-clamp-1">{event.title}</CardTitle>

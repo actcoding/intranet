@@ -16,7 +16,7 @@ const LinkedNews = ({news}: LinkedNewsProps) => {
                 </div>
                 <h2 className="text-xl">Neuigkeiten</h2>
             </div>
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div className="flex flex-col gap-3">
                 {news.map((news) => (
                     <Link key={news.id} href={`/news/${news.id}`}>
                         <NewsPreviewCard news={news} headerImagePosition="left" />
