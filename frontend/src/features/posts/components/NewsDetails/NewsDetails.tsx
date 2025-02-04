@@ -32,9 +32,9 @@ const NewsDetails = async ({news}: NewsDetailsProps) => {
     const format = await getFormatter()
 
     return (
-        <PostProvider post={news}>
+        <>
             {isCreator(sessionData) ? (
-                <div className="flex w-full justify-end">
+                <div className="float-end">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant={'ghost'} size={'icon'}>
@@ -61,80 +61,84 @@ const NewsDetails = async ({news}: NewsDetailsProps) => {
                     </DropdownMenu>
                 </div>
             ) : null}
-            <div className="mx-auto h-full max-w-[800px]">
-                <div
-                    className={cn(
-                        'mb-6 rounded-lg overflow-hidden',
-                        news.headerImage && 'h-[400px] relative',
-                    )}
-                >
-                    {news.headerImage === undefined ? null : (
-                        <Image
-                            src={news.headerImage?.data.url}
-                            alt={news.title}
-                            fill
-                            style={{ objectFit: 'cover' }}
-                        />
-                    )}
-                    <div
-                        className={cn(
-                            'flex flex-col gap-3 justify-end items-start',
-                            news.headerImage &&
-                        'bg-black bg-opacity-50 absolute inset-0 text-white p-6',
-                        )}
-                    >
-                        {news.status === 'draft' ? (
-                            <NewsStatusBadge status={news.status} />
-                        ) : null}
-
-                        <h1 className="mb-2 text-4xl font-bold">
-                            {news.title}
-                        </h1>
-
-                        <div className="flex items-center gap-2">
-                            <Avatar className="text-black">
-                                <AvatarFallback>
-                                    {news.author.name[0]}
-                                </AvatarFallback>
-                            </Avatar>
-                            <span>{news.author.name}</span>
-                            {news.publishedAt === null ? null : (
-                                <span className="opacity-70">
-                                    {format.relativeTime(news.publishedAt)}
-                                </span>
+            <div className='mx-auto h-full max-w-[800px]'>
+                <PostProvider post={news}>
+                    <div className="mx-auto h-full max-w-[800px]">
+                        <div
+                            className={cn(
+                                'mb-6 rounded-lg overflow-hidden',
+                                news.headerImage && 'h-[400px] relative',
                             )}
+                        >
+                            {news.headerImage === undefined ? null : (
+                                <Image
+                                    src={news.headerImage?.data.url}
+                                    alt={news.title}
+                                    fill
+                                    style={{ objectFit: 'cover' }}
+                                />
+                            )}
+                            <div
+                                className={cn(
+                                    'flex flex-col gap-3 justify-end items-start',
+                                    news.headerImage &&
+                        'bg-black bg-opacity-50 absolute inset-0 text-white p-6',
+                                )}
+                            >
+                                {news.status === 'draft' ? (
+                                    <NewsStatusBadge status={news.status} />
+                                ) : null}
+
+                                <h1 className="mb-2 text-4xl font-bold">
+                                    {news.title}
+                                </h1>
+
+                                <div className="flex items-center gap-2">
+                                    <Avatar className="text-black">
+                                        <AvatarFallback>
+                                            {news.author.name[0]}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <span>{news.author.name}</span>
+                                    {news.publishedAt === null ? null : (
+                                        <span className="opacity-70">
+                                            {format.relativeTime(news.publishedAt)}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
                         </div>
+                        <SanitizedHTMLContent
+                            content={news.content}
+                            allowedTags={[
+                                'p',
+                                'strong',
+                                'em',
+                                'a',
+                                'ul',
+                                'ol',
+                                'li',
+                                'img',
+                            ]}
+                        />
+                        {news.linkedEvents && news.linkedEvents?.length > 0 ? (
+                            <>
+                                <hr className="my-6" />
+                                <LinkedEvents events={news.linkedEvents} />
+                            </>
+                        ) : null}
+                        {(news.attachments?.length ?? 0) > 0 ? (
+                            <>
+                                <hr className="my-6" />
+                                <FileListPreview
+                                    display='grid'
+                                    files={news.attachments?.map(a => a.data) ?? []}
+                                    download /></>
+                        ) : null}
                     </div>
-                </div>
-                <SanitizedHTMLContent
-                    content={news.content}
-                    allowedTags={[
-                        'p',
-                        'strong',
-                        'em',
-                        'a',
-                        'ul',
-                        'ol',
-                        'li',
-                        'img',
-                    ]}
-                />
-                {news.linkedEvents && news.linkedEvents?.length > 0 ? (
-                    <>
-                        <hr className="my-6" />
-                        <LinkedEvents events={news.linkedEvents} />
-                    </>
-                ) : null}
-                {(news.attachments?.length ?? 0) > 0 ? (
-                    <>
-                        <hr className="my-6" />
-                        <FileListPreview
-                            display='grid'
-                            files={news.attachments?.map(a => a.data) ?? []}
-                            download /></>
-                ) : null}
+                </PostProvider>
             </div>
-        </PostProvider>
+        </>
     )
 }
 

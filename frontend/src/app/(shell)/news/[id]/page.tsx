@@ -37,9 +37,7 @@ const SingleNewsPage = async (props: Props) => {
     return (
         <>
             <BackButton href={'/news'}>Zur Neuigkeiten-Übersicht</BackButton>
-            <div className='mx-auto h-full max-w-[800px]'>
-                <NewsDetails news={{...news, headerImage, attachments}} />
-            </div>
+            <NewsDetails news={{...news, headerImage, attachments}} />
         </>
     )
 }

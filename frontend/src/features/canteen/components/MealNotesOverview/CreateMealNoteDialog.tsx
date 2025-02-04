@@ -41,8 +41,9 @@ const CreateMealNoteDialog = () => {
         <>
             <ResponsiveDialog open={isOpen} onOpenChange={setIsOpen}>
                 <ResponsiveDialogTrigger asChild>
-                    <Button size="icon">
-                        <PlusIcon size={20} />
+                    <Button>
+                        <PlusIcon size={20} className={'mr-2'} />
+                        Hinweis erstellen
                     </Button>
                 </ResponsiveDialogTrigger>
                 <ResponsiveDialogContent>

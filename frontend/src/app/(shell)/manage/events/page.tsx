@@ -27,8 +27,7 @@ const ManageEventPage = async (props: Props) => {
 
     return (
         <>
-            <div className="mb-4 flex items-center justify-between">
-                <h1 className="text-4xl font-semibold">{t('Index.events')}</h1>
+            <div className={'float-end'}>
                 <CreateDraftDialog
                     triggerButtonProps={{
                         triggerButtonVariant: 'default',
@@ -39,6 +38,7 @@ const ManageEventPage = async (props: Props) => {
                         showContentTypePicker: false,
                     }} />
             </div>
+            <h1 className="text-4xl font-semibold">{t('Index.events')}</h1>
             <NextIntlClientProvider messages={pick(messages, ['Event'])}>
                 <DataTable
                     columns={columns}

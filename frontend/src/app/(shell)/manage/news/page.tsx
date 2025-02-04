@@ -28,8 +28,7 @@ const ManageNewsPage = async (props: Props) => {
 
     return (
         <>
-            <div className="mb-4 flex items-center justify-between">
-                <h1 className="text-4xl font-semibold">{t('Index.news')}</h1>
+            <div className={'float-end'}>
                 <CreateDraftDialog
                     triggerButtonProps={{
                         triggerButtonVariant: 'default',
@@ -41,6 +40,7 @@ const ManageNewsPage = async (props: Props) => {
                     }}
                 />
             </div>
+            <h1 className="mb-4 text-4xl font-semibold">{t('Index.news')}</h1>
             <NextIntlClientProvider messages={pick(messages, ['News'])}>
                 <DataTable
                     columns={columns}

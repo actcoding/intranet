@@ -17,29 +17,29 @@ const EventsPage = async () => {
 
     return (
         <>
+            {sessionData?.roles.includes('Creator') ? (
+                <div className={'float-end space-x-2'}>
+                    <CreateDraftDialog
+                        triggerButtonProps={{
+                            triggerButtonVariant: 'default',
+                            triggerButtonLabel: t('Event.create'),
+                        }}
+                        formProps={{
+                            defaultContentType: 'event',
+                            showContentTypePicker: false,
+                        }} />
+                    <Button asChild variant={'secondary'}>
+                        <Link href="/manage/events">
+                            <Settings2Icon className="me-2" size={20} />
+                            {t('Event.manage')}
+                        </Link>
+                    </Button>
+                </div>
+            ) : null}
             <div className="flex justify-between">
                 <h1 className="mb-4 text-4xl font-semibold">
                     {t('Index.events')}
                 </h1>
-                {sessionData?.roles.includes('Creator') ? (
-                    <div className="space-x-2">
-                        <CreateDraftDialog
-                            triggerButtonProps={{
-                                triggerButtonVariant: 'default',
-                                triggerButtonLabel: t('Event.create'),
-                            }}
-                            formProps={{
-                                defaultContentType: 'event',
-                                showContentTypePicker: false,
-                            }} />
-                        <Button asChild variant={'secondary'}>
-                            <Link href="/manage/events">
-                                <Settings2Icon className="me-2" size={20} />
-                                {t('Event.manage')}
-                            </Link>
-                        </Button>
-                    </div>
-                ) : null}
             </div>
             <Suspense fallback={<Spinner size={40}/>}>
                 <NextIntlClientProvider messages={pick(messages, ['Event'])}>
