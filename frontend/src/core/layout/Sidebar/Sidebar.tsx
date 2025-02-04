@@ -11,9 +11,9 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarMenuSub,
-    SidebarMenuSubItem,
     SidebarUserDetails,
 } from '@/core/layout/Sidebar'
+import {SidebarMenuItemClient} from '@/core/layout/Sidebar/SidebarMenuItem.client'
 import {SidebarMenuGroup} from '@/core/types'
 import {getAppSession} from '@/lib/actions/auth'
 import {isCreator} from '@/lib/utils'
@@ -21,7 +21,6 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger} from '@/shared/comp
 import {CalendarDays, HomeIcon, NewspaperIcon, Utensils} from 'lucide-react'
 import {getTranslations} from 'next-intl/server'
 import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
 
 export const Sidebar = async () => {
@@ -43,7 +42,6 @@ export const Sidebar = async () => {
             label: t('manage'),
             hidden: !isCreator(sessionData),
             items: [
-                { title: 'Übersicht', url: '/manage' },
                 { title: 'Neuigkeiten', url: '/manage/news' },
                 { title: 'Veranstaltungen', url: '/manage/events' },
                 {
@@ -91,13 +89,9 @@ export const Sidebar = async () => {
                                                         <CollapsibleContent>
                                                             <SidebarMenuSub>
                                                                 {item.items.map((subItem, index) => (
-                                                                    <SidebarMenuSubItem key={index}>
-                                                                        <SidebarMenuButton asChild>
-                                                                            <Link href={subItem.url}>
-                                                                                <span>{subItem.title}</span>
-                                                                            </Link>
-                                                                        </SidebarMenuButton>
-                                                                    </SidebarMenuSubItem>
+                                                                    <SidebarMenuItemClient url={subItem.url} key={index}>
+                                                                        <span>{subItem.title}</span>
+                                                                    </SidebarMenuItemClient>
                                                                 ))}
                                                             </SidebarMenuSub>
                                                         </CollapsibleContent>
@@ -106,14 +100,10 @@ export const Sidebar = async () => {
                                             )
                                         } else {
                                             return (
-                                                <SidebarMenuItem key={index}>
-                                                    <SidebarMenuButton asChild>
-                                                        <Link href={item.url}>
-                                                            {item.icon ? <item.icon /> : null}
-                                                            <span>{item.title}</span>
-                                                        </Link>
-                                                    </SidebarMenuButton>
-                                                </SidebarMenuItem>
+                                                <SidebarMenuItemClient url={item.url} key={index}>
+                                                    {item.icon ? <item.icon /> : null}
+                                                    <span>{item.title}</span>
+                                                </SidebarMenuItemClient>
                                             )
                                         }
                                     }
