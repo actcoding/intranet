@@ -1,5 +1,6 @@
 'server-only'
 
+import {cn} from '@/lib/utils'
 import sanitizeHtml from 'sanitize-html'
 
 interface SanitizedHTMLContentProps {
@@ -10,13 +11,14 @@ interface SanitizedHTMLContentProps {
 
 const SanitizedHTMLContent = (props: SanitizedHTMLContentProps) => {
     let content = props.content
+    const areParagraphsAllowed = props.allowedTags?.includes('p')
     // Replace paragraphs with whitespace if they are not allowed
-    if (!props.allowedTags?.includes('p')) {
+    if (!areParagraphsAllowed) {
         content = content.replace(/<p>/g, ' ').replace(/<\/p>/g, ' ')
     }
     return (
         <div
-            className={props.className}
+            className={cn(props.className, areParagraphsAllowed ? '[&_p:empty]:h-4 [&_p:empty]:my-2' : '')}
             dangerouslySetInnerHTML={{
                 __html: sanitizeHtml(content, {
                     allowedTags: props.allowedTags,
