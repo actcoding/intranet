@@ -31,6 +31,7 @@ const CreateMealDialog = () => {
         name: '',
         summary: '',
         type: 'main',
+        lowCarb: false,
     }
 
     const handleSubmit = async (values: MealFormValues) => {

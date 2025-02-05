@@ -80,8 +80,9 @@ const MenuItem = ({menuPlan}: MenuItemProps) => {
                                     :
                                     <UtensilsCrossedIcon className="mr-2"/>
                                 }
-                                <p>{dish.name}</p>
+                                <div className='flex-1'>{dish.name}</div>
                             </div>
+                            {dish.lowCarb ? <Badge variant="secondary">Kolenhydratarm</Badge> : null}
                         </div>
                     )
                 })}
