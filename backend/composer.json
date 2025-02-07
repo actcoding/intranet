@@ -21,7 +21,6 @@
         "fakerphp/faker": "^1.23",
         "google/cloud-translate": "^1.18",
         "laravel/pint": "^1.16",
-        "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
         "phpunit/phpunit": "^11.0.1"
