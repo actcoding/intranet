@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Translation\Exception\InvalidArgumentException;
 
 class AccepLanguage
@@ -16,21 +17,27 @@ class AccepLanguage
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $wantedLocale = $this->parseHttpLocale($request);
+        $locale = $this->parseHttpLocale($request);
 
         try {
-            app()->setLocale($wantedLocale);
+            app()->setLocale($locale);
         } catch (\Throwable $th) {
             // ignore invalid locale
             if (! ($th instanceof InvalidArgumentException)) {
                 throw $th;
             } else {
-                app()->setLocale(app()->getFallbackLocale());
+                $locale = app()->getFallbackLocale();
+                app()->setLocale($locale);
             }
         }
 
+        /** @var \Symfony\Component\HttpFoundation\Response */
         $response = $next($request);
-        $response->header('Content-Language', app()->getLocale());
+
+        // streamed content like images etc. do not need the language header
+        if (! $response instanceof StreamedResponse) {
+            $response->headers->set('Content-Language', $locale);
+        }
 
         return $response;
     }
@@ -68,6 +75,12 @@ class AccepLanguage
                 return $locale['factor'];
             });
 
-        return $locales->first()['locale'];
+        $result = $locales->first()['locale'];
+
+        if (blank($result)) {
+            return app()->getFallbackLocale();
+        }
+
+        return $result;
     }
 }
