@@ -91,7 +91,7 @@ jobs:
         working-directory: backend
         run: ./composer install
 
-      - uses: hoverkraft-tech/compose-action@v2.0.2
+      - uses: hoverkraft-tech/compose-action@v2.2.0
         with:
           up-flags: -d
           services: |
