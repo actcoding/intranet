@@ -15,6 +15,8 @@ class StorageController extends Controller
      */
     public function __invoke(Request $request, string $path)
     {
+        $path = explode('&', $path, 2)[0];
+
         $disk = Storage::disk('public');
         if (! $disk->exists($path)) {
             abort(404);
