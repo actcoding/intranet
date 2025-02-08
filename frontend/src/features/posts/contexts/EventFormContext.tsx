@@ -26,10 +26,7 @@ const EventFormProvider = (props: EventFormProviderProps) => {
             startingAt:
                 new Date(props.event.startingAt) ?? startOfDay(new Date()),
             endingAt: new Date(props.event.endingAt) ?? endOfDay(new Date()),
-            isAllDay: eventIsAllDay(
-                props.event.startingAt,
-                props.event.endingAt,
-            ),
+            isAllDay: props.event.isAllDay,
         },
         mode: 'onChange',
     })
