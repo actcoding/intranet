@@ -1,31 +1,29 @@
 'use client'
 
-import { Button } from '@/lib/components/common/Button'
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/lib/components/common/Popover'
-import { cn } from '@/lib/utils'
-import { Calendar } from '@/shared/components/Calendar'
-import { CalendarIcon } from 'lucide-react'
-import { useFormatter } from 'next-intl'
-import { useState } from 'react'
+import {useControllableState} from '@/core/hooks'
+import {Button} from '@/lib/components/common/Button'
+import {Popover, PopoverContent, PopoverTrigger} from '@/lib/components/common/Popover'
+import {cn} from '@/lib/utils'
+import {Calendar} from '@/shared/components/Calendar'
+import {CalendarIcon} from 'lucide-react'
+import {useFormatter} from 'next-intl'
 
 export interface DatePickerProps {
     selected?: Date;
     onDaySelect?: (date: Date) => void;
     min?: Date;
     max?: Date;
+    className?: string;
 }
 
 export function DatePicker({
-    selected,
+    selected: controlledSelectedDate,
     onDaySelect,
     min,
     max,
+    className,
 }: DatePickerProps) {
-    const [date, setDate] = useState<Date | undefined>(selected || new Date())
+    const [date, setDate] = useControllableState<Date | undefined>(controlledSelectedDate, new Date())
     const formatter = useFormatter()
 
     const handleSelect = (date?: Date) => {
@@ -40,8 +38,9 @@ export function DatePicker({
                 <Button
                     variant={'outline'}
                     className={cn(
-                        'w-[280px] justify-start text-left font-normal',
+                        'justify-start text-left font-normal',
                         !date && 'text-muted-foreground',
+                        className,
                     )}
                 >
                     <CalendarIcon className="mr-2 size-4" />
@@ -54,7 +53,7 @@ export function DatePicker({
                             })}
                         </span>
                     ) : (
-                        <span>Pick a date</span>
+                        <span>Wähle ein Datum</span>
                     )}
                 </Button>
             </PopoverTrigger>
@@ -64,12 +63,7 @@ export function DatePicker({
                     mode="single"
                     selected={date}
                     onSelect={handleSelect}
-                    disabled={(day) => {
-                        if (min && max) return day < min || day > max
-                        if (min) return day < min
-                        if (max) return day > max
-                        return false
-                    }}
+                    disabled={min && max ? {before: min, after: max} : min ? {before: min} : max ? {after: max} : undefined}
                     autoFocus
                 />
             </PopoverContent>

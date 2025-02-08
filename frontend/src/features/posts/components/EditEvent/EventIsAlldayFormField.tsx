@@ -1,14 +1,10 @@
 'use client'
 
-import { EventFormValues } from '@/features/posts/types'
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-} from '@/lib/components/common/Form'
-import { Switch } from '@/shared/components/Switch'
-import { useFormContext } from 'react-hook-form'
+import {EventFormValues} from '@/features/posts/types'
+import {FormControl, FormField, FormItem, FormLabel} from '@/lib/components/common/Form'
+import {Switch} from '@/shared/components/Switch'
+import {endOfDay, startOfDay} from 'date-fns'
+import {useFormContext} from 'react-hook-form'
 
 interface EventIsAlldayFormFieldProps {
     label: string;
@@ -16,6 +12,8 @@ interface EventIsAlldayFormFieldProps {
 
 const EventIsAlldayFormField = (props: EventIsAlldayFormFieldProps) => {
     const form = useFormContext<EventFormValues>()
+    const startingAt = form.watch('startingAt')
+    const endingAt = form.watch('endingAt')
 
     return (
         <FormField
@@ -27,7 +25,13 @@ const EventIsAlldayFormField = (props: EventIsAlldayFormFieldProps) => {
                     <FormControl>
                         <Switch
                             checked={value}
-                            onCheckedChange={onChange}
+                            onCheckedChange={(checked) => {
+                                onChange(checked)
+                                if(checked) {
+                                    form.setValue('startingAt', startOfDay(startingAt))
+                                    form.setValue('endingAt', endOfDay(endingAt))
+                                }
+                            }}
                             {...rest}
                         />
                     </FormControl>

@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@/lib/components/common/Button'
-import { Input } from '@/lib/components/common/Input'
+import {Button} from '@/lib/components/common/Button'
+import {Input} from '@/lib/components/common/Input'
 import {
     ResponsiveDialog,
     ResponsiveDialogBody,
@@ -13,8 +13,8 @@ import {
     ResponsiveDialogTitle,
     ResponsiveDialogTrigger,
 } from '@/lib/components/common/ResponsiveDialog'
-import { useFileSelector } from '@/lib/components/hooks/use-file-selector'
-import React, { createContext, useState } from 'react'
+import {useFileSelector} from '@/lib/components/hooks/use-file-selector'
+import React, {createContext, useState} from 'react'
 
 interface FileSelectorContextProps {
     selectedFilePreview: File[] | null;
@@ -33,7 +33,7 @@ export const FileSelectorContext = createContext<FileSelectorContextProps>({
     setDialogOpen: () => {},
 })
 
-interface FileSelectorProps {
+interface FileSelectorProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
     children?: React.ReactNode;
     onChange?: (files: File[]) => void;
     onPreviewChange?: (files: File[] | null) => void;
@@ -41,7 +41,7 @@ interface FileSelectorProps {
     multiple?: boolean;
 }
 
-const FileSelector = (props: FileSelectorProps) => {
+const FileSelector = React.forwardRef<HTMLDivElement, FileSelectorProps>((props: FileSelectorProps, ref) => {
     const [selectedFilePreview, setSelectedFilePreview] = useState<
         File[] | null
     >(null)
@@ -69,15 +69,17 @@ const FileSelector = (props: FileSelectorProps) => {
                 multiple: props.multiple,
             }}
         >
-            <ResponsiveDialog
-                open={dialogOpen}
-                onOpenChange={handleDialogOpenChange}
-            >
-                {props.children}
-            </ResponsiveDialog>
+            <div ref={ref}>
+                <ResponsiveDialog
+                    open={dialogOpen}
+                    onOpenChange={handleDialogOpenChange}
+                >
+                    {props.children}
+                </ResponsiveDialog>
+            </div>
         </FileSelectorContext.Provider>
     )
-}
+})
 
 FileSelector.displayName = 'FileSelector'
 

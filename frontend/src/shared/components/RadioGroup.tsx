@@ -44,10 +44,10 @@ RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
 const RadioGroupItemCard = React.forwardRef<
     React.ElementRef<typeof RadioGroupPrimitive.Item>,
     React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
->(({...props}) => {
+>((props, ref) => {
     return (
         <div>
-            <RadioGroupItem className="peer sr-only" {...props} />
+            <RadioGroupItem className="peer sr-only" {...props} ref={ref} />
             <Label
                 htmlFor={props.value}
                 className="flex flex-col justify-between rounded-md border-2 border-muted bg-popover p-4 transition-all hover:bg-accent hover:text-accent-foreground peer-disabled:opacity-40 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 peer-data-[state=checked]:text-primary [&:has([data-state=checked])]:border-primary [&:has([data-state=checked])]:bg-primary/10"
