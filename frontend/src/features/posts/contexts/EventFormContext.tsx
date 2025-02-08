@@ -3,7 +3,7 @@
 import { updateEvent } from '@/features/posts/actions'
 import { eventFormSchema } from '@/features/posts/constants'
 import { Event, EventFormValues } from '@/features/posts/types'
-import { buildUpdateEventRequest, eventIsAllDay } from '@/features/posts/utils'
+import { buildUpdateEventRequest } from '@/features/posts/utils'
 import { Form } from '@/lib/components/common/Form'
 import { useToast } from '@/lib/components/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
