@@ -1,12 +1,12 @@
 'use client'
 
-import {uploadEventFile} from '@/features/posts/actions'
-import {usePost} from '@/features/posts/hooks'
-import {Event} from '@/features/posts/types'
-import {eventApi} from '@/lib/api/api'
-import {AttachmentResourceData} from '@/lib/api/generated'
-import {Button} from '@/lib/components/common/Button'
-import {useToast} from '@/lib/components/hooks/use-toast'
+import { uploadEventFile } from '@/features/posts/actions'
+import { usePost } from '@/features/posts/hooks'
+import { Event } from '@/features/posts/types'
+import { eventDetachFile } from '@/lib/actions/event'
+import { AttachmentResourceData } from '@/lib/api/generated'
+import { Button } from '@/lib/components/common/Button'
+import { useToast } from '@/lib/components/hooks/use-toast'
 import FileListPreview from '@/lib/components/shared/FileListPreview'
 import {
     FileSelector,
@@ -18,10 +18,10 @@ import {
     FileSelectorTitle,
     FileSelectorTrigger,
 } from '@/lib/components/shared/FileSelector'
-import {serializeFileData} from '@/lib/utils'
-import {PlusIcon} from 'lucide-react'
-import {useRouter} from 'next/navigation'
-import {useCallback, useState} from 'react'
+import { serializeFileData } from '@/lib/utils'
+import { PlusIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useCallback, useState } from 'react'
 
 export const EventAttachmentsFormField = () => {
     const [files, setFiles] = useState<File[]>([])
@@ -51,10 +51,7 @@ export const EventAttachmentsFormField = () => {
 
     const onRemove = async (file: File | AttachmentResourceData) => {
         if (!(file instanceof File)) {
-            await eventApi.eventUploadDelete({
-                id: post.id,
-                attachment: file.id,
-            })
+            await eventDetachFile(post.id, file.id)
         }
         router.refresh()
     }

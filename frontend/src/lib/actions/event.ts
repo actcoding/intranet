@@ -29,3 +29,10 @@ export async function getEventListAction({
     const eventList = await eventApi.eventIndex({ page, perPage, status: 'active' , month, year})
     return eventList.data
 }
+
+export async function eventDetachFile(id: number, attachment: number) {
+    await eventApi.eventUploadDelete({
+        id,
+        attachment,
+    })
+}

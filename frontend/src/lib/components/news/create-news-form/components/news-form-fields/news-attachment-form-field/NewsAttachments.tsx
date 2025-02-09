@@ -1,10 +1,10 @@
 'use client'
 
+import { newsDetachFile } from '@/lib/actions/news'
 import { AttachmentResource, AttachmentResourceData } from '@/lib/api/generated'
 import FileListPreview from '@/lib/components/shared/FileListPreview'
-import NewsAttachmentsFormField from './NewsAttachmentsFormField'
-import { newsApi } from '@/lib/api/api'
 import { useRouter } from 'next/navigation'
+import NewsAttachmentsFormField from './NewsAttachmentsFormField'
 
 interface Props {
     id: number
@@ -16,10 +16,7 @@ export function NewsAttachments({ id, attachments }: Props) {
 
     const onRemove = async (file: File | AttachmentResourceData) => {
         if (!(file instanceof File)) {
-            await newsApi.newsUploadDelete({
-                id,
-                attachment: file.id,
-            })
+            await newsDetachFile(id, file.id)
         }
         router.refresh()
     }
