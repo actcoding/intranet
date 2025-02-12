@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enum\EntityStatus;
 use App\Enum\UploadType;
 use App\Http\Requests\News\NewsListRequest;
+use App\Http\Requests\News\NewsSearchRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Requests\News\NewsUploadImageRequest;
@@ -32,7 +33,7 @@ class NewsController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth:api', except: ['index', 'show', 'listAttachments']),
+            new Middleware('auth:api', except: ['index', 'show', 'listAttachments', 'search']),
         ];
     }
 
@@ -64,6 +65,28 @@ class NewsController extends Controller implements HasMiddleware
         return NewsResource::collection(
             $query->paginate($request->query('perPage', 10))
         );
+    }
+
+    /**
+     * Search for news using full-text search
+     *
+     * // TODO: OpenAPI response descriptor
+     */
+    public function search(NewsSearchRequest $request)
+    {
+        $input = $request->query('query');
+
+        $query = News::search($input);
+
+        $results = $query->raw();
+
+        for ($i = 0; $i < $results['found']; $i++) {
+            $newsId = $results['hits'][$i]['document']['id'];
+            $resource = NewsResource::make(News::find($newsId));
+            $results['hits'][$i]['document'] = $resource;
+        }
+
+        return $results;
     }
 
     /**

@@ -42,6 +42,7 @@ Route::prefix('/user')
             ->name('user.profile');
     });
 
+Route::get('/news/search', [NewsController::class, 'search']);
 Route::resource('/news', NewsController::class)
     ->except(['create', 'edit']);
 Route::patch('/news/{news}/restore', [NewsController::class, 'restore'])

@@ -12,10 +12,12 @@
         "laravel/framework": "^11.9",
         "laravel/octane": "^2.4",
         "laravel/prompts": "^0.3.4",
+        "laravel/scout": "^10.12",
         "laravel/tinker": "^2.9",
         "predis/predis": "^2.2",
         "spatie/laravel-permission": "^6.7",
-        "tymon/jwt-auth": "^2.1"
+        "tymon/jwt-auth": "^2.1",
+        "typesense/typesense-php": "^4.9"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

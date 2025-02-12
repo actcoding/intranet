@@ -37,15 +37,15 @@ services:
     ports:
       - 6379:6379
 
-  meili:
-    image: getmeili/meilisearch:v1.6
+  search:
+    image: typesense/typesense:27.1
     ports:
-      - 7700:7700
+      - 8108:8108
     environment:
-      MEILI_ENV: development
-      MEILI_MASTER_KEY: masterkey
+      TYPESENSE_DATA_DIR: /data
+      TYPESENSE_API_KEY: masterkey
     volumes:
-      - meili_data:/meili_data
+      - search_data:/data
 
   auth:
     image: bitnami/keycloak:23.0.7
@@ -66,7 +66,7 @@ services:
 volumes:
   db_data:
   db_admin_data:
-  meili_data:
+  search_data:
 
 configs:
   servers.json:

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enum\EntityStatus;
+use App\Traits\Searchable;
 use Database\Factories\NewsFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
 class News extends Model
 {
     use HasFactory,
+        Searchable,
         SoftDeletes;
 
     /**
@@ -132,6 +134,38 @@ class News extends Model
             'title' => $this->title,
             'content' => $this->content,
             'header_image' => $this->header_image,
+        ];
+    }
+
+    public static function getSearchableFields()
+    {
+        return [
+            [
+                'name' => 'created_at',
+                'type' => 'int64',
+            ],
+            [
+                'name' => 'updated_at',
+                'type' => 'int64',
+            ],
+            [
+                'name' => '__soft_deleted',
+                'type' => 'int32',
+                'optional' => true,
+            ],
+            [
+                'name' => 'status',
+                'type' => 'string',
+                'facet' => true,
+            ],
+            [
+                'name' => 'title',
+                'type' => 'string',
+            ],
+            [
+                'name' => 'content',
+                'type' => 'string',
+            ],
         ];
     }
 }
