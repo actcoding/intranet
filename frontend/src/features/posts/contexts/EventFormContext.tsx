@@ -8,6 +8,7 @@ import { Form } from '@/lib/components/common/Form'
 import { useToast } from '@/lib/components/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { endOfDay, startOfDay } from 'date-fns'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -34,12 +35,14 @@ const EventFormProvider = (props: EventFormProviderProps) => {
         mode: 'onChange',
     })
 
-    // const router = useRouter();
+    const router = useRouter()
     const { toast } = useToast()
 
     async function handleSubmit(values: EventFormValues) {
         try {
             await updateEvent(buildUpdateEventRequest(props.event.id, values))
+
+            router.push('/manage/events')
             toast({
                 title: 'Gespeichert',
             })
