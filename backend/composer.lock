@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3173889c6bb088b2d9b232a700fb0115",
+    "content-hash": "a9a1494311cfb69d33f344b6a580aacb",
     "packages": [
         {
             "name": "brick/math",
@@ -137,11 +137,17 @@
         },
         {
             "name": "dedoc/scramble",
-            "version": "dev-fix/gh-695-2",
+            "version": "v0.12.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/axelrindle/scramble",
-                "reference": "3541a38620ac8fee655666f49d694fdd46e37073"
+                "url": "https://github.com/dedoc/scramble.git",
+                "reference": "b297c9ac5b48d49b3e521c1cb6d747b44631f17a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dedoc/scramble/zipball/b297c9ac5b48d49b3e521c1cb6d747b44631f17a",
+                "reference": "b297c9ac5b48d49b3e521c1cb6d747b44631f17a",
+                "shasum": ""
             },
             "require": {
                 "illuminate/contracts": "^10.0|^11.0",
@@ -175,25 +181,7 @@
                     "Dedoc\\Scramble\\Database\\Factories\\": "database/factories"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Dedoc\\Scramble\\Tests\\": "tests"
-                }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "test": [
-                    "vendor/bin/pest"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -211,7 +199,17 @@
                 "laravel",
                 "openapi"
             ],
-            "time": "2025-01-31T07:40:57+00:00"
+            "support": {
+                "issues": "https://github.com/dedoc/scramble/issues",
+                "source": "https://github.com/dedoc/scramble/tree/v0.12.8"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/romalytvynenko",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-02-12T13:22:56+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -9318,9 +9316,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "dedoc/scramble": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
