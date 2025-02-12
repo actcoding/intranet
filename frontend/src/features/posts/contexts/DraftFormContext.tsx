@@ -1,16 +1,16 @@
 'use client'
 
-import {createEvent} from '@/features/posts/actions'
-import {createDraftFormSchema} from '@/features/posts/constants'
-import {CreateDraftFormValues} from '@/features/posts/types'
-import {createNewsAction} from '@/lib/actions/news'
-import {Form} from '@/lib/components/common/Form'
-import {useToast} from '@/lib/components/hooks/use-toast'
-import {zodResolver} from '@hookform/resolvers/zod'
-import {endOfDay, formatISO, startOfDay} from 'date-fns'
-import {useRouter} from 'next/navigation'
-import React, {useCallback} from 'react'
-import {useForm} from 'react-hook-form'
+import { createEvent } from '@/features/posts/actions'
+import { createDraftFormSchema } from '@/features/posts/constants'
+import { CreateDraftFormValues } from '@/features/posts/types'
+import { createNewsAction } from '@/lib/actions/news'
+import { Form } from '@/lib/components/common/Form'
+import { useToast } from '@/lib/components/hooks/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { endOfDay, startOfDay } from 'date-fns'
+import { useRouter } from 'next/navigation'
+import React, { useCallback } from 'react'
+import { useForm } from 'react-hook-form'
 
 interface DraftFormProviderProps {
     children?: React.ReactNode;
@@ -47,8 +47,8 @@ const DraftFormProvider = ({
                     response = await createEvent({
                         title: values.title,
                         content: 'Hier könnte Ihre Eventbeschreibung stehen.',
-                        startingAt: formatISO(startOfDay(new Date())),
-                        endingAt: formatISO(endOfDay(new Date())),
+                        startingAt: startOfDay(new Date()),
+                        endingAt: endOfDay(new Date()),
                     })
                     break
                 default:
