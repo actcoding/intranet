@@ -78,6 +78,16 @@ class NewsController extends Controller implements HasMiddleware
 
         $query = News::search($input);
 
+        if (Gate::check('news.viewall')) {
+            if ($request->has('status')) {
+                $query = $query->where('status', $request->input('status'));
+            } else {
+                $query = $query->withTrashed();
+            }
+        } else {
+            $query = $query->where('status', EntityStatus::ACTIVE->value);
+        }
+
         $results = $query->raw();
 
         for ($i = 0; $i < $results['found']; $i++) {

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\News;
 
+use App\Enum\EntityStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class NewsSearchRequest extends FormRequest
 {
@@ -25,6 +27,7 @@ class NewsSearchRequest extends FormRequest
     {
         return [
             'query' => 'required|string|min:1',
+            'status' => Rule::enum(EntityStatus::class),
         ];
     }
 }
