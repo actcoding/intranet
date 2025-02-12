@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://moonrepo.dev/schemas/project.json
+
+type: automation
+language: typescript
+
+tasks:
+  install:
+    command: bun install
+    inputs:
+      - node_modules/
+      - package.json
+      - bun.lockb
+  check-commit-message:
+    command: bunx commitlint --edit
