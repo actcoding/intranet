@@ -3,7 +3,7 @@
 import { updateEvent } from '@/features/posts/actions'
 import { eventFormSchema } from '@/features/posts/constants'
 import { Event, EventFormValues } from '@/features/posts/types'
-import { buildUpdateEventRequest, eventIsAllDay } from '@/features/posts/utils'
+import { buildUpdateEventRequest } from '@/features/posts/utils'
 import { Form } from '@/lib/components/common/Form'
 import { useToast } from '@/lib/components/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -26,10 +26,7 @@ const EventFormProvider = (props: EventFormProviderProps) => {
             startingAt:
                 new Date(props.event.startingAt) ?? startOfDay(new Date()),
             endingAt: new Date(props.event.endingAt) ?? endOfDay(new Date()),
-            isAllDay: eventIsAllDay(
-                props.event.startingAt,
-                props.event.endingAt,
-            ),
+            isAllDay: props.event.isAllDay,
         },
         mode: 'onChange',
     })

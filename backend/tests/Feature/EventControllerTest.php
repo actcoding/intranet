@@ -37,6 +37,7 @@ class EventControllerTest extends TestCase
             'content' => '[]',
             'starting_at' => now()->toDateTimeString(),
             'ending_at' => now()->addDay()->toDateTimeString(),
+            'is_all_day' => false,
         ], [
             'Authorization' => $type . ' ' . $token,
         ]);
@@ -73,6 +74,7 @@ class EventControllerTest extends TestCase
             'content' => '[]',
             'starting_at' => now()->toDateTimeString(),
             'ending_at' => now()->addDay()->toDateTimeString(),
+            'is_all_day' => false,
         ], [
             'Authorization' => $type . ' ' . $token,
         ]);

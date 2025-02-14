@@ -52,6 +52,7 @@ class Event extends Model
         'published_at',
         'starting_at',
         'ending_at',
+        'is_all_day',
         'status',
         'title',
         'content',
@@ -78,6 +79,7 @@ class Event extends Model
             'published_at' => 'datetime',
             'starting_at' => 'datetime',
             'ending_at' => 'datetime',
+            'is_all_day' => 'boolean',
         ];
     }
 
@@ -124,6 +126,7 @@ class Event extends Model
 
             'starting_at' => $this->starting_at,
             'ending_at' => $this->ending_at,
+            'is_all_day' => $this->is_all_day,
 
             'title' => $this->title,
             'content' => $this->content,

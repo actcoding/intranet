@@ -32,6 +32,7 @@ class EventResource extends JsonResource
 
             'starting_at' => $this->resource->starting_at,
             'ending_at' => $this->resource->ending_at,
+            'is_all_day' => $this->resource->is_all_day,
 
             'status' => $this->resource->status,
             'title' => $this->resource->title,

@@ -18,6 +18,7 @@ class EventUpdateRequest extends FormRequest
             'status' => ['nullable', AppRules::entityStatus()],
             'starting_at' => 'date',
             'ending_at' => 'date',
+            'is_all_day' => 'boolean',
             'title' => 'string',
             'content' => 'string',
         ];

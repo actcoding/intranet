@@ -24,6 +24,7 @@ class EventStoreRequest extends FormRequest
             'status' => ['nullable', AppRules::entityStatus()],
             'starting_at' => 'required|date',
             'ending_at' => 'required|date',
+            'is_all_day' => 'required|boolean',
             'title' => 'required|string',
             'content' => 'required|string',
         ];
