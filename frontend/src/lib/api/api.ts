@@ -1,18 +1,22 @@
 'server-only'
 
-import {getAppSession} from '@/lib/actions/auth'
-import {AuthApi, CanteenApi, Configuration, EventApi, LinkApi, NewsApi} from '@/lib/api/generated'
+import { getAppSession } from '@/lib/actions/auth'
+import { AuthApi, CanteenApi, Configuration, EventApi, LinkApi, NewsApi } from '@/lib/api/generated'
 
 const configuration = new Configuration({
     basePath: process.env.API_URL,
-    accessToken: async () => {
-        const { access_token } = await getAppSession()
-        return access_token!
-    },
     headers: {
         Accept: 'application/json',
     },
     fetchApi: async (input: RequestInfo, init: RequestInit) => {
+        const { access_token } = await getAppSession()
+        if (access_token !== undefined) {
+            init.headers = {
+                ...init.headers,
+                'Authorization': `Bearer ${access_token}`,
+            }
+        }
+
         const res = await fetch(input, init)
         console.log(
             'API:',
