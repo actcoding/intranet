@@ -15,6 +15,9 @@ const nextConfig = {
             },
         ],
     },
+    experimental: {
+        instrumentationHook: true,
+    },
 }
 
 export default withNextIntl(nextConfig)
